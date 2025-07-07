@@ -6,10 +6,10 @@ const Hero = () => {
   return (
     <section className="relative py-10 sm:py-12 md:py-20 lg:py-24 xl:py-32 px-4">
       <div className="container mx-auto text-center max-w-4xl">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent mb-3 md:mb-4">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent mb-3 md:mb-4">
           Discover Premium Notes
         </h1>
-        <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10 lg:mb-12 px-1">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10 lg:mb-12 px-1">
           A curated marketplace for high-quality notes, guides, and resources from top experts in every field.
         </p>
         
@@ -19,7 +19,7 @@ const Hero = () => {
             <Button
               key={category}
               variant="outline"
-              className="text-xs sm:text-sm border-ghost-purple/30 bg-ghost-dark/50 hover:bg-ghost-purple/20 hover:border-ghost-purple/60 text-white hover:text-ghost-neon transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-0 py-1 px-2 sm:py-1.5 sm:px-3 h-auto"
+              className="text-sm sm:text-base border-ghost-purple/30 bg-ghost-dark/50 hover:bg-ghost-purple/20 hover:border-ghost-purple/60 text-white hover:text-ghost-neon transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-0 py-1.5 px-3 sm:py-2 sm:px-4 h-auto"
             >
               {category}
             </Button>

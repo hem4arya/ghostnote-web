@@ -71,15 +71,15 @@ const AuthModal = ({ isOpen, onClose, initialMode }: AuthModalProps) => {
             onClick={onClose}
             className="absolute top-3 sm:top-4 right-3 sm:right-4 p-1.5 sm:p-2 rounded-full hover:bg-ghost-purple/20 transition-colors duration-200 z-10 focus:outline-none focus:ring-0"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 hover:text-white" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white" />
           </button>
 
           {/* Header */}
           <div className="p-6 sm:p-8 pb-4 sm:pb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent mb-1 sm:mb-2">
+            <h2 className="text-3xl sm:text-4xl font-bold text-center bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent mb-1 sm:mb-2">
               Welcome to GhostNote
             </h2>
-            <p className="text-center text-gray-400 text-xs sm:text-sm">
+            <p className="text-center text-gray-400 text-sm sm:text-base">
               {mode === 'login' ? 'Sign in to your account' : 'Create your account'}
             </p>
           </div>
@@ -89,7 +89,7 @@ const AuthModal = ({ isOpen, onClose, initialMode }: AuthModalProps) => {
             <div className="flex bg-ghost-gray/50 rounded-lg p-1">
               <button
                 onClick={() => setMode('login')}
-                className={`flex-1 py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 border-0 focus:outline-none focus:ring-0 focus:shadow-none outline-none ${
+                className={`flex-1 py-2 sm:py-2.5 px-4 sm:px-5 rounded-md text-sm sm:text-base font-medium transition-all duration-200 border-0 focus:outline-none focus:ring-0 focus:shadow-none outline-none ${
                   mode === 'login'
                     ? 'bg-gradient-to-r from-ghost-purple to-ghost-neon text-black shadow-lg'
                     : 'text-gray-400 hover:text-white'
@@ -99,7 +99,7 @@ const AuthModal = ({ isOpen, onClose, initialMode }: AuthModalProps) => {
               </button>
               <button
                 onClick={() => setMode('signup')}
-                className={`flex-1 py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 border-0 focus:outline-none focus:ring-0 focus:shadow-none outline-none ${
+                className={`flex-1 py-2 sm:py-2.5 px-4 sm:px-5 rounded-md text-sm sm:text-base font-medium transition-all duration-200 border-0 focus:outline-none focus:ring-0 focus:shadow-none outline-none ${
                   mode === 'signup'
                     ? 'bg-gradient-to-r from-ghost-purple to-ghost-neon text-black shadow-lg'
                     : 'text-gray-400 hover:text-white'
@@ -114,26 +114,26 @@ const AuthModal = ({ isOpen, onClose, initialMode }: AuthModalProps) => {
           <form onSubmit={handleSubmit} className="px-6 sm:px-8 pb-4 sm:pb-6 space-y-3 sm:space-y-4">
             {/* Email/Username */}
             <div className="relative">
-              <Mail className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
+              <Mail className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-5 sm:h-5 text-gray-400" />
               <Input
                 type="email"
                 placeholder={mode === 'login' ? 'Email or Username' : 'Email'}
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="pl-8 sm:pl-10 h-9 sm:h-10 bg-ghost-gray/50 border-0 text-white placeholder:text-gray-400 focus:border-0 focus:bg-ghost-gray/80 focus:outline-none focus:ring-0 text-xs sm:text-sm"
+                className="pl-10 sm:pl-12 h-11 sm:h-12 bg-ghost-gray/50 border-0 text-white placeholder:text-gray-400 focus:border-0 focus:bg-ghost-gray/80 focus:outline-none focus:ring-0 text-sm sm:text-base"
               />
             </div>
 
             {/* Username (Signup only) */}
             {mode === 'signup' && (
               <div className="relative">
-                <User className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
+                <User className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-5 sm:h-5 text-gray-400" />
                 <Input
                   type="text"
                   placeholder="Username"
                   value={formData.username}
                   onChange={(e) => handleInputChange('username', e.target.value)}
-                  className="pl-8 sm:pl-10 h-9 sm:h-10 bg-ghost-gray/50 border-0 text-white placeholder:text-gray-400 focus:border-0 focus:bg-ghost-gray/80 focus:outline-none focus:ring-0 text-xs sm:text-sm"
+                  className="pl-10 sm:pl-12 h-11 sm:h-12 bg-ghost-gray/50 border-0 text-white placeholder:text-gray-400 focus:border-0 focus:bg-ghost-gray/80 focus:outline-none focus:ring-0 text-sm sm:text-base"
                 />
               </div>
             )}
