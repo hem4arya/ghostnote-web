@@ -9,7 +9,7 @@ export const sampleNotes: Note[] = [
     reviews: 120,
     author: "CodeWizard",
     price: 29.99,
-    image: "/placeholder.svg",
+    previewText: "Learn advanced React patterns like Compound Components, Control Props, Custom Hooks, and Render Props. This guide will take your React skills to the next level with practical examples and real-world implementations. Perfect for intermediate to advanced React developers.",
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ export const sampleNotes: Note[] = [
     reviews: 250,
     author: "AI-Guru",
     price: 19.99,
-    image: "/placeholder.svg",
+    previewText: "An introduction to artificial intelligence and machine learning concepts. This guide covers neural networks, supervised and unsupervised learning, and practical applications of AI in everyday software. No prior experience required, just a passion for learning.",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const sampleNotes: Note[] = [
     reviews: 300,
     author: "DesignMaster",
     price: 24.99,
-    image: "/placeholder.svg",
+    previewText: "Master the fundamental principles of user interface and user experience design. Learn about color theory, typography, layout grids, usability heuristics, and how to create designs that are both beautiful and functional. Includes case studies and practical exercises.",
   },
     {
     id: 4,
@@ -39,7 +39,7 @@ export const sampleNotes: Note[] = [
     reviews: 150,
     author: "SecureMind",
     price: 39.99,
-    image: "/placeholder.svg",
+    previewText: "A comprehensive guide to modern cybersecurity practices. Learn about threat modeling, encryption, secure coding practices, and how to protect systems from common attacks. Essential knowledge for developers and IT professionals in today's digital landscape.",
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ export const sampleNotes: Note[] = [
     reviews: 500,
     author: "InterviewPro",
     price: 49.99,
-    image: "/placeholder.svg",
+    previewText: "Prepare for technical interviews at top tech companies with this comprehensive guide. Covers data structures, algorithms, system design, and behavioral questions. Includes 100+ practice problems with detailed solutions and time complexity analysis.",
   },
   {
     id: 6,
@@ -59,7 +59,7 @@ export const sampleNotes: Note[] = [
     reviews: 80,
     author: "WordSmith",
     price: 14.99,
-    image: "/placeholder.svg",
+    previewText: "Learn how to write content that ranks well in search engines while engaging human readers. This guide covers keyword research, on-page optimization, readability techniques, and how to create content that converts visitors into customers and drives real business results.",
   },
   {
     id: 7,
@@ -69,7 +69,7 @@ export const sampleNotes: Note[] = [
     reviews: 180,
     author: "GrowthHacker",
     price: 34.99,
-    image: "/placeholder.svg",
+    previewText: "Discover proven strategies for growing your product or service. This guide covers customer acquisition channels, retention techniques, viral loops, and metrics that matter. Based on real-world case studies from successful startups and established companies.",
   },
   {
     id: 8,
@@ -79,6 +79,6 @@ export const sampleNotes: Note[] = [
     reviews: 110,
     author: "CryptoKing",
     price: 44.99,
-    image: "/placeholder.svg",
+    previewText: "A deep dive into blockchain technology and cryptocurrencies. Learn how blockchain works, smart contracts, consensus mechanisms, and the crypto ecosystem. Perfect for developers and entrepreneurs interested in building on decentralized platforms.",
   },
 ];
