@@ -1,0 +1,15 @@
+Design a modern, dark-themed popup/modal form for GhostNote login and signup. The form should slide in or fade in smoothly when Login or Signup is clicked.
+Include:
+
+Tabs to switch between 'Login' and 'Signup'
+
+Input fields for email/username, password
+
+Option buttons to log in with:
+
+Google Account
+
+Mobile Number (with OTP)
+
+'Private Account' (anonymous mode with just alias + password)
+Use glowing buttons, clear labels, minimal icons, and a clean UX with soft shadows and subtle animations."
