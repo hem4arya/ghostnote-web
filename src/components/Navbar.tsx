@@ -1,9 +1,9 @@
 'use client';
 
-import { Search, Settings, Menu } from "lucide-react";
+import { Search, Settings, User, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface NavbarProps {
   onLoginClick: () => void;
@@ -11,7 +11,8 @@ interface NavbarProps {
 }
 
 const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   
   const handleSignUpClick = () => {
     if (onSignUpClick) {
@@ -20,6 +21,25 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
       onLoginClick();
     }
   };
+
+  // Focus the search input when opened
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
+  // Close search on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isSearchOpen) {
+        setIsSearchOpen(false);
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isSearchOpen]);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-ghost-purple/20 bg-ghost-dark/80 backdrop-blur-md">
@@ -69,43 +89,44 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0">
-            <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+        <div className="md:hidden flex items-center space-x-2">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setIsSearchOpen(!isSearchOpen)} 
+            className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0"
+          >
+            <Search className="h-5 w-5" />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={onLoginClick} 
+            className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0"
+          >
+            <User className="h-5 w-5" />
           </Button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden px-4 sm:px-6 py-3 pb-4 space-y-3 bg-ghost-dark/95 backdrop-blur-md border-b border-ghost-purple/20 animate-in slide-in-from-top-5 duration-200">
-          {/* Mobile Search */}
-          <div className="relative w-full">
+      {/* Mobile Search Bar - Slides in when search icon is clicked */}
+      {isSearchOpen && (
+        <div className="md:hidden px-4 py-3 bg-ghost-dark/95 backdrop-blur-md border-b border-ghost-purple/20 animate-in slide-in-from-top-5 duration-200">
+          <div className="relative w-full flex items-center">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
+              ref={searchInputRef}
               type="search"
               placeholder="Search notes..."
-              className="pl-10 bg-ghost-gray/50 border-ghost-purple/30 text-white placeholder:text-gray-400 focus:bg-ghost-gray/80 focus:border-ghost-purple/60 w-full h-9"
+              className="pl-10 pr-10 bg-ghost-gray/50 border-ghost-purple/30 text-white placeholder:text-gray-400 focus:bg-ghost-gray/80 focus:border-ghost-purple/60 w-full h-9"
             />
-          </div>
-          {/* Mobile Action Buttons */}
-          <div className="flex flex-col space-y-2 pt-1">
             <Button 
               variant="ghost" 
-              className="w-full justify-start text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/20 focus:outline-none focus:ring-0 h-10"
-              onClick={onLoginClick}
+              size="icon" 
+              onClick={() => setIsSearchOpen(false)} 
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-400 hover:text-ghost-neon"
             >
-              Login
-            </Button>
-            <Button 
-              className="w-full bg-gradient-to-r from-ghost-purple to-ghost-neon text-black font-medium focus:outline-none focus:ring-0 h-10"
-              onClick={handleSignUpClick}
-            >
-              Sign Up
-            </Button>
-            <Button variant="ghost" className="w-full justify-start text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/20 focus:outline-none focus:ring-0 h-10">
-              <Settings className="h-4 w-4 mr-2" />
-              Settings
+              <X className="h-4 w-4" />
             </Button>
           </div>
         </div>
