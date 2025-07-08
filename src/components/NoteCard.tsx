@@ -38,7 +38,7 @@ const NoteCard = ({ note }: { note: Note }) => {
       {/* Preview text section */}
       <Link href={`/notes/${note.id}`} className="relative overflow-hidden flex-grow block">
         <div className="w-full h-auto min-h-[7rem] p-3 pt-1 bg-ghost-dark/60">
-          <p className="text-xs sm:text-sm md:text-base text-gray-400 break-words">
+          <p className="text-[13px] sm:text-sm md:text-base text-gray-400 break-words">
             {note.previewText.length > 200 
               ? note.previewText.substring(0, 200) 
               : note.previewText}

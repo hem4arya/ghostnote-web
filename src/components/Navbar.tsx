@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Settings, User, X, ChevronLeft } from "lucide-react";
+import { Search, Settings, User, X, ChevronLeft, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState, useRef, useEffect } from "react";
@@ -159,7 +159,12 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
             Sign Up
           </Button>
           <Button asChild size="sm" className="bg-gradient-to-r from-ghost-cyan to-ghost-neon text-black font-medium hover:from-ghost-neon hover:to-ghost-cyan focus:outline-none focus:ring-0 text-sm">
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/create">
+              <span className="flex items-center gap-1">
+                <Plus className="h-4 w-4" />
+                Create
+              </span>
+            </Link>
           </Button>
           <Button variant="ghost" size="icon" className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/20 focus:outline-none focus-ring-0 h-10 w-10">
             <Settings className="h-5 w-5" />

@@ -1,18 +1,616 @@
-"Design a dark-themed Note Detail Page for GhostNote Cards. The page should show:
+Visual Description of Create New Note Page
+Header Section:
 
-Full note title at the top
+Clean, minimal header with "Back to Dashboard" button on the left and document title input field that resembles "Untitled Document" placeholder
+Right side shows autosave indicator with green pulsing dot and timestamp, plus a gradient "Publish" button
+Sticky positioning ensures header stays visible while scrolling
+Formatting Toolbar:
 
-Author name and tags below it
+Fixed toolbar below header with organized sections separated by subtle dividers
+Font controls dropdown with family selector (System, Serif, Mono), size picker, and line height options
+Text formatting buttons: Bold, Italic, Underline with clean icon design
+Alignment controls: Left, Center, Right alignment buttons
+List tools: Bullet points and numbered lists
+Media tools: Image insertion, Undo/Redo functionality
+Markdown toggle button that highlights when active
+Writing Canvas:
 
-A scrollable preview of the note (first few paragraphs)
+Full-width, distraction-free editor with soft card background and subtle border
+Large, comfortable writing area (70vh minimum height) with padding for breathing room
+Focus states with subtle ring and border color changes
+Responsive typography that adapts to selected font settings
+Placeholder text: "Start writing your note..." appears when empty
+Status Bar:
 
-A locked blur/fade overlay after the preview with a button: 'Unlock Full Note'
+Bottom stats showing word count and character count in elegant badges with icons
+Right side displays Markdown mode indicator and autosave status
+Clean, unobtrusive design that doesn't distract from writing
+Design Elements:
 
-If paid, show price and 'Buy & Unlock' button
+Consistent with dark theme using semantic color tokens
+Smooth transitions and hover effects on all interactive elements
+Professional spacing and typography creating a premium writing experience
+Focus on clarity and readability with the writing canvas as the main focal point
+The interface prioritizes distraction-free writing while providing essential formatting tools in an organized, accessible toolbar that feels familiar to users of professional document editors.
 
-If already purchased, show full note content
-Keep it clean, readable, with modern fonts and soft-glow highlights. Include a minimal sidebar or footer with share, report, and save options.
+Created a modern, distraction-free Create New
 
-Also the navbar should be static across the webpages and add a back button on the navbar to go back.
 
-"
+
+src/pages/CreateNote.tsx{
+    import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Save, FileText, Eye, Type, AlignLeft, AlignCenter, AlignRight, Bold, Italic, Underline, List, ListOrdered, Image, RotateCcw, RotateCw, Minus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger, MenubarSeparator } from "@/components/ui/menubar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+
+const CreateNote = () => {
+  const navigate = useNavigate();
+  const editorRef = useRef<HTMLDivElement>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [wordCount, setWordCount] = useState(0);
+  const [charCount, setCharCount] = useState(0);
+  const [fontSize, setFontSize] = useState("16");
+  const [fontFamily, setFontFamily] = useState("system");
+  const [lineHeight, setLineHeight] = useState("1.6");
+  const [isMarkdown, setIsMarkdown] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+
+  const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
+    const text = e.currentTarget.textContent || "";
+    setContent(text);
+    setWordCount(text.trim() ? text.trim().split(/\s+/).length : 0);
+    setCharCount(text.length);
+    
+    // Simulate autosave
+    setTimeout(() => setLastSaved(new Date()), 1000);
+  };
+
+  const executeCommand = (command: string, value?: string) => {
+    document.execCommand(command, false, value);
+    editorRef.current?.focus();
+  };
+
+  const insertImage = () => {
+    const url = prompt("Enter image URL:");
+    if (url) {
+      executeCommand("insertImage", url);
+    }
+  };
+
+  const getFontSizeStyle = () => ({
+    fontSize: `${fontSize}px`,
+    fontFamily: fontFamily === "system" ? "var(--font-geist-sans)" : 
+                fontFamily === "serif" ? "var(--font-geist-serif)" : 
+                fontFamily === "mono" ? "var(--font-geist-mono)" : "var(--font-geist-sans)",
+    lineHeight: lineHeight
+  });
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <div className="border-b border-border/50 bg-background/95 backdrop-blur-sm sticky top-0 z-50">
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Dashboard
+            </Button>
+            <div className="h-4 w-px bg-border/50" />
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Untitled Document"
+              className="text-lg font-medium bg-transparent border-none shadow-none focus:ring-0 p-0 h-auto"
+            />
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {lastSaved && (
+              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                Saved {lastSaved.toLocaleTimeString()}
+              </div>
+            )}
+            <Button size="sm" className="bg-gradient-to-r from-primary to-secondary">
+              <Save className="h-4 w-4 mr-2" />
+              Publish
+            </Button>
+          </div>
+        </div>
+
+        {/* Toolbar */}
+        <div className="border-t border-border/30 px-4 py-2">
+          <Menubar className="h-auto p-0 bg-transparent border-none">
+            {/* Font Controls */}
+            <MenubarMenu>
+              <MenubarTrigger className="flex items-center gap-2 px-3 py-1.5">
+                <Type className="h-4 w-4" />
+                Font
+              </MenubarTrigger>
+              <MenubarContent>
+                <div className="p-2 space-y-2">
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">Font Family</label>
+                    <Select value={fontFamily} onValueChange={setFontFamily}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="system">System Font</SelectItem>
+                        <SelectItem value="serif">Serif</SelectItem>
+                        <SelectItem value="mono">Monospace</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">Font Size</label>
+                    <Select value={fontSize} onValueChange={setFontSize}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12">12px</SelectItem>
+                        <SelectItem value="14">14px</SelectItem>
+                        <SelectItem value="16">16px</SelectItem>
+                        <SelectItem value="18">18px</SelectItem>
+                        <SelectItem value="20">20px</SelectItem>
+                        <SelectItem value="24">24px</SelectItem>
+                        <SelectItem value="32">32px</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">Line Height</label>
+                    <Select value={lineHeight} onValueChange={setLineHeight}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1.2">1.2</SelectItem>
+                        <SelectItem value="1.4">1.4</SelectItem>
+                        <SelectItem value="1.6">1.6</SelectItem>
+                        <SelectItem value="1.8">1.8</SelectItem>
+                        <SelectItem value="2.0">2.0</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </MenubarContent>
+            </MenubarMenu>
+
+            <div className="h-6 w-px bg-border/50 mx-2" />
+
+            {/* Text Formatting */}
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("bold")}
+                className="h-8 w-8 p-0"
+              >
+                <Bold className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("italic")}
+                className="h-8 w-8 p-0"
+              >
+                <Italic className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("underline")}
+                className="h-8 w-8 p-0"
+              >
+                <Underline className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="h-6 w-px bg-border/50 mx-2" />
+
+            {/* Alignment */}
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("justifyLeft")}
+                className="h-8 w-8 p-0"
+              >
+                <AlignLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("justifyCenter")}
+                className="h-8 w-8 p-0"
+              >
+                <AlignCenter className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("justifyRight")}
+                className="h-8 w-8 p-0"
+              >
+                <AlignRight className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="h-6 w-px bg-border/50 mx-2" />
+
+            {/* Lists */}
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("insertUnorderedList")}
+                className="h-8 w-8 p-0"
+              >
+                <List className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("insertOrderedList")}
+                className="h-8 w-8 p-0"
+              >
+                <ListOrdered className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="h-6 w-px bg-border/50 mx-2" />
+
+            {/* Media & Actions */}
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={insertImage}
+                className="h-8 w-8 p-0"
+              >
+                <Image className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("undo")}
+                className="h-8 w-8 p-0"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => executeCommand("redo")}
+                className="h-8 w-8 p-0"
+              >
+                <RotateCw className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="h-6 w-px bg-border/50 mx-2" />
+
+            {/* Markdown Toggle */}
+            <Button
+              variant={isMarkdown ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setIsMarkdown(!isMarkdown)}
+              className="text-xs"
+            >
+              Markdown
+            </Button>
+          </Menubar>
+        </div>
+      </div>
+
+      {/* Editor */}
+      <div className="max-w-4xl mx-auto p-8">
+        <div 
+          ref={editorRef}
+          contentEditable
+          suppressContentEditableWarning
+          onInput={handleContentChange}
+          className="min-h-[70vh] p-8 bg-card/30 rounded-lg border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all duration-200"
+          style={getFontSizeStyle()}
+          data-placeholder="Start writing your note..."
+        />
+        
+        {/* Status Bar */}
+        <div className="flex items-center justify-between mt-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className="flex items-center gap-2">
+              <FileText className="h-3 w-3" />
+              {wordCount} words
+            </Badge>
+            <Badge variant="outline" className="flex items-center gap-2">
+              <Eye className="h-3 w-3" />
+              {charCount} characters
+            </Badge>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            {isMarkdown && (
+              <Badge variant="secondary">Markdown Mode</Badge>
+            )}
+            <span>Auto-saving enabled</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CreateNote;
+}
+
+src/App.tsx{
+    import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
+import NoteDetail from "./pages/NoteDetail";
+import CreateNote from "./pages/CreateNote";
+import NotFound from "./pages/NotFound";
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/note/:id" element={<NoteDetail />} />
+          <Route path="/create" element={<CreateNote />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
+
+export default App;
+
+}
+
+src/pages/Dashboard.tsx{
+    import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Plus, Lock, Unlock, Eye, Edit, TrendingUp, FileText, Shield, AlertTriangle, DollarSign } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import NoteEditor from "@/components/NoteEditor";
+
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [editingNote, setEditingNote] = useState(null);
+
+  // Sample data
+  const myNotes = [
+    {
+      id: 1,
+      title: "Advanced React Patterns",
+      price: 29.99,
+      isLocked: true,
+      preview: "Learn about render props, HOCs, and compound components...",
+      sales: 156,
+      views: 2341
+    },
+    {
+      id: 2,
+      title: "TypeScript Best Practices",
+      price: 19.99,
+      isLocked: false,
+      preview: "Complete guide to type-safe development practices...",
+      sales: 89,
+      views: 1523
+    },
+    {
+      id: 3,
+      title: "Node.js Security Guide",
+      price: 39.99,
+      isLocked: true,
+      preview: "Comprehensive security practices for Node.js applications...",
+      sales: 234,
+      views: 3456
+    }
+  ];
+
+  const quickStats = [
+    { title: "Total Sales", value: "$12,847", icon: DollarSign, trend: "+23%" },
+    { title: "Notes Published", value: "47", icon: FileText, trend: "+3 this week" },
+    { title: "Clones Detected", value: "2", icon: Shield, trend: "↓ from last week" }
+  ];
+
+  const alerts = [
+    {
+      id: 1,
+      type: "sale",
+      message: "New purchase: 'Advanced React Patterns' - $29.99",
+      time: "2 minutes ago",
+      urgent: false
+    },
+    {
+      id: 2,
+      type: "clone",
+      message: "Potential clone detected: 'TypeScript Best Practices'",
+      time: "1 hour ago",
+      urgent: true
+    },
+    {
+      id: 3,
+      type: "sale",
+      message: "New purchase: 'Node.js Security Guide' - $39.99",
+      time: "3 hours ago",
+      urgent: false
+    }
+  ];
+
+  const handleCreateNote = () => {
+    navigate("/create");
+  };
+
+  const handleEditNote = (note) => {
+    setEditingNote(note);
+    setIsEditorOpen(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="container mx-auto px-6 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="text-muted-foreground mt-2">Manage your notes and track your success</p>
+          </div>
+          
+          {/* Big Create Button */}
+          <Button 
+            onClick={handleCreateNote}
+            size="lg" 
+            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 text-lg px-8 py-3 h-auto"
+          >
+            <Plus className="mr-2 h-5 w-5" />
+            Create New Note
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content - Left Side */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* My Notes Section */}
+            <section>
+              <h2 className="text-2xl font-semibold mb-6 text-foreground">My Notes</h2>
+              <div className="space-y-4">
+                {myNotes.map((note) => (
+                  <Card key={note.id} className="note-card group cursor-pointer">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                              {note.title}
+                            </h3>
+                            {note.isLocked ? (
+                              <Lock className="h-4 w-4 text-primary" />
+                            ) : (
+                              <Unlock className="h-4 w-4 text-muted-foreground" />
+                            )}
+                            <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+                              ${note.price}
+                            </Badge>
+                          </div>
+                          <p className="text-muted-foreground mb-4 line-clamp-2">
+                            {note.preview}
+                          </p>
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <span className="flex items-center gap-1">
+                              <DollarSign className="h-3 w-3" />
+                              {note.sales} sales
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Eye className="h-3 w-3" />
+                              {note.views} views
+                            </span>
+                          </div>
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleEditNote(note)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar - Right Side */}
+          <div className="space-y-8">
+            {/* Quick Stats */}
+            <section>
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Quick Stats</h2>
+              <div className="space-y-4">
+                {quickStats.map((stat, index) => (
+                  <Card key={index} className="cyber-border">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-muted-foreground">{stat.title}</p>
+                          <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                          <p className="text-xs text-primary">{stat.trend}</p>
+                        </div>
+                        <div className="p-2 rounded-lg bg-primary/10">
+                          <stat.icon className="h-5 w-5 text-primary" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+
+            {/* Alerts */}
+            <section>
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Alerts</h2>
+              <div className="space-y-3">
+                {alerts.map((alert) => (
+                  <Card key={alert.id} className={`cyber-border ${alert.urgent ? 'border-destructive/50' : ''}`}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        {alert.type === 'clone' ? (
+                          <AlertTriangle className={`h-4 w-4 mt-0.5 ${alert.urgent ? 'text-destructive' : 'text-primary'}`} />
+                        ) : (
+                          <TrendingUp className="h-4 w-4 mt-0.5 text-accent" />
+                        )}
+                        <div className="flex-1">
+                          <p className="text-sm text-foreground">{alert.message}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{alert.time}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      {/* Note Editor Modal */}
+      {isEditorOpen && (
+        <NoteEditor 
+          note={editingNote}
+          onClose={() => setIsEditorOpen(false)}
+        />
+      )}
+    </div>
+  );
+};
+
+export default Dashboard;
+}
