@@ -87,8 +87,12 @@ button:focus-visible {
 
 /* Custom styles for the editor */
 .prose-editor {
+  position: relative;
+  overflow: visible; /* Allow controls to show outside */
   cursor: text; /* Ensure text cursor is always displayed */
   caret-color: var(--ghost-neon); /* Set cursor color */
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .prose-editor:empty:before {
@@ -105,6 +109,11 @@ button:focus-visible {
   border-radius: 0.375rem;
   border: 1px solid rgba(107, 70, 193, 0.3);
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  position: relative;
+  /* Ensure images stay within editor bounds */
+  min-width: 50px;
+  min-height: 50px;
 }
 
 .prose-editor img.resizable {
@@ -116,8 +125,28 @@ button:focus-visible {
   box-shadow: 0 0 0 1px rgba(0, 255, 65, 0.3), 0 0 15px rgba(0, 255, 65, 0.2);
   border-radius: 0.375rem;
   position: relative;
-  resize: both;
-  overflow: hidden;
+  z-index: 10;
+}
+
+/* Improved text wrap functionality */
+.prose-editor img[data-text-wrap="true"] {
+  float: left !important;
+  margin: 0 1rem 1rem 0 !important;
+  max-width: 50% !important;
+  position: relative !important;
+  z-index: 1 !important;
+  clear: none !important;
+  left: auto !important;
+  top: auto !important;
+}
+
+.prose-editor img[data-text-wrap="false"] {
+  position: absolute !important;
+  float: none !important;
+  z-index: 10 !important;
+  max-width: 80% !important;
+  margin: 0 !important;
+  /* These will be set by JavaScript with bounds checking */
 }
 
 /* Visual indicators for corners to suggest resizability */
@@ -767,27 +796,192 @@ select:focus {
 /* Image mode controls */
 .image-mode-controls {
   position: absolute;
-  z-index: 10;
+  z-index: 100 !important;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
+  pointer-events: auto;
+  /* Ensure controls don't interfere with editor scrolling */
+  will-change: transform;
 }
 
 .image-mode-controls .controls-wrapper {
   display: flex;
-  gap: 8px;
-  background: var(--ghost-dark);
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(26, 26, 26, 0.95);
   border: 1px solid rgba(107, 70, 193, 0.4);
-  border-radius: 8px;
-  padding: 6px;
-  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 10px;
+  backdrop-filter: blur(12px);
   box-shadow: 0 0 20px rgba(107, 70, 193, 0.25);
+  min-width: 180px;
+  max-width: 200px;
+  /* Prevent controls from affecting editor layout */
+  box-sizing: border-box;
 }
 
+.image-mode-controls .mode-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.image-mode-controls .control-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(107, 70, 193, 0.3), transparent);
+  margin: 0 -4px;
+}
+
+.image-mode-controls .image-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-mode-controls .setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.image-mode-controls .setting-label {
+  font-size: 11px;
+  color: #cccccc;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Toggle button for text wrap */
+.image-mode-controls .toggle-button {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(42, 42, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-mode-controls .toggle-button:hover {
+  background: rgba(60, 60, 60, 0.8);
+}
+
+.image-mode-controls .toggle-button.active {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: var(--ghost-cyan);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.image-mode-controls .toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #cccccc;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.image-mode-controls .toggle-button.active .toggle-slider {
+  transform: translateX(20px);
+  background: var(--ghost-cyan);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+/* Opacity control */
+.image-mode-controls .opacity-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.image-mode-controls .opacity-slider {
+  width: 80px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(42, 42, 42, 0.8);
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.image-mode-controls .opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ghost-neon);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+  transition: all 0.2s ease;
+}
+
+.image-mode-controls .opacity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.6);
+}
+
+.image-mode-controls .opacity-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ghost-neon);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+  transition: all 0.2s ease;
+}
+
+.image-mode-controls .opacity-value {
+  font-size: 10px;
+  color: var(--ghost-neon);
+  font-weight: 600;
+  min-width: 30px;
+  text-align: center;
+}
+
+.image-mode-controls .mode-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.image-mode-controls .control-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(107, 70, 193, 0.3), transparent);
+  margin: 0 -4px;
+}
+
+.image-mode-controls .image-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-mode-controls .setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.image-mode-controls .setting-label {
+  font-size: 11px;
+  color: #cccccc;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Mode button styles */
 .image-mode-controls .mode-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 6px;
   background: rgba(42, 42, 42, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
