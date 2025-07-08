@@ -1,15 +1,18 @@
-Design a modern, dark-themed popup/modal form for GhostNote login and signup. The form should slide in or fade in smoothly when Login or Signup is clicked.
-Include:
+"Design a dark-themed Note Detail Page for GhostNote Cards. The page should show:
 
-Tabs to switch between 'Login' and 'Signup'
+Full note title at the top
 
-Input fields for email/username, password
+Author name and tags below it
 
-Option buttons to log in with:
+A scrollable preview of the note (first few paragraphs)
 
-Google Account
+A locked blur/fade overlay after the preview with a button: 'Unlock Full Note'
 
-Mobile Number (with OTP)
+If paid, show price and 'Buy & Unlock' button
 
-'Private Account' (anonymous mode with just alias + password)
-Use glowing buttons, clear labels, minimal icons, and a clean UX with soft shadows and subtle animations."
+If already purchased, show full note content
+Keep it clean, readable, with modern fonts and soft-glow highlights. Include a minimal sidebar or footer with share, report, and save options.
+
+Also the navbar should be static across the webpages and add a back button on the navbar to go back.
+
+"

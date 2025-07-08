@@ -64,6 +64,81 @@ body {
   color: #0a0a0a;
 }
 
+/* Prose styles for note content */
+.prose {
+  color: #e2e2e2;
+  max-width: 65ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose a {
+  color: var(--ghost-neon);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose strong {
+  color: white;
+  font-weight: 600;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: white;
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.prose h1 {
+  font-size: 2.25em;
+  line-height: 1.1111111;
+}
+
+.prose h2 {
+  font-size: 1.5em;
+  line-height: 1.3333333;
+}
+
+.prose h3 {
+  font-size: 1.25em;
+  line-height: 1.6;
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose code {
+  color: var(--ghost-purple);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  background: rgba(107, 70, 193, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  color: #e2e2e2;
+  background: #1a1a1a;
+  border: 1px solid rgba(107, 70, 193, 0.2);
+  border-radius: 0.375rem;
+  padding: 1em;
+  margin-top: 1.7142857em;
+  margin-bottom: 1.7142857em;
+}
+
 /* Custom animations */
 @keyframes flicker {
   0%, 100% { opacity: 1; }
