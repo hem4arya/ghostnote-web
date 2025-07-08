@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from 'next/image';
 
 interface NavbarProps {
   onLoginClick: () => void;
@@ -64,11 +65,17 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
               </Link>
             </Button>
           )}
-          <Link href="/" className="relative group">
-            <h1 className="text-2xl sm:text-2xl font-bold bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent">
+          <Link href="/" className="flex items-center gap-2 group">
+            <Image 
+              src="/logo.svg" 
+              alt="GhostNote Logo" 
+              width={28} 
+              height={28} 
+              className="h-7 w-7 transition-transform duration-300 group-hover:scale-110"
+            />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent transition-opacity duration-300 group-hover:opacity-80">
               GhostNote
             </h1>
-            <div className="absolute -inset-1 bg-gradient-to-r from-ghost-purple/20 to-ghost-neon/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
         </div>
 
