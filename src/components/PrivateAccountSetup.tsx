@@ -1,11 +1,9 @@
-src/components/PrivateAccountSetup.tsx{
-  import { useState } from "react";
+import { useState } from "react";
 import { Copy, Eye, EyeOff, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
 
 interface PrivateAccountSetupProps {
   open: boolean;
@@ -17,7 +15,6 @@ const PrivateAccountSetup = ({ open, onOpenChange }: PrivateAccountSetupProps) =
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { toast } = useToast();
 
   // Generate a random username
   const generateUsername = () => {
@@ -31,46 +28,27 @@ const PrivateAccountSetup = ({ open, onOpenChange }: PrivateAccountSetupProps) =
 
   const copyUsername = () => {
     navigator.clipboard.writeText(generatedUsername);
-    toast({
-      title: "Username copied",
-      description: "Your username has been copied to clipboard.",
-    });
+    // You might want to add a toast notification here
   };
 
   const handleCreateAccount = () => {
     if (!password) {
-      toast({
-        title: "Password required",
-        description: "Please enter a password to create your account.",
-        variant: "destructive",
-      });
+      console.error("Password required");
       return;
     }
 
     if (password !== confirmPassword) {
-      toast({
-        title: "Passwords don't match",
-        description: "Please make sure both password fields match.",
-        variant: "destructive",
-      });
+      console.error("Passwords don't match");
       return;
     }
 
     if (password.length < 8) {
-      toast({
-        title: "Password too short",
-        description: "Password must be at least 8 characters long.",
-        variant: "destructive",
-      });
+      console.error("Password too short");
       return;
     }
 
     // Here you would typically call your authentication service
-    toast({
-      title: "Account created successfully",
-      description: "Welcome to your private vault!",
-    });
-    
+    console.log("Account created successfully");
     onOpenChange(false);
   };
 
@@ -209,70 +187,3 @@ const PrivateAccountSetup = ({ open, onOpenChange }: PrivateAccountSetupProps) =
 };
 
 export default PrivateAccountSetup;
-}
-
-src/components/Navbar.tsx{
-  import { Search, Settings } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import PrivateAccountSetup from "./PrivateAccountSetup";
-import { useState } from "react";
-
-const Navbar = () => {
-  const [showPrivateSetup, setShowPrivateSetup] = useState(false);
-
-  return (
-    <nav className="sticky top-0 z-50 w-full border-b cyber-border bg-background/80 backdrop-blur-md">
-      <div className="container mx-auto flex h-16 items-center justify-between px-6">
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <Link to="/" className="glow-effect">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              GhostNote
-            </h1>
-          </Link>
-        </div>
-
-        {/* Search Bar */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative search-glow rounded-lg">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search notes..."
-              className="pl-10 bg-input/50 border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-input/80"
-            />
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center space-x-3">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-muted-foreground hover:text-primary"
-            onClick={() => setShowPrivateSetup(true)}
-          >
-            Login
-          </Button>
-          <Button asChild size="sm" className="bg-gradient-to-r from-primary to-primary-glow hover:from-primary/80 hover:to-primary-glow/80">
-            <Link to="/dashboard">Dashboard</Link>
-          </Button>
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-            <Settings className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-
-      {/* Private Account Setup Modal */}
-      <PrivateAccountSetup 
-        open={showPrivateSetup} 
-        onOpenChange={setShowPrivateSetup} 
-      />
-    </nav>
-  );
-};
-
-export default Navbar;
-}

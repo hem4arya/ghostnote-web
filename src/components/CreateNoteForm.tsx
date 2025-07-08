@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, Image as ImageIcon, RotateCcw, RotateCw, Save, FileText, Eye, ArrowLeft, HelpCircle } from "lucide-react";
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, Image as ImageIcon, RotateCcw, RotateCw, Save, FileText, Eye, ArrowLeft, HelpCircle, X } from "lucide-react";
 
 const CreateNoteForm = () => {
   const router = useRouter();
@@ -89,46 +89,75 @@ const CreateNoteForm = () => {
     // Create a local URL for the image
     const imageUrl = URL.createObjectURL(file);
     
-    // Insert the image at the cursor position
-    executeCommand('insertImage', imageUrl);
-    
-    // Reset the file input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-    
-    // Show resize instructions tooltip
-    setTimeout(() => {
-      if (editorRef.current) {
-        const newImage = editorRef.current.querySelector('img:not(.resizable)') as HTMLImageElement;
-        if (newImage) {
-          // Add the resizable class (will be picked up by the MutationObserver)
-          newImage.classList.add('resizable');
-          
-          // Show a tooltip with instructions
-          const tooltip = document.createElement('div');
-          tooltip.className = 'image-resize-tooltip';
-          tooltip.innerHTML = `
-            <div class="tooltip-header">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-cyan"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"></path><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-              <span>Image Controls</span>
-            </div>
-            <p><span class="highlight-cyan">Click</span> to select an image</p>
-            <p><span class="highlight-neon">Choose mode</span> to resize or move</p>
-            <p>Use <span class="highlight-purple">Alt + Arrow keys</span> to adjust</p>
-          `;
-          
-          // Position the tooltip near the image
-          newImage.parentNode?.appendChild(tooltip);
-          
-          // Remove the tooltip after a few seconds
-          setTimeout(() => {
-            tooltip.classList.add('fade-out');
-            setTimeout(() => tooltip.remove(), 500);
-          }, 5000);
-        }
+    // Create a temporary image to get dimensions before inserting
+    const tempImg = new Image();
+    tempImg.onload = () => {
+      // Get editor dimensions with safety margins
+      const editorWidth = editorRef.current?.clientWidth || 800;
+      const editorPadding = 40; // Increased padding for safety
+      const maxWidth = editorWidth - editorPadding; // Account for padding on both sides
+      
+      // Calculate image dimensions to preserve aspect ratio but fit within editor
+      let newWidth = tempImg.width;
+      let newHeight = tempImg.height;
+      
+      // If image is too large, we'll pre-scale it
+      if (tempImg.width > maxWidth) {
+        const aspectRatio = tempImg.width / tempImg.height;
+        newWidth = maxWidth;
+        newHeight = newWidth / aspectRatio;
       }
-    }, 100);
+      
+      // Ensure height doesn't exceed a reasonable limit
+      const maxHeight = (editorRef.current?.clientHeight || 600) - editorPadding;
+      if (newHeight > maxHeight) {
+        const aspectRatio = newWidth / newHeight;
+        newHeight = maxHeight;
+        newWidth = newHeight * aspectRatio;
+      }
+      
+      // Insert the image at the cursor position with adjusted size and proper constraints
+      executeCommand('insertHTML', `<img src="${imageUrl}" style="width:${newWidth}px;height:${newHeight}px;max-width:${maxWidth}px;max-height:${maxHeight}px;object-fit:contain;display:block;">`);
+      
+      // Reset the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      // Show resize instructions tooltip
+      setTimeout(() => {
+        if (editorRef.current) {
+          const newImage = editorRef.current.querySelector('img:not(.resizable)') as HTMLImageElement;
+          if (newImage) {
+            // Add the resizable class (will be picked up by the MutationObserver)
+            newImage.classList.add('resizable');
+            
+            // Show a tooltip with instructions
+            const tooltip = document.createElement('div');
+            tooltip.className = 'image-resize-tooltip';
+            tooltip.innerHTML = `
+              <div class="tooltip-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-cyan"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"></path><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                <span>Image Controls</span>
+              </div>
+              <p><span class="highlight-cyan">Click</span> to select an image</p>
+              <p><span class="highlight-neon">Choose mode</span> to resize or move</p>
+              <p>Use <span class="highlight-purple">Alt + Arrow keys</span> to adjust</p>
+            `;
+            
+            // Position the tooltip near the image
+            newImage.parentNode?.appendChild(tooltip);
+            
+            // Remove the tooltip after a few seconds
+            setTimeout(() => {
+              tooltip.classList.add('fade-out');
+              setTimeout(() => tooltip.remove(), 500);
+            }, 5000);
+          }
+        }
+      }, 100);
+    };
+    tempImg.src = imageUrl;
   };
   
   // Add selection change event to monitor formatting
@@ -183,11 +212,51 @@ const CreateNoteForm = () => {
           }
           
           // Set initial constraints and text wrap
-          img.style.maxWidth = '100%';
-          img.style.height = 'auto';
           img.style.boxSizing = 'border-box';
           img.style.minWidth = '50px';
           img.style.minHeight = '50px';
+          img.style.border = 'none'; // Remove borders from images
+          
+          // Apply strict dimensions to ensure images never overflow
+          const editorPadding = 20; // Padding from edges
+          const maxWidth = editor.clientWidth - (editorPadding * 2); // Use clientWidth instead of getBoundingClientRect
+          
+          // Set max-width to ensure image fits within editor
+          img.style.maxWidth = `${maxWidth}px`;
+          img.style.height = 'auto';
+          
+          // If image is larger than editor, scale it down
+          if (img.naturalWidth > maxWidth) {
+            const aspectRatio = img.naturalWidth / img.naturalHeight;
+            const newWidth = maxWidth;
+            const newHeight = newWidth / aspectRatio;
+            
+            img.style.width = `${newWidth}px`;
+            img.style.height = `${newHeight}px`;
+          }
+          
+          // Ensure the image has proper overflow handling
+          img.style.objectFit = 'contain';
+          img.style.maxHeight = '100%';
+          
+          // Force containment for all images regardless of position
+          const currentWidth = img.offsetWidth;
+          const currentHeight = img.offsetHeight;
+          
+          if (currentWidth > maxWidth) {
+            const aspectRatio = currentWidth / currentHeight;
+            img.style.width = `${maxWidth}px`;
+            img.style.height = `${maxWidth / aspectRatio}px`;
+          }
+          
+          // Apply additional constraints for absolutely positioned images
+          if (img.style.position === 'absolute') {
+            const constraints = constrainImageToBounds(img);
+            img.style.left = `${constraints.left}px`;
+            img.style.top = `${constraints.top}px`;
+            img.style.width = `${constraints.width}px`;
+            img.style.height = `${constraints.height}px`;
+          }
           
           // Initialize text wrap state using data attribute
           if (!img.hasAttribute('data-text-wrap')) {
@@ -204,8 +273,11 @@ const CreateNoteForm = () => {
 
     // Helper function to constrain image within editor bounds
     const constrainImageToBounds = (img: HTMLImageElement, newLeft?: number, newTop?: number, newWidth?: number, newHeight?: number) => {
-      const editorRect = editor.getBoundingClientRect();
       const editorPadding = 20; // Padding from edges
+      
+      // Use editor's actual dimensions instead of getBoundingClientRect
+      const editorWidth = editor.clientWidth;
+      const editorHeight = editor.clientHeight;
       
       // Get current values or use provided ones
       const currentLeft = newLeft !== undefined ? newLeft : parseInt(img.style.left) || 0;
@@ -213,20 +285,35 @@ const CreateNoteForm = () => {
       const currentWidth = newWidth !== undefined ? newWidth : img.offsetWidth;
       const currentHeight = newHeight !== undefined ? newHeight : img.offsetHeight;
       
-      // For absolutely positioned images, ensure they stay within bounds
-      const maxLeft = editorRect.width - currentWidth - editorPadding;
-      const maxTop = editorRect.height - currentHeight - editorPadding;
+      // Get actual content area dimensions (accounting for padding)
+      const contentWidth = editorWidth - (editorPadding * 2);
+      const contentHeight = editorHeight - (editorPadding * 2);
       
+      // For absolutely positioned images, ensure they stay within bounds
+      const maxLeft = Math.max(0, contentWidth - currentWidth);
+      const maxTop = Math.max(0, contentHeight - currentHeight);
+      
+      // Strictly constrain within the editor bounds
       const constrainedLeft = Math.max(0, Math.min(currentLeft, maxLeft));
       const constrainedTop = Math.max(0, Math.min(currentTop, maxTop));
-      const constrainedWidth = Math.max(50, Math.min(currentWidth, editorRect.width - editorPadding));
-      const constrainedHeight = Math.max(50, Math.min(currentHeight, editorRect.height - editorPadding));
+      
+      // Calculate maximum allowed dimensions based on position
+      const spaceToRightEdge = contentWidth - constrainedLeft;
+      const spaceToBottomEdge = contentHeight - constrainedTop;
+      
+      // Strictly constrain width and height to fit within editor
+      const constrainedWidth = Math.min(currentWidth, spaceToRightEdge);
+      const constrainedHeight = Math.min(currentHeight, spaceToBottomEdge);
+      
+      // Ensure minimum size but respect bounds
+      const finalWidth = Math.max(50, Math.min(constrainedWidth, contentWidth));
+      const finalHeight = Math.max(50, Math.min(constrainedHeight, contentHeight));
       
       return {
         left: constrainedLeft,
         top: constrainedTop,
-        width: constrainedWidth,
-        height: constrainedHeight
+        width: finalWidth,
+        height: finalHeight
       };
     };
     
@@ -798,6 +885,38 @@ const CreateNoteForm = () => {
       }
     };
     
+    // Set global styles for selected images and containment
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      img.selected-for-resize, img.dragging, img.resizing {
+        outline: 2px solid var(--ghost-neon) !important;
+        outline-offset: 2px !important;
+        border: none !important;
+      }
+      
+      /* Ensure all images in the editor are contained */
+      .prose-editor img {
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+        box-sizing: border-box !important;
+        display: block !important;
+      }
+      
+      /* Ensure absolutely positioned images stay within bounds */
+      .prose-editor img[style*="position: absolute"] {
+        max-width: calc(100% - 40px) !important;
+        max-height: calc(100% - 40px) !important;
+      }
+      
+      /* Additional containment for the editor */
+      .prose-editor {
+        overflow: hidden !important;
+        word-wrap: break-word !important;
+      }
+    `;
+    document.head.appendChild(styleElement);
+
     // Initialize the functionality
     makeImagesInteractive();
     
@@ -816,6 +935,47 @@ const CreateNoteForm = () => {
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('keydown', handleKeyDown);
     
+    // Handle window resize to ensure images stay within bounds
+    const handleWindowResize = () => {
+      // Add a small delay to ensure the editor size has fully updated
+      setTimeout(() => {
+        const images = editor.querySelectorAll('img.resizable');
+        images.forEach((img) => {
+          const imgElement = img as HTMLImageElement;
+          
+          // Get current dimensions and position
+          const currentLeft = parseInt(imgElement.style.left) || 0;
+          const currentTop = parseInt(imgElement.style.top) || 0;
+          const currentWidth = imgElement.offsetWidth;
+          const currentHeight = imgElement.offsetHeight;
+          
+          // Update the max-width for all images based on new editor dimensions
+          const editorPadding = 20;
+          const maxWidth = editor.clientWidth - (editorPadding * 2);
+          
+          // Update max-width for all images
+          imgElement.style.maxWidth = `${maxWidth}px`;
+          
+          // Recalculate constraints based on new editor dimensions
+          const constraints = constrainImageToBounds(
+            imgElement, 
+            currentLeft, 
+            currentTop, 
+            currentWidth, 
+            currentHeight
+          );
+          
+          // Apply the updated constraints
+          imgElement.style.left = `${constraints.left}px`;
+          imgElement.style.top = `${constraints.top}px`;
+          imgElement.style.width = `${constraints.width}px`;
+          imgElement.style.height = `${constraints.height}px`;
+        });
+      }, 100);
+    };
+    
+    window.addEventListener('resize', handleWindowResize);
+    
     // Cleanup
     return () => {
       observer.disconnect();
@@ -824,6 +984,7 @@ const CreateNoteForm = () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleWindowResize);
     };
   }, [activeMode, hasSeenHelp, imageTextWrap, imageOpacity]);
 
@@ -1026,167 +1187,200 @@ const CreateNoteForm = () => {
           contentEditable
           suppressContentEditableWarning
           onInput={handleContentChange}
-          className="min-h-[80vh] p-6 md:p-8 bg-ghost-dark/80 rounded-lg border border-ghost-gray/50 focus:outline-none focus:ring-1 focus:ring-ghost-purple/50 focus:border-ghost-purple/30 transition-all duration-200 text-white prose-editor"
+          className="min-h-[80vh] p-6 md:p-8 bg-ghost-dark/80 rounded-lg border border-ghost-gray/50 focus:outline-none focus:ring-1 focus:ring-ghost-purple/50 focus:border-ghost-purple/30 transition-all duration-200 text-white prose-editor overflow-hidden"
           data-placeholder="Start writing your masterpiece..."
-          style={{ caretColor: 'var(--ghost-neon)' }}
+          style={{ caretColor: 'var(--ghost-neon)', position: 'relative' }}
         />
-           {/* Image resize/move help */}
-      {showResizeHelp && (!hasSeenHelp || manualHelp) && (
-          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-ghost-dark/95 border border-ghost-purple rounded-lg px-6 py-5 max-w-md z-50 shadow-[0_0_25px_rgba(107,70,193,0.3)] backdrop-blur-sm">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="relative">
-                <HelpCircle className="h-5 w-5 text-ghost-neon" />
-                <div className="absolute -top-1 -right-1 h-2 w-2 bg-ghost-cyan rounded-full animate-ping"></div>
-              </div>
-              <h4 className="text-base font-medium bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent">
-                Image Interaction Controls
-              </h4>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-5 text-sm text-gray-300 mb-5">
-              <div className="bg-ghost-black/70 p-4 rounded-lg border border-ghost-cyan/30 relative overflow-hidden">
-                <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-cyan/10 rounded-full blur-xl"></div>
-                <h5 className="text-ghost-cyan font-medium mb-3 text-sm flex items-center gap-1.5">
-                  <span className="inline-block w-1.5 h-1.5 bg-ghost-cyan rounded-full"></span>
-                  Move Mode
-                </h5>
-                <div className="space-y-2.5 text-xs">
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-cyan">•</span>
-                    <span><span className="text-ghost-cyan font-medium">Click</span> an image to select it</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-cyan">•</span>
-                    <span><span className="text-ghost-cyan font-medium">Choose Move</span> from the controls</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-cyan">•</span>
-                    <span><span className="text-ghost-cyan font-medium">Drag</span> to reposition</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-cyan">•</span>
-                    <span><span className="text-ghost-cyan font-medium">Alt+Arrows</span> for precision</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-cyan">•</span>
-                    <span><span className="text-ghost-cyan font-medium">Ctrl+M</span> shortcut for move mode</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-cyan">•</span>
-                    <span><span className="text-ghost-cyan font-medium">Delete</span> to remove image</span>
-                  </p>
-                </div>
-              </div>
-              
-              <div className="bg-ghost-black/70 p-4 rounded-lg border border-ghost-neon/30 relative overflow-hidden">
-                <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-neon/10 rounded-full blur-xl"></div>
-                <h5 className="text-ghost-neon font-medium mb-3 text-sm flex items-center gap-1.5">
-                  <span className="inline-block w-1.5 h-1.5 bg-ghost-neon rounded-full"></span>
-                  Resize Mode
-                </h5>
-                <div className="space-y-2.5 text-xs">
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-neon">•</span>
-                    <span><span className="text-ghost-neon font-medium">Click</span> an image to select it</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-neon">•</span>
-                    <span><span className="text-ghost-neon font-medium">Choose Resize</span> from the controls</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-neon">•</span>
-                    <span><span className="text-ghost-neon font-medium">Drag corners</span> to resize</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-neon">•</span>
-                    <span><span className="text-ghost-neon font-medium">Shift+Drag</span> for aspect ratio</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-neon">•</span>
-                    <span><span className="text-ghost-neon font-medium">Ctrl+R</span> shortcut for resize mode</span>
-                  </p>
-                  <p className="flex items-start gap-2">
-                    <span className="text-ghost-neon">•</span>
-                    <span><span className="text-ghost-neon font-medium">Alt+R</span> to reset size</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-ghost-black/70 p-4 rounded-lg border border-ghost-purple/30 relative overflow-hidden mb-5">
-              <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-purple/10 rounded-full blur-xl"></div>
-              <h5 className="text-ghost-purple font-medium mb-3 text-sm flex items-center gap-1.5">
-                <span className="inline-block w-1.5 h-1.5 bg-ghost-purple rounded-full"></span>
-                Keyboard Shortcuts
-              </h5>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-purple">•</span>
-                  <span><span className="text-ghost-purple font-medium">Ctrl+M</span> Move mode</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-purple">•</span>
-                  <span><span className="text-ghost-purple font-medium">Ctrl+R</span> Resize mode</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-purple">•</span>
-                  <span><span className="text-ghost-purple font-medium">Ctrl+W</span> Toggle text wrap</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-purple">•</span>
-                  <span><span className="text-ghost-purple font-medium">Alt+Arrows</span> Move/resize</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-purple">•</span>
-                  <span><span className="text-ghost-purple font-medium">Alt+R</span> Reset size/position</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-purple">•</span>
-                  <span><span className="text-ghost-purple font-medium">Delete</span> Remove image</span>
-                </p>
-              </div>
-            </div>
-            
-            <div className="bg-ghost-black/70 p-4 rounded-lg border border-ghost-cyan/30 relative overflow-hidden mb-5">
-              <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-cyan/10 rounded-full blur-xl"></div>
-              <h5 className="text-ghost-cyan font-medium mb-3 text-sm flex items-center gap-1.5">
-                <span className="inline-block w-1.5 h-1.5 bg-ghost-cyan rounded-full"></span>
-                Image Controls
-              </h5>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-cyan">•</span>
-                  <span><span className="text-ghost-cyan font-medium">Text Wrap Icon</span> Toggle text flow</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-cyan">•</span>
-                  <span><span className="text-ghost-cyan font-medium">Opacity Icon</span> Adjust transparency</span>
-                </p>
-                <p className="flex items-start gap-2">
-                  <span className="text-ghost-cyan">•</span>
-                  <span><span className="text-ghost-cyan font-medium">Delete Icon</span> Remove image</span>
-                </p>
-              </div>
-            </div>
-            
-            <div className="text-center mt-3 bg-ghost-black/30 rounded-lg py-2 border border-ghost-purple/20">
-              <p className="text-xs text-ghost-purple/90">
-                <span className="text-ghost-purple font-medium">Alt+R</span> to reset size or position
-              </p>
-            </div>
-            
-            <button 
+
+        {/* Image resize/move help */}
+        {showResizeHelp && (!hasSeenHelp || manualHelp) && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300"
               onClick={() => {
                 setShowResizeHelp(false);
                 setManualHelp(false);
                 setHasSeenHelp(true);
-                // Save to localStorage directly for extra assurance
                 localStorage.setItem('ghostnote-help-seen', 'true');
               }}
-              className="w-full px-4 py-1.5 text-sm font-medium text-black bg-gradient-to-r from-ghost-cyan to-ghost-neon rounded-md hover:from-ghost-neon hover:to-ghost-cyan transition-colors shadow-[0_0_15px_rgba(0,255,65,0.3)]"
-            >
-              Got it!
-            </button>
+            />
+            
+            {/* Help Modal Scroll Container */}
+            <div className="relative w-full max-w-sm sm:max-w-md my-4 sm:my-8 mx-auto">
+              <div className="relative flex flex-col bg-gradient-to-br from-ghost-dark via-ghost-gray to-ghost-dark border border-ghost-purple/30 rounded-xl sm:rounded-2xl shadow-2xl shadow-ghost-purple/20 animate-in zoom-in-95 slide-in-from-bottom-5 duration-300 max-h-[90vh] overflow-y-auto">
+                {/* Close Button */}
+                <button
+                  onClick={() => {
+                    setShowResizeHelp(false);
+                    setManualHelp(false);
+                    setHasSeenHelp(true);
+                    localStorage.setItem('ghostnote-help-seen', 'true');
+                  }}
+                  className="absolute top-3 sm:top-4 right-3 sm:right-4 p-1.5 sm:p-2 rounded-full hover:bg-ghost-purple/20 transition-colors duration-200 z-10 focus:outline-none focus:ring-0"
+                >
+                  <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 hover:text-white" />
+                </button>
+
+                {/* Header */}
+                <div className="p-6 sm:p-8 pb-4 sm:pb-6">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-center bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent mb-1 sm:mb-2">
+                    Image Interaction Controls
+                  </h2>
+                  <p className="text-center text-gray-400 text-sm sm:text-base">
+                    Learn how to manage images in your GhostNote
+                  </p>
+                </div>
+
+                {/* Content */}
+                <div className="px-6 sm:px-8 pb-6 space-y-5">
+                  <div className="bg-ghost-black/70 p-4 sm:p-5 rounded-lg border border-ghost-cyan/30 relative overflow-hidden mb-4 sm:mb-5">
+                    <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-cyan/10 rounded-full blur-xl"></div>
+                    <h5 className="text-ghost-cyan font-medium mb-3 text-sm sm:text-base flex items-center gap-1.5">
+                      <span className="inline-block w-1.5 h-1.5 bg-ghost-cyan rounded-full"></span>
+                      Move Mode
+                    </h5>
+                    <div className="space-y-2.5 text-xs sm:text-sm">
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Click</span> an image to select it</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Choose Move</span> from the controls</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Drag</span> to reposition</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Alt+Arrows</span> for precision</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Ctrl+M</span> shortcut for move mode</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Delete</span> to remove image</span>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-ghost-black/70 p-4 sm:p-5 rounded-lg border border-ghost-neon/30 relative overflow-hidden mb-4 sm:mb-5">
+                    <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-neon/10 rounded-full blur-xl"></div>
+                    <h5 className="text-ghost-neon font-medium mb-3 text-sm sm:text-base flex items-center gap-1.5">
+                      <span className="inline-block w-1.5 h-1.5 bg-ghost-neon rounded-full"></span>
+                      Resize Mode
+                    </h5>
+                    <div className="space-y-2.5 text-xs sm:text-sm">
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-neon">•</span>
+                        <span><span className="text-ghost-neon font-medium">Click</span> an image to select it</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-neon">•</span>
+                        <span><span className="text-ghost-neon font-medium">Choose Resize</span> from the controls</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-neon">•</span>
+                        <span><span className="text-ghost-neon font-medium">Drag corners</span> to resize</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-neon">•</span>
+                        <span><span className="text-ghost-neon font-medium">Shift+Drag</span> for aspect ratio</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-neon">•</span>
+                        <span><span className="text-ghost-neon font-medium">Ctrl+R</span> shortcut for resize mode</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-neon">•</span>
+                        <span><span className="text-ghost-neon font-medium">Alt+R</span> to reset size</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-ghost-black/70 p-4 sm:p-5 rounded-lg border border-ghost-purple/30 relative overflow-hidden mb-4 sm:mb-5">
+                    <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-purple/10 rounded-full blur-xl"></div>
+                    <h5 className="text-ghost-purple font-medium mb-3 text-sm sm:text-base flex items-center gap-1.5">
+                      <span className="inline-block w-1.5 h-1.5 bg-ghost-purple rounded-full"></span>
+                      Keyboard Shortcuts
+                    </h5>
+                    <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-purple">•</span>
+                        <span><span className="text-ghost-purple font-medium">Ctrl+M</span> Move mode</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-purple">•</span>
+                        <span><span className="text-ghost-purple font-medium">Ctrl+R</span> Resize mode</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-purple">•</span>
+                        <span><span className="text-ghost-purple font-medium">Ctrl+W</span> Toggle text wrap</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-purple">•</span>
+                        <span><span className="text-ghost-purple font-medium">Alt+Arrows</span> Move/resize</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-purple">•</span>
+                        <span><span className="text-ghost-purple font-medium">Alt+R</span> Reset size/position</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-purple">•</span>
+                        <span><span className="text-ghost-purple font-medium">Delete</span> Remove image</span>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-ghost-black/70 p-4 sm:p-5 rounded-lg border border-ghost-cyan/30 relative overflow-hidden mb-4 sm:mb-5">
+                    <div className="absolute -top-6 -right-6 w-12 h-12 bg-ghost-cyan/10 rounded-full blur-xl"></div>
+                    <h5 className="text-ghost-cyan font-medium mb-3 text-sm sm:text-base flex items-center gap-1.5">
+                      <span className="inline-block w-1.5 h-1.5 bg-ghost-cyan rounded-full"></span>
+                      Image Controls
+                    </h5>
+                    <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Text Wrap Icon</span> Toggle text flow</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Opacity Icon</span> Adjust transparency</span>
+                      </p>
+                      <p className="flex items-start gap-2">
+                        <span className="text-ghost-cyan">•</span>
+                        <span><span className="text-ghost-cyan font-medium">Delete Icon</span> Remove image</span>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center mt-4 mb-5 bg-ghost-black/30 rounded-lg py-3 border border-ghost-purple/20">
+                    <p className="text-sm text-ghost-purple/90">
+                      <span className="text-ghost-purple font-medium">Alt+R</span> to reset size or position
+                    </p>
+                  </div>
+                </div>
+
+                <div className="px-6 sm:px-8 pb-6 sm:pb-8">
+                  <button 
+                    onClick={() => {
+                      setShowResizeHelp(false);
+                      setManualHelp(false);
+                      setHasSeenHelp(true);
+                      // Save to localStorage directly for extra assurance
+                      localStorage.setItem('ghostnote-help-seen', 'true');
+                    }}
+                    className="w-full px-4 py-3 text-sm font-medium text-black bg-gradient-to-r from-ghost-cyan to-ghost-neon rounded-md hover:from-ghost-neon hover:to-ghost-cyan transition-colors shadow-[0_0_15px_rgba(0,255,65,0.3)]"
+                  >
+                    Got it!
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
