@@ -75,6 +75,294 @@ body {
   color: #0a0a0a;
 }
 
+/* Remove default focus styles and add custom ones */
+button:focus {
+  outline: none;
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(107, 70, 193, 0.5);
+}
+
+/* Custom styles for the editor */
+.prose-editor {
+  cursor: text; /* Ensure text cursor is always displayed */
+  caret-color: var(--ghost-neon); /* Set cursor color */
+}
+
+.prose-editor:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+/* Image styling and resize functionality */
+.prose-editor img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(107, 70, 193, 0.3);
+  transition: all 0.2s ease;
+}
+
+.prose-editor img.resizable {
+  cursor: pointer;
+}
+
+.prose-editor img.selected-for-resize {
+  border: 2px dashed var(--ghost-neon);
+  box-shadow: 0 0 0 1px rgba(0, 255, 65, 0.3), 0 0 15px rgba(0, 255, 65, 0.2);
+  border-radius: 0.375rem;
+  position: relative;
+  resize: both;
+  overflow: hidden;
+}
+
+/* Visual indicators for corners to suggest resizability */
+.prose-editor img.selected-for-resize:not(.dragging)::before,
+.prose-editor img.selected-for-resize:not(.dragging)::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: var(--ghost-neon);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
+  animation: pulse-resize 2s infinite ease-in-out;
+  z-index: 5;
+}
+
+.prose-editor img.selected-for-resize:not(.dragging)::before {
+  top: -6px;
+  right: -6px;
+}
+
+.prose-editor img.selected-for-resize:not(.dragging)::after {
+  bottom: -6px;
+  right: -6px;
+  animation-delay: 0.5s;
+}
+
+/* Additional styles for image resizing */
+.prose-editor img.resizing {
+  opacity: 0.8;
+  cursor: nwse-resize !important;
+  /* Don't remove the class on mouse up - just add this temporary class during the action */
+}
+
+/* Styles for image dragging */
+.prose-editor img.dragging {
+  opacity: 0.8;
+  cursor: move !important;
+  border: 2px dashed var(--ghost-cyan) !important;
+  box-shadow: 0 0 0 1px rgba(0, 255, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.2) !important;
+}
+
+/* Prevent text selection during resize/drag */
+body.resize-in-progress {
+  user-select: none;
+  cursor: nwse-resize;
+}
+
+/* Add resize handles to selected images */
+.prose-editor img.selected-for-resize {
+  position: relative;
+  resize: both;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Add resize corner indicators */
+.prose-editor img.selected-for-resize:not(.dragging)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: var(--ghost-neon);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  opacity: 0.8;
+  cursor: nwse-resize;
+  animation: pulse-resize-corner 2s infinite ease-in-out;
+}
+
+/* Style for image in drag mode */
+.prose-editor img.dragging {
+  cursor: move !important;
+  border: 2px dashed var(--ghost-cyan) !important;
+  box-shadow: 0 0 0 1px rgba(0, 255, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.2) !important;
+  transition: all 0.2s ease !important;
+  position: relative;
+}
+
+/* Visual indicator for draggable images */
+.prose-editor img.selected-for-resize.dragging::after {
+  content: none; /* Remove resize handle */
+}
+
+.prose-editor img.selected-for-resize.dragging::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 255, 255, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+  border: 2px solid var(--ghost-cyan);
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300ffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 9 2 12 5 15'%3E%3C/polyline%3E%3Cpolyline points='9 5 12 2 15 5'%3E%3C/polyline%3E%3Cpolyline points='15 19 12 22 9 19'%3E%3C/polyline%3E%3Cpolyline points='19 9 22 12 19 15'%3E%3C/polyline%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='2' x2='12' y2='22'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 28px;
+  animation: pulse-drag 1.5s infinite ease-in-out;
+  z-index: 50;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+@keyframes pulse-resize {
+  0% { box-shadow: 0 0 8px rgba(0, 255, 65, 0.7); transform: scale(1); }
+  50% { box-shadow: 0 0 15px rgba(0, 255, 65, 0.9); transform: scale(1.15); }
+  100% { box-shadow: 0 0 8px rgba(0, 255, 65, 0.7); transform: scale(1); }
+}
+
+@keyframes pulse-resize-corner {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes pulse-drag {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; box-shadow: 0 0 25px rgba(0, 255, 255, 0.8); }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); }
+}
+
+/* Remove duplicated rules */
+.prose-editor img.selected-for-resize.dragging::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 255, 255, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+  border: 2px solid var(--ghost-cyan);
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300ffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 9 2 12 5 15'%3E%3C/polyline%3E%3Cpolyline points='9 5 12 2 15 5'%3E%3C/polyline%3E%3Cpolyline points='15 19 12 22 9 19'%3E%3C/polyline%3E%3Cpolyline points='19 9 22 12 19 15'%3E%3C/polyline%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='2' x2='12' y2='22'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 28px;
+  animation: pulse-drag 1.5s infinite ease-in-out;
+  z-index: 50;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Add corner and edge indicators for resize mode */
+.prose-editor img.selected-for-resize:not(.dragging)::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--ghost-neon);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
+  animation: pulse-resize 2s infinite ease-in-out;
+  z-index: 10;
+}
+
+/* Tooltip styling */
+.image-resize-tooltip {
+  position: absolute;
+  z-index: 1000;
+  background-color: rgba(26, 26, 26, 0.98);
+  border: 1px solid var(--ghost-purple);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(107, 70, 193, 0.3);
+  max-width: 250px;
+  pointer-events: none;
+  opacity: 0.98;
+  animation: fade-in 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.image-resize-tooltip .tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(107, 70, 193, 0.3);
+}
+
+.image-resize-tooltip .tooltip-header span {
+  font-weight: 500;
+  background: linear-gradient(90deg, var(--ghost-purple), var(--ghost-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.image-resize-tooltip .icon-cyan {
+  color: var(--ghost-cyan);
+}
+
+.image-resize-tooltip p {
+  margin: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.image-resize-tooltip p::before {
+  content: "•";
+  color: var(--ghost-purple);
+}
+
+.image-resize-tooltip .highlight-cyan {
+  color: var(--ghost-cyan);
+  font-weight: 500;
+}
+
+.image-resize-tooltip .highlight-neon {
+  color: var(--ghost-neon);
+  font-weight: 500;
+}
+
+.image-resize-tooltip .highlight-purple {
+  color: var(--ghost-purple);
+  font-weight: 500;
+}
+
+.image-resize-tooltip.fade-out {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 0.98; transform: translateY(0); }
+}
+
 /* Prose styles for note content */
 .prose {
   color: #e2e2e2;
@@ -474,4 +762,82 @@ select:focus {
   .text-responsive-3xl {
     font-size: 6rem;
   }
+}
+
+/* Image mode controls */
+.image-mode-controls {
+  position: absolute;
+  z-index: 10;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
+}
+
+.image-mode-controls .controls-wrapper {
+  display: flex;
+  gap: 8px;
+  background: var(--ghost-dark);
+  border: 1px solid rgba(107, 70, 193, 0.4);
+  border-radius: 8px;
+  padding: 6px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(107, 70, 193, 0.25);
+}
+
+.image-mode-controls .mode-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: rgba(42, 42, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cccccc;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-mode-controls .mode-button:hover {
+  background: rgba(60, 60, 60, 0.7);
+  transform: translateY(-1px);
+}
+
+.image-mode-controls .mode-button.active {
+  border: 1px solid transparent;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.image-mode-controls .move-mode.active {
+  background: rgba(0, 255, 255, 0.15);
+  color: var(--ghost-cyan);
+}
+
+.image-mode-controls .resize-mode.active {
+  background: rgba(0, 255, 65, 0.15);
+  color: var(--ghost-neon);
+}
+
+.image-mode-controls .mode-button::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-mode-controls .move-mode.active::before {
+  opacity: 1;
+  background: linear-gradient(45deg, var(--ghost-cyan) 0%, transparent 60%, var(--ghost-cyan) 100%);
+  filter: blur(8px);
+}
+
+.image-mode-controls .resize-mode.active::before {
+  opacity: 1;
+  background: linear-gradient(45deg, var(--ghost-neon) 0%, transparent 60%, var(--ghost-neon) 100%);
+  filter: blur(8px);
 }
