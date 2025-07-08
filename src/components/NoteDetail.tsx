@@ -1,11 +1,8 @@
-
 'use client';
 
-import { useState, useEffect } from 'react';
-import { ArrowLeft, Share2, Flag, Bookmark, ShoppingCart, Lock, Star } from 'lucide-react';
-import Link from 'next/link';
+import { useState } from 'react';
+import { Share2, Flag, Bookmark, ShoppingCart, Lock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { sampleNotes } from '@/data/sampleNotes';
 import { Note } from '@/components/NoteCard';
 import Image from 'next/image';
 

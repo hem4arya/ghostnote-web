@@ -1,26 +1,45 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import NoteCard from "@/components/NoteCard";
 import { sampleNotes } from "@/data/sampleNotes";
 import Footer from "@/components/Footer";
-import AuthModal from '@/components/AuthModal';
+import AuthModal from "@/components/AuthModal";
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [initialMode, setInitialMode] = useState<'login' | 'signup'>('login');
+  const [initialMode, setInitialMode] = useState<"login" | "signup">("login");
 
   const handleLoginClick = () => {
-    setInitialMode('login');
+    setInitialMode("login");
     setIsAuthModalOpen(true);
   };
 
   const handleSignUpClick = () => {
-    setInitialMode('signup');
+    setInitialMode("signup");
     setIsAuthModalOpen(true);
   };
+
+  // Listen for auth modal events from Navbar
+  useEffect(() => {
+    const handleAuthModalEvent = (e: CustomEvent) => {
+      setInitialMode(e.detail.mode);
+      setIsAuthModalOpen(true);
+    };
+
+    window.addEventListener(
+      "open-auth-modal",
+      handleAuthModalEvent as EventListener
+    );
+    return () => {
+      window.removeEventListener(
+        "open-auth-modal",
+        handleAuthModalEvent as EventListener
+      );
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black">
@@ -36,9 +55,9 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
         initialMode={initialMode}
       />
     </div>

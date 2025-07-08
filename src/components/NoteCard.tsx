@@ -11,6 +11,7 @@ export type Note = {
   author: string;
   price: number;
   previewText: string; // Changed from image to previewText
+  isPublic: boolean;
 };
 
 const NoteCard = ({ note }: { note: Note }) => {

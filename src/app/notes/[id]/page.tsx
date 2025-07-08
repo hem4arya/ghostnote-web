@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles } from 'lucide-react';
+import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { sampleNotes } from '@/data/sampleNotes';
@@ -48,7 +48,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   if (isLoading) {
     return (
       <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black">
-        <Navbar onLoginClick={() => {}} />
+        <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="animate-pulse text-ghost-purple">Loading...</div>
         </div>
@@ -60,7 +60,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   if (!note) {
     return (
       <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black">
-        <Navbar onLoginClick={() => {}} />
+        <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-ghost-purple mb-4">Note Not Found</h2>
@@ -79,24 +79,10 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black text-gray-300 font-sans">
-      <Navbar onLoginClick={() => {}} />
+      <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          {/* Back button - remains for navigation */}
-          <div className="mb-8">
-            <Button 
-              asChild 
-              variant="ghost" 
-              className="text-gray-400 hover:text-ghost-neon transition-colors"
-            >
-              <Link href="/" className="flex items-center">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Marketplace
-              </Link>
-            </Button>
-          </div>
-          
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             {/* Left Column: Note Content */}
             <div className="lg:col-span-2">

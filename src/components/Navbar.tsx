@@ -1,15 +1,15 @@
 'use client';
 
-import { Search, Settings, User, X, ArrowLeft } from "lucide-react";
+import { Search, Settings, User, X, ChevronLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from 'next/image';
 
 interface NavbarProps {
-  onLoginClick: () => void;
+  onLoginClick?: () => void;
   onSignUpClick?: () => void;
 }
 
@@ -17,15 +17,48 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
   
-  // Check if we're on a note detail page
+  // Check if we're on the homepage
+  const isHomepage = pathname === '/';
   const isNoteDetailPage = pathname?.startsWith('/notes/');
+  
+  const handleBack = () => {
+    if (isNoteDetailPage) {
+      router.push('/');
+    } else {
+      router.back();
+    }
+  };
+  
+  const handleLoginClick = () => {
+    if (onLoginClick) {
+      onLoginClick();
+    } else if (pathname === '/') {
+      // If we're on the homepage, we're expecting the auth modal to be there
+      // Just trigger a custom event that the homepage can listen for
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('open-auth-modal', { detail: { mode: 'login' } }));
+      }
+    } else {
+      // If we're not on the homepage, navigate to the homepage with a query param
+      router.push('/?auth=login');
+    }
+  };
   
   const handleSignUpClick = () => {
     if (onSignUpClick) {
       onSignUpClick();
-    } else {
+    } else if (onLoginClick) {
       onLoginClick();
+    } else if (pathname === '/') {
+      // If we're on the homepage, we're expecting the auth modal to be there
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('open-auth-modal', { detail: { mode: 'signup' } }));
+      }
+    } else {
+      // If we're not on the homepage, navigate to the homepage with a query param
+      router.push('/?auth=signup');
     }
   };
 
@@ -48,35 +81,52 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isSearchOpen]);
 
+  // Listen for auth modal events when on homepage
+  useEffect(() => {
+    if (pathname === '/' && typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const authParam = urlParams.get('auth');
+      
+      if (authParam === 'login' || authParam === 'signup') {
+        window.dispatchEvent(new CustomEvent('open-auth-modal', { 
+          detail: { mode: authParam } 
+        }));
+        
+        // Clean up the URL
+        const newUrl = `${window.location.pathname}${window.location.search.replace(/[?&]auth=\w+/, '')}`;
+        window.history.replaceState({}, '', newUrl);
+      }
+    }
+  }, [pathname]);
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-ghost-purple/20 bg-ghost-dark/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 sm:h-16 items-center justify-between px-4 sm:px-6 gap-4">
-        {/* Logo with Back Button on Note Detail Pages */}
+        {/* Logo or Back Button based on current page */}
         <div className={`flex items-center transition-all duration-300 ${isSearchOpen ? 'md:flex w-0 md:w-auto opacity-0 md:opacity-100' : 'w-auto opacity-100'}`}>
-          {isNoteDetailPage && (
+          {isHomepage ? (
+            <Link href="/" className="flex items-center gap-2 group">
+              <Image 
+                src="/logo.svg" 
+                alt="GhostNote Logo" 
+                width={28} 
+                height={28} 
+                className="h-7 w-7 transition-transform duration-300 group-hover:scale-110"
+              />
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent transition-opacity duration-300 group-hover:opacity-80">
+                GhostNote
+              </h1>
+            </Link>
+          ) : (
             <Button 
-              asChild 
+              onClick={handleBack}
               variant="ghost" 
-              size="icon" 
-              className="mr-2 text-gray-300 hover:text-ghost-neon"
+              className="flex items-center text-gray-300 hover:text-ghost-neon gap-1 px-2"
             >
-              <Link href="/">
-                <ArrowLeft className="h-5 w-5" />
-              </Link>
+              <ChevronLeft className="h-5 w-5" />
+              <span className="font-medium">Back</span>
             </Button>
           )}
-          <Link href="/" className="flex items-center gap-2 group">
-            <Image 
-              src="/logo.svg" 
-              alt="GhostNote Logo" 
-              width={28} 
-              height={28} 
-              className="h-7 w-7 transition-transform duration-300 group-hover:scale-110"
-            />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent transition-opacity duration-300 group-hover:opacity-80">
-              GhostNote
-            </h1>
-          </Link>
         </div>
 
         {/* Search Bar (Desktop) */}
@@ -97,7 +147,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
             variant="ghost" 
             size="sm" 
             className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/20 focus:outline-none focus:ring-0 text-sm"
-            onClick={onLoginClick}
+            onClick={handleLoginClick}
           >
             Login
           </Button>
@@ -151,7 +201,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={onLoginClick}
+                onClick={handleLoginClick}
                 className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0 h-12 w-12"
               >
                 <User className="h-6 w-6" />
