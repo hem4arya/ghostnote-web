@@ -128,8 +128,8 @@ const CreateNoteForm = () => {
         <button
           onClick={() => setFocusMode(!focusMode)}
           className={focusMode 
-            ? "fixed top-4 right-4 p-3 rounded-full bg-ghost-dark/90 border border-ghost-gray/30 text-gray-400 hover:text-ghost-neon hover:border-ghost-purple/40 transition-all duration-200 z-50 focus:outline-none shadow-lg backdrop-blur-sm"
-            : "absolute top-4 right-4 p-2 rounded-full bg-ghost-dark/80 border border-ghost-gray/30 text-gray-400 hover:text-ghost-neon hover:border-ghost-purple/40 transition-all duration-200 z-10 focus:outline-none shadow-md"
+            ? "fixed top-4 right-4 p-3 rounded-full bg-ghost-dark/90 border border-ghost-purple/40 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/60 transition-all duration-200 z-50 focus:outline-none shadow-lg backdrop-blur-sm"
+            : "absolute top-4 right-4 p-2 rounded-full bg-ghost-dark/80 border border-ghost-purple/30 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/50 transition-all duration-200 z-10 focus:outline-none shadow-md"
           }
           aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
           title={focusMode ? "Exit focus mode" : "Enter focus mode"}
