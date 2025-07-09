@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, Image as ImageIcon, RotateCcw, RotateCw, Save, FileText, Eye, ArrowLeft, HelpCircle, X } from "lucide-react";
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, Save, FileText, Eye, ArrowLeft, HelpCircle, X } from "lucide-react";
 
 const CreateNoteForm = () => {
   const router = useRouter();
@@ -51,7 +51,8 @@ const CreateNoteForm = () => {
     }
   };
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Commented out as image upload functionality is disabled
+  // const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
     const plainText = e.currentTarget.textContent || "";
@@ -71,6 +72,7 @@ const CreateNoteForm = () => {
     editorRef.current?.focus();
   };
 
+  /* Disabled image upload functionality as it's not working
   const insertImage = () => {
     // Trigger the hidden file input
     fileInputRef.current?.click();
@@ -159,6 +161,7 @@ const CreateNoteForm = () => {
     };
     tempImg.src = imageUrl;
   };
+  */
   
   // Add selection change event to monitor formatting
   useEffect(() => {
@@ -260,12 +263,35 @@ const CreateNoteForm = () => {
           
           // Initialize text wrap state using data attribute
           if (!img.hasAttribute('data-text-wrap')) {
+            // Default to true (text wraps around image)
             img.setAttribute('data-text-wrap', 'true');
             img.style.float = 'left';
             img.style.margin = '0 1rem 1rem 0';
             img.style.maxWidth = '50%';
             img.style.position = 'relative';
             img.style.zIndex = '1';
+          } else {
+            // Apply existing wrap setting
+            const shouldWrap = img.getAttribute('data-text-wrap') === 'true';
+            if (shouldWrap) {
+              img.style.float = 'left';
+              img.style.margin = '0 1rem 1rem 0';
+              img.style.position = 'relative';
+              img.style.zIndex = '1';
+              img.style.maxWidth = '50%';
+            } else {
+              img.style.float = 'none';
+              img.style.margin = '0';
+              img.style.position = 'absolute';
+              img.style.zIndex = '10';
+              img.style.maxWidth = '80%';
+              
+              // Ensure image has position coordinates
+              if (!img.style.left && !img.style.top) {
+                img.style.left = '0px';
+                img.style.top = '0px';
+              }
+            }
           }
         }
       });
@@ -326,10 +352,6 @@ const CreateNoteForm = () => {
         images.forEach(img => {
           img.classList.remove('selected-for-resize');
           img.classList.remove('dragging');
-          
-          // Remove any existing mode controls
-          const controls = document.querySelectorAll('.image-mode-controls');
-          controls.forEach(control => control.remove());
         });
         setSelectedImage(null);
         setActiveMode(null);
@@ -339,243 +361,15 @@ const CreateNoteForm = () => {
       
       const img = e.target as HTMLImageElement;
       
-      // First remove classes from all images and controls
+      // First remove classes from all images
       images.forEach(i => {
         i.classList.remove('selected-for-resize');
         i.classList.remove('dragging');
       });
       
-      // Remove any existing mode controls
-      const existingControls = document.querySelectorAll('.image-mode-controls');
-      existingControls.forEach(control => control.remove());
-      
       // Add selected class to current image
       img.classList.add('selected-for-resize');
       setSelectedImage(img);
-      
-      // Create and add mode selection controls
-      const controls = document.createElement('div');
-      controls.className = 'image-mode-controls';
-      controls.innerHTML = `
-        <div class="controls-wrapper">
-          <div class="mode-buttons">
-            <button class="mode-button move-mode" title="Move mode">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="5 9 2 12 5 15"></polyline>
-                <polyline points="9 5 12 2 15 5"></polyline>
-                <polyline points="15 19 12 22 9 19"></polyline>
-                <polyline points="19 9 22 12 19 15"></polyline>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <line x1="12" y1="2" x2="12" y2="22"></line>
-              </svg>
-            </button>
-            <button class="mode-button resize-mode" title="Resize mode">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 3h6v6"></path>
-                <path d="M9 21H3v-6"></path>
-                <path d="M21 3l-7 7"></path>
-                <path d="M3 21l7-7"></path>
-              </svg>
-            </button>
-            <button class="mode-button wrap-mode ${imageTextWrap ? 'active' : ''}" title="${imageTextWrap ? 'Text wraps around image' : 'Image overlaps text'}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 6h18"></path>
-                <path d="M3 12h18"></path>
-                <path d="M3 18h18"></path>
-                <rect x="15" y="10" width="6" height="4" rx="1"></rect>
-              </svg>
-            </button>
-            <button class="mode-button opacity-mode" title="Adjust opacity">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 2a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 1 0 9 10 10 0 0 1 0-20z"></path>
-              </svg>
-            </button>
-            <button class="mode-button delete-mode" title="Delete image">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 6h18"></path>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                <line x1="10" y1="11" x2="10" y2="17"></line>
-                <line x1="14" y1="11" x2="14" y2="17"></line>
-              </svg>
-            </button>
-          </div>
-          <div class="control-divider"></div>
-          <div class="image-settings opacity-settings" style="display: none;">
-            <div class="setting-item">
-              <label class="setting-label">Opacity</label>
-              <div class="opacity-control">
-                <input type="range" class="opacity-slider" min="10" max="100" value="${imageOpacity}" title="Image opacity">
-                <span class="opacity-value">${imageOpacity}%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      // Position the controls near the image
-      const imgRect = img.getBoundingClientRect();
-      const editorRect = editor.getBoundingClientRect();
-      const scrollLeft = editor.scrollLeft || 0;
-      const scrollTop = editor.scrollTop || 0;
-      
-      controls.style.position = 'absolute';
-      
-      // Calculate position relative to editor with scroll offset
-      // Position at the top of the selected image (not the editor)
-      const editorPadding = 10;
-      let topPos = imgRect.top - editorRect.top + scrollTop - 50; // 50px above the image
-      
-      // Ensure it doesn't go above the editor's top boundary
-      topPos = Math.max(editorPadding, topPos);
-      
-      // Center horizontally relative to the image
-      let leftPos = imgRect.left - editorRect.left + scrollLeft + (imgRect.width / 2) - 90;
-      
-      // Ensure controls don't go outside editor bounds with better constraints
-      const controlsWidth = 210; // Width for all buttons including delete
-      
-      // Constrain horizontal position
-      if (leftPos < editorPadding) {
-        leftPos = editorPadding;
-      } else if (leftPos + controlsWidth > editorRect.width - editorPadding) {
-        leftPos = editorRect.width - controlsWidth - editorPadding;
-      }
-      
-      controls.style.top = `${topPos}px`;
-      controls.style.left = `${leftPos}px`;
-      controls.style.zIndex = '100';
-      controls.style.maxWidth = '100%';
-      controls.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)';
-      
-      // Add to editor
-      editor.appendChild(controls);
-      
-      // Add event listeners to the mode buttons
-      const moveBtn = controls.querySelector('.move-mode') as HTMLButtonElement;
-      const resizeBtn = controls.querySelector('.resize-mode') as HTMLButtonElement;
-      const wrapBtn = controls.querySelector('.wrap-mode') as HTMLButtonElement;
-      const opacityBtn = controls.querySelector('.opacity-mode') as HTMLButtonElement;
-      const deleteBtn = controls.querySelector('.delete-mode') as HTMLButtonElement;
-      const opacitySettings = controls.querySelector('.opacity-settings') as HTMLDivElement;
-      const opacitySlider = controls.querySelector('.opacity-slider') as HTMLInputElement;
-      
-      if (moveBtn && resizeBtn) {
-        moveBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          setActiveMode('move');
-          updateModeUI(img, 'move');
-          if (!hasSeenHelp) {
-            setShowResizeHelp(true);
-          }
-        });
-        
-        resizeBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          setActiveMode('resize');
-          updateModeUI(img, 'resize');
-          if (!hasSeenHelp) {
-            setShowResizeHelp(true);
-          }
-        });
-      }
-      
-      // Handle text wrap button
-      if (wrapBtn) {
-        wrapBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const newWrapValue = !imageTextWrap;
-          setImageTextWrap(newWrapValue);
-          
-          // Store current position values before changing wrap mode
-          const currentLeft = parseInt(img.style.left) || 0;
-          const currentTop = parseInt(img.style.top) || 0;
-          
-          // Update image CSS and data attribute based on text wrap setting
-          img.setAttribute('data-text-wrap', newWrapValue.toString());
-          
-          if (newWrapValue) {
-            // Text wraps around image - use float layout
-            img.style.float = 'left';
-            img.style.margin = '0 1rem 1rem 0';
-            img.style.position = 'relative';
-            img.style.zIndex = '1';
-            img.style.maxWidth = '50%';
-            
-            // Keep the current position if it was set
-            if (currentLeft !== 0 || currentTop !== 0) {
-              img.style.left = `${currentLeft}px`;
-              img.style.top = `${currentTop}px`;
-            }
-          } else {
-            // Image overlaps text - use absolute positioning
-            img.style.float = 'none';
-            img.style.margin = '0';
-            img.style.position = 'absolute';
-            img.style.zIndex = '10';
-            img.style.maxWidth = '80%';
-            
-            // Keep the current position if it was set
-            if (currentLeft !== 0 || currentTop !== 0) {
-              img.style.left = `${currentLeft}px`;
-              img.style.top = `${currentTop}px`;
-            } else {
-              img.style.left = '0px';
-              img.style.top = '0px';
-            }
-          }
-          
-          // Update button appearance
-          wrapBtn.classList.toggle('active', newWrapValue);
-          wrapBtn.title = newWrapValue ? 'Text wraps around image' : 'Image overlaps text';
-        });
-      }
-      
-      // Handle opacity button
-      if (opacityBtn && opacitySettings) {
-        opacityBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          // Toggle opacity settings visibility
-          const isVisible = opacitySettings.style.display === 'block';
-          opacitySettings.style.display = isVisible ? 'none' : 'block';
-          opacityBtn.classList.toggle('active', !isVisible);
-        });
-      }
-      
-      // Handle delete button
-      if (deleteBtn) {
-        deleteBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (confirm('Are you sure you want to delete this image?')) {
-            img.remove();
-            setSelectedImage(null);
-            setActiveMode(null);
-            
-            // Remove the controls
-            const controls = document.querySelectorAll('.image-mode-controls');
-            controls.forEach(control => control.remove());
-          }
-        });
-      }
-      
-      // Handle opacity slider
-      if (opacitySlider) {
-        opacitySlider.addEventListener('input', (e) => {
-          e.stopPropagation();
-          const opacityValue = parseInt((e.target as HTMLInputElement).value);
-          setImageOpacity(opacityValue);
-          
-          // Update image opacity
-          img.style.opacity = (opacityValue / 100).toString();
-          
-          // Update opacity display
-          const opacityDisplay = controls.querySelector('.opacity-value');
-          if (opacityDisplay) {
-            opacityDisplay.textContent = `${opacityValue}%`;
-          }
-        });
-      }
     };
     
     // Mouse-based resizing and repositioning handlers
@@ -674,46 +468,6 @@ const CreateNoteForm = () => {
       }
     };
     
-    // Helper function to update UI based on active mode
-    const updateModeUI = (img: HTMLImageElement, mode: 'move' | 'resize' | null) => {
-      if (!img) return;
-      
-      // Update classes based on mode
-      if (mode === 'move') {
-        img.classList.add('dragging');
-        img.classList.remove('resizing');
-      } else if (mode === 'resize') {
-        img.classList.remove('dragging');
-        img.classList.add('selected-for-resize');
-      } else {
-        // No mode selected
-        img.classList.remove('dragging');
-        img.classList.remove('resizing');
-      }
-      
-      // Update controls if they exist
-      const controls = editor.querySelector('.image-mode-controls');
-      if (controls) {
-        const moveBtn = controls.querySelector('.move-mode') as HTMLButtonElement;
-        const resizeBtn = controls.querySelector('.resize-mode') as HTMLButtonElement;
-        const opacitySettings = controls.querySelector('.opacity-settings') as HTMLDivElement;
-        
-        if (moveBtn && resizeBtn) {
-          moveBtn.classList.toggle('active', mode === 'move');
-          resizeBtn.classList.toggle('active', mode === 'resize');
-          
-          // Hide opacity settings when changing modes
-          if (opacitySettings) {
-            opacitySettings.style.display = 'none';
-            const opacityBtn = controls.querySelector('.opacity-mode') as HTMLButtonElement;
-            if (opacityBtn) {
-              opacityBtn.classList.remove('active');
-            }
-          }
-        }
-      }
-    };
-    
     // Keyboard-based interaction handler
     const handleKeyDown = (e: KeyboardEvent) => {
       const selectedImg = editor.querySelector('img.selected-for-resize') as HTMLImageElement;
@@ -730,10 +484,6 @@ const CreateNoteForm = () => {
           selectedImg.remove();
           setSelectedImage(null);
           setActiveMode(null);
-          
-          // Remove the controls
-          const controls = document.querySelectorAll('.image-mode-controls');
-          controls.forEach(control => control.remove());
         }
         return;
       }
@@ -744,12 +494,14 @@ const CreateNoteForm = () => {
           case 'm': // Ctrl+M for move mode
             e.preventDefault();
             setActiveMode('move');
-            updateModeUI(selectedImg, 'move');
+            selectedImg.classList.add('dragging');
+            selectedImg.classList.remove('resizing');
             return;
           case 'r': // Ctrl+R for resize mode
             e.preventDefault();
             setActiveMode('resize');
-            updateModeUI(selectedImg, 'resize');
+            selectedImg.classList.remove('dragging');
+            selectedImg.classList.add('selected-for-resize');
             return;
           case 'w': // Ctrl+W for toggling text wrap
             e.preventDefault();
@@ -792,13 +544,6 @@ const CreateNoteForm = () => {
                 selectedImg.style.left = '0px';
                 selectedImg.style.top = '0px';
               }
-            }
-            
-            // Update button appearance in the UI
-            const wrapBtn = editor.querySelector('.wrap-mode') as HTMLButtonElement;
-            if (wrapBtn) {
-              wrapBtn.classList.toggle('active', newWrapValue);
-              wrapBtn.title = newWrapValue ? 'Text wraps around image' : 'Image overlaps text';
             }
             return;
         }
@@ -914,6 +659,17 @@ const CreateNoteForm = () => {
         overflow: hidden !important;
         word-wrap: break-word !important;
       }
+      
+      /* Animation for flashing effect */
+      @keyframes flash {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      
+      /* Class to apply the flashing animation */
+      .animate-flash {
+        animation: flash 0.6s ease-in-out;
+      }
     `;
     document.head.appendChild(styleElement);
 
@@ -1019,6 +775,50 @@ const CreateNoteForm = () => {
   useEffect(() => {
     localStorage.setItem('ghostnote-help-seen', hasSeenHelp ? 'true' : 'false');
   }, [hasSeenHelp]);
+  
+  // Apply text wrap and opacity to selected image when they change
+  useEffect(() => {
+    if (selectedImage) {
+      // Apply text wrap
+      if (imageTextWrap) {
+        // Text wraps around image - use float layout
+        selectedImage.style.float = 'left';
+        selectedImage.style.margin = '0 1rem 1rem 0';
+        selectedImage.style.position = 'relative';
+        selectedImage.style.zIndex = '1';
+        selectedImage.style.maxWidth = '50%';
+      } else {
+        // Image overlaps text - use absolute positioning
+        selectedImage.style.float = 'none';
+        selectedImage.style.margin = '0';
+        selectedImage.style.position = 'absolute';
+        selectedImage.style.zIndex = '10';
+        selectedImage.style.maxWidth = '80%';
+        
+        // Ensure image has position coordinates if not already set
+        if (!selectedImage.style.left && !selectedImage.style.top) {
+          selectedImage.style.left = '0px';
+          selectedImage.style.top = '0px';
+        }
+      }
+      
+      // Apply opacity
+      selectedImage.style.opacity = (imageOpacity / 100).toString();
+    }
+  }, [selectedImage, imageTextWrap, imageOpacity]);
+
+  // Flash the image toolbox when an image is selected to draw attention to it
+  useEffect(() => {
+    if (selectedImage) {
+      const imageToolbox = document.querySelector('.image-toolbox');
+      if (imageToolbox) {
+        imageToolbox.classList.add('animate-flash');
+        setTimeout(() => {
+          imageToolbox.classList.remove('animate-flash');
+        }, 600);
+      }
+    }
+  }, [selectedImage]);
 
   return (
     <div className="min-h-screen bg-ghost-black text-white">
@@ -1130,7 +930,8 @@ const CreateNoteForm = () => {
                 </button>
               </div>
               <div className="h-5 w-px bg-ghost-gray/50" />
-              {/* Media & Actions */}
+              {/* Media & Actions - Hidden as it's not working */}
+              {/* Hidden image upload functionality
               <div className="flex items-center gap-0.5 relative group">
                 <button onClick={insertImage} className="p-1.5 rounded-md hover:bg-ghost-purple/20 hover:text-ghost-neon focus:outline-none text-gray-300 relative">
                   <ImageIcon className="h-4 w-4" />
@@ -1138,30 +939,144 @@ const CreateNoteForm = () => {
                     Upload an image
                   </span>
                 </button>
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  onChange={handleImageUpload} 
-                  accept="image/*" 
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageUpload}
                   className="hidden"
+                  accept="image/*"
                 />
-                <button onClick={() => executeCommand("undo")} className="p-1.5 rounded-md hover:bg-ghost-purple/20 hover:text-ghost-neon focus:outline-none text-gray-300">
-                  <RotateCcw className="h-4 w-4" />
-                </button>
-                <button onClick={() => executeCommand("redo")} className="p-1.5 rounded-md hover:bg-ghost-purple/20 hover:text-ghost-neon focus:outline-none text-gray-300">
-                  <RotateCw className="h-4 w-4" />
-                </button>
-                <button 
-                  onClick={() => {
-                    setShowResizeHelp(true);
-                    setManualHelp(true);
-                  }} 
-                  className="p-1.5 rounded-md hover:bg-ghost-purple/20 focus:outline-none text-gray-300"
-                  aria-label="Toggle resize help"
-                >
-                  <HelpCircle className="h-4 w-4" />
-                </button>
               </div>
+              */}
+              
+              {/* Image Toolbox - only shown when an image is selected */}
+              {selectedImage && (
+                <>
+                  <div className="h-5 w-px bg-ghost-gray/50" />
+                  <div className="flex items-center gap-0.5 border border-white/10 rounded-md px-1.5 py-0.5 bg-ghost-dark/80 shadow-sm image-toolbox">
+                    <span className="text-xs text-ghost-neon/70 mr-1 font-medium">Image</span>
+                    {/* Image Text Wrap Toggle */}
+                    <button 
+                      onClick={() => {
+                        const newWrapValue = !imageTextWrap;
+                        setImageTextWrap(newWrapValue);
+                        
+                        // Update image CSS immediately for better feedback
+                        if (selectedImage) {
+                          if (newWrapValue) {
+                            // Text wraps around image - use float layout
+                            selectedImage.style.float = 'left';
+                            selectedImage.style.margin = '0 1rem 1rem 0';
+                            selectedImage.style.position = 'relative';
+                            selectedImage.style.zIndex = '1';
+                            selectedImage.style.maxWidth = '50%';
+                          } else {
+                            // Image overlaps text - use absolute positioning
+                            selectedImage.style.float = 'none';
+                            selectedImage.style.margin = '0';
+                            selectedImage.style.position = 'absolute';
+                            selectedImage.style.zIndex = '10';
+                            selectedImage.style.maxWidth = '80%';
+                            
+                            // Ensure image has position coordinates if not already set
+                            if (!selectedImage.style.left && !selectedImage.style.top) {
+                              selectedImage.style.left = '0px';
+                              selectedImage.style.top = '0px';
+                            }
+                          }
+                        }
+                      }} 
+                      className={`p-1.5 rounded-md hover:bg-ghost-purple/20 flex items-center focus:outline-none ${imageTextWrap ? 'text-ghost-neon bg-ghost-purple/20' : 'text-gray-300'}`}
+                      title={imageTextWrap ? "Image with text wrap" : "Image without text wrap"}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                        <path d={imageTextWrap ? "M3 6h18M3 12h18M3 18h12" : "M3 6h18M9 12h12M3 12h3M3 18h18"}></path>
+                      </svg>
+                    </button>
+                    
+                    {/* Opacity Control */}
+                    <div className="flex items-center gap-1 px-2">
+                      <span className="text-xs text-gray-300">Opacity</span>
+                      <input 
+                        type="range" 
+                        min="10" 
+                        max="100" 
+                        value={imageOpacity} 
+                        onChange={(e) => {
+                          const newOpacity = parseInt(e.target.value);
+                          setImageOpacity(newOpacity);
+                          if (selectedImage) {
+                            selectedImage.style.opacity = (newOpacity / 100).toString();
+                          }
+                        }}
+                        className="w-16 h-1.5 appearance-none bg-ghost-gray/50 rounded-full outline-none" 
+                      />
+                    </div>
+                    
+                    {/* Image Mode Selection */}
+                    <div className="flex items-center gap-0.5">
+                      <button 
+                        onClick={() => {
+                          setActiveMode('move');
+                          if (selectedImage) {
+                            selectedImage.classList.add('dragging');
+                            selectedImage.classList.remove('resizing');
+                          }
+                        }}
+                        className={`p-1.5 rounded-md hover:bg-ghost-purple/20 flex items-center focus:outline-none ${activeMode === 'move' ? 'text-ghost-neon bg-ghost-purple/20' : 'text-gray-300'}`}
+                        title="Move image"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                          <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l3-3 3 3M19 9l3 3-3 3M2 12h20M12 2v20"></path>
+                        </svg>
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setActiveMode('resize');
+                          if (selectedImage) {
+                            selectedImage.classList.remove('dragging');
+                            selectedImage.classList.add('selected-for-resize');
+                          }
+                        }}
+                        className={`p-1.5 rounded-md hover:bg-ghost-purple/20 flex items-center focus:outline-none ${activeMode === 'resize' ? 'text-ghost-neon bg-ghost-purple/20' : 'text-gray-300'}`}
+                        title="Resize image"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                          <path d="M15 3h6v6M14 10l6.1-6.1M9 21H3v-6M10 14l-6.1 6.1"></path>
+                        </svg>
+                      </button>
+                      
+                      {/* Help Icon moved inside the image toolbox */}
+                      <button 
+                        onClick={() => {
+                          setShowResizeHelp(true);
+                          setManualHelp(true);
+                        }} 
+                        className="p-1.5 rounded-md hover:bg-ghost-purple/20 focus:outline-none text-gray-300"
+                        aria-label="Toggle resize help"
+                      >
+                        <HelpCircle className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+              
+              {/* Only show help button when no image is selected */}
+              {!selectedImage && (
+                <div className="flex items-center gap-0.5">
+                  <button 
+                    onClick={() => {
+                      setShowResizeHelp(true);
+                      setManualHelp(true);
+                    }} 
+                    className="p-1.5 rounded-md hover:bg-ghost-purple/20 focus:outline-none text-gray-300"
+                    aria-label="Toggle resize help"
+                  >
+                    <HelpCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
             
             {/* Word & Character Count */}
