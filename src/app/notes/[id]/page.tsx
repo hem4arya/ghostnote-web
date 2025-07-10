@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles } from 'lucide-react';
+import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { sampleNotes } from '@/data/sampleNotes';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Note } from '@/components/NoteCard';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 // Types
 type NoteDetailPageProps = {
@@ -20,6 +22,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   const [isPurchased, setIsPurchased] = useState(false);
   const [note, setNote] = useState<Note | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   // In a real app, you would fetch the note from an API
   // For now, we'll simulate it using the sampleNotes
@@ -41,8 +44,20 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   }, [params.id]);
 
   const handlePurchase = () => {
+    // Show a loading toast
+    toast.loading('Processing purchase...', {
+      duration: 1500,
+    });
+    
     // In a real app, this would trigger a payment flow
-    setIsPurchased(true);
+    setTimeout(() => {
+      setIsPurchased(true);
+      toast.success(`Successfully purchased "${note?.title}"!`);
+    }, 1500);
+  };
+  
+  const handleReadNow = () => {
+    router.push(`/reader/${params.id}`);
   };
 
   if (isLoading) {
@@ -140,9 +155,16 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
                   
                   <div className="p-6">
                     {isPurchased ? (
-                      <div className="text-center py-4">
+                      <div className="text-center py-4 space-y-4">
                         <h3 className="text-xl font-bold text-ghost-neon mb-2">Purchased!</h3>
                         <p className="text-gray-400">You have full access to this note.</p>
+                        <Button 
+                          onClick={handleReadNow} 
+                          className="w-full bg-gradient-to-r from-ghost-purple to-ghost-neon text-white font-bold text-lg py-6 rounded-lg shadow-[0_0_20px_rgba(127,90,240,0.5)] hover:shadow-[0_0_30px_rgba(127,90,240,0.7)] transition-all duration-300 transform hover:scale-105"
+                        >
+                          <BookOpen className="mr-3 h-6 w-6" />
+                          Read Now
+                        </Button>
                       </div>
                     ) : (
                       <>

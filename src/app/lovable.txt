@@ -1,278 +1,446 @@
-src/components/PrivateAccountSetup.tsx{
-  import { useState } from "react";
-import { Copy, Eye, EyeOff, AlertTriangle } from "lucide-react";
+The Reader View page I created has a sophisticated, clean design optimized for distraction-free reading:
+
+Header Section
+Fixed navigation bar at the top with a subtle backdrop blur effect and cyber-themed border
+GhostNote logo on the left with a beautiful gradient text effect (primary → secondary → accent colors) that's clickable to return home
+"Exit Reader" button on the right with an arrow icon for easy navigation back
+Note Metadata Area
+Large title in gradient text matching the brand colors for premium feel
+Author information showing "@sarahchen_dev" handle in a clean, readable format
+Purchase timestamp with proper date formatting
+Audio intro section (when available) with a play/pause button and descriptive text about the author's introduction
+Main PDF Viewer
+Full-width card container with elegant borders and subtle shadows
+Secure PDF viewer area (currently mocked as a placeholder) designed to prevent downloads/copying
+Dynamic watermark positioned at bottom-right showing buyer handle and purchase date with translucent background
+Placeholder content includes a document icon, description text, and a badge showing the note title
+Action Button Grid
+Four responsive buttons in a 2x4 grid (mobile) or 1x4 (desktop):
+
+Favorite button with heart icon that changes color when favorited (red fill when active)
+Share button for sharing note metadata (not full content)
+Author profile button for viewing creator details
+Report button with warning styling (red text/border) for reporting clones
+Reading Progress Section
+Progress card showing reading statistics
+Animated progress bar that tracks scroll position in real-time
+Reading metrics including highlight count and estimated reading time
+Visual Enhancements
+Scroll progress indicator - a thin bar at the very bottom of the screen that fills with a gradient as you scroll
+Responsive design that adapts beautifully to mobile and desktop
+Dark mode optimized with proper contrast and semantic color tokens
+Consistent spacing and typography hierarchy throughout
+Smooth transitions and hover effects on interactive elements
+The overall aesthetic is premium, minimalist, and focused entirely on the reading experience while providing essential functionality without clutter.
+
+
+
+
+
+src/pages/ReaderView.tsx{
+  import { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Heart, Share2, User, Flag, Volume2, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
-interface PrivateAccountSetupProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+// Mock purchased note data
+const purchasedNote = {
+  id: "1",
+  title: "Advanced React Patterns & Performance Optimization",
+  author: "Sarah Chen",
+  authorHandle: "@sarahchen_dev",
+  purchaseDate: "2024-01-15",
+  buyerHandle: "@ghost_8xk92",
+  pdfUrl: "/sample-note.pdf", // In real app, this would be a secure URL
+  hasAudioIntro: true,
+  audioUrl: "/intro-audio.mp3",
+  isFavorited: false,
+  highlights: [] as Array<{ id: string; text: string; page: number; position: number }>
+};
 
-const PrivateAccountSetup = ({ open, onOpenChange }: PrivateAccountSetupProps) => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { toast } = useToast();
+const ReaderView = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isFavorited, setIsFavorited] = useState(purchasedNote.isFavorited);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
-  // Generate a random username
-  const generateUsername = () => {
-    const prefixes = ["ghost", "phantom", "shadow", "cipher", "void", "echo"];
-    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const randomSuffix = Math.random().toString(36).substring(2, 8);
-    return `${randomPrefix}_${randomSuffix}`;
+  // Mock scroll progress tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setScrollProgress(Math.min(100, Math.max(0, progress)));
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleFavorite = () => {
+    setIsFavorited(!isFavorited);
+    toast(isFavorited ? "Removed from favorites" : "Added to favorites");
   };
 
-  const [generatedUsername] = useState(generateUsername());
-
-  const copyUsername = () => {
-    navigator.clipboard.writeText(generatedUsername);
-    toast({
-      title: "Username copied",
-      description: "Your username has been copied to clipboard.",
-    });
+  const handleShare = () => {
+    navigator.clipboard.writeText(`Check out "${purchasedNote.title}" by ${purchasedNote.author} on GhostNote`);
+    toast("Note metadata copied to clipboard");
   };
 
-  const handleCreateAccount = () => {
-    if (!password) {
-      toast({
-        title: "Password required",
-        description: "Please enter a password to create your account.",
-        variant: "destructive",
-      });
-      return;
-    }
+  const handleReportClone = () => {
+    toast("Report submitted. We'll investigate and notify the author.");
+  };
 
-    if (password !== confirmPassword) {
-      toast({
-        title: "Passwords don't match",
-        description: "Please make sure both password fields match.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (password.length < 8) {
-      toast({
-        title: "Password too short",
-        description: "Password must be at least 8 characters long.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Here you would typically call your authentication service
-    toast({
-      title: "Account created successfully",
-      description: "Welcome to your private vault!",
-    });
-    
-    onOpenChange(false);
+  const handlePlayAudio = () => {
+    setIsAudioPlaying(!isAudioPlaying);
+    // In real app, this would control audio playback
+    toast(isAudioPlaying ? "Audio paused" : "Playing intro audio");
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-gradient-to-br from-card to-card/90 border-primary/20">
-        <DialogHeader className="text-center">
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            Enter Your Private Vault
-          </DialogTitle>
-          <p className="text-muted-foreground mt-2">
-            Create your anonymous account - secure, private, no traces.
-          </p>
-        </DialogHeader>
-
-        <div className="space-y-6 pt-4">
-          {/* Generated Username */}
-          <div className="space-y-2">
-            <Label htmlFor="username" className="text-sm font-medium text-foreground">
-              Your Anonymous Identity
-            </Label>
-            <div className="flex items-center space-x-2">
-              <Input
-                id="username"
-                value={generatedUsername}
-                readOnly
-                className="bg-muted/30 border-border/50 text-foreground font-mono"
-              />
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={copyUsername}
-                className="border-primary/30 hover:bg-primary/10"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Password */}
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium text-foreground">
-              Vault Password
-            </Label>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter a strong password"
-                className="pr-10 bg-input/50 border-border/50"
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="h-4 w-4 text-muted-foreground" />
-                )}
-              </Button>
-            </div>
-          </div>
-
-          {/* Confirm Password */}
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword" className="text-sm font-medium text-foreground">
-              Confirm Password
-            </Label>
-            <div className="relative">
-              <Input
-                id="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm your password"
-                className="pr-10 bg-input/50 border-border/50"
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="h-4 w-4 text-muted-foreground" />
-                )}
-              </Button>
-            </div>
-          </div>
-
-          {/* Warning Box */}
-          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-            <div className="flex items-start space-x-3">
-              <AlertTriangle className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-destructive">
-                  ⚠️ This is a private account
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  If you forget your password, your account and notes will be permanently deleted after 60 days of inactivity. No recovery options available.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Create Account Button */}
-          <Button
-            onClick={handleCreateAccount}
-            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 text-lg py-6 font-medium"
-          >
-            Create Private Account
-          </Button>
-
-          {/* Convert to Permanent Account */}
-          <div className="text-center">
-            <button
-              disabled
-              className="text-sm text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors cursor-not-allowed"
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Header */}
+      <div className="sticky top-0 z-50 w-full border-b cyber-border bg-background/95 backdrop-blur-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link 
+              to="/" 
+              className="text-xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity"
             >
-              Convert to Permanent Account (Coming Soon)
-            </button>
+              GhostNote
+            </Link>
+            
+            <Button 
+              variant="outline" 
+              onClick={() => navigate(-1)}
+              className="gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Exit Reader
+            </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+
+      {/* Note Metadata */}
+      <div className="container mx-auto px-6 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="space-y-4 mb-8">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
+              {purchasedNote.title}
+            </h1>
+            
+            <div className="flex items-center gap-4 text-muted-foreground">
+              <span>by <span className="text-foreground font-medium">{purchasedNote.authorHandle}</span></span>
+              <Separator orientation="vertical" className="h-4" />
+              <span>Purchased on {new Date(purchasedNote.purchaseDate).toLocaleDateString()}</span>
+            </div>
+
+            {purchasedNote.hasAudioIntro && (
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handlePlayAudio}
+                  className="gap-2"
+                >
+                  <Volume2 className="h-4 w-4" />
+                  {isAudioPlaying ? "Pause" : "Play"} Intro
+                </Button>
+                <span className="text-sm text-muted-foreground">Author's introduction audio</span>
+              </div>
+            )}
+          </div>
+
+          {/* PDF Viewer */}
+          <Card className="note-card mb-8">
+            <div className="relative">
+              {/* Watermark */}
+              <div className="absolute bottom-4 right-4 z-10 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-md text-xs text-muted-foreground border border-border/50">
+                {purchasedNote.buyerHandle} • {new Date(purchasedNote.purchaseDate).toLocaleDateString()}
+              </div>
+              
+              {/* PDF Iframe - In real app, use react-pdf with restrictions */}
+              <div className="w-full h-[800px] bg-muted/20 rounded-lg border border-border/50 flex items-center justify-center">
+                <div className="text-center space-y-4">
+                  <div className="text-6xl">📄</div>
+                  <div className="text-lg font-medium">PDF Viewer</div>
+                  <div className="text-sm text-muted-foreground max-w-md">
+                    In a real implementation, this would be a secure PDF viewer using react-pdf 
+                    with download, print, and copy protections enabled.
+                  </div>
+                  <Badge variant="secondary" className="bg-primary/20 text-primary">
+                    Viewing: {purchasedNote.title}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <Button
+              variant="outline"
+              onClick={handleFavorite}
+              className={`gap-2 ${isFavorited ? 'text-red-500 border-red-500/50' : ''}`}
+            >
+              <Heart className={`h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
+              {isFavorited ? 'Favorited' : 'Favorite'}
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleShare}
+              className="gap-2"
+            >
+              <Share2 className="h-4 w-4" />
+              Share
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => toast("Author profile feature coming soon")}
+              className="gap-2"
+            >
+              <User className="h-4 w-4" />
+              Author
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleReportClone}
+              className="gap-2 text-destructive border-destructive/50 hover:bg-destructive/10"
+            >
+              <Flag className="h-4 w-4" />
+              Report
+            </Button>
+          </div>
+
+          {/* Reading Stats */}
+          <Card className="note-card p-6">
+            <h3 className="font-semibold mb-4">Reading Progress</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Progress</span>
+                <span>{Math.round(scrollProgress)}%</span>
+              </div>
+              <Progress value={scrollProgress} className="h-2" />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>Highlights: 0</span>
+                <span>Reading time: ~20 min</span>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+
+      {/* Scroll Progress Indicator */}
+      <div className="fixed bottom-0 left-0 w-full h-1 bg-muted/30 z-50">
+        <div 
+          className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-150"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+    </div>
   );
 };
 
-export default PrivateAccountSetup;
+export default ReaderView;
 }
 
-src/components/Navbar.tsx{
-  import { Search, Settings } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import PrivateAccountSetup from "./PrivateAccountSetup";
-import { useState } from "react";
+src/App.tsx{
+  import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
+import NoteDetail from "./pages/NoteDetail";
+import CreateNote from "./pages/CreateNote";
+import Settings from "./pages/Settings";
+import ReaderView from "./pages/ReaderView";
+import NotFound from "./pages/NotFound";
 
-const Navbar = () => {
-  const [showPrivateSetup, setShowPrivateSetup] = useState(false);
+const queryClient = new QueryClient();
 
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/note/:id" element={<NoteDetail />} />
+          <Route path="/reader/:id" element={<ReaderView />} />
+          <Route path="/create" element={<CreateNote />} />
+          <Route path="/settings" element={<Settings />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
+
+export default App;
+
+}
+
+src/components/NoteCard.tsx{
+  import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
+interface NoteCardProps {
+  id?: string;
+  title: string;
+  price: number;
+  preview: string;
+  category: string;
+  author: string;
+  rating?: number;
+}
+
+const NoteCard = ({ id = "1", title, price, preview, category, author, rating = 5 }: NoteCardProps) => {
+  const navigate = useNavigate();
+  
+  const handlePurchase = () => {
+    // Mock purchase process
+    toast("Processing purchase...", {
+      duration: 2000,
+    });
+    
+    setTimeout(() => {
+      toast.success("Purchase successful! Opening reader...");
+      // Navigate to reader view after mock purchase
+      navigate(`/reader/${id}`);
+    }, 2000);
+  };
   return (
-    <nav className="sticky top-0 z-50 w-full border-b cyber-border bg-background/80 backdrop-blur-md">
-      <div className="container mx-auto flex h-16 items-center justify-between px-6">
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <Link to="/" className="glow-effect">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              GhostNote
-            </h1>
-          </Link>
+    <div className="note-card group p-6 h-full flex flex-col">
+      {/* Header with category badge */}
+      <div className="flex items-start justify-between mb-4">
+        <Badge 
+          variant="secondary" 
+          className="bg-secondary/20 text-secondary border-secondary/30 hover:bg-secondary/30"
+        >
+          {category}
+        </Badge>
+        <div className="flex items-center space-x-1 text-xs text-muted-foreground">
+          <span>★</span>
+          <span>{rating}</span>
         </div>
+      </div>
 
-        {/* Search Bar */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative search-glow rounded-lg">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search notes..."
-              className="pl-10 bg-input/50 border-border/50 text-foreground placeholder:text-muted-foreground focus:bg-input/80"
-            />
-          </div>
+      {/* Note Title */}
+      <h3 className="text-lg font-semibold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+        {title}
+      </h3>
+
+      {/* Preview Text */}
+      <p className="text-sm text-muted-foreground flex-1 mb-4 line-clamp-4">
+        {preview}
+      </p>
+
+      {/* Footer with author and price */}
+      <div className="flex items-center justify-between pt-4 border-t border-border/50">
+        <div className="text-xs text-muted-foreground">
+          by <span className="text-foreground font-medium">{author}</span>
         </div>
-
-        {/* Action Buttons */}
         <div className="flex items-center space-x-3">
+          <span className="text-lg font-bold text-primary">
+            ${price}
+          </span>
           <Button 
-            variant="ghost" 
             size="sm" 
-            className="text-muted-foreground hover:text-primary"
-            onClick={() => setShowPrivateSetup(true)}
+            onClick={handlePurchase}
+            className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/80 hover:to-accent/60 text-accent-foreground"
           >
-            Login
-          </Button>
-          <Button asChild size="sm" className="bg-gradient-to-r from-primary to-primary-glow hover:from-primary/80 hover:to-primary-glow/80">
-            <Link to="/dashboard">Dashboard</Link>
-          </Button>
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-            <Settings className="h-4 w-4" />
+            Buy Now
           </Button>
         </div>
       </div>
 
-      {/* Private Account Setup Modal */}
-      <PrivateAccountSetup 
-        open={showPrivateSetup} 
-        onOpenChange={setShowPrivateSetup} 
-      />
-    </nav>
+      {/* Hover overlay effect */}
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    </div>
   );
 };
 
-export default Navbar;
+export default NoteCard;
+}
+
+src/pages/Index.tsx{
+  import Navbar from "@/components/Navbar";
+import NoteCard from "@/components/NoteCard";
+import { sampleNotes } from "@/data/sampleNotes";
+
+const Index = () => {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      
+      {/* Hero Section */}
+      <section className="container mx-auto px-6 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            Discover Premium Notes
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Access curated knowledge from industry experts. Learn from the best,
+            master new skills, and accelerate your growth with our marketplace of premium notes.
+          </p>
+        </div>
+
+        {/* Featured Categories */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {['All', 'Development', 'AI/ML', 'Design', 'Security', 'Interview', 'Writing'].map((category) => (
+            <button
+              key={category}
+              className="px-4 py-2 rounded-full bg-muted/50 text-muted-foreground hover:bg-primary/20 hover:text-primary border border-border/50 hover:border-primary/30 transition-all duration-200"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        {/* Notes Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sampleNotes.map((note) => (
+            <NoteCard
+              key={note.id}
+              id={note.id}
+              title={note.title}
+              price={note.price}
+              preview={note.preview}
+              category={note.category}
+              author={note.author}
+              rating={note.rating}
+            />
+          ))}
+        </div>
+
+        {/* Load More Section */}
+        <div className="text-center mt-12">
+          <button className="px-8 py-3 bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 text-primary-foreground rounded-lg font-medium transition-all duration-200 hover:shadow-lg">
+            Load More Notes
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Index;
+
 }

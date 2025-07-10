@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Share2, Flag, Bookmark, ShoppingCart, Lock, Star } from 'lucide-react';
+import { Share2, Flag, Bookmark, ShoppingCart, Lock, Star, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Note } from '@/components/NoteCard';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 // Types
 type NoteDetailProps = {
@@ -13,10 +15,23 @@ type NoteDetailProps = {
 
 const NoteDetail = ({ note }: NoteDetailProps) => {
   const [isPurchased, setIsPurchased] = useState(false);
+  const router = useRouter();
 
   const handlePurchase = () => {
+    // Show a loading toast
+    toast.loading('Processing purchase...', {
+      duration: 1500,
+    });
+    
     // In a real app, this would trigger a payment flow
-    setIsPurchased(true);
+    setTimeout(() => {
+      setIsPurchased(true);
+      toast.success(`Successfully purchased "${note.title}"!`);
+    }, 1500);
+  };
+  
+  const handleReadNow = () => {
+    router.push(`/reader/${note.id}`);
   };
 
   return (
@@ -83,8 +98,15 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
                 </Button>
               </>
             ) : (
-              <div className="text-center">
+              <div className="text-center space-y-4">
                 <p className="text-lg text-ghost-neon font-semibold">Note Unlocked!</p>
+                <Button 
+                  onClick={handleReadNow} 
+                  className="w-full bg-gradient-to-r from-ghost-purple to-ghost-neon text-white font-bold text-lg py-6 rounded-lg shadow-[0_0_20px_rgba(127,90,240,0.5)] hover:shadow-[0_0_30px_rgba(127,90,240,0.7)] transition-all duration-300 transform hover:scale-105"
+                >
+                  <BookOpen className="mr-3 h-6 w-6" />
+                  Read Now
+                </Button>
               </div>
             )}
           </div>

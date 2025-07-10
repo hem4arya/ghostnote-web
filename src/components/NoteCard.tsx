@@ -1,6 +1,8 @@
 import { Star, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export type Note = {
   id: number;
@@ -15,6 +17,21 @@ export type Note = {
 };
 
 const NoteCard = ({ note }: { note: Note }) => {
+  const router = useRouter();
+
+  const handlePurchase = () => {
+    // Simulate purchase process
+    toast.loading('Processing purchase...', {
+      duration: 1500,
+    });
+    
+    setTimeout(() => {
+      toast.success(`Successfully purchased "${note.title}"!`);
+      // Navigate to reader view after simulated purchase
+      router.push(`/reader/${note.id}`);
+    }, 1500);
+  };
+
   return (
     <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-ghost-dark/50 to-ghost-gray/30 backdrop-blur-sm border border-ghost-purple/20 transition-all duration-300 hover:border-ghost-purple/50 hover:shadow-2xl hover:shadow-ghost-purple/20 flex flex-col h-full">
       {/* Tags header section */}
@@ -59,12 +76,10 @@ const NoteCard = ({ note }: { note: Note }) => {
           <Button 
             size="sm" 
             className="bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-medium hover:from-ghost-cyan hover:to-ghost-neon transition-all duration-300 focus:outline-none focus:ring-0 border-0 text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3"
-            asChild
+            onClick={handlePurchase}
           >
-            <Link href={`/notes/${note.id}`}>
-              <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-              Buy Now
-            </Link>
+            <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+            Buy Now
           </Button>
         </div>
       </div>
