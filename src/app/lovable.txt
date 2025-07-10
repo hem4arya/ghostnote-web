@@ -1,37 +1,24 @@
-Part 5: Personalized Search (Logged-in User Behavior)
-Goal: Show results that feel personal to each user.
+Prompt 4: Creator Visibility Dashboard for Clones
+"Build backend logic for a GhostNote creator dashboard that shows:
 
-Prompt:
+Notes that have been cloned (with similarity %)
 
-"Enhance GhostNote’s search results based on logged-in user behavior:
+Who cloned them
 
-Each user has:
+Option to message/remind or request takedown
 
-Notes purchased
+Option to allow/deny resale of cloned versions
 
-Notes viewed
+Each creator should see:
 
-Followed creators
+Original note → list of suspected clones
 
-Browsing/search history
+Buyer who posted clone (if not anonymous)
 
-Objective:
+Provide:
 
-Boost notes in search results if they match the user’s behavioral patterns
+Table structure to support this
 
-Lower results they’ve seen too often or ignored
+API logic to fetch related clones
 
-Recommend new notes if similar to past purchases
-
-Deliver:
-
-Behavioral scoring logic to blend with core search scoring
-
-Ways to store lightweight behavioral metadata in Supabase (efficiently)
-
-Fall-safe defaults if user is new or anonymous
-
-Optional:
-
-Suggest collaborative filtering techniques or tricks to create a ‘recommended for you’ carousel”
-
+Logic to show only if clone % > 70"
