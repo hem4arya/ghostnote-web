@@ -1,18 +1,48 @@
-import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// Advanced search Edge Function
+// @ts-expect-error - Supabase import for Deno Edge Function
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// @ts-expect-error - CORS import for Deno Edge Function
 import { corsHeaders } from '../_shared/cors.ts';
-import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1/dist/transformers.min.js';
+
+// Declare Deno global for Edge Functions
+declare const Deno: {
+  serve: (handler: (request: Request) => Response | Promise<Response>) => void;
+  env: {
+    get: (key: string) => string | undefined;
+  };
+};
+
+// Define types for the ML pipeline
+interface PipelineOutput {
+  data: Float32Array | number[];
+}
+
+interface Pipeline {
+  (text: string, options?: { pooling: string; normalize: boolean }): Promise<PipelineOutput>;
+}
+
+interface ProgressCallback {
+  (progress: { progress: number; loaded: number; total: number }): void;
+}
 
 // Use a singleton pattern to load the model only once.
 class PipelineSingleton {
     static task = 'feature-extraction';
     static model = 'Xenova/all-MiniLM-L6-v2';
-    static instance: any = null;
+    static instance: Pipeline | null = null;
 
-    static async getInstance(progress_callback: any = null) {
+    static async getInstance(progress_callback: ProgressCallback | null = null): Promise<Pipeline> {
         if (this.instance === null) {
-            this.instance = await pipeline(this.task, this.model, { progress_callback });
+            try {
+                // @ts-expect-error - External module import for Deno Edge Function
+                const transformers = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1/dist/transformers.min.js');
+                this.instance = await transformers.pipeline(this.task, this.model, { progress_callback });
+            } catch (error) {
+                console.error('Failed to load ML pipeline:', error);
+                throw new Error('ML pipeline initialization failed');
+            }
         }
-        return this.instance;
+        return this.instance as Pipeline;
     }
 }
 
@@ -50,7 +80,26 @@ interface RankedNote {
   final_score: number;
 }
 
-Deno.serve(async (req: any) => {
+interface TrendingNote {
+  id: number;
+  title: string;
+  body: string;
+  tags: string[];
+  category: string;
+  author: string;
+  keywords: string[];
+  price: number;
+  purchase_count: number;
+  view_count: number;
+  rating: number;
+  review_count: number;
+  created_at: string;
+  is_verified_creator: boolean;
+  creator_trust_score: number;
+  trending_score: number;
+}
+
+Deno.serve(async (req: Request) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -80,7 +129,7 @@ Deno.serve(async (req: any) => {
     }
 
     // Create a Supabase client
-    const supabaseClient = new SupabaseClient(
+    const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
       { 
@@ -153,7 +202,7 @@ Deno.serve(async (req: any) => {
         .limit(5);
 
       if (!trendingError && trending) {
-        fallbackNotes = trending.map((note: any) => ({
+        fallbackNotes = trending.map((note: TrendingNote) => ({
           ...note,
           content_similarity: 0,
           popularity_score: 0.8,
@@ -199,10 +248,12 @@ Deno.serve(async (req: any) => {
 
   } catch (error) {
     console.error('Search function error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    
     return new Response(
       JSON.stringify({ 
         error: 'Search failed', 
-        details: error.message 
+        details: errorMessage 
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

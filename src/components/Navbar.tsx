@@ -7,7 +7,6 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from 'next/image';
-import SmartSearch from './SmartSearch';
 
 interface NavbarProps {
   onLoginClick?: () => void;
@@ -17,7 +16,6 @@ interface NavbarProps {
 const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -77,7 +75,6 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isSearchOpen) {
         setIsSearchOpen(false);
-        setIsDropdownOpen(false);
         setSearchQuery('');
       }
     };
@@ -86,17 +83,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isSearchOpen]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (isDropdownOpen && !e.target) {
-        setIsDropdownOpen(false);
-      }
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isDropdownOpen]);
+
 
   // Listen for auth modal events when on homepage
   useEffect(() => {
@@ -154,14 +141,11 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
               type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsDropdownOpen(true)}
+              onFocus={() => router.push('/search')}
+              onClick={() => router.push('/search')}
               placeholder="Search notes, authors, and tags..."
-              className="pl-11 pr-4 bg-ghost-gray/50 border-ghost-purple/30 text-white text-sm placeholder:text-gray-400 focus:bg-ghost-gray/80 focus:border-ghost-purple/60 w-full h-10"
-            />
-            <SmartSearch 
-              query={searchQuery}
-              isOpen={isDropdownOpen}
-              onClose={() => setIsDropdownOpen(false)}
+              className="pl-11 pr-4 bg-ghost-gray/50 border-ghost-purple/30 text-white text-sm placeholder:text-gray-400 focus:bg-ghost-gray/80 focus:border-ghost-purple/60 w-full h-10 cursor-pointer"
+              readOnly
             />
           </div>
         </div>
@@ -207,27 +191,23 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsDropdownOpen(true)}
+                  onFocus={() => router.push('/search')}
+                  onClick={() => router.push('/search')}
                   placeholder="Search..."
-                  className="pl-12 pr-12 bg-ghost-gray/50 border-ghost-purple/30 text-white text-base placeholder:text-gray-400 focus:bg-ghost-gray/80 focus:border-ghost-purple/60 w-full h-12"
+                  className="pl-12 pr-12 bg-ghost-gray/50 border-ghost-purple/30 text-white text-base placeholder:text-gray-400 focus:bg-ghost-gray/80 focus:border-ghost-purple/60 w-full h-12 cursor-pointer"
+                  readOnly
                 />
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => {
                     setIsSearchOpen(false);
-                    setIsDropdownOpen(false);
                     setSearchQuery('');
                   }}
                   className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 text-gray-400 hover:text-ghost-neon z-10"
                 >
                   <X className="h-6 w-6" />
                 </Button>
-                <SmartSearch 
-                  query={searchQuery}
-                  isOpen={isDropdownOpen}
-                  onClose={() => setIsDropdownOpen(false)}
-                />
               </div>
             </div>
           ) : (
@@ -235,7 +215,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsSearchOpen(true)}
+                onClick={() => router.push('/search')}
                 className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0 h-12 w-12"
               >
                 <Search className="h-6 w-6" />

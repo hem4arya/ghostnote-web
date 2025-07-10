@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,7 +52,7 @@ const IntelligentSearch = ({
   }, []);
 
   // Debounced search
-  const performSearch = async (searchQuery: string) => {
+  const performSearch = useCallback(async (searchQuery: string) => {
     if (!searchQuery.trim()) return;
 
     setIsLoading(true);
@@ -74,7 +74,7 @@ const IntelligentSearch = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -86,36 +86,12 @@ const IntelligentSearch = ({
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [query, performSearch]);
 
   const saveRecentSearch = (searchQuery: string) => {
     const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
     setRecentSearches(updated);
     localStorage.setItem('ghostnote-recent-searches', JSON.stringify(updated));
-  };
-
-  const performSearch = async (searchQuery: string) => {
-    if (!searchQuery.trim()) return;
-
-    setIsLoading(true);
-    try {
-      // Call the Supabase Edge Function for intelligent search
-      const { data, error } = await supabase.functions.invoke('search-notes', {
-        body: { query: searchQuery }
-      });
-
-      if (error) {
-        console.error('Search error:', error);
-        return;
-      }
-
-      setResults(data.notes || []);
-      saveRecentSearch(searchQuery);
-    } catch (error) {
-      console.error('Search failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const clearSearch = () => {

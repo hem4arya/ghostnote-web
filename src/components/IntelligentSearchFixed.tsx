@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import Link from 'next/link';
 import { Note } from '@/components/NoteCard';
 
@@ -51,11 +51,11 @@ const IntelligentSearch = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const saveRecentSearch = (searchQuery: string) => {
+  const saveRecentSearch = useCallback((searchQuery: string) => {
     const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
     setRecentSearches(updated);
     localStorage.setItem('ghostnote-recent-searches', JSON.stringify(updated));
-  };
+  }, [recentSearches]);
 
   const performSearch = useCallback(async (searchQuery: string) => {
     if (!searchQuery.trim()) return;
@@ -79,7 +79,7 @@ const IntelligentSearch = ({
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [saveRecentSearch]);
 
   // Debounced search
   useEffect(() => {
