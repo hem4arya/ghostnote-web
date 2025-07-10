@@ -8,6 +8,7 @@ import { sampleNotes } from '@/data/sampleNotes';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Note } from '@/components/NoteCard';
+import { CloneTransparencyWrapperDev } from '@/components/CloneTransparencyWrapperDev';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
@@ -117,6 +118,11 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
                 <span className="text-sm">Published on July 8, 2025</span>
               </div>
 
+              {/* Clone Transparency Badge */}
+              <div className="mb-6">
+                <CloneTransparencyWrapperDev noteId={note.id.toString()} showDetailedInfo={true} />
+              </div>
+
               <div className="prose prose-invert max-w-none prose-p:text-gray-300 prose-headings:text-white prose-strong:text-ghost-neon">
                 <p className="text-lg leading-relaxed">{note.previewText}</p>
                 
@@ -192,6 +198,15 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
                     )}
                     
                     <div className="mt-6 border-t border-ghost-purple/20 pt-4 space-y-3 text-sm">
+                      {/* Transparency info in sidebar */}
+                      <div className="mb-3">
+                        <CloneTransparencyWrapperDev 
+                          noteId={note.id.toString()} 
+                          showDetailedInfo={false}
+                          className="w-full"
+                        />
+                      </div>
+                      
                       <div className="flex justify-between">
                         <span className="text-gray-400">Author</span>
                         <span className="font-medium text-white">{note.author}</span>
