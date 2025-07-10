@@ -1,36 +1,191 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GhostNote Web Platform
 
-## Getting Started
+A modern web platform for sharing and monetizing knowledge through notes, with advanced transparency features for buyers.
 
-First, run the development server:
+## 🌟 Key Features
 
+- **Note Marketplace**: Buy and sell knowledge-based content
+- **Clone Transparency**: Revolutionary transparency system for content originality
+- **Creator Tools**: Advanced authoring and monetization features
+- **Buyer Protection**: Clear information about content similarity and sources
+- **Privacy-First**: Respects creator privacy while ensuring transparency
+
+## 🚀 Clone Transparency Feature
+
+GhostNote includes a comprehensive transparency system that provides buyers with clear information about content originality:
+
+### ✨ What It Does
+- **Similarity Detection**: Analyzes content to detect potential clones
+- **Originality Classification**: Labels content as Original, Modified, Heavily Inspired, or Clone
+- **Source Attribution**: Links to original creators (when public)
+- **Buyer Guidance**: Respectful messaging to help purchase decisions
+
+### 🎯 How It Works
+- **Smart Analysis**: Backend similarity scoring with transparent thresholds
+- **Privacy Respecting**: Original creators can choose to remain anonymous
+- **User-Friendly**: Clear badges like "35% Match – View Source"
+- **Educational**: Informative rather than accusatory messaging
+
+### 🧪 Try It Now
+Visit `/transparency-demo` to see all transparency scenarios in action.
+
+## 🛠️ Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm
+- Supabase account (for backend features)
+- TypeScript knowledge
+
+### Quick Setup
+
+1. **Clone and Install**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd ghostnote-web
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Environment Setup**
+```bash
+# Copy environment template
+cp .env.example .env.local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Add your Supabase credentials
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Start Development**
+```bash
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-To learn more about Next.js, take a look at the following resources:
+### Database Setup (Optional)
+For transparency features, run the database migration:
+```bash
+supabase migration up --file 20250710000004_add_note_transparency.sql
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📋 Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript checks
 
-## Deploy on Vercel
+## 📁 Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+ghostnote-web/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   ├── components/             # React components
+│   │   ├── CloneTransparency*.tsx  # Transparency components
+│   │   └── ui/                 # UI components
+│   ├── utils/                  # Utility functions
+│   │   └── transparency.ts     # Transparency utilities
+│   └── data/                   # Sample and mock data
+├── supabase/
+│   ├── functions/              # Edge Functions
+│   │   └── note-transparency/  # Transparency API
+│   └── migrations/             # Database migrations
+├── docs/                       # Documentation
+└── public/                     # Static assets
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 UI Components
+
+### Transparency Components
+- **`CloneTransparencyBadge`**: Main transparency display component
+- **`CloneTransparencyWrapper`**: Production wrapper with API integration
+- **`CloneTransparencyWrapperDev`**: Development wrapper with mock data
+
+### Usage Example
+```typescript
+import { CloneTransparencyWrapperDev } from '@/components/CloneTransparencyWrapperDev';
+
+// In your component
+<CloneTransparencyWrapperDev 
+  noteId="2" 
+  showDetailedInfo={true} 
+/>
+```
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `/docs` directory:
+
+- **[📖 Documentation Index](./docs/README.md)** - Complete documentation overview
+- **[🎯 Feature Guide](./docs/TRANSPARENCY_FEATURE.md)** - Transparency feature overview
+- **[🏗️ Architecture](./docs/ARCHITECTURE.md)** - Technical architecture
+- **[👨‍💻 Developer Guide](./docs/DEVELOPER_GUIDE.md)** - Development workflow
+- **[🧩 Component Reference](./docs/COMPONENT_REFERENCE.md)** - UI component docs
+- **[🌐 API Reference](./docs/API_REFERENCE.md)** - API specification
+
+## 🧪 Testing & Development
+
+### Mock Data
+The project includes comprehensive mock data for testing transparency features without backend setup:
+
+```typescript
+// Available test scenarios
+noteId="1" // Original content (no badge)
+noteId="2" // Modified content (35% similarity)
+noteId="3" // Heavily inspired (60% similarity)
+noteId="4" // Clone content (85% similarity)
+noteId="5" // Private original creator
+```
+
+### Demo Page
+Visit `/transparency-demo` to explore all transparency scenarios interactively.
+
+## 🔧 Technology Stack
+
+- **Frontend**: Next.js 15, React 18, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **Backend**: Supabase (Database, Edge Functions, Auth)
+- **Deployment**: Vercel (recommended)
+
+## 🚀 Deployment
+
+### Vercel Deployment (Recommended)
+1. Connect your repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically with Git pushes
+
+### Environment Variables
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Update documentation if needed
+5. Submit a pull request
+
+### Documentation Updates
+When adding features, please update:
+- Component documentation in `/docs`
+- README examples
+- Mock data if applicable
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+- **Documentation**: Check `/docs` directory for comprehensive guides
+- **Demo**: Visit `/transparency-demo` for interactive examples
+- **Issues**: Report bugs and feature requests via GitHub issues
+
+---
+
+**Built with ❤️ by the GhostNote team**
