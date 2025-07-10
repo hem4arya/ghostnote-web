@@ -13,25 +13,33 @@ import { useRouter } from 'next/navigation';
 
 // Types
 type NoteDetailPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   const [isPurchased, setIsPurchased] = useState(false);
   const [note, setNote] = useState<Note | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
   const router = useRouter();
+
+  // Resolve the params promise
+  useEffect(() => {
+    params.then(setResolvedParams);
+  }, [params]);
 
   // In a real app, you would fetch the note from an API
   // For now, we'll simulate it using the sampleNotes
   useEffect(() => {
+    if (!resolvedParams) return;
+    
     const fetchNote = () => {
       setIsLoading(true);
       try {
         // Find the note with the matching ID
-        const foundNote = sampleNotes.find((n) => n.id === parseInt(params.id));
+        const foundNote = sampleNotes.find((n) => n.id === parseInt(resolvedParams.id));
         setNote(foundNote || null);
       } catch (error) {
         console.error('Error fetching note:', error);
@@ -41,7 +49,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
     };
 
     fetchNote();
-  }, [params.id]);
+  }, [resolvedParams]);
 
   const handlePurchase = () => {
     // Show a loading toast
@@ -57,7 +65,9 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   };
   
   const handleReadNow = () => {
-    router.push(`/reader/${params.id}`);
+    if (resolvedParams) {
+      router.push(`/reader/${resolvedParams.id}`);
+    }
   };
 
   if (isLoading) {

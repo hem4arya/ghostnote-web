@@ -9,8 +9,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+interface Note {
+  title?: string;
+  tags?: string[];
+  content?: string;
+  price?: string | number;
+  isLocked?: boolean;
+  isEncrypted?: boolean;
+}
+
 interface NoteEditorProps {
-  note?: any;
+  note?: Note;
   onClose: () => void;
 }
 
@@ -31,7 +40,7 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
     onClose();
   };
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: keyof typeof formData, value: string | number | boolean) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,

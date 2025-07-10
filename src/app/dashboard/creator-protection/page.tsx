@@ -8,12 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield, AlertTriangle, BarChart3, Settings } from 'lucide-react';
 
-interface CreatorDashboardPageProps {
-  userId: string;
-}
-
-export default function CreatorDashboardPage({ userId }: CreatorDashboardPageProps) {
+export default function CreatorDashboardPage() {
   const [activeTab, setActiveTab] = useState('overview');
+  // In a real app, you would get the userId from your authentication system
+  // For demo purposes, using a placeholder
+  const userId = 'demo-user-123';
 
   return (
     <div className="container mx-auto px-4 py-8">
