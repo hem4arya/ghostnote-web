@@ -1,29 +1,37 @@
-Part 4: Search UX Logic (Front-End Behavior)
-Goal: Make the search experience feel premium.
+Part 5: Personalized Search (Logged-in User Behavior)
+Goal: Show results that feel personal to each user.
 
 Prompt:
 
-"Design the UX flow of the search experience on GhostNote:
+"Enhance GhostNote’s search results based on logged-in user behavior:
 
-It should support:
+Each user has:
 
-Instant suggestions while typing
+Notes purchased
 
-Search filters (price: free/paid, category, recent, popularity)
+Notes viewed
 
-Smart previews of notes (title, creator, tags, short snippet, price)
+Followed creators
 
-Error state when nothing is found (suggest similar)
+Browsing/search history
 
-Describe:
+Objective:
 
-How user interacts with the search bar
+Boost notes in search results if they match the user’s behavioral patterns
 
-How auto-suggestions are generated (keywords, popular notes, recent queries)
+Lower results they’ve seen too often or ignored
 
-How to handle no result + fallback recommendations
+Recommend new notes if similar to past purchases
 
-Optional: Voice search or mobile enhancements
+Deliver:
 
-Prioritize usability, clarity, and a premium feel."
+Behavioral scoring logic to blend with core search scoring
+
+Ways to store lightweight behavioral metadata in Supabase (efficiently)
+
+Fall-safe defaults if user is new or anonymous
+
+Optional:
+
+Suggest collaborative filtering techniques or tricks to create a ‘recommended for you’ carousel”
 

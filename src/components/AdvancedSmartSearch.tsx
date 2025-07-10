@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Search, TrendingUp, Star, Eye, ShoppingCart, Clock, Shield, Filter, BarChart3 } from 'lucide-react';
+import { TrendingUp, Star, Eye, ShoppingCart, Shield, Filter, BarChart3 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
