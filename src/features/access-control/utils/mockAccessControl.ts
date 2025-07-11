@@ -1,4 +1,4 @@
-import { sampleNotes } from '@/data/sampleNotes';
+import { sampleNotes } from '@/features/notes/data/sampleNotes';
 
 export interface MockAccessCheckResult {
   hasAccess: boolean;

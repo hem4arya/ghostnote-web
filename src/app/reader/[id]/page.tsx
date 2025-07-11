@@ -9,9 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useContentAccess } from '@/utils/accessControl';
-import { sampleNotes } from '@/data/sampleNotes';
-import { Note } from '@/components/NoteCard';
+import { useContentAccess } from '@/features/access-control/hooks/useContentAccess';
+import { sampleNotes } from '@/features/notes/data/sampleNotes';
+import { Note } from '@/features/notes/components/NoteCard';
 
 interface ReaderPageProps {
   params: Promise<{

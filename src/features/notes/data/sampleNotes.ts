@@ -1,4 +1,4 @@
-import { Note } from "@/components/NoteCard";
+import { Note } from "../components/NoteCard";
 
 export const sampleNotes: Note[] = [
   {

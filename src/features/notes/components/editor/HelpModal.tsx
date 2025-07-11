@@ -205,3 +205,5 @@ export const HelpModal: React.FC<HelpModalProps> = ({
     </div>
   );
 };
+
+export default HelpModal;

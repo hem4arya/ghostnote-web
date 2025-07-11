@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Heart, TrendingUp, Sparkles, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import { Note } from '@/components/NoteCard';
+import { Note } from '@/features/notes/components/NoteCard';
 
 interface RecommendationResult extends Note {
   score?: number;

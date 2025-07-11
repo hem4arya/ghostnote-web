@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import IntelligentSearch from '@/components/IntelligentSearch';
-import PersonalizedRecommendations from '@/components/PersonalizedRecommendations';
-import AuthForm from '@/components/AuthForm';
+import IntelligentSearch from '@/features/search/components/IntelligentSearch';
+import PersonalizedRecommendations from '@/components/pages/home/PersonalizedRecommendations';
+import AuthForm from '@/features/auth/components/AuthForm';
 
 export default function PersonalizedSearchDemo() {
   const [showAuth, setShowAuth] = useState(false);

@@ -1,29 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-
-export interface AccessCheckResult {
-  hasAccess: boolean;
-  accessType: 'owner' | 'purchaser' | 'none';
-  reason?: string;
-  note?: {
-    id: number;
-    title: string;
-    creator_id: string;
-    price: number;
-    is_premium: boolean;
-  };
-  purchase?: {
-    id: string;
-    purchased_at: string;
-    amount_paid: number;
-  };
-}
-
-export interface AccessControlOptions {
-  requireAuth?: boolean;
-  allowOwner?: boolean;
-  allowPurchaser?: boolean;
-  contentType?: 'note' | 'course' | 'template' | 'premium_content';
-}
+import { AccessCheckResult, AccessControlOptions } from '../types';
 
 /**
  * Checks if a user has access to premium content
@@ -162,61 +138,3 @@ export async function enforceContentAccess(
   
   return result;
 }
-
-/**
- * React hook for client-side access control
- * @param contentId - Content ID to check
- * @param options - Access control options
- * @returns Access state and helper functions
- */
-export function useContentAccess(
-  contentId: number,
-  options: AccessControlOptions = {}
-) {
-  const [accessResult, setAccessResult] = React.useState<AccessCheckResult | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    async function checkAccess() {
-      setLoading(true);
-      setError(null);
-      
-      try {
-        // Get current user from auth
-        const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-        );
-        
-        const { data: { user } } = await supabase.auth.getUser();
-        
-        // Call our access control function
-        const result = await checkContentAccess(contentId, user?.id, options);
-        setAccessResult(result);
-        
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Access check failed');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (contentId) {
-      checkAccess();
-    }
-  }, [contentId, options]);
-
-  return {
-    accessResult,
-    loading,
-    error,
-    hasAccess: accessResult?.hasAccess || false,
-    accessType: accessResult?.accessType || 'none',
-    isOwner: accessResult?.accessType === 'owner',
-    isPurchaser: accessResult?.accessType === 'purchaser'
-  };
-}
-
-// Import React for the hook
-import React from 'react';

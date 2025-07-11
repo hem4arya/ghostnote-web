@@ -2,14 +2,14 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useFormatting } from "../hooks/useFormatting";
-import { useResponsive } from "../hooks/useResponsive";
-import { useImageState } from "../hooks/useImageState";
-import { useImageInteraction } from "../hooks/useImageInteraction";
-import { EditorHeader } from "./editor/EditorHeader";
-import { FormattingToolbar } from "./editor/FormattingToolbar";
-import { ImageToolbox } from "./editor/ImageToolbox";
-import { WordCountWidget } from "./editor/WordCountWidget";
+import { useFormatting } from "@/features/notes/hooks/useFormatting";
+import { useResponsive } from "@/features/notes/hooks/useResponsive";
+import { useImageState } from "@/features/notes/hooks/useImageState";
+import { useImageInteraction } from "@/features/notes/hooks/useImageInteraction";
+import EditorHeader from "@/features/notes/components/editor/EditorHeader";
+import FormattingToolbar from "@/features/notes/components/editor/FormattingToolbar";
+import ImageToolbox from "@/features/notes/components/editor/ImageToolbox";
+import WordCountWidget from "@/features/notes/components/editor/WordCountWidget";
 
 const CreateNoteForm = () => {
   const router = useRouter();
@@ -77,7 +77,6 @@ const CreateNoteForm = () => {
           title={title}
           setTitle={setTitle}
           lastSaved={lastSaved}
-          focusMode={focusMode}
           onBackClick={() => router.push('/')}
         >
           <FormattingToolbar
@@ -102,7 +101,7 @@ const CreateNoteForm = () => {
       {!focusMode && (
         <WordCountWidget
           wordCount={wordCount}
-          charCount={charCount}
+          characterCount={charCount}
         />
       )}
 

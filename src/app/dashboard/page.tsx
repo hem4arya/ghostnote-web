@@ -1,4 +1,4 @@
-import DashboardHeader from '@/components/DashboardHeader';
+import DashboardHeader from '@/components/pages/dashboard/DashboardHeader';
 import DashboardTabs from '@/components/DashboardTabs';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';

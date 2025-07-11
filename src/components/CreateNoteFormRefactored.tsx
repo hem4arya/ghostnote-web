@@ -2,15 +2,15 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useFormatting } from "../hooks/useFormatting";
-import { useResponsive } from "../hooks/useResponsive";
-import { useHelpModal } from "../hooks/useHelpModal";
-import { useImageState } from "../hooks/useImageState";
-import { useImageInteraction } from "../hooks/useImageInteraction";
-import { EditorHeader } from "./editor/EditorHeader";
-import { FormattingToolbar } from "./editor/FormattingToolbar";
-import { ImageToolbox } from "./editor/ImageToolbox";
-import { HelpModal } from "./editor/HelpModal";
+import { useFormatting } from "@/features/notes/hooks/useFormatting";
+import { useResponsive } from "@/features/notes/hooks/useResponsive";
+import { useHelpModal } from "@/features/notes/hooks/useHelpModal";
+import { useImageState } from "@/features/notes/hooks/useImageState";
+import { useImageInteraction } from "@/features/notes/hooks/useImageInteraction";
+import EditorHeader from "@/features/notes/components/editor/EditorHeader";
+import FormattingToolbar from "@/features/notes/components/editor/FormattingToolbar";
+import ImageToolbox from "@/features/notes/components/editor/ImageToolbox";
+import HelpModal from "@/features/notes/components/editor/HelpModal";
 
 const CreateNoteForm = () => {
   const router = useRouter();

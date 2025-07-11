@@ -6,9 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../../../lib/supabase';
 import Link from 'next/link';
-import { Note } from '@/components/NoteCard';
+import { Note } from '@/features/notes/components/NoteCard';
 
 interface SearchResult extends Note {
   similarity?: number;
@@ -74,8 +74,8 @@ const IntelligentSearch = ({
 
       setResults(data.notes || []);
       saveRecentSearch(searchQuery);
-    } catch (error) {
-      console.error('Search failed:', error);
+    } catch (searchError) {
+      console.error('Search failed:', searchError);
     } finally {
       setIsLoading(false);
     }

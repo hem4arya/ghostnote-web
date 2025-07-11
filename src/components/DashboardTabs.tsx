@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import NoteCard from './NoteCard';
-import { sampleNotes } from '@/data/sampleNotes';
+import NoteCard from '@/features/notes/components/NoteCard';
+import { sampleNotes } from '@/features/notes/data/sampleNotes';
 import QuickStats from './QuickStats';
 import Alerts from './Alerts';
-import { Note } from './NoteCard';
+import { Note } from '@/features/notes/components/NoteCard';
 
 const DashboardTabs = () => {
   const [activeTab, setActiveTab] = useState('private');

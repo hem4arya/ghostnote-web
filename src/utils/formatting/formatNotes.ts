@@ -1,4 +1,4 @@
-import { sampleNotes } from '../data/sampleNotes';
+import { sampleNotes } from '../../features/notes/data/sampleNotes';
 import { createExactLengthText } from './textUtils';
 
 // For each note, ensure the preview text is exactly 200 characters

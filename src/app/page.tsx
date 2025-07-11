@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import NoteCard from "@/components/NoteCard";
-import { sampleNotes } from "@/data/sampleNotes";
+import Hero from "@/components/pages/home/Hero";
+import NoteCard from "@/features/notes/components/NoteCard";
+import { sampleNotes } from "@/features/notes/data/sampleNotes";
 import Footer from "@/components/Footer";
-import AuthModal from "@/components/AuthModal";
+import AuthModal from "@/features/auth/components/AuthModal";
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
