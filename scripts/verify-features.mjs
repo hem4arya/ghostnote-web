@@ -8,7 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const features = ['search', 'transparency'];
+const features = ['search', 'transparency', 'note-reader'];
 const requiredFiles = [
   'index.ts',
   'tsconfig.json',
