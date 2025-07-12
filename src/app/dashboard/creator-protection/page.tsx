@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { CreatorCloneDashboard } from '@/components/CreatorCloneDashboard';
-import { CloneAlerts } from '@/components/CloneAlerts';
+import { CloneAlerts } from '@/features/transparency';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

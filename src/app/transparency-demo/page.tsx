@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CloneTransparencyBadge } from '@/components/CloneTransparencyBadge';
-import { sampleTransparencyData } from '@/data/sampleTransparencyData';
+import { CloneTransparencyBadge, sampleTransparencyData } from '@/features/transparency';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 

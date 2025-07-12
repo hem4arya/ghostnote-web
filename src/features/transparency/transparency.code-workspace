@@ -1,0 +1,38 @@
+{
+  "folders": [
+    {
+      "name": "Transparency Feature",
+      "path": "."
+    },
+    {
+      "name": "Shared Components",
+      "path": "../../../components"
+    },
+    {
+      "name": "Shared Utils",
+      "path": "../../../lib"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.suggest.paths": true,
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "ms-vscode.vscode-typescript-next",
+      "esbenp.prettier-vscode"
+    ]
+  }
+}

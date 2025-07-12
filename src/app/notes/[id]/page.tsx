@@ -8,7 +8,7 @@ import { sampleNotes } from '@/features/notes/data/sampleNotes';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Note } from '@/features/notes/components/NoteCard';
-import { CloneTransparencyWrapperDev } from '@/components/CloneTransparencyWrapperDev';
+import { CloneTransparencyWrapperDev } from '@/features/transparency';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 

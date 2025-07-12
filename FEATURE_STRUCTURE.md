@@ -55,6 +55,36 @@ import { PremiumSearchExperience, AdvancedSmartSearch } from '@/features/search'
 import { useSearch } from '@/features/search/hooks/useSearch';
 ```
 
+### 2. Transparency Feature (`src/features/transparency/`)
+**Purpose**: Clone detection and content originality analysis with transparency badges for buyers.
+
+**Components**:
+- `CloneTransparencyBadge.tsx` - Main transparency UI badge
+- `CloneTransparencyWrapper.tsx` - Production data wrapper
+- `CloneTransparencyWrapperDev.tsx` - Development wrapper with mock data
+- `CloneWarningModal.tsx` - Pre-publication similarity warning
+- `CloneAlerts.tsx` - Creator notification dashboard
+
+**Hooks**:
+- `useTransparencyData.ts` - Transparency data fetching and state
+
+**Utils**:
+- `transparencyApi.ts` - Backend API integration
+- `helpers.ts` - Transparency helper functions
+- `mockData.ts` - Mock data for testing
+
+**Types**:
+- Transparency interfaces and type definitions
+
+**Usage**:
+```typescript
+// Import transparency components
+import { CloneTransparencyBadge, CloneWarningModal } from '@/features/transparency';
+
+// Use transparency hook
+import { useTransparencyData } from '@/features/transparency/hooks/useTransparencyData';
+```
+
 ### 2. Homepage Feature (`src/app/homepage/`)
 **Purpose**: Homepage-specific components and logic.
 
@@ -65,6 +95,7 @@ import { useSearch } from '@/features/search/hooks/useSearch';
 These are globally accessible UI components used across features:
 
 - `SmartSearchDropdown.tsx` - Main search UI component (entry point)
+- `TransparencyUI.tsx` - Simple transparency UI wrapper (entry point)
 - UI components in `ui/` folder (button, card, input, etc.)
 - Layout components (Header, Footer, Navbar, etc.)
 
@@ -80,9 +111,12 @@ These are globally accessible UI components used across features:
 2. **Development Commands**:
    ```bash
    # In feature workspace terminal
-   npm run dev:search     # Start dev server for search feature
-   npm run build:search   # Build search feature
-   npm run lint:search    # Lint search feature
+   npm run dev:search       # Start dev server for search feature
+   npm run dev:transparency # Start dev server for transparency feature
+   npm run build:search     # Build search feature
+   npm run build:transparency # Build transparency feature
+   npm run lint:search      # Lint search feature
+   npm run lint:transparency # Lint transparency feature
    ```
 
 3. **Hot Reload**: Changes to feature files will trigger hot reload when using the feature-specific dev commands.
@@ -180,12 +214,14 @@ These functions are called from feature hooks and components using the supabase 
 
 ### Completed
 - ✅ Moved all search components to `src/features/search/components/`
+- ✅ Moved all transparency components to `src/features/transparency/components/`
 - ✅ Updated all import paths to use absolute imports
 - ✅ Created feature-specific TypeScript configurations
 - ✅ Set up VSCode workspaces for isolated development
 - ✅ Fixed supabase client import paths
 - ✅ Verified build and lint processes work correctly
 - ✅ Created comprehensive documentation
+- ✅ Created simple UI wrappers in root components for easy access
 
 ### Architecture Benefits
 - **Isolation**: Each feature can be developed independently

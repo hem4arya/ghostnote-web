@@ -4,39 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, Info, Eye, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-
-interface TransparencyBadgeData {
-  text: string;
-  severity: 'none' | 'low' | 'medium' | 'high';
-  show_source_link: boolean;
-}
-
-interface OriginalNote {
-  id: number;
-  title: string;
-  creator_id: string;
-  creator_username?: string;
-  creator_is_public: boolean;
-  created_at: string;
-}
-
-interface BuyerMessage {
-  title: string;
-  description: string;
-  recommendation: string;
-}
-
-interface CloneTransparencyBadgeProps {
-  is_clone: boolean;
-  originality_score: number;
-  originality_level: 'Original' | 'Modified' | 'Heavily Inspired' | 'Clone';
-  similarity_score?: number;
-  original_note?: OriginalNote;
-  transparency_badge: TransparencyBadgeData;
-  buyer_message: BuyerMessage;
-  className?: string;
-  showDetailedInfo?: boolean;
-}
+import { CloneTransparencyBadgeProps } from '../types';
 
 export function CloneTransparencyBadge({
   is_clone,

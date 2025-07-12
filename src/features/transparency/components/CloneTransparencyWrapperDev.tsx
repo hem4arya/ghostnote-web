@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CloneTransparencyBadge } from './CloneTransparencyBadge';
-import { useTransparencyData } from '@/utils/transparency';
+import { TransparencyData } from '../types';
+import { getMockTransparencyData, mockApiDelay } from '../utils/mockData';
 import { Loader2 } from 'lucide-react';
 
-interface CloneTransparencyWrapperProps {
+interface CloneTransparencyWrapperDevProps {
   noteId: string;
   userId?: string;
   className?: string;
@@ -11,15 +12,41 @@ interface CloneTransparencyWrapperProps {
 }
 
 /**
- * Wrapper component that fetches transparency data and displays the badge
+ * Development version of the transparency wrapper that uses mock data
+ * This allows testing the UI without a backend connection
  */
-export function CloneTransparencyWrapper({
+export function CloneTransparencyWrapperDev({
   noteId,
   userId,
   className = '',
   showDetailedInfo = false
-}: CloneTransparencyWrapperProps) {
-  const { data, loading, error } = useTransparencyData(parseInt(noteId), userId);
+}: CloneTransparencyWrapperDevProps) {
+  const [data, setData] = useState<TransparencyData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadMockData() {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        // Simulate API delay
+        await mockApiDelay(300);
+        
+        const transparencyData = getMockTransparencyData(noteId);
+        setData(transparencyData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load transparency data');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (noteId) {
+      loadMockData();
+    }
+  }, [noteId, userId]);
 
   // Don't render anything while loading
   if (loading) {
