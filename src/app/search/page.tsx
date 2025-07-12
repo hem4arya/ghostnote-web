@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import PremiumSearchExperience from '@/components/PremiumSearchExperience';
+import { PremiumSearchExperience } from '@/features/search';
 
 export default function SearchPage() {
   return (

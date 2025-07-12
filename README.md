@@ -96,6 +96,39 @@ ghostnote-web/
 └── public/                     # Static assets
 ```
 
+## 🏗️ Feature-Based Architecture
+
+This project uses a feature-based folder structure for improved maintainability and isolated development:
+
+### Structure Overview
+```
+src/
+├── features/              # Feature modules
+│   └── search/           # Search functionality
+├── components/           # Shared UI components
+├── app/                 # Next.js pages
+└── lib/                 # Shared utilities
+```
+
+### Development Workflow
+
+**Isolated Feature Development**:
+```bash
+# Open search feature workspace
+code src/features/search/search.code-workspace
+
+# Verify feature structure
+npm run verify-features
+```
+
+**Key Benefits**:
+- 🔧 **Isolated Development**: Work on features independently
+- 🚀 **Hot Reload**: Fast feedback loops for feature-specific changes
+- 📁 **Organized Code**: Clear separation of concerns
+- 🔍 **Easy Navigation**: Feature-specific workspaces and documentation
+
+See `FEATURE_STRUCTURE.md` for detailed architecture documentation.
+
 ## 🎨 UI Components
 
 ### Transparency Components

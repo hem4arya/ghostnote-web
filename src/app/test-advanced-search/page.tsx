@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import AdvancedSmartSearch from '@/components/AdvancedSmartSearch';
+import { AdvancedSmartSearch } from '@/features/search';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 
