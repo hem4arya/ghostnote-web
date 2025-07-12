@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { createClient } from 'lib/supabase';
+import { createSupabaseClient } from '../../../../lib/supabase';
 
 interface Note {
   id: number;
@@ -35,9 +35,9 @@ export function useNoteAccess(noteId: number): UseNoteAccessReturn {
   const [hasAccess, setHasAccess] = useState(false);
   const [accessType, setAccessType] = useState<AccessType>('free');
 
-  const supabase = createClient();
+  const supabase = createSupabaseClient();
 
-  const checkAccess = async () => {
+  const checkAccess = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -128,13 +128,13 @@ export function useNoteAccess(noteId: number): UseNoteAccessReturn {
     } finally {
       setLoading(false);
     }
-  };
+  }, [noteId, supabase]);
 
   useEffect(() => {
     if (noteId) {
       checkAccess();
     }
-  }, [noteId]);
+  }, [noteId, checkAccess]);
 
   return {
     note,

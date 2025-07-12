@@ -27,10 +27,10 @@ interface ReaderHeaderProps {
 
 export function ReaderHeader({ 
   note, 
-  showSidebar, 
+  showSidebar: _showSidebar, // eslint-disable-line @typescript-eslint/no-unused-vars
   onToggleSidebar, 
   colorScheme, 
-  onColorSchemeChange 
+  onColorSchemeChange
 }: ReaderHeaderProps) {
   const router = useRouter();
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
