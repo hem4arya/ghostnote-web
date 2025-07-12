@@ -1,189 +1,167 @@
-"use client";
+import React, { useState } from 'react';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { TRANSFORMERS } from '@lexical/markdown';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { AutoLinkNode, LinkNode } from '@lexical/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { useFormatting } from "./hooks/useFormatting";
-import { useResponsive } from "./hooks/useResponsive";
-import { useImageState } from "./hooks/useImageState";
-import { useImageInteraction } from "./hooks/useImageInteraction";
-import { useSaveNote } from "./hooks/useSaveNote";
-import EditorHeader from "./components/EditorHeader";
-import FormattingToolbar from "./components/FormattingToolbar";
-import ImageToolbox from "./components/ImageToolbox";
-import WordCountWidget from "./components/WordCountWidget";
-import type { NoteFormData } from "./types";
+const theme = {
+  ltr: 'ltr',
+  rtl: 'rtl',
+  placeholder: 'editor-placeholder',
+  paragraph: 'editor-paragraph',
+  quote: 'editor-quote',
+  heading: {
+    h1: 'editor-heading-h1',
+    h2: 'editor-heading-h2',
+    h3: 'editor-heading-h3',
+    h4: 'editor-heading-h4',
+    h5: 'editor-heading-h5',
+  },
+  list: {
+    nested: {
+      listitem: 'editor-nested-listitem',
+    },
+    ol: 'editor-list-ol',
+    ul: 'editor-list-ul',
+    listitem: 'editor-listitem',
+  },
+  image: 'editor-image',
+  link: 'editor-link',
+  text: {
+    bold: 'editor-text-bold',
+    italic: 'editor-text-italic',
+    overflowed: 'editor-text-overflowed',
+    hashtag: 'editor-text-hashtag',
+    underline: 'editor-text-underline',
+    strikethrough: 'editor-text-strikethrough',
+    underlineStrikethrough: 'editor-text-underlineStrikethrough',
+    code: 'editor-text-code',
+  },
+  code: 'editor-code',
+  codeHighlight: {
+    atrule: 'editor-tokenAttr',
+    attr: 'editor-tokenAttr',
+    boolean: 'editor-tokenProperty',
+    builtin: 'editor-tokenSelector',
+    cdata: 'editor-tokenComment',
+    char: 'editor-tokenSelector',
+    class: 'editor-tokenFunction',
+    'class-name': 'editor-tokenFunction',
+    comment: 'editor-tokenComment',
+    constant: 'editor-tokenProperty',
+    deleted: 'editor-tokenProperty',
+    doctype: 'editor-tokenComment',
+    entity: 'editor-tokenOperator',
+    function: 'editor-tokenFunction',
+    important: 'editor-tokenVariable',
+    inserted: 'editor-tokenSelector',
+    keyword: 'editor-tokenAttr',
+    namespace: 'editor-tokenVariable',
+    number: 'editor-tokenProperty',
+    operator: 'editor-tokenOperator',
+    prolog: 'editor-tokenComment',
+    property: 'editor-tokenProperty',
+    punctuation: 'editor-tokenPunctuation',
+    regex: 'editor-tokenVariable',
+    selector: 'editor-tokenSelector',
+    string: 'editor-tokenSelector',
+    symbol: 'editor-tokenProperty',
+    tag: 'editor-tokenProperty',
+    url: 'editor-tokenOperator',
+    variable: 'editor-tokenVariable',
+  },
+};
 
-export default function CreateNotePage() {
-  const router = useRouter();
-  const editorRef = useRef<HTMLDivElement>(null);
-  
-  // Basic state
-  const [title, setTitle] = useState("");
-  const [wordCount, setWordCount] = useState(0);
-  const [charCount, setCharCount] = useState(0);
-  const [focusMode, setFocusMode] = useState<boolean>(false);
+function Placeholder() {
+  return <div className="editor-placeholder">Start writing your note...</div>;
+}
 
-  // Custom hooks
-  const { activeFormats, executeCommand, checkFormatting } = useFormatting();
-  const { isMobile } = useResponsive();
-  const { 
-    isSaving, 
-    lastSaved, 
-    isDirty, 
-    saveNote, 
-    triggerAutoSave, 
-    markDirty 
-  } = useSaveNote();
-  const {
-    selectedImage,
-    setSelectedImage,
-    activeMode,
-    setActiveMode,
-    imageTextWrap,
-    setImageTextWrap,
-    imageOpacity,
-    setImageOpacity,
-    showResizeHelp,
-    setShowResizeHelp,
-    hasSeenHelp
-  } = useImageState();
+const CreateNotePage = () => {
+  const [title, setTitle] = useState('');
 
-  // Image interaction hook
-  useImageInteraction({
-    editorRef,
-    selectedImage,
-    setSelectedImage,
-    activeMode,
-    setActiveMode,
-    imageTextWrap,
-    setImageTextWrap,
-    imageOpacity,
-    setImageOpacity,
-    isMobile,
-    showResizeHelp,
-    setShowResizeHelp,
-    hasSeenHelp
-  });
-
-  const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
-    const plainText = e.currentTarget.textContent || "";
-    setWordCount(plainText.trim() ? plainText.trim().split(/\s+/).length : 0);
-    setCharCount(plainText.length);
-
-    // Mark as dirty and trigger auto-save
-    markDirty();
-    triggerAutoSave({
-      title,
-      content: plainText,
-      wordCount: plainText.trim() ? plainText.trim().split(/\s+/).length : 0,
-      characterCount: plainText.length
-    });
-    
-    // Check formatting status after change
-    checkFormatting();
+  const initialConfig = {
+    namespace: 'CreateNoteEditor',
+    theme,
+    onError: (error: Error) => {
+      console.error('Lexical Editor Error:', error);
+    },
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      QuoteNode,
+      CodeNode,
+      CodeHighlightNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      AutoLinkNode,
+      LinkNode,
+    ],
   };
 
-  const handleExecuteCommand = (command: string, value?: string) => {
-    executeCommand(command, value);
+  const handleSave = () => {
+    // TODO: Implement save functionality
+    console.log('Saving note with title:', title);
   };
 
   return (
-    <div className="min-h-screen bg-ghost-black text-white">
-      {/* Header and toolbars - hidden in focus mode */}
-      {!focusMode && (
-        <EditorHeader
-          title={title}
-          setTitle={setTitle}
-          lastSaved={lastSaved}
-          onBackClick={() => router.push('/')}
-          isSaving={isSaving}
-          isDirty={isDirty}
-          onSave={async () => {
-            const content = editorRef.current?.textContent || "";
-            const noteData: NoteFormData = {
-              title,
-              content,
-              tags: [],
-              isPrivate: false,
-              isPremium: false
-            };
-            await saveNote(noteData);
-          }}
-        >
-          <FormattingToolbar
-            activeFormats={activeFormats}
-            executeCommand={handleExecuteCommand}
-          />
-          
-          <ImageToolbox
-            selectedImage={selectedImage}
-            imageTextWrap={imageTextWrap}
-            setImageTextWrap={setImageTextWrap}
-            imageOpacity={imageOpacity}
-            setImageOpacity={setImageOpacity}
-            activeMode={activeMode}
-            setActiveMode={setActiveMode}
-            onHelpClick={() => setShowResizeHelp(true)}
-          />
-        </EditorHeader>
-      )}
-
-      {/* Word Count Widget - hidden in focus mode */}
-      {!focusMode && (
-        <WordCountWidget
-          wordCount={wordCount}
-          characterCount={charCount}
-        />
-      )}
-
-      {/* Editor - Responsive layout with full-screen focus mode */}
-      <div className={focusMode 
-        ? "w-full h-screen relative" 
-        : "max-w-5xl mx-auto px-2 sm:px-4 py-3 sm:py-5 relative"
-      }>
-        <div 
-          ref={editorRef}
-          contentEditable
-          suppressContentEditableWarning
-          onInput={handleContentChange}
-          className={focusMode 
-            ? "w-full h-full p-6 sm:p-8 md:p-12 bg-ghost-black focus:outline-none text-white prose-editor overflow-auto text-lg sm:text-xl leading-relaxed resize-none"
-            : "min-h-[70vh] sm:min-h-[80vh] p-4 sm:p-6 md:p-8 bg-ghost-dark/80 rounded-lg border border-ghost-gray/50 focus:outline-none focus:ring-1 focus:ring-ghost-purple/50 focus:border-ghost-purple/30 transition-all duration-200 text-white prose-editor overflow-hidden text-base sm:text-lg leading-relaxed"
-          }
-          data-placeholder="Start writing your masterpiece..."
-          style={{ caretColor: 'var(--ghost-neon)', position: 'relative' }}
-        />
-        
-        {/* Focus mode toggle button */}
-        <button
-          onClick={() => setFocusMode(!focusMode)}
-          className={focusMode 
-            ? "fixed top-4 right-4 p-3 rounded-full bg-ghost-dark/90 border border-ghost-purple/40 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/60 transition-all duration-200 z-50 focus:outline-none shadow-lg backdrop-blur-sm"
-            : "absolute top-4 right-4 p-2 rounded-full bg-ghost-dark/80 border border-ghost-purple/30 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/50 transition-all duration-200 z-10 focus:outline-none shadow-md"
-          }
-          aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
-          title={focusMode ? "Exit focus mode" : "Enter focus mode"}
-        >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="18" 
-            height="18" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className={focusMode ? "h-5 w-5" : "h-4 w-4"}
-          >
-            {focusMode ? (
-              <path d="M8 3v3a2 2 0 0 1-2 2H3M18 3v3a2 2 0 0 0 2 2h3M3 18v-3a2 2 0 0 1 2-2h3M18 18v-3a2 2 0 0 0-2-2h-3" />
-            ) : (
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m13 0h-3a2 2 0 0 1-2-2v-3" />
-            )}
-          </svg>
-        </button>
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        <Card className="shadow-lg">
+          <CardHeader className="border-b">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl font-bold text-gray-800">
+                Create New Note
+              </CardTitle>
+              <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+                Save Note
+              </Button>
+            </div>
+            <Input
+              type="text"
+              placeholder="Enter note title..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="text-lg font-semibold border-0 p-0 focus:ring-0 shadow-none"
+            />
+          </CardHeader>
+          <CardContent className="p-6">
+            <LexicalComposer initialConfig={initialConfig}>
+              <div className="editor-container">
+                <RichTextPlugin
+                  contentEditable={
+                    <ContentEditable className="editor-input min-h-96 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                  }
+                  placeholder={<Placeholder />}
+                  ErrorBoundary={LexicalErrorBoundary}
+                />
+                <HistoryPlugin />
+                <AutoFocusPlugin />
+                <LinkPlugin />
+                <ListPlugin />
+                <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+              </div>
+            </LexicalComposer>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
-}
+};
+
+export default CreateNotePage;

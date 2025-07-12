@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Search, Filter, TrendingUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/navigation';
 
 interface SearchBarProps {
   onSearch?: (query: string) => void;
@@ -18,6 +19,7 @@ export default function SearchBar({
 }: SearchBarProps) {
   const [query, setQuery] = useState("");
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const router = useRouter();
 
   const handleSearch = () => {
     if (onSearch && query.trim()) {
@@ -31,6 +33,10 @@ export default function SearchBar({
     }
   };
 
+  const handleAdvancedSearch = () => {
+    router.push('/advanced-search');
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto">
       {/* Main Search Bar */}
@@ -40,16 +46,23 @@ export default function SearchBar({
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
           placeholder={placeholder}
-          className="pl-12 pr-24 h-12 bg-ghost-gray/50 border-ghost-purple/30 text-white placeholder:text-gray-400 focus:border-ghost-purple/60"
+          className="pl-12 pr-32 h-12 bg-ghost-gray/50 border-ghost-purple/30 text-white placeholder:text-gray-400 focus:border-ghost-purple/60"
         />
         <Button
           onClick={handleSearch}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-ghost-purple to-ghost-neon text-black font-medium hover:from-ghost-neon hover:to-ghost-cyan h-8"
+          className="absolute right-24 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-ghost-purple to-ghost-neon text-black font-medium hover:from-ghost-neon hover:to-ghost-cyan h-8"
           size="sm"
         >
           Search
+        </Button>
+        <Button
+          onClick={handleAdvancedSearch}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-ghost-cyan to-ghost-neon text-black font-medium hover:from-ghost-neon hover:to-ghost-purple h-8"
+          size="sm"
+        >
+          Advanced Search
         </Button>
       </div>
 

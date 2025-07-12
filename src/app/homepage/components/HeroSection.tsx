@@ -30,23 +30,21 @@ export default function HeroSection({ onGetStarted, onExplore }: HeroSectionProp
           </p>
           
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="flex flex-col items-center p-6 bg-ghost-gray/30 rounded-lg border border-ghost-purple/20">
-              <Search className="h-8 w-8 text-ghost-neon mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Smart Search</h3>
-              <p className="text-gray-400 text-center">AI-powered search to find exactly what you need</p>
+          <div className="grid grid-cols-3 gap-4 mb-8 sm:gap-8 sm:mb-14 max-w-md mx-auto sm:max-w-2xl">
+            <div className="flex flex-col items-center p-5 sm:p-8 bg-gradient-to-br from-ghost-gray/40 via-ghost-purple/10 to-ghost-neon/10 bg-opacity-70 rounded-2xl border border-ghost-purple/20 shadow-md shadow-ghost-purple/10 transition-transform hover:scale-105 hover:shadow-lg hover:shadow-ghost-neon/20">
+              <Search className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-neon mb-2 sm:mb-4 drop-shadow-md" />
+              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">Smart Search</h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">AI-powered search to find exactly what you need</p>
             </div>
-            
-            <div className="flex flex-col items-center p-6 bg-ghost-gray/30 rounded-lg border border-ghost-purple/20">
-              <Star className="h-8 w-8 text-ghost-cyan mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Quality Content</h3>
-              <p className="text-gray-400 text-center">Curated high-quality notes and articles</p>
+            <div className="flex flex-col items-center p-5 sm:p-8 bg-gradient-to-br from-ghost-gray/40 via-ghost-cyan/10 to-ghost-purple/10 bg-opacity-70 rounded-2xl border border-ghost-cyan/20 shadow-md shadow-ghost-cyan/10 transition-transform hover:scale-105 hover:shadow-lg hover:shadow-ghost-cyan/20">
+              <Star className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-cyan mb-2 sm:mb-4 drop-shadow-md" />
+              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">Quality Content</h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">Curated high-quality notes and articles</p>
             </div>
-            
-            <div className="flex flex-col items-center p-6 bg-ghost-gray/30 rounded-lg border border-ghost-purple/20">
-              <Users className="h-8 w-8 text-ghost-purple mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Community</h3>
-              <p className="text-gray-400 text-center">Join thousands of creators and learners</p>
+            <div className="flex flex-col items-center p-5 sm:p-8 bg-gradient-to-br from-ghost-gray/40 via-ghost-purple/10 to-ghost-cyan/10 bg-opacity-70 rounded-2xl border border-ghost-purple/20 shadow-md shadow-ghost-purple/10 transition-transform hover:scale-105 hover:shadow-lg hover:shadow-ghost-purple/20">
+              <Users className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-purple mb-2 sm:mb-4 drop-shadow-md" />
+              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">Community</h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">Join thousands of creators and learners</p>
             </div>
           </div>
           
