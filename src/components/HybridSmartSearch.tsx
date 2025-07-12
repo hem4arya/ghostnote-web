@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Slider } from './ui/slider';
-import { useToast } from '../hooks/use-toast';
+import { useToast } from '@/shared/hooks/use-toast';
 import { supabase } from '../../lib/supabase';
 
 interface SearchResult {
