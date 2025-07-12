@@ -1,0 +1,31 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["../../../*"],
+      "~/*": ["../../../*"],
+      "./components/*": ["./components/*"],
+      "./hooks/*": ["./hooks/*"],
+      "./utils/*": ["./utils/*"],
+      "./types/*": ["./types/*"],
+      "lib/*": ["../../../lib/*"],
+      "components/*": ["../../../components/*"],
+      "features/*": ["../../../features/*"],
+      "shared/*": ["../../../shared/*"],
+      "utils/*": ["../../../utils/*"]
+    }
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../../../types/**/*.ts",
+    "../../../lib/**/*.ts",
+    "../../../components/**/*.ts",
+    "../../../components/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
+}

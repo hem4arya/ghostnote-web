@@ -1,0 +1,65 @@
+{
+  "folders": [
+    {
+      "name": "🏠 Full Project",
+      "path": "."
+    },
+    {
+      "name": "🏡 Homepage Feature",
+      "path": "./src/app/homepage"
+    },
+    {
+      "name": "📝 Notes Feature",
+      "path": "./src/features/notes"
+    },
+    {
+      "name": "🔐 Auth Feature", 
+      "path": "./src/features/auth"
+    },
+    {
+      "name": "🔍 Search Feature",
+      "path": "./src/features/search"
+    },
+    {
+      "name": "🎨 UI Components",
+      "path": "./src/components/ui"
+    },
+    {
+      "name": "📚 Shared Library",
+      "path": "./src/lib"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "typescript.suggest.autoImports": true,
+    "typescript.suggest.includeCompletionsForImportStatements": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true
+    },
+    "emmet.includeLanguages": {
+      "typescript": "html",
+      "typescriptreact": "html"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-typescript-next",
+      "formulahendry.auto-rename-tag",
+      "christian-kohler.path-intellisense"
+    ]
+  }
+}
