@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'packages/ui-components/components/button';
+import { Button } from 'packages/ui-components/src/components/button';
 import type { EditorHeaderProps } from '../types';
 
 export default function EditorHeader({ 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Type, AlignLeft, Download, Share2, Heart } from 'lucide-react';
-import { Button } from 'packages/ui-components/components/button';
+import { Button } from 'packages/ui-components/src/components/button';
 import type { ReaderSidebarProps } from '../types';
 
 export function ReaderSidebar({ 

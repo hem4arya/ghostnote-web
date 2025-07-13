@@ -1,0 +1,27 @@
+{
+    "name": "@ghostnote/editor",
+    "version": "0.0.1",
+    "private": true,
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
+    "scripts": {
+      "lint": "echo 'Running lint for editor...'",
+      "test": "echo 'Running tests for editor...'"
+    },
+    "dependencies": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "lexical": "^0.12.0", 
+      "@lexical/react": "^0.12.0",
+      "@lexical/html": "^0.12.0",
+      "@lexical/selection": "^0.12.0",
+      "@lexical/utils": "^0.12.0",
+      "@ghostnote/ui-components": "workspace:*"
+    },
+    "devDependencies": {
+      "typescript": "^5.0.0",
+      "@types/react": "^18.2.0",
+      "@types/react-dom": "^18.2.0",
+      "@types/node": "^20.0.0"
+    }
+  }

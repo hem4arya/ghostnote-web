@@ -1,0 +1,18 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+      "outDir": "dist",
+      "rootDir": "src",
+      "jsx": "react-jsx",
+      "paths": {
+        "@editor-components/*": ["./src/components/*"],
+        "@editor-hooks/*": ["./src/hooks/*"],
+        "@editor-logic/*": ["./src/logic/*"]
+      }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"],
+    "references": [
+      { "path": "../ui-components" } // Reference ui-components if used
+    ]
+  }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'packages/ui-components/components/button';
+import { Button } from 'packages/ui-components/src/components/button';
 import { Upload, ImageIcon, Trash2 } from 'lucide-react';
 
 interface ImageToolboxProps {

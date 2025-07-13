@@ -9,7 +9,7 @@ import Navbar from "packages/shell/src/Navbar";
 import Footer from "packages/shell/src/Footer";
 import NoteCard from "packages/notes/components/NoteCard";
 import { sampleNotes } from "packages/notes/src/data/sampleNotes";
-import AuthModal from "@/features/auth/components/AuthModal";
+import AuthModal from "packages/auth/src/trash/AuthModal";
 
 export default function HomePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);

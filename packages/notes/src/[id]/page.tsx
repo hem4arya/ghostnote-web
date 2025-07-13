@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles, BookOpen } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from 'packages/ui-components/components/button';
+import { Button } from 'packages/ui-components/src/components/button';
 import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
 import Navbar from 'packages/shell/src/Navbar';
 import Footer from 'packages/shell/src/Footer';

@@ -10,13 +10,13 @@ export { default as IntelligentSearch } from './components/IntelligentSearch';
 export { default as IntelligentSearchFixed } from './components/IntelligentSearchFixed';
 
 // Search Types
-export * from './types/index';
+export * from './src/types/index';
 
 // Search Utilities (when created)
 // export * from './utils';
 
 // Search Hooks
-export { useSearch } from './hooks/useSearch';
+export { useSearch } from './src/hooks/useSearch';
 
 // Re-export the main UI component from root for convenience
 export { default as SmartSearchDropdown } from 'packages/search/components/SmartSearchDropdown';

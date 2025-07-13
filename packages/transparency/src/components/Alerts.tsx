@@ -1,4 +1,4 @@
-import { Card, CardContent } from "packages/ui-components/components/card";
+import { Card, CardContent } from "packages/ui-components/src/components/card";
 import { TrendingUp, AlertTriangle } from "lucide-react";
 
 const alerts = [

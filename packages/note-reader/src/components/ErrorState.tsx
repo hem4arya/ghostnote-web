@@ -1,7 +1,7 @@
 'use client';
 
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
-import { Button } from 'packages/ui-components/components/button';
+import { Button } from 'packages/ui-components/src/components/button';
 import { useRouter } from 'next/navigation';
 import type { ErrorStateProps } from '../types';
 

@@ -12,8 +12,8 @@
     "paths": {
       
       "@search-components/*": ["./components/*"],
-      "@search-hooks/*": ["./hooks/*"],
-      "@search-types/*": ["./types/*"]
+      "@search-hooks/*": ["src/hooks/*"],
+      "@search-types/*": src/types/*/*"]
     }
   },
   "include": [
@@ -22,7 +22,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "dist"],
+  "exclude": src/node_moduleses", "dist"],
   "references": [
     { "path": "../ui-components" } // Add this line if not present
   ]
