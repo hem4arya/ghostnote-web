@@ -1,0 +1,25 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+      "outDir": "dist",
+      "rootDir": "src",
+      "jsx": "preserve",
+      "plugins": [
+        {
+          "name": "next"
+        }
+      ],
+      "paths": {
+        "@notes-components/*": ["./src/components/*"],
+        "@notes-data/*": ["./src/data/*"],
+        "@notes-hooks/*": ["./src/hooks/*"]
+      }
+    },
+    "include": [
+      "next-env.d.ts",
+      "**/*.ts",
+      "**/*.tsx",
+      ".next/types/**/*.ts"
+    ],
+    "exclude": ["node_modules", "dist"]
+  }

@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@note-reader-components/*": ["./src/components/*"],
+      "@note-reader-hooks/*": ["./src/hooks/*"],
+      "@note-reader-types/*": ["./src/types/*"],
+      "@note-reader-utils/*": ["./src/utils/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
