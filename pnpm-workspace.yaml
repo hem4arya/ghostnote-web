@@ -1,0 +1,3 @@
+packages:
+  - 'packages/*'
+  - 'apps/*' # For your main Next.js app, if you decide to move it later

@@ -1,0 +1,46 @@
+{
+  "folders": [
+    {
+      "name": "Search Feature",
+      "path": "./src/features/search"
+    },
+    {
+      "name": "Search UI (Root)",
+      "path": "./src/components"
+    },
+    {
+      "name": "Supabase Functions",
+      "path": "./supabase/functions"
+    },
+    {
+      "name": "Project Root (for dev server)",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "on",
+    "typescript.suggest.autoImports": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/*/**": true,
+      "**/.next/**": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-typescript-next",
+      "supabase.supabase"
+    ]
+  }
+}
