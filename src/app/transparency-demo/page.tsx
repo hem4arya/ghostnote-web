@@ -3,8 +3,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CloneTransparencyBadge, sampleTransparencyData } from '@/features/transparency';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from 'packages/shell/src/Navbar';
+import Footer from 'packages/shell/src/Footer';
 
 const TransparencyDemoPage = () => {
   const scenarios = [

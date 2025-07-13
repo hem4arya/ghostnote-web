@@ -2,8 +2,8 @@
     "name": "@ghostnote/search",
     "version": "0.0.1",
     "private": true,
-    "main": "./src/page.tsx",
-    "types": "./src/page.tsx",
+    "main": "./page.tsx",  
+    "types": "./page.tsx",  
     "scripts": {
       "lint": "echo 'Running lint for search...'",
       "test": "echo 'Running tests for search...'",
@@ -14,7 +14,8 @@
     "dependencies": {
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
-      "next": "^14.0.0"
+      "next": "^14.0.0",
+      "@ghostnote/ui-components": "workspace:*"
       
     },
     "devDependencies": {

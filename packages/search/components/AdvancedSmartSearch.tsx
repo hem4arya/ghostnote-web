@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Link from 'next/link';
-import { sampleNotes } from '@/features/notes/data/sampleNotes';
-import { Note } from '@/features/notes/components/NoteCard';
+import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
+import { Note } from 'packages/notes/components/NoteCard';
 
 interface RankedNote extends Note {
   content_similarity?: number;

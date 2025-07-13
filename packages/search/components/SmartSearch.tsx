@@ -5,8 +5,8 @@ import { Search, Loader2, Sparkles } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { sampleNotes } from '@/features/notes/data/sampleNotes';
-import { Note } from '@/features/notes/components/NoteCard';
+import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
+import { Note } from 'packages/notes/components/NoteCard';
 
 interface SearchResult extends Note {
   similarity?: number;

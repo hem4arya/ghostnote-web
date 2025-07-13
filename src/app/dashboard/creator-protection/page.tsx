@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CreatorCloneDashboard } from '@/components/CreatorCloneDashboard';
+import { CreatorCloneDashboard } from 'packages/ui-components/src/CreatorCloneDashboard';
 import { CloneAlerts } from '@/features/transparency';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

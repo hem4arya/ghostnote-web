@@ -1,5 +1,5 @@
 // Export all access control functionality from a single entry point
-export * from './types';
-export * from './utils/accessControl';
-export * from './hooks/useContentAccess';
-export * from './components/AccessControl';
+export * from './src/types';
+export * from './src/utils/accessControl';
+export * from './src/hooks/useContentAccess';
+export * from './src/components/AccessControl';

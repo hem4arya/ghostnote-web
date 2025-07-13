@@ -1,0 +1,21 @@
+{
+    "name": "@ghostnote/ui-components",
+    "version": "0.0.1",
+    "private": true,
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
+    "scripts": {
+      "lint": "echo 'Running lint for ui-components...'",
+      "test": "echo 'Running tests for ui-components...'"
+    },
+    "dependencies": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "tailwind-merge": "^2.0.0"
+    },
+    "devDependencies": {
+      "typescript": "^5.0.0",
+      "@types/react": "^18.2.0",
+      "@types/react-dom": "^18.2.0"
+    }
+  }

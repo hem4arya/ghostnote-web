@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
-import { Note } from '@/features/notes/components/NoteCard';
+import { Note } from 'packages/notes/components/NoteCard';
 
 interface SearchResult extends Note {
   similarity?: number;

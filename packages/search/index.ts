@@ -19,4 +19,4 @@ export * from './types/index';
 export { useSearch } from './hooks/useSearch';
 
 // Re-export the main UI component from root for convenience
-export { default as SmartSearchDropdown } from '@/components/SmartSearchDropdown';
+export { default as SmartSearchDropdown } from 'packages/search/components/SmartSearchDropdown';

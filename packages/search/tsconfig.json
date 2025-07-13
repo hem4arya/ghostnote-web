@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".", 
     "jsx": "preserve",
     "plugins": [
       {
@@ -10,10 +10,10 @@
       }
     ],
     "paths": {
-      // Your existing aliases for search components, hooks, types
-      "@search-components/*": ["./src/components/*"],
-      "@search-hooks/*": ["./src/hooks/*"],
-      "@search-types/*": ["./src/types/*"]
+      
+      "@search-components/*": ["./components/*"],
+      "@search-hooks/*": ["./hooks/*"],
+      "@search-types/*": ["./types/*"]
     }
   },
   "include": [
@@ -22,5 +22,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    { "path": "../ui-components" } // Add this line if not present
+  ]
 }

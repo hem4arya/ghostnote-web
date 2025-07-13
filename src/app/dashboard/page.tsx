@@ -1,7 +1,7 @@
 import DashboardHeader from '@/components/pages/dashboard/DashboardHeader';
-import DashboardTabs from '@/components/DashboardTabs';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import DashboardTabs from 'packages/ui-components/src/DashboardTabs';
+import Navbar from 'packages/shell/src/Navbar';
+import Footer from 'packages/shell/src/Footer';
 
 const DashboardPage = () => {
   return (
