@@ -1,0 +1,434 @@
+/**
+ * Lexical Editor Styles for GhostNote
+ * Scoped CSS for editor-specific styling
+ */
+
+/* Editor Container */
+.editor-container {
+  position: relative;
+  min-height: 70vh;
+}
+
+/* Content Editable */
+.editor-content-editable {
+  outline: none;
+  position: relative;
+  min-height: 70vh;
+  padding: 1.5rem;
+  background-color: rgba(31, 41, 55, 0.8);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.editor-content-editable:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Selection styles */
+.editor-content-editable ::selection {
+  background-color: rgba(168, 85, 247, 0.3);
+}
+
+.editor-content-editable ::-moz-selection {
+  background-color: rgba(168, 85, 247, 0.3);
+}
+
+/* Placeholder */
+.editor-placeholder {
+  color: #9ca3af;
+  pointer-events: none;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.6;
+}
+
+/* Lexical theme classes - matching GhostNoteTheme.ts */
+.editor-text-bold {
+  font-weight: bold;
+}
+
+.editor-text-italic {
+  font-style: italic;
+}
+
+.editor-text-underline {
+  text-decoration: underline;
+}
+
+.editor-text-strikethrough {
+  text-decoration: line-through;
+}
+
+.editor-text-underline-strikethrough {
+  text-decoration: underline line-through;
+}
+
+.editor-text-code {
+  background-color: rgba(147, 51, 234, 0.2);
+  color: #a855f7;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.editor-text-hashtag {
+  color: #a855f7;
+  font-weight: 500;
+}
+
+/* Headings */
+.editor-heading-h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+  line-height: 1.2;
+  color: white;
+}
+
+.editor-heading-h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.75rem 0 0.5rem;
+  line-height: 1.3;
+  color: white;
+}
+
+.editor-heading-h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0.5rem 0 0.25rem;
+  line-height: 1.4;
+  color: white;
+}
+
+.editor-heading-h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+  line-height: 1.4;
+  color: white;
+}
+
+.editor-heading-h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+  line-height: 1.4;
+  color: white;
+}
+
+.editor-heading-h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+  line-height: 1.4;
+  color: white;
+}
+
+/* Paragraphs */
+.editor-paragraph {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  color: white;
+}
+
+/* Quotes */
+.editor-quote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 4px solid #a855f7;
+  font-style: italic;
+  color: #d1d5db;
+  background-color: rgba(31, 41, 55, 0.3);
+  padding: 0.5rem 1rem;
+}
+
+/* Lists */
+.editor-list-ol {
+  list-style: decimal;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: white;
+}
+
+.editor-list-ul {
+  list-style: disc;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: white;
+}
+
+.editor-listitem {
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+.editor-nested-listitem {
+  margin: 0.125rem 0;
+  line-height: 1.6;
+}
+
+/* Links */
+.editor-link {
+  color: #a855f7;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.editor-link:hover {
+  color: #c084fc;
+}
+
+/* Code blocks */
+.editor-code {
+  background-color: rgba(31, 41, 55, 0.8);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  color: #a855f7;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Code syntax highlighting */
+.editor-token-attr {
+  color: #fbbf24;
+}
+
+.editor-token-boolean {
+  color: #34d399;
+}
+
+.editor-token-builtin {
+  color: #60a5fa;
+}
+
+.editor-token-cdata {
+  color: #9ca3af;
+}
+
+.editor-token-char {
+  color: #fbbf24;
+}
+
+.editor-token-class {
+  color: #a855f7;
+}
+
+.editor-token-class-name {
+  color: #a855f7;
+}
+
+.editor-token-comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.editor-token-constant {
+  color: #34d399;
+}
+
+.editor-token-deleted {
+  color: #ef4444;
+}
+
+.editor-token-doctype {
+  color: #6b7280;
+}
+
+.editor-token-entity {
+  color: #f59e0b;
+}
+
+.editor-token-function {
+  color: #a855f7;
+}
+
+.editor-token-important {
+  color: #f59e0b;
+}
+
+.editor-token-inserted {
+  color: #10b981;
+}
+
+.editor-token-keyword {
+  color: #a855f7;
+}
+
+.editor-token-namespace {
+  color: #f59e0b;
+}
+
+.editor-token-number {
+  color: #60a5fa;
+}
+
+.editor-token-operator {
+  color: #f59e0b;
+}
+
+.editor-token-prolog {
+  color: #6b7280;
+}
+
+.editor-token-property {
+  color: #34d399;
+}
+
+.editor-token-punctuation {
+  color: #9ca3af;
+}
+
+.editor-token-regex {
+  color: #f59e0b;
+}
+
+.editor-token-selector {
+  color: #fbbf24;
+}
+
+.editor-token-string {
+  color: #10b981;
+}
+
+.editor-token-symbol {
+  color: #34d399;
+}
+
+.editor-token-tag {
+  color: #34d399;
+}
+
+.editor-token-url {
+  color: #f59e0b;
+}
+
+.editor-token-variable {
+  color: #f59e0b;
+}
+
+/* Hashtags */
+.editor-hashtag {
+  color: #a855f7;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.editor-hashtag:hover {
+  color: #c084fc;
+}
+
+/* Images */
+.editor-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.inline-editor-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tables */
+.editor-table {
+  border-collapse: collapse;
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.editor-table-cell {
+  border: 1px solid rgba(147, 51, 234, 0.2);
+  padding: 0.5rem;
+  background-color: rgba(31, 41, 55, 0.5);
+  color: white;
+}
+
+.editor-table-cell-header {
+  background-color: rgba(147, 51, 234, 0.2);
+  font-weight: 600;
+}
+
+.editor-table-cell-selected {
+  background-color: rgba(147, 51, 234, 0.1);
+}
+
+.editor-table-cell-primary-selected {
+  background-color: rgba(147, 51, 234, 0.3);
+}
+
+/* Marks */
+.editor-mark {
+  background-color: #fbbf24;
+  color: black;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.editor-mark-overlap {
+  background-color: #f59e0b;
+}
+
+/* Indentation */
+.editor-indent-1 {
+  margin-left: 2rem;
+}
+
+/* Embed blocks */
+.editor-embed-block {
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.editor-embed-block-focus {
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+}
+
+/* Character limit */
+.editor-character-limit {
+  color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editor-content-editable {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .editor-placeholder {
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .editor-heading-h1 {
+    font-size: 1.5rem;
+  }
+  
+  .editor-heading-h2 {
+    font-size: 1.25rem;
+  }
+  
+  .editor-heading-h3 {
+    font-size: 1.125rem;
+  }
+} 

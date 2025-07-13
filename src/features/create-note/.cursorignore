@@ -1,0 +1,16 @@
+node_modules/
+.next/
+dist/
+out/
+build/
+public/
+static/
+*.log
+*.md
+*.lock
+coverage/
+*.code-workspace
+*.lnk
+*.symlink
+*.tmp
+*.lock
