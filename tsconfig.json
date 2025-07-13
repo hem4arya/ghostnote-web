@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "baseUrl": ".",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -13,23 +14,27 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "src",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["*"],
-      "lib/*": ["lib/*"],
-      "components/*": ["components/*"],
-      "features/*": ["features/*"],
-      "app/*": ["app/*"],
-      "utils/*": ["utils/*"],
-      "shared/*": ["shared/*"],
-      "~/*": ["../src/*"]
+      "@/*": ["./src/*"],
+      "@packages/*": ["./packages/*/src"],
+      // You can add more specific paths here as you create packages, e.g.:
+      // "@my-app/homepage": ["./packages/homepage/src"],
+      // "@my-app/ui-components": ["./packages/ui-components/src"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [] // This array will be populated by your individual package tsconfig.json files
 }

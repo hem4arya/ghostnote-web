@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.json", // Extends the root tsconfig.json
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "jsx": "preserve", // Use "preserve" for Next.js app directory pages
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      // Your existing aliases for homepage components, hooks, types, utils
+      "@homepage-components/*": ["./src/components/*"],
+      "@homepage-hooks/*": ["./src/hooks/*"],
+      "@homepage-types/*": ["./src/types/*"],
+      "@homepage-utils/*": ["./src/utils/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

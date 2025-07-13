@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useContentAccess } from '@/features/access-control/hooks/useContentAccess';
+import { useContentAccess } from 'packages/access-control/hooks/useContentAccess';
 import { sampleNotes } from '@/features/notes/data/sampleNotes';
 import { Note } from '@/features/notes/components/NoteCard';
 

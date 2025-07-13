@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
-import AdvancedSmartSearch from '@/features/search/components/AdvancedSmartSearch';
-import HybridSmartSearch from '@/features/search/components/HybridSmartSearch';
-import PremiumSearchExperience from '@/features/search/components/PremiumSearchExperience';
-import SmartSearch from '@/features/search/components/SmartSearch';
-import IntelligentSearch from '@/features/search/components/IntelligentSearch';
-import IntelligentSearchFixed from '@/features/search/components/IntelligentSearchFixed';
+import AdvancedSmartSearch from '../../../packages/search/components/AdvancedSmartSearch';
+import HybridSmartSearch from '../../../packages/search/components/HybridSmartSearch';
+import PremiumSearchExperience from '../../../packages/search/components/PremiumSearchExperience';
+import SmartSearch from '../../../packages/search/components/SmartSearch';
+import IntelligentSearch from '../../../packages/search/components/IntelligentSearch';
+import IntelligentSearchFixed from '../../../packages/search/components/IntelligentSearchFixed';
 
 export default function AdvancedSearchPage() {
   const [query, setQuery] = useState('');
