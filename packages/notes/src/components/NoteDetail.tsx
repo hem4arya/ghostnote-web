@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Share2, Flag, Bookmark, ShoppingCart, Lock, Star, BookOpen } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from 'packages/ui-components/components/button';
 import { Note } from './NoteCard';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

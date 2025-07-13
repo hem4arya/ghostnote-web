@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { AdvancedSmartSearch } from '@/features/search';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
+import { Input } from 'packages/ui-components/components/input';
+import { Card } from 'packages/ui-components/components/card';
 
 export default function AdvancedSearchTestPage() {
   const [query, setQuery] = useState('');

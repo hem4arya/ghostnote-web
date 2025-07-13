@@ -1,9 +1,9 @@
 import React from 'react';
 import { Lock, ShoppingCart, AlertTriangle, CheckCircle, User } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button } from 'packages/ui-components/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
 import { useMockContentAccess } from '../utils/mockAccessControl';
 
 interface AccessControlProps {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { supabase } from '../../../../lib/supabase';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button } from 'packages/ui-components/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
 import { AlertTriangle, Eye, Save } from 'lucide-react';
 
 interface CloneWarning {

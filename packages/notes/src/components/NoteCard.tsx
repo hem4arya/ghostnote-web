@@ -1,5 +1,5 @@
 import { Star, ShoppingCart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from 'packages/ui-components/components/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';

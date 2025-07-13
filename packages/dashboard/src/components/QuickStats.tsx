@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "packages/ui-components/components/card";
 import { DollarSign, FileText, Shield } from "lucide-react";
 
 const QuickStats = () => {

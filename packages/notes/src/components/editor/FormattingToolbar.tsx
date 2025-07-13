@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from 'packages/ui-components/components/button';
 import { Bold, Italic, Underline, List, ListOrdered } from 'lucide-react';
 
 interface FormattingToolbarProps {

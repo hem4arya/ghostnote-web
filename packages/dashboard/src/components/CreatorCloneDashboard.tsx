@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../../lib/supabase';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from 'packages/ui-components/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
+import { Textarea } from 'packages/ui-components/components/textarea';
+import { Input } from 'packages/ui-components/components/input';
+import { Label } from 'packages/ui-components/components/label';
 import { 
   AlertTriangle, 
   Eye, 

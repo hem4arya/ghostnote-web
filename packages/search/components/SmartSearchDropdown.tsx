@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Search, Loader2, Sparkles } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
 import { supabase } from '../../../lib/supabase';
 import Link from 'next/link';
 import { Note } from 'packages/notes/components/NoteCard';

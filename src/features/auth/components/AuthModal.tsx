@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { X, Mail, Lock, User, Phone, UserCheck, Eye, EyeOff, Copy, AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from 'packages/ui-components/components/button';
+import { Input } from 'packages/ui-components/components/input';
+import { Label } from 'packages/ui-components/components/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'packages/ui-components/components/tooltip';
 
 interface AuthModalProps {
   isOpen: boolean;

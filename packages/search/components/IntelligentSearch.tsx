@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Loader2, Sparkles, User, Heart, TrendingUp, Lightbulb } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button } from 'packages/ui-components/components/button';
+import { Input } from 'packages/ui-components/components/input';
+import { Card } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';

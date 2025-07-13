@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/components/card';
 import { CloneTransparencyBadge, sampleTransparencyData } from '@/features/transparency';
 import Navbar from 'packages/shell/src/Navbar';
 import Footer from 'packages/shell/src/Footer';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from 'packages/ui-components/components/button';
 import { Upload, ImageIcon, Move, RotateCcw, HelpCircle } from 'lucide-react';
 import type { ImageToolboxProps } from '../types';
 

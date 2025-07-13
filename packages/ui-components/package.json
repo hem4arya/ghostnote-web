@@ -11,7 +11,8 @@
     "dependencies": {
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
-      "tailwind-merge": "^2.0.0"
+      "tailwind-merge": "^2.0.0",
+      "@ghostnote/ui-components": "workspace:*"
     },
     "devDependencies": {
       "typescript": "^5.0.0",

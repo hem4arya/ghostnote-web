@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { TrendingUp, Star, Eye, ShoppingCart, Shield, Filter, BarChart3 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
+import { Button } from 'packages/ui-components/components/button';
+import { Slider } from 'packages/ui-components/components/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'packages/ui-components/components/select';
 import Link from 'next/link';
 import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
 import { Note } from 'packages/notes/components/NoteCard';

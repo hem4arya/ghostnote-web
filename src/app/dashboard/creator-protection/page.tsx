@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { CreatorCloneDashboard } from 'packages/ui-components/src/CreatorCloneDashboard';
 import { CloneAlerts } from '@/features/transparency';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/components/card';
+import { Button } from 'packages/ui-components/components/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'packages/ui-components/components/tabs';
 import { Shield, AlertTriangle, BarChart3, Settings } from 'lucide-react';
 
 export default function CreatorDashboardPage() {

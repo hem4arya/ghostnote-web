@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Settings, Share2, Bookmark, MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { Button } from 'packages/ui-components/components/button';
 import type { ReaderHeaderProps } from '../types';
 import '../styles/reader.css';
 

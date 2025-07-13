@@ -1,8 +1,16 @@
-// Main component exports - adjust imports as needed in consuming files
-// Layout Components
-export { default as Navbar } from '../../shell/src/Navbar';
-export { default as Footer } from '../../shell/src/Footer';
-
-// Dashboard Components
-export { default as DashboardTabs } from './DashboardTabs';
-export { default as QuickStats } from '../../dashboard/src/components/QuickStats';
+// Re-export all your generic UI components from this file
+export * from '../components/badge';
+export * from '../components/button';
+export * from '../components/card';
+export * from '../components/dialog';
+export * from '../components/input';
+export * from '../components/label';
+export * from '../components/progress';
+export * from '../components/select';
+export * from '../components/separator';
+export * from '../components/slider';
+export * from '../components/switch';
+export * from '../components/tabs';
+export * from '../components/textarea';
+export * from '../components/tooltip';
+// Add any other generic UI components you moved here if they are not listed above

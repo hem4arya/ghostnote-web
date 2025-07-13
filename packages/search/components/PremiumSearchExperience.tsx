@@ -14,10 +14,10 @@ import {
   Sparkles,
   ArrowRight
 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from 'packages/ui-components/components/input';
+import { Button } from 'packages/ui-components/components/button';
+import { Badge } from 'packages/ui-components/components/badge';
+import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/components/card';
 
 // Speech Recognition types
 interface SpeechRecognitionEvent {

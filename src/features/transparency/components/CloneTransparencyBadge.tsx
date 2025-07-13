@@ -1,7 +1,7 @@
 import React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from 'packages/ui-components/components/badge';
+import { Button } from 'packages/ui-components/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/components/card';
 import { AlertTriangle, Info, Eye, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { CloneTransparencyBadgeProps } from '../types';

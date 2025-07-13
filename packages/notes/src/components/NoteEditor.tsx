@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { X, Save, Lock, Shield } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "packages/ui-components/components/button";
+import { Input } from "packages/ui-components/components/input";
+import { Label } from "packages/ui-components/components/label";
+import { Textarea } from "packages/ui-components/components/textarea";
+import { Switch } from "packages/ui-components/components/switch";
+import { Card, CardContent, CardHeader, CardTitle } from "packages/ui-components/components/card";
 
 interface Note {
   title?: string;

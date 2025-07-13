@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Copy, Eye, EyeOff, AlertTriangle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "packages/ui-components/components/button";
+import { Input } from "packages/ui-components/components/input";
+import { Label } from "packages/ui-components/components/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "packages/ui-components/components/dialog";
 
 interface PrivateAccountSetupProps {
   open: boolean;

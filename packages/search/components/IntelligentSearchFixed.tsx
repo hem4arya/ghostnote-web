@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Loader2, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button } from 'packages/ui-components/components/button';
+import { Input } from 'packages/ui-components/components/input';
+import { Card } from 'packages/ui-components/components/card';
+import { Badge } from 'packages/ui-components/components/badge';
 import { supabase } from '../../../../lib/supabase';
 import Link from 'next/link';
 import { Note } from 'packages/notes/components/NoteCard';
