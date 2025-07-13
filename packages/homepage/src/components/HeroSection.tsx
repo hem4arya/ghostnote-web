@@ -1,7 +1,7 @@
 "use client";
 
 import { Search, Star, Users, Zap } from "lucide-react";
-import { Button } from "packages/ui-components/src/components/button";
+import { Button } from "../../../ui-components/src/components/button";
 
 interface HeroSectionProps {
   onGetStarted?: () => void;

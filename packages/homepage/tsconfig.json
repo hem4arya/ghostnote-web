@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": ".",
     "jsx": "preserve", 
     "plugins": [
       {
@@ -11,7 +10,7 @@
     ],
     "paths": {
       "@homepage-components/*": ["src/components/*"],
-      "@homepage-hooks/*": src/hooks/*/*"],
+      "@homepage-hooks/*": ["src/hooks/*"],
       "@homepage-types/*": ["src/types/*"],
       "@homepage-utils/*": ["src/utils/*"]
     }

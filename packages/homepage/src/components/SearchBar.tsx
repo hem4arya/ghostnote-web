@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Search, Filter, TrendingUp } from "lucide-react";
-import { Input } from "packages/ui-components/src/components/input";
-import { Button } from "packages/ui-components/src/components/button";
+import { Input } from "../../../ui-components/src/components/input";
+import { Button } from "../../../ui-components/src/components/button";
 import { useRouter } from 'next/navigation';
 
 interface SearchBarProps {

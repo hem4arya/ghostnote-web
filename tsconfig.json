@@ -20,7 +20,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*", "./lib/*"],
       "@packages/*": ["./packages/*/src"],
       // You can add more specific paths here as you create packages, e.g.:
       // "@my-app/homepage": ["./packages/homepage/src"],

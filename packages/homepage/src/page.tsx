@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 // Feature-local imports (relative)
 import HeroSection from "./components/HeroSection";
 // import SearchBar from "./components/SearchBar"; // TODO: Integrate search bar
-// Global imports (absolute)
-import Navbar from "packages/shell/src/Navbar";
-import Footer from "packages/shell/src/Footer";
-import NoteCard from "packages/notes/components/NoteCard";
-import { sampleNotes } from "packages/notes/src/data/sampleNotes";
-import AuthModal from "packages/auth/src/trash/AuthModal";
+// Global imports (absolute) - using relative paths from monorepo
+import Navbar from "../../shell/src/Navbar";
+import Footer from "../../shell/src/Footer";
+import NoteCard from "../../notes/src/components/NoteCard";
+import { sampleNotes } from "../../notes/src/data/sampleNotes";
+import AuthModal from "../../auth/src/trash/AuthModal";
 
 export default function HomePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);

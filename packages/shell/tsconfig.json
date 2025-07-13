@@ -2,13 +2,8 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
       "outDir": "dist",
-      "rootDir": "src",
       "jsx": "react-jsx"
     },
     "include": ["src"],
-    "exclude": ["node_modules", "dist"],
-    "references": [
-      // If your shell components use @ghostnote/ui-components, add:
-      // { "path": "../ui-components" }
-    ]
+    "exclude": ["node_modules", "dist"]
   }

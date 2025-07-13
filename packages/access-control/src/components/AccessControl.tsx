@@ -1,10 +1,18 @@
 import React from 'react';
 import { Lock, ShoppingCart, AlertTriangle, CheckCircle, User } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from 'packages/ui-components/src/components/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
+import { Button } from './Button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './Card';
+import { Badge } from './Badge';
 import { useMockContentAccess } from '../utils/mockAccessControl';
+
+// Type-safe component wrappers
+const SafeLink = Link as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const CheckCircleIcon = CheckCircle as React.ElementType;
+const UserIcon = User as React.ElementType;
 
 interface AccessControlProps {
   contentId: number;

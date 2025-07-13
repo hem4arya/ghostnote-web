@@ -3,12 +3,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
-import { Card } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import { Button } from 'packages/ui-components/src/components/button';
+import { Card } from '../../../ui-components/src/components/card';
+import { Badge } from '../../../ui-components/src/components/badge';
+import { Button } from '../../../ui-components/src/components/button';
 import { Heart, TrendingUp, Sparkles, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import { Note } from 'packages/notes/components/NoteCard';
+import { Note } from '../../../notes/src/components/NoteCard';
 
 interface RecommendationResult extends Note {
   score?: number;

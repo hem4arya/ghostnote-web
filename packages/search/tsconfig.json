@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": ".", 
     "jsx": "preserve",
     "plugins": [
       {
@@ -10,20 +9,14 @@
       }
     ],
     "paths": {
-      
       "@search-components/*": ["./components/*"],
-      "@search-hooks/*": ["src/hooks/*"],
-      "@search-types/*": src/types/*/*"]
+      "@search-hooks/*": ["./src/hooks/*"],
+      "@search-types/*": ["./src/types/*"]
     }
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
+    "**/*.tsx"
   ],
-  "exclude": src/node_moduleses", "dist"],
-  "references": [
-    { "path": "../ui-components" } // Add this line if not present
-  ]
+  "exclude": ["node_modules", "dist"]
 }

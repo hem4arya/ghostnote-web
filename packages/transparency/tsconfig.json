@@ -1,16 +1,13 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "dist",
-      "rootDir": "src",
-      "jsx": "react-jsx",
-      "paths": {
-        "@transparency-components/*": ["./src/components/*"]
-      }
-    },
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"],
-    "references": [
-      { "path": "../ui-components" } // Reference ui-components if used
-    ]
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "jsx": "react-jsx",
+    "paths": {
+      "@transparency-components/*": ["./src/components/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

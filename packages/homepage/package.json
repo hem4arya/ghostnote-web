@@ -2,8 +2,8 @@
     "name": "@ghostnote/homepage",
     "version": "0.0.1",
     "private": true,
-    "main": "./src/page.tsx",
-    "types": "./src/page.tsx",
+    "main": "./index.ts",
+    "types": "./index.ts",
     "scripts": {
       "lint": "echo 'Running lint for homepage...'",
       "test": "echo 'Running tests for homepage...'",
@@ -14,8 +14,9 @@
     "dependencies": {
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
-      "next": "^14.0.0"
-      
+      "next": "^14.0.0",
+      "lucide-react": "^0.263.1",
+      "@supabase/auth-helpers-nextjs": "^0.7.0"
     },
     "devDependencies": {
       "typescript": "^5.0.0",

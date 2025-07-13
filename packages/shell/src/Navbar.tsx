@@ -1,12 +1,23 @@
 'use client';
 
+import React from 'react';
 import { Search, Settings, User, X, ChevronLeft, Plus } from "lucide-react";
-import { Button } from "../../ui-components/src/components/button";
-import { Input } from "../../ui-components/src/components/input";
+import { Button } from "./components/Button";
+import { Input } from "./components/Input";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from 'next/image';
+
+// Type-safe wrappers for components
+const SafeLink = Link as React.ElementType;
+const SafeImage = Image as React.ElementType;
+const SearchIcon = Search as React.ElementType;
+const SettingsIcon = Settings as React.ElementType;
+const UserIcon = User as React.ElementType;
+const XIcon = X as React.ElementType;
+const ChevronLeftIcon = ChevronLeft as React.ElementType;
+const PlusIcon = Plus as React.ElementType;
 
 interface NavbarProps {
   onLoginClick?: () => void;
@@ -109,8 +120,8 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
         {/* Logo or Back Button based on current page */}
         <div className={`flex items-center transition-all duration-300 ${isSearchOpen ? 'md:flex w-0 md:w-auto opacity-0 md:opacity-100' : 'w-auto opacity-100'}`}>
           {isHomepage ? (
-            <Link href="/" className="flex items-center gap-2 group">
-              <Image 
+            <SafeLink href="/" className="flex items-center gap-2 group">
+              <SafeImage 
                 src="/logo.svg" 
                 alt="GhostNote Logo" 
                 width={28} 
@@ -120,14 +131,14 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
               <h1 className="text-2xl font-bold bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent transition-opacity duration-300 group-hover:opacity-80">
                 GhostNote
               </h1>
-            </Link>
+            </SafeLink>
           ) : (
             <Button 
               onClick={handleBack}
               variant="ghost" 
               className="flex items-center text-gray-300 hover:text-ghost-neon gap-1 px-2"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeftIcon className="h-5 w-5" />
               <span className="font-medium">Back</span>
             </Button>
           )}
@@ -136,7 +147,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
         {/* Search Bar (Desktop) */}
         <div className="hidden md:flex flex-1 max-w-md mx-4 lg:mx-6">
           <div className="relative w-full">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 z-10" />
+            <SearchIcon className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 z-10" />
             <Input
               type="search"
               value={searchQuery}
@@ -168,15 +179,15 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
             Sign Up
           </Button>
           <Button asChild size="sm" className="bg-gradient-to-r from-ghost-cyan to-ghost-neon text-black font-medium hover:from-ghost-neon hover:to-ghost-cyan focus:outline-none focus:ring-0 text-sm">
-            <Link href="/create">
+            <SafeLink href="/create">
               <span className="flex items-center gap-1">
-                <Plus className="h-4 w-4" />
+                <PlusIcon className="h-4 w-4" />
                 Create
               </span>
-            </Link>
+            </SafeLink>
           </Button>
           <Button variant="ghost" size="icon" className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/20 focus:outline-none focus-ring-0 h-10 w-10">
-            <Settings className="h-5 w-5" />
+            <SettingsIcon className="h-5 w-5" />
           </Button>
         </div>
 
@@ -185,7 +196,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
           {isSearchOpen ? (
             <div className="w-full flex items-center animate-in fade-in duration-300">
               <div className="relative w-full flex items-center">
-                <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400 z-10" />
+                <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400 z-10" />
                 <Input
                   ref={searchInputRef}
                   type="search"
@@ -206,7 +217,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
                   }}
                   className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 text-gray-400 hover:text-ghost-neon z-10"
                 >
-                  <X className="h-6 w-6" />
+                  <XIcon className="h-6 w-6" />
                 </Button>
               </div>
             </div>
@@ -218,7 +229,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
                 onClick={() => router.push('/search')}
                 className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0 h-12 w-12"
               >
-                <Search className="h-6 w-6" />
+                <SearchIcon className="h-6 w-6" />
               </Button>
               <Button
                 variant="ghost"
@@ -226,7 +237,7 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
                 onClick={handleLoginClick}
                 className="text-gray-300 hover:text-ghost-neon focus:outline-none focus:ring-0 h-12 w-12"
               >
-                <User className="h-6 w-6" />
+                <UserIcon className="h-6 w-6" />
               </Button>
             </div>
           )}
