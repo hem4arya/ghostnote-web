@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { CloneTransparencyBadge, sampleTransparencyData } from '@/features/transparency';
+import { sampleTransparencyData } from '../data/sampleTransparencyData';
 import Navbar from 'packages/shell/src/Navbar';
 import Footer from 'packages/shell/src/Footer';
 
@@ -65,16 +65,9 @@ const TransparencyDemoPage = () => {
                     <div>
                       <h4 className="text-sm font-medium text-ghost-purple mb-2">Compact Badge:</h4>
                       {data.is_clone ? (
-                        <CloneTransparencyBadge
-                          is_clone={data.is_clone}
-                          originality_score={data.originality_score}
-                          originality_level={data.originality_level}
-                          similarity_score={data.similarity_score}
-                          original_note={data.original_note}
-                          transparency_badge={data.transparency_badge}
-                          buyer_message={data.buyer_message}
-                          showDetailedInfo={false}
-                        />
+                        <div className="transparency-badge bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-sm">
+                          {data.transparency_badge.text}
+                        </div>
                       ) : (
                         <span className="text-sm text-gray-400">No badge shown for original content</span>
                       )}
@@ -84,16 +77,18 @@ const TransparencyDemoPage = () => {
                     <div>
                       <h4 className="text-sm font-medium text-ghost-purple mb-2">Detailed Info:</h4>
                       {data.is_clone ? (
-                        <CloneTransparencyBadge
-                          is_clone={data.is_clone}
-                          originality_score={data.originality_score}
-                          originality_level={data.originality_level}
-                          similarity_score={data.similarity_score}
-                          original_note={data.original_note}
-                          transparency_badge={data.transparency_badge}
-                          buyer_message={data.buyer_message}
-                          showDetailedInfo={true}
-                        />
+                        <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="transparency-badge bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-sm">
+                              {data.transparency_badge.text}
+                            </div>
+                            <span className="text-sm text-gray-400">Score: {data.originality_score}%</span>
+                          </div>
+                          <p className="text-gray-300 text-sm">{data.buyer_message.description}</p>
+                          {data.similarity_score && (
+                            <p className="text-yellow-400 text-sm mt-1">Similarity: {data.similarity_score}%</p>
+                          )}
+                        </div>
                       ) : (
                         <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
                           <p className="text-green-400 text-sm font-medium">✓ Original Content</p>

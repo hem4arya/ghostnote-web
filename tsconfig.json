@@ -34,7 +34,10 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/examples/**",
+    "**/lexical/examples/**",
+    "**/vite.config.*"
   ],
   "references": [] // This array will be populated by your individual package tsconfig.json files
 }

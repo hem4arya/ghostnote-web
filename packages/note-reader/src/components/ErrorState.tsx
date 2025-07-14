@@ -1,6 +1,11 @@
 'use client';
 
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+
+// React 19 compatibility wrappers
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const RefreshCwIcon = RefreshCw as React.ElementType;
+const HomeIcon = Home as React.ElementType;
 import { Button } from 'packages/ui-components/src/components/button';
 import { useRouter } from 'next/navigation';
 import type { ErrorStateProps } from '../types';
@@ -28,7 +33,7 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
     <div className="min-h-screen bg-ghost-black text-white flex items-center justify-center px-4">
       <div className="text-center space-y-6 max-w-md">
         <div className="space-y-4">
-          <AlertTriangle className="h-16 w-16 mx-auto text-red-500" />
+          <AlertTriangleIcon className="h-16 w-16 mx-auto text-red-500" />
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">Oops! Something went wrong</h1>
             <p className="text-gray-400">{errorMessage}</p>
@@ -40,7 +45,7 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
             onClick={handleRefresh}
             className="w-full bg-blue-600 hover:bg-blue-700"
           >
-            <RefreshCw className="h-4 w-4 mr-2" />
+            <RefreshCwIcon className="h-4 w-4 mr-2" />
             Try Again
           </Button>
           
@@ -49,7 +54,7 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
             variant="outline"
             className="w-full border-gray-600 text-gray-300 hover:bg-gray-800"
           >
-            <Home className="h-4 w-4 mr-2" />
+            <HomeIcon className="h-4 w-4 mr-2" />
             Go to Homepage
           </Button>
         </div>

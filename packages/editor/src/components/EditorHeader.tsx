@@ -68,7 +68,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
           </span>
         )}
         
-        {children}
+        {children as React.ReactNode}
 
         <Button
           variant="outline"

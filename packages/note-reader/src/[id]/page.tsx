@@ -4,6 +4,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Lock, ShoppingCart, User, CheckCircle, AlertTriangle } from 'lucide-react';
+
+// React 19 compatibility wrappers
+const ArrowLeftIcon = ArrowLeft as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const UserIcon = User as React.ElementType;
+const CheckCircleIcon = CheckCircle as React.ElementType;
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const LinkSafe = Link as React.ElementType;
 import { Button } from 'packages/ui-components/src/components/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
 import { Badge } from 'packages/ui-components/src/components/badge';
@@ -62,7 +71,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <div className="animate-pulse text-ghost-purple mb-4">
-              <Lock className="h-12 w-12 mx-auto" />
+              <LockIcon className="h-12 w-12 mx-auto" />
             </div>
             <p className="text-gray-400">Verifying access permissions...</p>
           </div>
@@ -81,7 +90,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
           <Card className="max-w-md bg-black/20 border-red-500/20">
             <CardHeader>
               <CardTitle className="text-red-400 flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5" />
+                <AlertTriangleIcon className="h-5 w-5" />
                 Access Verification Failed
               </CardTitle>
             </CardHeader>

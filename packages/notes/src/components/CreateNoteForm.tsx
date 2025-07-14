@@ -69,13 +69,43 @@ const CreateNoteForm = () => {
     executeCommand(command, value, editorRef);
   };
 
+  // Handler functions for EditorHeader
+  const handleTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+  };
+
+  const handleSave = () => {
+    // Implement save logic
+    console.log('Saving note:', { title, /* content */ });
+    setLastSaved(new Date());
+  };
+
+  const handlePublish = () => {
+    // Implement publish logic
+    console.log('Publishing note:', { title, /* content */ });
+  };
+
+  // Adapter functions for ImageToolbox compatibility
+  const handleImageTextWrapChange = (wrap: 'none' | 'left' | 'right' | 'center') => {
+    if (wrap !== 'none') {
+      setImageTextWrap(wrap);
+    }
+  };
+
+  const handleActiveModeChange = (mode: 'move' | 'resize' | 'rotate' | null) => {
+    // Convert ImageToolbox modes to view/edit modes
+    setActiveMode(mode ? 'edit' : 'view');
+  };
+
   return (
     <div className="min-h-screen bg-ghost-black text-white">
       {/* Header and toolbars - hidden in focus mode */}
       {!focusMode && (
         <EditorHeader
           title={title}
-          setTitle={setTitle}
+          onTitleChange={handleTitleChange}
+          onSave={handleSave}
+          onPublish={handlePublish}
           lastSaved={lastSaved || undefined}
           onBackClick={() => router.push('/')}
         >
@@ -85,13 +115,13 @@ const CreateNoteForm = () => {
           />
           
           <ImageToolbox
-            selectedImage={selectedImage}
-            imageTextWrap={imageTextWrap}
-            setImageTextWrap={setImageTextWrap}
+            selectedImage={null} // Convert string to HTMLImageElement or pass null
+            imageTextWrap={imageTextWrap as 'left' | 'right' | 'center'}
+            setImageTextWrap={handleImageTextWrapChange}
             imageOpacity={imageOpacity}
             setImageOpacity={setImageOpacity}
-            activeMode={activeMode}
-            setActiveMode={setActiveMode}
+            activeMode={null} // Convert view/edit to ImageToolbox modes
+            setActiveMode={handleActiveModeChange}
             onHelpClick={() => {}}
           />
         </EditorHeader>

@@ -1,4 +1,4 @@
-import { TransparencyData } from '@/utils/transparency';
+import { TransparencyData } from '../components/transparency';
 
 /**
  * Sample transparency data for testing and demonstration

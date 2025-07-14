@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { Button } from 'packages/ui-components/src/components/button';
-import { Input } from 'packages/ui-components/src/components/input';
+import * as React from 'react';
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../ui-components/src/components/card';
+import { Button } from '../../../ui-components/src/components/button';
+import { Input } from '../../../ui-components/src/components/input';
 
 // Import the new structured editor
 import Editor from './editor';
@@ -57,7 +58,6 @@ const CreateNotePageNew = () => {
               onWordCountChange={handleWordCountChange}
               placeholder="Start writing your note..."
               showToolbar={true}
-              showWordCount={false} // We're showing it in the header instead
             />
           </CardContent>
         </Card>

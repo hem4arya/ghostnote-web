@@ -1,5 +1,5 @@
 import React from 'react';
-import { CloneTransparencyWrapper as TransparencyWrapper } from '@/features/transparency';
+import { useTransparencyData, formatTransparencyForCard } from './transparency';
 
 interface TransparencyUIProps {
   noteId: string;
@@ -10,8 +10,6 @@ interface TransparencyUIProps {
 
 /**
  * Simple UI wrapper for transparency features
- * This component stays in the root for easy access across the app
- * while the full feature logic is in src/features/transparency/
  */
 export function TransparencyUI({
   noteId,
@@ -19,13 +17,27 @@ export function TransparencyUI({
   className = '',
   showDetailedInfo = false
 }: TransparencyUIProps) {
+  const { data, loading, error } = useTransparencyData(Number(noteId), userId);
+
+  if (loading) return <div className={`transparency-loading ${className}`}>Loading transparency info...</div>;
+  if (error) return <div className={`transparency-error ${className}`}>Error loading transparency info</div>;
+  if (!data) return null;
+
+  const displayData = formatTransparencyForCard(data);
+
   return (
-    <TransparencyWrapper
-      noteId={noteId}
-      userId={userId}
-      className={className}
-      showDetailedInfo={showDetailedInfo}
-    />
+    <div className={`transparency-ui ${className}`}>
+      {displayData.showBadge && (
+        <div className={`transparency-badge ${displayData.badgeVariant}`}>
+          {displayData.badgeText}
+        </div>
+      )}
+      {showDetailedInfo && displayData.shouldWarn && displayData.warningText && (
+        <div className="transparency-warning">
+          {displayData.warningText}
+        </div>
+      )}
+    </div>
   );
 }
 

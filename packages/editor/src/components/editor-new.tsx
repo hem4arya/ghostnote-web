@@ -1,24 +1,20 @@
-"use client";
+'use client';
 
-import { TRANSFORMERS } from "@lexical/markdown";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import * as React from "react";
-import { useState } from "react";
-// Simple error boundary for Lexical compatibility
-const LexicalErrorBoundary = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
-};
+import React, { useState } from 'react';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { TRANSFORMERS } from '@lexical/markdown';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 
 // UI components
-import { Badge } from "../../../ui-components/src/components/badge";
-import { Card, CardContent } from "../../../ui-components/src/components/card";
+import { Card, CardContent } from '../../../ui-components/src/components/card';
+import { Badge } from '../../../ui-components/src/components/badge';
 
 interface EditorProps {
   placeholder?: string;
@@ -30,10 +26,10 @@ interface EditorProps {
 }
 
 const theme = {
-  ltr: "ltr",
-  rtl: "rtl",
-  placeholder: "editor-placeholder",
-  paragraph: "editor-paragraph",
+  ltr: 'ltr',
+  rtl: 'rtl',
+  placeholder: 'editor-placeholder',
+  paragraph: 'editor-paragraph',
 };
 
 export default function Editor({
@@ -42,33 +38,28 @@ export default function Editor({
   autoFocus = true,
   readOnly = false,
   showToolbar = true,
-  onWordCountChange,
+  onWordCountChange
 }: EditorProps) {
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
 
   const initialConfig = {
-    namespace: "GhostNoteEditor",
+    namespace: 'GhostNoteEditor',
     theme,
     onError: (error: Error) => {
-      console.error("Lexical Error:", error);
+      console.error('Lexical Error:', error);
     },
     editable: !readOnly,
   };
 
-  const handleWordCountChange = (
-    newWordCount: number,
-    newCharCount: number
-  ) => {
+  const handleWordCountChange = (newWordCount: number, newCharCount: number) => {
     setWordCount(newWordCount);
     setCharCount(newCharCount);
     onWordCountChange?.(newWordCount, newCharCount);
   };
 
   return (
-    <Card
-      className={`border-ghost-purple/20 bg-ghost-dark/95 shadow-2xl ${className}`}
-    >
+    <Card className={`border-ghost-purple/20 bg-ghost-dark/95 shadow-2xl ${className}`}>
       <LexicalComposer initialConfig={initialConfig}>
         <CardContent className="p-0">
           <div className="editor-container">
@@ -96,16 +87,10 @@ export default function Editor({
           {/* Status bar */}
           <div className="flex items-center justify-between p-4 border-t border-ghost-purple/20 bg-ghost-dark/90">
             <div className="flex items-center gap-4">
-              <Badge
-                variant="outline"
-                className="border-ghost-purple/30 text-gray-300"
-              >
+              <Badge variant="outline" className="border-ghost-purple/30 text-gray-300">
                 {wordCount} words
               </Badge>
-              <Badge
-                variant="outline"
-                className="border-ghost-purple/30 text-gray-300"
-              >
+              <Badge variant="outline" className="border-ghost-purple/30 text-gray-300">
                 {charCount} characters
               </Badge>
             </div>

@@ -1,14 +1,21 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "dist",
-      "jsx": "react-jsx",
-      "paths": {
-        "@editor-components/*": ["./src/components/*"],
-        "@editor-hooks/*": ["./src/hooks/*"],
-        "@editor-logic/*": ["./src/logic/*"]
-      }
-    },
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"]
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@editor-components/*": ["./src/components/*"],
+      "@editor-hooks/*": ["./src/hooks/*"],
+      "@editor-logic/*": ["./src/logic/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/lexical/libdefs/*.js",
+    "src/lexical/examples/**/*"
+  ]
+}
