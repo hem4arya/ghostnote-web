@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { AdvancedSmartSearch } from '@/features/search';
+// import { AdvancedSmartSearch } from '@/features/search';
+import HybridSmartSearch from '../HybridSmartSearch';
 import { Input } from 'packages/ui-components/src/components/input';
 import { Card } from 'packages/ui-components/src/components/card';
 
@@ -25,12 +26,7 @@ export default function AdvancedSearchTestPage() {
               className="w-full bg-ghost-gray/20 border-ghost-purple/30 text-white"
             />
             
-            <AdvancedSmartSearch
-              query={query}
-              isOpen={isOpen}
-              onClose={() => setIsOpen(false)}
-              userId="test-user-123"
-            />
+            <HybridSmartSearch />
           </div>
         </Card>
         

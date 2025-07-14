@@ -2,8 +2,8 @@
     "name": "@ghostnote/search",
     "version": "0.0.1",
     "private": true,
-    "main": "./page.tsx",  
-    "types": "./page.tsx",  
+    "main": "./index.ts",  
+    "types": "./index.ts",  
     "scripts": {
       "lint": "echo 'Running lint for search...'",
       "test": "echo 'Running tests for search...'",

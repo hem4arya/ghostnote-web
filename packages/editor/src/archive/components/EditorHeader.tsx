@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'packages/ui-components/src/components/button';
-import type { EditorHeaderProps } from '../types';
+import type { EditorHeaderProps } from '../../types';
 
 export default function EditorHeader({ 
   title,
@@ -30,7 +30,7 @@ export default function EditorHeader({
           <input
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle?.(e.target.value)}
             className="text-xl font-semibold bg-transparent border-none outline-none text-white placeholder-gray-400 min-w-[200px]"
             placeholder="Untitled Note..."
           />
@@ -70,11 +70,11 @@ export default function EditorHeader({
           </div>
         </div>
       </div>
-      {children && (
+      {children ? (
         <div className="border-t border-ghost-purple/10">
-          {children}
+          {children as React.ReactNode}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

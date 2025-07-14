@@ -72,6 +72,16 @@ import {
   FolderRoot,
   TextIcon,
 } from 'lucide-react';
+
+// React 19 compatibility wrappers
+const ChevronRightIconSafe = ChevronRightIcon as React.ElementType;
+const CircleXIconSafe = CircleXIcon as React.ElementType;
+const CodeXmlIconSafe = CodeXmlIcon as React.ElementType;
+const CornerDownLeftIconSafe = CornerDownLeftIcon as React.ElementType;
+const FolderIconSafe = FolderIcon as React.ElementType;
+const FolderRootSafe = FolderRoot as React.ElementType;
+const TextIconSafe = TextIcon as React.ElementType;
+
 import React, {
   createContext,
   Fragment,
@@ -215,15 +225,15 @@ function LexicalNodeTreeViewItem(props: TreeView.NodeProviderProps<NodeKey>) {
       />
     );
     const icon = $isRootNode(node) ? (
-      <FolderRoot />
+      <FolderRootSafe />
     ) : $isElementNode(node) ? (
-      <FolderIcon />
+      <FolderIconSafe />
     ) : $isTextNode(node) ? (
-      <TextIcon />
+      <TextIconSafe />
     ) : $isDecoratorNode(node) ? (
-      <CodeXmlIcon />
+      <CodeXmlIconSafe />
     ) : $isLineBreakNode(node) ? (
-      <CornerDownLeftIcon />
+      <CornerDownLeftIconSafe />
     ) : null;
     let content: React.ReactNode;
     if ($isElementNode(node)) {
@@ -516,7 +526,7 @@ function LexicalTextSelectionPaneContents({node}: {node: LexicalNode}) {
                 {tag: [SKIP_DOM_SELECTION_TAG, SKIP_SCROLL_INTO_VIEW_TAG]},
               );
             }}>
-            <CircleXIcon />
+            <CircleXIconSafe />
           </button>
           <span className="style-view-key">{k}: </span>
           <StyleValueEditor

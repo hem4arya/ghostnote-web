@@ -11,7 +11,7 @@ import Navbar from 'packages/shell/src/Navbar';
 import Footer from 'packages/shell/src/Footer';
 import { useContentAccess } from 'packages/access-control/src/hooks/useContentAccess';
 import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
-import { Note } from 'packages/notes/components/NoteCard';
+import { Note } from 'packages/notes/src/components/NoteCard';
 
 interface ReaderPageProps {
   params: Promise<{

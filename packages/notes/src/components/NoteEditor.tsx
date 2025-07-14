@@ -9,6 +9,12 @@ import { Textarea } from "packages/ui-components/src/components/textarea";
 import { Switch } from "packages/ui-components/src/components/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "packages/ui-components/src/components/card";
 
+// React 19 compatibility wrappers
+const XIcon = X as React.ElementType;
+const SaveIcon = Save as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const ShieldIcon = Shield as React.ElementType;
+
 interface Note {
   title?: string;
   tags?: string[];
@@ -55,7 +61,7 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
             {note ? "Edit Note" : "Create New Note"}
           </CardTitle>
           <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="h-5 w-5" />
+            <XIcon className="h-5 w-5" />
           </Button>
         </CardHeader>
 
@@ -132,7 +138,7 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
                 {/* Lock Toggle */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-ghost-gray/20 border border-ghost-purple/30">
                   <div className="flex items-center gap-3">
-                    <Lock className="h-4 w-4 text-ghost-purple" />
+                    <LockIcon className="h-4 w-4 text-ghost-purple" />
                     <div>
                       <p className="text-sm font-medium text-gray-200">Lock Note</p>
                       <p className="text-xs text-gray-400">Require purchase to view</p>
@@ -147,7 +153,7 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
                 {/* Encrypt Toggle */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-ghost-gray/20 border border-ghost-purple/30">
                   <div className="flex items-center gap-3">
-                    <Shield className="h-4 w-4 text-ghost-cyan" />
+                    <ShieldIcon className="h-4 w-4 text-ghost-cyan" />
                     <div>
                       <p className="text-sm font-medium text-gray-200">Encrypt Content</p>
                       <p className="text-xs text-gray-400">Extra security layer</p>
@@ -176,7 +182,7 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
                 size="lg"
                 className="flex-1 bg-gradient-to-r from-ghost-purple to-ghost-neon hover:from-ghost-purple/80 hover:to-ghost-neon/80"
               >
-                <Save className="mr-2 h-4 w-4" />
+                <SaveIcon className="mr-2 h-4 w-4" />
                 {note ? "Update Note" : "Publish Note"}
               </Button>
             </div>

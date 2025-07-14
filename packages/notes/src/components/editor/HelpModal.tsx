@@ -1,6 +1,9 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
+// React 19 compatibility wrapper
+const XIcon = X as React.ElementType;
+
 interface HelpModalProps {
   showResizeHelp: boolean;
   hasSeenHelp: boolean;
@@ -34,7 +37,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
             onClick={onClose}
             className="absolute top-2 sm:top-3 right-2 sm:right-4 p-1 sm:p-1.5 rounded-full hover:bg-ghost-purple/20 transition-colors duration-200 z-10 focus:outline-none focus:ring-0"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 hover:text-white" />
+            <XIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 hover:text-white" />
           </button>
 
           {/* Tabs for mobile viewing */}

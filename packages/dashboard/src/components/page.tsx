@@ -1,5 +1,5 @@
 import DashboardHeader from 'packages/dashboard/src/components/DashboardHeader';
-import DashboardTabs from 'packages/ui-components/src/DashboardTabs';
+import DashboardTabs from './DashboardTabs';
 import Navbar from 'packages/shell/src/Navbar';
 import Footer from 'packages/shell/src/Footer';
 

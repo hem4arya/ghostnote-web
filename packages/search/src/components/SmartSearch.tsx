@@ -5,8 +5,14 @@ import { Search, Loader2, Sparkles } from 'lucide-react';
 import { Card } from 'packages/ui-components/src/components/card';
 import { Badge } from 'packages/ui-components/src/components/badge';
 import Link from 'next/link';
-import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
-import { Note } from 'packages/notes/components/NoteCard';
+import { sampleNotes } from '../../../notes';
+import { Note } from '../../../notes';
+
+// React 19 compatibility wrappers
+const SearchIcon = Search as React.ElementType;
+const Loader2Icon = Loader2 as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const LinkSafe = Link as React.ElementType;
 
 interface SearchResult extends Note {
   similarity?: number;
@@ -185,7 +191,7 @@ const SmartSearch = ({
         {/* Loading State */}
         {isLoading && (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-ghost-neon mr-2" />
+            <Loader2Icon className="h-6 w-6 animate-spin text-ghost-neon mr-2" />
             <span className="text-gray-300">Searching with AI...</span>
           </div>
         )}
@@ -194,7 +200,7 @@ const SmartSearch = ({
         {!isLoading && results.length > 0 && (
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="h-5 w-5 text-ghost-neon" />
+              <SparklesIcon className="h-5 w-5 text-ghost-neon" />
               <h3 className="text-lg font-semibold text-white">Smart Results</h3>
               <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
                 {results.length} found
@@ -202,7 +208,7 @@ const SmartSearch = ({
             </div>
             
             {results.map((note) => (
-              <Link
+              <LinkSafe
                 key={note.id}
                 href={`/notes/${note.id}`}
                 onClick={onClose}
@@ -230,7 +236,7 @@ const SmartSearch = ({
                   </div>
                   <span className="text-sm font-medium text-ghost-neon">${note.price}</span>
                 </div>
-              </Link>
+              </LinkSafe>
             ))}
           </div>
         )}
@@ -275,7 +281,7 @@ const SmartSearch = ({
                     onClick={() => onClose()}
                     className="block w-full text-left text-xs text-gray-400 hover:text-ghost-neon hover:bg-ghost-purple/20 p-2 rounded transition-colors"
                   >
-                    <Search className="inline h-3 w-3 mr-2" />
+                    <SearchIcon className="inline h-3 w-3 mr-2" />
                     {suggestion}
                   </button>
                 ))}

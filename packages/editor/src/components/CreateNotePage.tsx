@@ -31,9 +31,9 @@ import {
   UNDO_COMMAND,
   $getRoot,
 } from 'lexical';
-import { Button } from '../../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { Input } from '../../components/ui/input';
+import { Button } from 'packages/ui-components/src/components/button';
+import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
+import { Input } from 'packages/ui-components/src/components/input';
 
 // GhostNote Theme
 const ghostNoteTheme = {

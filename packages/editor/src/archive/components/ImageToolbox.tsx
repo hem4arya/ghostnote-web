@@ -1,7 +1,14 @@
 import React from 'react';
 import { Button } from 'packages/ui-components/src/components/button';
 import { Upload, ImageIcon, Move, RotateCcw, HelpCircle } from 'lucide-react';
-import type { ImageToolboxProps } from '../types';
+import type { ImageToolboxProps } from '../../types';
+
+// React 19 compatibility wrappers
+const UploadIcon = Upload as React.ElementType;
+const ImageIconWrapper = ImageIcon as React.ElementType;
+const MoveIcon = Move as React.ElementType;
+const RotateCcwIcon = RotateCcw as React.ElementType;
+const HelpCircleIcon = HelpCircle as React.ElementType;
 
 export default function ImageToolbox({ 
   selectedImage,
@@ -36,7 +43,7 @@ export default function ImageToolbox({
     <div className="p-4 border border-ghost-purple/20 rounded-lg bg-ghost-dark/30">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-medium flex items-center gap-2 text-gray-200">
-          <ImageIcon className="h-4 w-4" />
+          <ImageIconWrapper className="h-4 w-4" />
           Image Tools
         </h3>
         <div className="flex gap-2">
@@ -47,7 +54,7 @@ export default function ImageToolbox({
               onClick={onHelpClick}
               className="text-gray-400 hover:text-white"
             >
-              <HelpCircle className="h-4 w-4" />
+              <HelpCircleIcon className="h-4 w-4" />
             </Button>
           )}
           <label>
@@ -64,7 +71,7 @@ export default function ImageToolbox({
               asChild
             >
               <span>
-                <Upload className="h-4 w-4 mr-1" />
+                <UploadIcon className="h-4 w-4 mr-1" />
                 Upload
               </span>
             </Button>
@@ -91,7 +98,7 @@ export default function ImageToolbox({
                   key={value}
                   variant={imageTextWrap === value ? 'default' : 'ghost'}
                   size="sm"
-                  onClick={() => setImageTextWrap(value as 'none' | 'left' | 'right' | 'center')}
+                  onClick={() => setImageTextWrap?.(value as 'none' | 'left' | 'right' | 'center')}
                   className={
                     imageTextWrap === value
                       ? 'bg-ghost-purple/30 text-white'
@@ -115,7 +122,7 @@ export default function ImageToolbox({
               max="1"
               step="0.1"
               value={imageOpacity}
-              onChange={(e) => setImageOpacity(parseFloat(e.target.value))}
+              onChange={(e) => setImageOpacity?.(parseFloat(e.target.value))}
               className="w-full accent-ghost-purple"
             />
           </div>
@@ -125,27 +132,27 @@ export default function ImageToolbox({
             <Button
               variant={activeMode === 'move' ? 'default' : 'ghost'}
               size="sm"
-              onClick={() => setActiveMode(activeMode === 'move' ? null : 'move')}
+              onClick={() => setActiveMode?.(activeMode === 'move' ? null : 'move')}
               className={
                 activeMode === 'move'
                   ? 'bg-ghost-purple/30 text-white'
                   : 'text-gray-400 hover:text-white hover:bg-ghost-purple/20'
               }
             >
-              <Move className="h-4 w-4 mr-1" />
+              <MoveIcon className="h-4 w-4 mr-1" />
               Move
             </Button>
             <Button
               variant={activeMode === 'resize' ? 'default' : 'ghost'}
               size="sm"
-              onClick={() => setActiveMode(activeMode === 'resize' ? null : 'resize')}
+              onClick={() => setActiveMode?.(activeMode === 'resize' ? null : 'resize')}
               className={
                 activeMode === 'resize'
                   ? 'bg-ghost-purple/30 text-white'
                   : 'text-gray-400 hover:text-white hover:bg-ghost-purple/20'
               }
             >
-              <RotateCcw className="h-4 w-4 mr-1" />
+              <RotateCcwIcon className="h-4 w-4 mr-1" />
               Resize
             </Button>
           </div>
@@ -154,7 +161,7 @@ export default function ImageToolbox({
       
       {!selectedImage && (
         <div className="text-center py-6 text-gray-500">
-          <ImageIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
+          <ImageIconWrapper className="h-8 w-8 mx-auto mb-2 opacity-50" />
           <p className="text-sm">Select an image to edit its properties</p>
         </div>
       )}

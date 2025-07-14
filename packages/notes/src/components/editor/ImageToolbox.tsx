@@ -2,6 +2,11 @@ import React from 'react';
 import { Button } from 'packages/ui-components/src/components/button';
 import { Upload, ImageIcon, Trash2 } from 'lucide-react';
 
+// React 19 compatibility wrappers
+const UploadIcon = Upload as React.ElementType;
+const ImageIconSafe = ImageIcon as React.ElementType;
+const Trash2Icon = Trash2 as React.ElementType;
+
 interface ImageToolboxProps {
   images?: string[];
   onUpload?: (file: File) => void;
@@ -42,7 +47,7 @@ export default function ImageToolbox({
     <div className="p-4 border rounded-lg">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-medium flex items-center gap-2">
-          <ImageIcon className="h-4 w-4" />
+          <ImageIconSafe className="h-4 w-4" />
           Images
         </h3>
         <div className="flex gap-2">
@@ -66,7 +71,7 @@ export default function ImageToolbox({
               asChild
             >
               <span>
-                <Upload className="h-4 w-4 mr-1" />
+                <UploadIcon className="h-4 w-4 mr-1" />
                 {isUploading ? 'Uploading...' : 'Upload'}
               </span>
             </Button>
@@ -131,7 +136,7 @@ export default function ImageToolbox({
                 className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={() => onDelete?.(index)}
               >
-                <Trash2 className="h-3 w-3" />
+                <Trash2Icon className="h-3 w-3" />
               </Button>
             </div>
           ))}

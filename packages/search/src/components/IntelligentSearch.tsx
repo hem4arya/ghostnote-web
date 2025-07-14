@@ -9,7 +9,38 @@ import { Badge } from 'packages/ui-components/src/components/badge';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
-import { Note } from 'packages/notes/components/NoteCard';
+
+// React 19 compatibility wrappers
+const SearchIcon = Search as React.ElementType;
+const XIcon = X as React.ElementType;
+const Loader2Icon = Loader2 as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const UserIcon = User as React.ElementType;
+const HeartIcon = Heart as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const LightbulbIcon = Lightbulb as React.ElementType;
+const LinkSafe = Link as React.ElementType;
+
+// Note interface
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  description: string;
+  previewText: string;
+  tags: string[];
+  category: string;
+  author: string;
+  price?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  isPublished: boolean;
+  metadata: {
+    wordCount: number;
+    readTime: number;
+    difficulty: string;
+  };
+}
 
 interface SearchResult extends Note {
   similarity?: number;
@@ -185,12 +216,12 @@ const IntelligentSearch = ({
   const getResultIcon = (source: string) => {
     switch (source) {
       case 'behavioral':
-        return <User className="h-4 w-4 text-blue-400" />;
+        return <UserIcon className="h-4 w-4 text-blue-400" />;
       case 'collaborative':
-        return <Heart className="h-4 w-4 text-pink-400" />;
+        return <HeartIcon className="h-4 w-4 text-pink-400" />;
       case 'semantic':
       default:
-        return <Sparkles className="h-4 w-4 text-ghost-neon" />;
+        return <SparklesIcon className="h-4 w-4 text-ghost-neon" />;
     }
   };
 
@@ -233,11 +264,11 @@ const IntelligentSearch = ({
       {/* Search Input */}
       <form onSubmit={handleSearchSubmit} className="relative">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
             onFocus={() => setIsOpen(true)}
             placeholder={placeholder}
             className="pl-10 pr-12 py-3 text-lg bg-ghost-dark/50 border-ghost-purple/30 focus:border-ghost-neon focus:ring-ghost-neon/20 text-white placeholder-gray-400"
@@ -250,7 +281,7 @@ const IntelligentSearch = ({
               onClick={clearSearch}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-ghost-purple/20"
             >
-              <X className="h-4 w-4" />
+              <XIcon className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -263,7 +294,7 @@ const IntelligentSearch = ({
             {/* Loading State */}
             {isLoading && (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-ghost-neon mr-2" />
+                <Loader2Icon className="h-6 w-6 animate-spin text-ghost-neon mr-2" />
                 <span className="text-gray-300">Searching with AI...</span>
               </div>
             )}
@@ -275,7 +306,7 @@ const IntelligentSearch = ({
                 {personalizedResults && user && (
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-5 w-5 text-ghost-neon" />
+                      <SparklesIcon className="h-5 w-5 text-ghost-neon" />
                       <h3 className="text-lg font-semibold text-white">Smart Results</h3>
                       <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
                         {personalizedResults.metadata.total_results} found
@@ -297,7 +328,7 @@ const IntelligentSearch = ({
                           onClick={() => setActiveTab('behavioral')}
                           className="text-xs"
                         >
-                          <User className="h-3 w-3 mr-1" />
+                          <UserIcon className="h-3 w-3 mr-1" />
                           For You
                         </Button>
                       )}
@@ -308,7 +339,7 @@ const IntelligentSearch = ({
                           onClick={() => setActiveTab('collaborative')}
                           className="text-xs"
                         >
-                          <TrendingUp className="h-3 w-3 mr-1" />
+                          <TrendingUpIcon className="h-3 w-3 mr-1" />
                           Trending
                         </Button>
                       )}
@@ -319,7 +350,7 @@ const IntelligentSearch = ({
                 {/* Basic results header for non-personalized search */}
                 {(!personalizedResults || !user) && (
                   <div className="flex items-center gap-2 mb-4">
-                    <Sparkles className="h-5 w-5 text-ghost-neon" />
+                    <SparklesIcon className="h-5 w-5 text-ghost-neon" />
                     <h3 className="text-lg font-semibold text-white">Search Results</h3>
                     <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
                       {results.length} found
@@ -329,7 +360,7 @@ const IntelligentSearch = ({
                 
                 {/* Display filtered results */}
                 {getFilteredResults().map((note) => (
-                  <Link
+                  <LinkSafe
                     key={note.id}
                     href={`/notes/${note.id}`}
                     onClick={() => setIsOpen(false)}
@@ -370,14 +401,14 @@ const IntelligentSearch = ({
                       </div>
                       <span className="text-sm font-medium text-ghost-neon">${note.price}</span>
                     </div>
-                  </Link>
+                  </LinkSafe>
                 ))}
 
                 {/* Show fallback content for new users */}
                 {personalizedResults && !personalizedResults.metadata.has_behavioral_data && (
                   <div className="mt-6 p-4 bg-ghost-purple/10 border border-ghost-purple/30 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                      <Lightbulb className="h-5 w-5 text-yellow-400" />
+                      <LightbulbIcon className="h-5 w-5 text-yellow-400" />
                       <h4 className="font-medium text-white">New to GhostNote?</h4>
                     </div>
                     <p className="text-sm text-gray-400 mb-3">
@@ -385,18 +416,18 @@ const IntelligentSearch = ({
                     </p>
                     <div className="space-y-2">
                       {personalizedResults.fallback_results.slice(0, 3).map((note) => (
-                        <Link
+                        <LinkSafe
                           key={note.id}
                           href={`/notes/${note.id}`}
                           onClick={() => setIsOpen(false)}
                           className="flex items-center gap-3 p-2 rounded bg-ghost-gray/10 hover:bg-ghost-gray/20 transition-colors"
                         >
-                          <TrendingUp className="h-4 w-4 text-orange-400" />
+                          <TrendingUpIcon className="h-4 w-4 text-orange-400" />
                           <div className="flex-1">
                             <div className="text-sm font-medium text-white">{note.title}</div>
                             <div className="text-xs text-gray-500">{note.category} • ${note.price}</div>
                           </div>
-                        </Link>
+                        </LinkSafe>
                       ))}
                     </div>
                   </div>

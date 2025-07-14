@@ -2,13 +2,20 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Loader2, Sparkles } from 'lucide-react';
+
+// React 19 compatibility wrappers
+const SearchIcon = Search as React.ElementType;
+const XIcon = X as React.ElementType;
+const Loader2Icon = Loader2 as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+
 import { Button } from 'packages/ui-components/src/components/button';
 import { Input } from 'packages/ui-components/src/components/input';
 import { Card } from 'packages/ui-components/src/components/card';
 import { Badge } from 'packages/ui-components/src/components/badge';
 import { supabase } from '../../../../lib/supabase';
 import Link from 'next/link';
-import { Note } from 'packages/notes/components/NoteCard';
+import { Note } from 'packages/notes/src/components/NoteCard';
 
 interface SearchResult extends Note {
   similarity?: number;
@@ -121,7 +128,7 @@ const IntelligentSearch = ({
       {/* Search Input */}
       <form onSubmit={handleSearchSubmit} className="relative">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input
             type="text"
             value={query}
@@ -138,7 +145,7 @@ const IntelligentSearch = ({
               onClick={clearSearch}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-ghost-purple/20"
             >
-              <X className="h-4 w-4" />
+              <XIcon className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -151,7 +158,7 @@ const IntelligentSearch = ({
             {/* Loading State */}
             {isLoading && (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-ghost-neon mr-2" />
+                <Loader2Icon className="h-6 w-6 animate-spin text-ghost-neon mr-2" />
                 <span className="text-gray-300">Searching with AI...</span>
               </div>
             )}
@@ -160,7 +167,7 @@ const IntelligentSearch = ({
             {!isLoading && results.length > 0 && (
               <div className="space-y-3">
                 <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="h-5 w-5 text-ghost-neon" />
+                  <SparklesIcon className="h-5 w-5 text-ghost-neon" />
                   <h3 className="text-lg font-semibold text-white">Smart Results</h3>
                   <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
                     {results.length} found

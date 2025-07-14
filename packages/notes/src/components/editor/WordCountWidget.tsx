@@ -1,6 +1,9 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 
+// React 19 compatibility wrapper
+const FileTextIcon = FileText as React.ElementType;
+
 interface WordCountWidgetProps {
   wordCount?: number;
   characterCount?: number;
@@ -15,7 +18,7 @@ export default function WordCountWidget({
   return (
     <div className="flex items-center gap-4 text-sm text-muted-foreground p-3 border rounded-lg">
       <div className="flex items-center gap-1">
-        <FileText className="h-4 w-4" />
+        <FileTextIcon className="h-4 w-4" />
         <span>Stats</span>
       </div>
       <div className="flex gap-4">

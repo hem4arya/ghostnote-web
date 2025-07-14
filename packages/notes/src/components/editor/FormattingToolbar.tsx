@@ -2,6 +2,13 @@ import React from 'react';
 import { Button } from 'packages/ui-components/src/components/button';
 import { Bold, Italic, Underline, List, ListOrdered } from 'lucide-react';
 
+// React 19 compatibility wrappers
+const BoldIcon = Bold as React.ElementType;
+const ItalicIcon = Italic as React.ElementType;
+const UnderlineIcon = Underline as React.ElementType;
+const ListIcon = List as React.ElementType;
+const ListOrderedIcon = ListOrdered as React.ElementType;
+
 interface FormattingToolbarProps {
   onFormat?: (format: string) => void;
   activeFormats?: string[];
@@ -21,21 +28,21 @@ export default function FormattingToolbar({ onFormat, activeFormats = [], execut
         size="sm"
         onClick={() => handleFormat('bold')}
       >
-        <Bold className="h-4 w-4" />
+        <BoldIcon className="h-4 w-4" />
       </Button>
       <Button
         variant={activeFormats.includes('italic') ? 'default' : 'ghost'}
         size="sm"
         onClick={() => handleFormat('italic')}
       >
-        <Italic className="h-4 w-4" />
+        <ItalicIcon className="h-4 w-4" />
       </Button>
       <Button
         variant={activeFormats.includes('underline') ? 'default' : 'ghost'}
         size="sm"
         onClick={() => handleFormat('underline')}
       >
-        <Underline className="h-4 w-4" />
+        <UnderlineIcon className="h-4 w-4" />
       </Button>
       <div className="w-px bg-border mx-1" />
       <Button
@@ -43,14 +50,14 @@ export default function FormattingToolbar({ onFormat, activeFormats = [], execut
         size="sm"
         onClick={() => handleFormat('ul')}
       >
-        <List className="h-4 w-4" />
+        <ListIcon className="h-4 w-4" />
       </Button>
       <Button
         variant={activeFormats.includes('ol') ? 'default' : 'ghost'}
         size="sm"
         onClick={() => handleFormat('ol')}
       >
-        <ListOrdered className="h-4 w-4" />
+        <ListOrderedIcon className="h-4 w-4" />
       </Button>
     </div>
   );

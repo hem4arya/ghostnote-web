@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Card, CardContent } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
-import { Badge } from '../../components/ui/badge';
-import { Separator } from '../../components/ui/separator';
+import { Card, CardContent } from 'packages/ui-components/src/components/card';
+import { Button } from 'packages/ui-components/src/components/button';
+import { Badge } from 'packages/ui-components/src/components/badge';
+import { Separator } from 'packages/ui-components/src/components/separator';
 
 // Simple toolbar component
 function SimpleToolbar() {

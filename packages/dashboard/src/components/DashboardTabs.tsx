@@ -1,11 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import NoteCard from 'packages/notes/components/NoteCard';
-import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
+import { NoteCard, sampleNotes, Note } from '../../../notes';
 import QuickStats from './QuickStats';
-import Alerts from './Alerts';
-import { Note } from 'packages/notes/components/NoteCard';
 
 const DashboardTabs = () => {
   const [activeTab, setActiveTab] = useState('private');
@@ -13,9 +10,9 @@ const DashboardTabs = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'private':
-        return <NoteGrid title="My Private Notes" notes={sampleNotes.filter(n => !n.isPublic)} />;
+        return <NoteGrid title="My Private Notes" notes={sampleNotes.filter((n: Note) => !n.isPublic)} />;
       case 'public':
-        return <NoteGrid title="My Public Notes" notes={sampleNotes.filter(n => n.isPublic)} />;
+        return <NoteGrid title="My Public Notes" notes={sampleNotes.filter((n: Note) => n.isPublic)} />;
       case 'stats':
         return (
           <div>
@@ -25,7 +22,7 @@ const DashboardTabs = () => {
                  <QuickStats />
               </div>
               <div className="space-y-8">
-                <Alerts />
+                {/* <Alerts /> */}
               </div>
             </div>
           </div>

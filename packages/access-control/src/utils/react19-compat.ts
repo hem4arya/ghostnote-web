@@ -14,8 +14,7 @@ export function createSafeComponent<T>(Component: T): React.ElementType {
  * Prevents React 19 JSX compatibility issues
  */
 export const createIconComponent = <T>(IconComponent: T) => {
-  const SafeIcon = createSafeComponent(IconComponent);
-  return (props: any) => <SafeIcon {...props} />;
+  return createSafeComponent(IconComponent);
 };
 
 /**

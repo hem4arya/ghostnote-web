@@ -1,7 +1,17 @@
 import React from 'react';
 import { Button } from 'packages/ui-components/src/components/button';
 import { Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
-import type { FormattingToolbarProps } from '../types';
+import type { FormattingToolbarProps } from '../../types';
+
+// React 19 compatibility wrappers
+const BoldIcon = Bold as React.ElementType;
+const ItalicIcon = Italic as React.ElementType;
+const UnderlineIcon = Underline as React.ElementType;
+const ListIcon = List as React.ElementType;
+const ListOrderedIcon = ListOrdered as React.ElementType;
+const AlignLeftIcon = AlignLeft as React.ElementType;
+const AlignCenterIcon = AlignCenter as React.ElementType;
+const AlignRightIcon = AlignRight as React.ElementType;
 
 export default function FormattingToolbar({ activeFormats = [], executeCommand }: FormattingToolbarProps) {
   const handleFormat = (format: string) => {
@@ -9,20 +19,20 @@ export default function FormattingToolbar({ activeFormats = [], executeCommand }
   };
 
   const formatButtons = [
-    { command: 'bold', icon: Bold, label: 'Bold' },
-    { command: 'italic', icon: Italic, label: 'Italic' },
-    { command: 'underline', icon: Underline, label: 'Underline' },
+    { command: 'bold', icon: BoldIcon, label: 'Bold' },
+    { command: 'italic', icon: ItalicIcon, label: 'Italic' },
+    { command: 'underline', icon: UnderlineIcon, label: 'Underline' },
   ];
 
   const listButtons = [
-    { command: 'insertUnorderedList', icon: List, label: 'Bullet List' },
-    { command: 'insertOrderedList', icon: ListOrdered, label: 'Numbered List' },
+    { command: 'insertUnorderedList', icon: ListIcon, label: 'Bullet List' },
+    { command: 'insertOrderedList', icon: ListOrderedIcon, label: 'Numbered List' },
   ];
 
   const alignButtons = [
-    { command: 'justifyLeft', icon: AlignLeft, label: 'Align Left' },
-    { command: 'justifyCenter', icon: AlignCenter, label: 'Align Center' },
-    { command: 'justifyRight', icon: AlignRight, label: 'Align Right' },
+    { command: 'justifyLeft', icon: AlignLeftIcon, label: 'Align Left' },
+    { command: 'justifyCenter', icon: AlignCenterIcon, label: 'Align Center' },
+    { command: 'justifyRight', icon: AlignRightIcon, label: 'Align Right' },
   ];
 
   return (

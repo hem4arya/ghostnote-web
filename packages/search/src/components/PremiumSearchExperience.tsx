@@ -19,6 +19,21 @@ import { Button } from 'packages/ui-components/src/components/button';
 import { Badge } from 'packages/ui-components/src/components/badge';
 import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
 
+// React 19 compatibility wrappers
+const SearchIcon = Search as React.ElementType;
+const FilterIcon = Filter as React.ElementType;
+const MicIcon = Mic as React.ElementType;
+const MicOffIcon = MicOff as React.ElementType;
+const ClockIcon = Clock as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const TagIcon = Tag as React.ElementType;
+const StarIcon = Star as React.ElementType;
+const EyeIcon = Eye as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const XIcon = X as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const ArrowRightIcon = ArrowRight as React.ElementType;
+
 // Speech Recognition types
 interface SpeechRecognitionEvent {
   results: {
@@ -295,49 +310,49 @@ const PremiumSearchExperience: React.FC = () => {
           type: 'query' as const,
           text: search,
           subtitle: 'Recent search',
-          icon: <Clock className="w-4 h-4 text-gray-400" />
+          icon: <ClockIcon className="w-4 h-4 text-gray-400" />
         })),
         {
           id: 'trending_react',
           type: 'query',
           text: 'React performance optimization',
           subtitle: 'Trending • 2.3k searches',
-          icon: <TrendingUp className="w-4 h-4 text-orange-500" />
+          icon: <TrendingUpIcon className="w-4 h-4 text-orange-500" />
         },
         {
           id: 'trending_ai',
           type: 'query', 
           text: 'AI prompts for writing',
           subtitle: 'Trending • 1.8k searches',
-          icon: <TrendingUp className="w-4 h-4 text-orange-500" />
+          icon: <TrendingUpIcon className="w-4 h-4 text-orange-500" />
         },
         {
           id: 'trending_design',
           type: 'query',
           text: 'UI/UX design principles',
           subtitle: 'Trending • 1.5k searches',
-          icon: <TrendingUp className="w-4 h-4 text-orange-500" />
+          icon: <TrendingUpIcon className="w-4 h-4 text-orange-500" />
         },
         {
           id: 'cat_development',
           type: 'category',
           text: 'Development',
           subtitle: '1,240 notes',
-          icon: <Tag className="w-4 h-4 text-blue-500" />
+          icon: <TagIcon className="w-4 h-4 text-blue-500" />
         },
         {
           id: 'cat_design',
           type: 'category',
           text: 'Design',
           subtitle: '892 notes',
-          icon: <Tag className="w-4 h-4 text-purple-500" />
+          icon: <TagIcon className="w-4 h-4 text-purple-500" />
         },
         {
           id: 'cat_business',
           type: 'category',
           text: 'Business',
           subtitle: '634 notes',
-          icon: <Tag className="w-4 h-4 text-green-500" />
+          icon: <TagIcon className="w-4 h-4 text-green-500" />
         }
       ];
       setSuggestions(defaultSuggestions);
@@ -364,7 +379,7 @@ const PremiumSearchExperience: React.FC = () => {
             type: 'query',
             text: completion,
             subtitle: `Complete search`,
-            icon: <Search className="w-4 h-4 text-gray-500" />
+            icon: <SearchIcon className="w-4 h-4 text-gray-500" />
           });
         }
       });
@@ -376,7 +391,7 @@ const PremiumSearchExperience: React.FC = () => {
           type: 'note' as const,
           text: `Ultimate ${searchQuery} Masterclass`,
           subtitle: 'by Sarah Chen • Development',
-          icon: <Sparkles className="w-4 h-4 text-yellow-500" />,
+          icon: <SparklesIcon className="w-4 h-4 text-yellow-500" />,
           metadata: { price: 29.99, rating: 4.8, category: 'Development' }
         },
         {
@@ -384,7 +399,7 @@ const PremiumSearchExperience: React.FC = () => {
           type: 'note' as const,
           text: `${searchQuery} Quick Reference`,
           subtitle: 'by Alex Thompson • Free',
-          icon: <Sparkles className="w-4 h-4 text-yellow-500" />,
+          icon: <SparklesIcon className="w-4 h-4 text-yellow-500" />,
           metadata: { price: 0, rating: 4.6, category: 'Reference' }
         }
       ];
@@ -398,7 +413,7 @@ const PremiumSearchExperience: React.FC = () => {
           type: 'category',
           text: 'Development',
           subtitle: '1,240 notes',
-          icon: <Tag className="w-4 h-4 text-blue-500" />
+          icon: <TagIcon className="w-4 h-4 text-blue-500" />
         });
       }
       
@@ -408,7 +423,7 @@ const PremiumSearchExperience: React.FC = () => {
           type: 'category',
           text: 'Design',
           subtitle: '892 notes',
-          icon: <Tag className="w-4 h-4 text-purple-500" />
+          icon: <TagIcon className="w-4 h-4 text-purple-500" />
         });
       }
 
@@ -513,7 +528,7 @@ const PremiumSearchExperience: React.FC = () => {
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               {/* Search Icon */}
-              <Search className="w-5 h-5 text-gray-400" />
+              <SearchIcon className="w-5 h-5 text-gray-400" />
               
               {/* Search Input */}
               <div className="flex-1 relative">
@@ -549,9 +564,9 @@ const PremiumSearchExperience: React.FC = () => {
                   }`}
                 >
                   {isVoiceSearching ? (
-                    <MicOff className="w-4 h-4" />
+                    <MicOffIcon className="w-4 h-4" />
                   ) : (
-                    <Mic className="w-4 h-4" />
+                    <MicIcon className="w-4 h-4" />
                   )}
                 </Button>
               )}
@@ -564,7 +579,7 @@ const PremiumSearchExperience: React.FC = () => {
                   onClick={clearSearch}
                   className="p-2 rounded-full hover:bg-gray-100"
                 >
-                  <X className="w-4 h-4" />
+                  <XIcon className="w-4 h-4" />
                 </Button>
               )}
 
@@ -577,7 +592,7 @@ const PremiumSearchExperience: React.FC = () => {
                   showFilters ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
                 }`}
               >
-                <Filter className="w-4 h-4" />
+                <FilterIcon className="w-4 h-4" />
               </Button>
             </div>
 
@@ -651,7 +666,7 @@ const PremiumSearchExperience: React.FC = () => {
                       ${suggestion.metadata.price}
                     </Badge>
                   )}
-                  <ArrowRight className="w-4 h-4 text-gray-400" />
+                  <ArrowRightIcon className="w-4 h-4 text-gray-400" />
                 </div>
               ))}
             </CardContent>
@@ -664,7 +679,7 @@ const PremiumSearchExperience: React.FC = () => {
         <Card className="mt-4 border-gray-200">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <Filter className="w-5 h-5" />
+              <FilterIcon className="w-5 h-5" />
               Search Filters
             </CardTitle>
           </CardHeader>
@@ -740,7 +755,7 @@ const PremiumSearchExperience: React.FC = () => {
       {previews.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-yellow-500" />
+            <SparklesIcon className="w-5 h-5 text-yellow-500" />
             Search Results ({previews.length})
           </h3>
           
@@ -789,15 +804,15 @@ const PremiumSearchExperience: React.FC = () => {
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <div className="flex items-center gap-3">
                       <span className="flex items-center gap-1">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <StarIcon className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                         {preview.rating.toFixed(1)}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
+                        <EyeIcon className="w-3 h-3" />
                         {preview.views}
                       </span>
                       <span className="flex items-center gap-1">
-                        <ShoppingCart className="w-3 h-3" />
+                        <ShoppingCartIcon className="w-3 h-3" />
                         {preview.purchases}
                       </span>
                     </div>
@@ -817,7 +832,7 @@ const PremiumSearchExperience: React.FC = () => {
         <Card className="mt-6 border-gray-200">
           <CardContent className="text-center py-12">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-              <Search className="w-8 h-8 text-gray-400" />
+              <SearchIcon className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               No results found for &ldquo;{query}&rdquo;
@@ -847,7 +862,7 @@ const PremiumSearchExperience: React.FC = () => {
               </div>
               
               <Button variant="outline" onClick={() => setQuery('')}>
-                <TrendingUp className="w-4 h-4 mr-2" />
+                <TrendingUpIcon className="w-4 h-4 mr-2" />
                 Browse Trending Notes
               </Button>
             </div>

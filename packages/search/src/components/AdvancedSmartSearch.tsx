@@ -2,14 +2,26 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { TrendingUp, Star, Eye, ShoppingCart, Shield, Filter, BarChart3 } from 'lucide-react';
-import { Card } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import { Button } from 'packages/ui-components/src/components/button';
-import { Slider } from 'packages/ui-components/src/components/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'packages/ui-components/src/components/select';
 import Link from 'next/link';
-import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
-import { Note } from 'packages/notes/components/NoteCard';
+
+// Fix React 19 type compatibility issues
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const StarIcon = Star as React.ElementType;
+const EyeIcon = Eye as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const ShieldIcon = Shield as React.ElementType;
+const FilterIcon = Filter as React.ElementType;
+const BarChart3Icon = BarChart3 as React.ElementType;
+const LinkSafe = Link as React.ElementType;
+import { Card } from './ui/card';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { Slider } from './Slider';
+import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from './Select';
+
+// Replace problematic imports with local copies
+import { sampleNotes } from '../data/sampleNotes';
+import { Note } from '../types/Note';
 
 interface RankedNote extends Note {
   content_similarity?: number;
@@ -184,11 +196,11 @@ const AdvancedSmartSearch = ({
 
     // Apply rating filter
     if (minRating[0] > 0) {
-      filteredNotes = filteredNotes.filter(note => note.rating >= minRating[0]);
+      filteredNotes = filteredNotes.filter(note => (note.rating || 0) >= minRating[0]);
     }
 
     // Apply price filter
-    filteredNotes = filteredNotes.filter(note => note.price <= maxPrice[0]);
+    filteredNotes = filteredNotes.filter(note => (note.price || 0) <= maxPrice[0]);
 
     // Calculate scores for each note
     const scoredResults = filteredNotes.map(note => {
@@ -209,13 +221,13 @@ const AdvancedSmartSearch = ({
         sortedResults = qualityResults.sort((a, b) => (b.recency_score || 0) - (a.recency_score || 0));
         break;
       case 'price_low':
-        sortedResults = qualityResults.sort((a, b) => a.price - b.price);
+        sortedResults = qualityResults.sort((a, b) => (a.price || 0) - (b.price || 0));
         break;
       case 'price_high':
-        sortedResults = qualityResults.sort((a, b) => b.price - a.price);
+        sortedResults = qualityResults.sort((a, b) => (b.price || 0) - (a.price || 0));
         break;
       case 'rating':
-        sortedResults = qualityResults.sort((a, b) => b.rating - a.rating);
+        sortedResults = qualityResults.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
       default: // relevance
         sortedResults = qualityResults.sort((a, b) => (b.final_score || 0) - (a.final_score || 0));
@@ -289,7 +301,7 @@ const AdvancedSmartSearch = ({
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             className="text-ghost-neon hover:bg-ghost-purple/20"
           >
-            <Filter className="h-4 w-4 mr-2" />
+            <FilterIcon className="h-4 w-4 mr-2" />
             Filters
           </Button>
         </div>
@@ -376,7 +388,7 @@ const AdvancedSmartSearch = ({
         {!isLoading && results.length > 0 && (
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
-              <BarChart3 className="h-5 w-5 text-ghost-neon" />
+              <BarChart3Icon className="h-5 w-5 text-ghost-neon" />
               <h4 className="font-semibold text-white">Ranked Results</h4>
               <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
                 {results.length} found
@@ -384,7 +396,7 @@ const AdvancedSmartSearch = ({
             </div>
             
             {results.map((note, index) => (
-              <Link
+              <LinkSafe
                 key={note.id}
                 href={`/notes/${note.id}`}
                 onClick={onClose}
@@ -398,7 +410,7 @@ const AdvancedSmartSearch = ({
                           {note.title}
                         </h5>
                         {note.is_verified_creator && (
-                          <Shield className="h-4 w-4 text-ghost-neon" />
+                          <ShieldIcon className="h-4 w-4 text-ghost-neon" />
                         )}
                         <Badge variant="outline" className="text-xs border-ghost-neon/30 text-ghost-neon">
                           #{index + 1}
@@ -436,11 +448,11 @@ const AdvancedSmartSearch = ({
                     <div className="text-right ml-4">
                       <div className="text-lg font-bold text-ghost-neon">${note.price}</div>
                       <div className="flex items-center gap-1 text-xs text-gray-400 mb-1">
-                        <ShoppingCart className="h-3 w-3" />
+                        <ShoppingCartIcon className="h-3 w-3" />
                         {note.purchase_count || 0}
                       </div>
                       <div className="flex items-center gap-1 text-xs text-gray-400">
-                        <Eye className="h-3 w-3" />
+                        <EyeIcon className="h-3 w-3" />
                         {note.view_count || 0}
                       </div>
                     </div>
@@ -453,13 +465,13 @@ const AdvancedSmartSearch = ({
                       </Badge>
                       <span className="text-xs text-gray-500">by {note.author}</span>
                       <div className="flex items-center gap-1">
-                        <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                        <StarIcon className="h-3 w-3 text-yellow-500 fill-current" />
                         <span className="text-xs text-gray-400">{note.rating}</span>
                       </div>
                     </div>
                   </div>
                 </Card>
-              </Link>
+              </LinkSafe>
             ))}
           </div>
         )}
@@ -468,12 +480,12 @@ const AdvancedSmartSearch = ({
         {!isLoading && fallbackResults.length > 0 && (
           <div className="mt-6 pt-4 border-t border-ghost-purple/20">
             <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="h-5 w-5 text-ghost-cyan" />
+              <TrendingUpIcon className="h-5 w-5 text-ghost-cyan" />
               <h4 className="font-semibold text-white">Trending Alternatives</h4>
             </div>
             <div className="space-y-3">
               {fallbackResults.map((note) => (
-                <Link
+                <LinkSafe
                   key={note.id}
                   href={`/notes/${note.id}`}
                   onClick={onClose}
@@ -486,7 +498,7 @@ const AdvancedSmartSearch = ({
                     </div>
                     <span className="text-lg font-bold text-ghost-cyan">${note.price}</span>
                   </div>
-                </Link>
+                </LinkSafe>
               ))}
             </div>
           </div>

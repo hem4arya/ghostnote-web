@@ -14,8 +14,8 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getRoot, EditorState, LexicalEditor } from 'lexical';
 
-import { Card, CardContent } from '../../components/ui/card';
-import { Badge } from '../../components/ui/badge';
+import { Card, CardContent } from 'packages/ui-components/src/components/card';
+import { Badge } from 'packages/ui-components/src/components/badge';
 
 import editorConfig from './editor.config';
 import EditorToolbar from './editor-toolbar';
@@ -76,11 +76,7 @@ export default function Editor({
                 }
               />
               }
-              placeholder={
-                <div className="editor-placeholder text-gray-400 pointer-events-none absolute top-6 left-6">
-                  {placeholder}
-                </div>
-              }
+              placeholder={null}
               ErrorBoundary={LexicalErrorBoundary}
             />
             

@@ -3,12 +3,23 @@
 import { useState, useEffect } from 'react';
 import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+
+// React 19 compatibility wrappers
+const Share2Icon = Share2 as React.ElementType;
+const FlagIcon = Flag as React.ElementType;
+const BookmarkIcon = Bookmark as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const BookOpenIcon = BookOpen as React.ElementType;
+const LinkSafe = Link as React.ElementType;
+
 import { Button } from 'packages/ui-components/src/components/button';
 import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
 import Navbar from 'packages/shell/src/Navbar';
 import Footer from 'packages/shell/src/Footer';
-import { Note } from 'packages/notes/components/NoteCard';
-import { CloneTransparencyWrapperDev } from '@/features/transparency';
+import { Note } from 'packages/notes/src/components/NoteCard';
+// import { TransparencyUI } from 'packages/transparency';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
@@ -120,7 +131,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
 
               {/* Clone Transparency Badge */}
               <div className="mb-6">
-                <CloneTransparencyWrapperDev noteId={note.id.toString()} showDetailedInfo={true} />
+                {/* <CloneTransparencyWrapperDev noteId={note.id.toString()} showDetailedInfo={true} /> */}
               </div>
 
               <div className="prose prose-invert max-w-none prose-p:text-gray-300 prose-headings:text-white prose-strong:text-ghost-neon">
@@ -200,11 +211,11 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
                     <div className="mt-6 border-t border-ghost-purple/20 pt-4 space-y-3 text-sm">
                       {/* Transparency info in sidebar */}
                       <div className="mb-3">
-                        <CloneTransparencyWrapperDev 
+                        {/* <CloneTransparencyWrapperDev 
                           noteId={note.id.toString()} 
                           showDetailedInfo={false}
                           className="w-full"
-                        />
+                        /> */}
                       </div>
                       
                       <div className="flex justify-between">

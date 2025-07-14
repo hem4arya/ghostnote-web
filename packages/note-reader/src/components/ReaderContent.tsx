@@ -5,6 +5,13 @@ import { Clock, User, Tag, Lock, Shield } from 'lucide-react';
 import type { ReaderContentProps } from '../types';
 import '../styles/reader.css';
 
+// React 19 compatibility wrappers
+const ClockIcon = Clock as React.ElementType;
+const UserIcon = User as React.ElementType;
+const TagIcon = Tag as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const ShieldIcon = Shield as React.ElementType;
+
 export function ReaderContent({ 
   note, 
   fontSize, 
@@ -80,13 +87,13 @@ export function ReaderContent({
           <div className="flex flex-wrap items-center gap-4 text-sm opacity-70">
             {note.author && (
               <div className="flex items-center gap-1">
-                <User className="h-4 w-4" />
+                <UserIcon className="h-4 w-4" />
                 <span>{note.author}</span>
               </div>
             )}
             
             <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
+              <ClockIcon className="h-4 w-4" />
               <span>{formatDate(note.created_at)}</span>
             </div>
 
@@ -100,14 +107,14 @@ export function ReaderContent({
 
             {note.isLocked && (
               <div className="flex items-center gap-1 text-yellow-500">
-                <Lock className="h-4 w-4" />
+                <LockIcon className="h-4 w-4" />
                 <span>Premium</span>
               </div>
             )}
 
             {note.isEncrypted && (
               <div className="flex items-center gap-1 text-green-500">
-                <Shield className="h-4 w-4" />
+                <ShieldIcon className="h-4 w-4" />
                 <span>Encrypted</span>
               </div>
             )}
@@ -125,7 +132,7 @@ export function ReaderContent({
                     'bg-gray-100 text-gray-700'
                   }`}
                 >
-                  <Tag className="h-3 w-3" />
+                  <TagIcon className="h-3 w-3" />
                   {tag}
                 </span>
               ))}

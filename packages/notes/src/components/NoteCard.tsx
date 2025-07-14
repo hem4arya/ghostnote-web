@@ -4,6 +4,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+// React 19 compatibility wrappers
+const StarIcon = Star as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const LinkSafe = Link as React.ElementType;
+
 export type Note = {
   id: number;
   title: string;
@@ -40,20 +45,20 @@ const NoteCard = ({ note }: { note: Note }) => {
           <span className="text-xs sm:text-sm font-medium text-white">{note.category}</span>
         </div>
         <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-sm">
-          <Star className="w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 text-ghost-neon fill-current" />
+          <StarIcon className="w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 text-ghost-neon fill-current" />
           <span className="text-xs sm:text-sm font-medium text-white">{note.rating}</span>
         </div>
       </div>
       
       {/* Title with link */}
-      <Link href={`/notes/${note.id}`} className="px-3 pt-2 pb-0 block">
+      <LinkSafe href={`/notes/${note.id}`} className="px-3 pt-2 pb-0 block">
         <h3 className="font-bold text-base sm:text-lg md:text-lg text-white line-clamp-2 group-hover:text-ghost-neon transition-colors">
           {note.title}
         </h3>
-      </Link>
+      </LinkSafe>
       
       {/* Preview text section */}
-      <Link href={`/notes/${note.id}`} className="relative overflow-hidden flex-grow block">
+      <LinkSafe href={`/notes/${note.id}`} className="relative overflow-hidden flex-grow block">
         <div className="w-full h-auto min-h-[7rem] p-3 pt-1 bg-ghost-dark/60">
           <p className="text-[13px] sm:text-sm md:text-base text-gray-400 break-words">
             {note.previewText.length > 200 
@@ -61,7 +66,7 @@ const NoteCard = ({ note }: { note: Note }) => {
               : note.previewText}
           </p>
         </div>
-      </Link>
+      </LinkSafe>
       
       <div className="p-3 pt-2 space-y-2">
         <div className="flex items-center justify-between text-xs sm:text-sm text-ghost-gray">
@@ -78,14 +83,14 @@ const NoteCard = ({ note }: { note: Note }) => {
             className="bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-medium hover:from-ghost-cyan hover:to-ghost-neon transition-all duration-300 focus:outline-none focus:ring-0 border-0 text-xs sm:text-sm h-8 sm:h-9 px-2 sm:px-3"
             onClick={handlePurchase}
           >
-            <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+            <ShoppingCartIcon className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
             Buy Now
           </Button>
         </div>
       </div>
       
       {/* Hover overlay effect with link */}
-      <Link href={`/notes/${note.id}`} className="absolute inset-0 bg-gradient-to-br from-ghost-purple/10 via-transparent to-ghost-neon/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <LinkSafe href={`/notes/${note.id}`} className="absolute inset-0 bg-gradient-to-br from-ghost-purple/10 via-transparent to-ghost-neon/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </div>
   );
 };

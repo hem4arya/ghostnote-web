@@ -1,4 +1,4 @@
-import CreateNotePage from 'packages/editor/src/CreateNotePage';
+import CreateNotePage from './CreateNotePage';
 
 export default function CreatePage() {
   return <CreateNotePage />;

@@ -6,10 +6,10 @@ import { useFormatting } from "packages/notes/src/hooks/useFormatting";
 import { useResponsive } from "packages/notes/src/hooks/useResponsive";
 import { useImageState } from "packages/notes/src/hooks/useImageState";
 import { useImageInteraction } from "packages/notes/src/hooks/useImageInteraction";
-import EditorHeader from "packages/notes/components/editor/EditorHeader";
-import FormattingToolbar from "packages/notes/components/editor/FormattingToolbar";
-import ImageToolbox from "packages/notes/components/editor/ImageToolbox";
-import WordCountWidget from "packages/notes/components/editor/WordCountWidget";
+import EditorHeader from "packages/editor/src/components/EditorHeader";
+import FormattingToolbar from "packages/editor/src/components/FormattingToolbar";
+import ImageToolbox from "packages/editor/src/components/ImageToolbox";
+import WordCountWidget from "packages/editor/src/components/WordCountWidget";
 
 const CreateNoteForm = () => {
   const router = useRouter();
@@ -76,7 +76,7 @@ const CreateNoteForm = () => {
         <EditorHeader
           title={title}
           setTitle={setTitle}
-          lastSaved={lastSaved}
+          lastSaved={lastSaved || undefined}
           onBackClick={() => router.push('/')}
         >
           <FormattingToolbar

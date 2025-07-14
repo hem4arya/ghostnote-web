@@ -19,9 +19,9 @@ import {
   UNDO_COMMAND,
 } from 'lexical';
 
-import { Button } from '../../components/ui/button';
-import { Separator } from '../../components/ui/separator';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../components/ui/tooltip';
+import { Button } from 'packages/ui-components/src/components/button';
+import { Separator } from 'packages/ui-components/src/components/separator';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'packages/ui-components/src/components/tooltip';
 
 // Icon components for toolbar buttons
 const UndoIcon = () => (

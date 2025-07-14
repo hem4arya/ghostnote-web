@@ -1,16 +1,16 @@
 import React from 'react';
-import { Lock, ShoppingCart, AlertTriangle, CheckCircle, User } from 'lucide-react';
 import Link from 'next/link';
+import { Lock, AlertTriangle, ShoppingCart, CheckCircle, User } from 'lucide-react';
 import { Button } from './Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './Card';
 import { Badge } from './Badge';
 import { useMockContentAccess } from '../utils/mockAccessControl';
 
-// Type-safe component wrappers
+// Safe component wrappers for React 19 compatibility
 const SafeLink = Link as React.ElementType;
 const LockIcon = Lock as React.ElementType;
-const ShoppingCartIcon = ShoppingCart as React.ElementType;
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
 const CheckCircleIcon = CheckCircle as React.ElementType;
 const UserIcon = User as React.ElementType;
 
@@ -46,7 +46,7 @@ export function AccessControlWrapper({
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-pulse text-ghost-purple mb-4">
-            <Lock className="h-12 w-12 mx-auto" />
+            <LockIcon className="h-12 w-12 mx-auto" />
           </div>
           <p className="text-gray-400">Verifying access permissions...</p>
         </div>
@@ -61,7 +61,7 @@ export function AccessControlWrapper({
         <Card className="max-w-md bg-black/20 border-red-500/20">
           <CardHeader>
             <CardTitle className="text-red-400 flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+              <AlertTriangleIcon className="h-5 w-5" />
               Access Verification Failed
             </CardTitle>
           </CardHeader>
@@ -70,7 +70,7 @@ export function AccessControlWrapper({
               We couldn&apos;t verify your access to this content. Please try again.
             </p>
             <Button asChild className="w-full">
-              <Link href={fallbackUrl}>Return</Link>
+              <SafeLink href={fallbackUrl}>Return</SafeLink>
             </Button>
           </CardContent>
         </Card>
@@ -85,7 +85,7 @@ export function AccessControlWrapper({
         <Card className="max-w-lg bg-black/20 border-ghost-purple/20 backdrop-blur-lg">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 p-3 rounded-full bg-ghost-purple/10">
-              <Lock className="h-8 w-8 text-ghost-purple" />
+              <LockIcon className="h-8 w-8 text-ghost-purple" />
             </div>
             <CardTitle className="text-2xl text-white">Premium Content</CardTitle>
             <CardDescription className="text-gray-400">
@@ -108,16 +108,16 @@ export function AccessControlWrapper({
             {showPurchaseOptions && (
               <div className="space-y-3">
                 <Button asChild className="w-full bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-bold">
-                  <Link href={`/notes/${contentId}`}>
-                    <ShoppingCart className="mr-2 h-4 w-4" />
+                  <SafeLink href={`/notes/${contentId}`}>
+                    <ShoppingCartIcon className="mr-2 h-4 w-4" />
                     Purchase to Unlock
-                  </Link>
+                  </SafeLink>
                 </Button>
                 
                 <Button variant="outline" asChild className="w-full border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10">
-                  <Link href={`/notes/${contentId}`}>
+                  <SafeLink href={`/notes/${contentId}`}>
                     View Note Details
-                  </Link>
+                  </SafeLink>
                 </Button>
               </div>
             )}
@@ -134,7 +134,7 @@ export function AccessControlWrapper({
       <div className="bg-gradient-to-r from-green-500/10 to-ghost-neon/10 border border-green-500/20 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <CheckCircle className="h-5 w-5 text-green-400" />
+            <CheckCircleIcon className="h-5 w-5 text-green-400" />
             <span className="text-green-400 font-medium">
               {isOwner ? 'Owner Access' : 'Premium Content Unlocked'}
             </span>
@@ -145,7 +145,7 @@ export function AccessControlWrapper({
             )}
           </div>
           <div className="flex items-center gap-2">
-            <User className="h-4 w-4 text-gray-400" />
+            <UserIcon className="h-4 w-4 text-gray-400" />
             <span className="text-sm text-gray-400">
               {isOwner ? 'Your Content' : 'Licensed Access'}
             </span>

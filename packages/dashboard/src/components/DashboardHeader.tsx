@@ -2,6 +2,11 @@ import { Button } from 'packages/ui-components/src/components/button';
 import { Plus, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
+// React 19 compatibility wrappers
+const PlusIcon = Plus as React.ElementType;
+const ArrowLeftIcon = ArrowLeft as React.ElementType;
+const LinkSafe = Link as React.ElementType;
+
 const DashboardHeader = () => {
   return (
     <header className="p-4 sm:p-6 md:p-8 flex items-center justify-between">
@@ -14,9 +19,9 @@ const DashboardHeader = () => {
               size="icon"
               className="mr-1 text-gray-300 hover:text-ghost-neon md:flex hidden"
             >
-              <Link href="/">
-                <ArrowLeft className="h-5 w-5" />
-              </Link>
+              <LinkSafe href="/">
+                <ArrowLeftIcon className="h-5 w-5" />
+              </LinkSafe>
             </Button>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan">
               Dashboard
@@ -28,7 +33,7 @@ const DashboardHeader = () => {
         </div>
       </div>
       <Button className="bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-medium hover:from-ghost-cyan hover:to-ghost-neon transition-all duration-300 focus:outline-none focus:ring-0 border-0 px-6 py-2">
-        <Plus className="mr-2 h-5 w-5" />
+        <PlusIcon className="mr-2 h-5 w-5" />
         <span className="hidden sm:inline">Create New Note</span>
         <span className="sm:hidden">New</span>
       </Button>

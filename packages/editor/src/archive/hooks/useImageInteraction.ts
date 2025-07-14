@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import type { UseImageInteractionParams } from '../types';
+import type { UseImageInteractionParams } from '../../types';
 
 export function useImageInteraction({
   editorRef,

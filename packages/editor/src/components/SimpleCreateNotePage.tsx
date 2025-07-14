@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
+import { Button } from 'packages/ui-components/src/components/button';
+import { Input } from 'packages/ui-components/src/components/input';
 
 import SimpleEditor from './SimpleEditor';
 

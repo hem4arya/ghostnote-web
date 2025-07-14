@@ -1,6 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "packages/ui-components/src/components/card";
 import { DollarSign, FileText, Shield } from "lucide-react";
 
+// React 19 compatible icon wrappers
+const DollarSignIcon = DollarSign as React.ElementType;
+const FileTextIcon = FileText as React.ElementType;
+const ShieldIcon = Shield as React.ElementType;
+
 const QuickStats = () => {
   return (
     <div className="space-y-6">
@@ -8,7 +13,7 @@ const QuickStats = () => {
       <Card className="bg-ghost-dark/50 border border-ghost-purple/20 text-white">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
-          <DollarSign className="h-4 w-4 text-ghost-neon" />
+          <DollarSignIcon className="h-4 w-4 text-ghost-neon" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">$4,231.89</div>
@@ -18,7 +23,7 @@ const QuickStats = () => {
       <Card className="bg-ghost-dark/50 border border-ghost-purple/20 text-white">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Notes Published</CardTitle>
-          <FileText className="h-4 w-4 text-ghost-neon" />
+          <FileTextIcon className="h-4 w-4 text-ghost-neon" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+12</div>
@@ -28,7 +33,7 @@ const QuickStats = () => {
       <Card className="bg-ghost-dark/50 border border-ghost-purple/20 text-white">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Clones Detected</CardTitle>
-          <Shield className="h-4 w-4 text-ghost-neon" />
+          <ShieldIcon className="h-4 w-4 text-ghost-neon" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+5</div>

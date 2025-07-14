@@ -1,7 +1,7 @@
 // Export main editor components and related utilities/hooks
 export * from './components/editor'; // Main editor component
 export * from './components/editor-toolbar'; // Toolbar
-export * from './components/LexicalEditor'; // Lexical specific
+// export * from './components/LexicalEditor'; // Temporarily disabled - Lexical version conflicts
 export * from './components/SimpleEditor'; // Simple editor
 export * from './components/EditorHeader';
 export * from './components/FormattingToolbar';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { UseFormattingReturn, FormattingState } from '../types';
+import type { UseFormattingReturn, FormattingState } from '../../types';
 
 export function useFormatting(): UseFormattingReturn {
   const [, setIsFormatting] = useState(false);

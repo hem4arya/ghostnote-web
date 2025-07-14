@@ -1,6 +1,10 @@
 import { Card, CardContent } from "packages/ui-components/src/components/card";
 import { TrendingUp, AlertTriangle } from "lucide-react";
 
+// React 19 compatibility wrappers
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
+
 const alerts = [
 	{
 		id: 1,
@@ -40,13 +44,13 @@ const Alerts = () => {
 						<CardContent className="p-4">
 							<div className="flex items-start gap-3">
 								{alert.type === "clone" ? (
-									<AlertTriangle
+									<AlertTriangleIcon
 										className={`h-4 w-4 mt-0.5 ${
 											alert.urgent ? "text-red-500" : "text-ghost-neon"
 										}`}
 									/>
 								) : (
-									<TrendingUp className="h-4 w-4 mt-0.5 text-green-400" />
+									<TrendingUpIcon className="h-4 w-4 mt-0.5 text-green-400" />
 								)}
 								<div className="flex-1">
 									<p className="text-sm text-white">{alert.message}</p>

@@ -1,4 +1,28 @@
-import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
+// Mock data for access control testing
+const sampleNotes = [
+  {
+    id: 1,
+    title: "Introduction to Machine Learning",
+    category: "Technology",
+    rating: 4.8,
+    reviews: 230,
+    author: "Sarah Chen",
+    price: 15.99,
+    previewText: "A comprehensive guide to machine learning fundamentals covering supervised and unsupervised learning algorithms.",
+    isPublic: false
+  },
+  {
+    id: 2,
+    title: "Creative Writing Techniques",
+    category: "Writing",
+    rating: 4.6,
+    reviews: 150,
+    author: "Marcus Johnson",
+    price: 9.99,
+    previewText: "Master the art of storytelling with proven techniques used by professional writers and authors.",
+    isPublic: true
+  }
+];
 
 export interface MockAccessCheckResult {
   hasAccess: boolean;

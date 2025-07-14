@@ -8,6 +8,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+// React 19 compatibility wrappers
+const Share2Icon = Share2 as React.ElementType;
+const FlagIcon = Flag as React.ElementType;
+const BookmarkIcon = Bookmark as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const StarIcon = Star as React.ElementType;
+const BookOpenIcon = BookOpen as React.ElementType;
+const ImageSafe = Image as React.ElementType;
+
 // Types
 type NoteDetailProps = {
   note: Note;
@@ -68,7 +78,7 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
         {/* Right Column (Sidebar) */}
         <div className="lg:col-span-1 space-y-6">
           <div className="relative rounded-xl overflow-hidden border border-ghost-purple/20 shadow-lg shadow-ghost-purple/10">
-            <Image 
+            <ImageSafe 
               src="/file.svg" // Placeholder image
               alt="Note preview"
               width={500}
@@ -77,7 +87,7 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
             />
             {!isPurchased && (
               <div className="absolute inset-0 bg-black/50 backdrop-blur-lg flex items-center justify-center">
-                 <Lock className="w-16 h-16 text-ghost-purple/50" />
+                 <LockIcon className="w-16 h-16 text-ghost-purple/50" />
               </div>
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-ghost-dark via-transparent to-transparent"></div>
@@ -93,7 +103,7 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
                   onClick={handlePurchase} 
                   className="w-full bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-bold text-lg py-6 rounded-lg shadow-[0_0_20px_rgba(5,255,205,0.5)] hover:shadow-[0_0_30px_rgba(5,255,205,0.7)] transition-all duration-300 transform hover:scale-105"
                 >
-                  <ShoppingCart className="mr-3 h-6 w-6" />
+                  <ShoppingCartIcon className="mr-3 h-6 w-6" />
                   Buy & Unlock
                 </Button>
               </>
@@ -104,7 +114,7 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
                   onClick={handleReadNow} 
                   className="w-full bg-gradient-to-r from-ghost-purple to-ghost-neon text-white font-bold text-lg py-6 rounded-lg shadow-[0_0_20px_rgba(127,90,240,0.5)] hover:shadow-[0_0_30px_rgba(127,90,240,0.7)] transition-all duration-300 transform hover:scale-105"
                 >
-                  <BookOpen className="mr-3 h-6 w-6" />
+                  <BookOpenIcon className="mr-3 h-6 w-6" />
                   Read Now
                 </Button>
               </div>
@@ -123,7 +133,7 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
             <div className="flex justify-between items-center text-gray-400">
               <span className="font-semibold text-gray-300">Rating</span>
               <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 text-ghost-neon" fill="currentColor" />
+                <StarIcon className="w-4 h-4 text-ghost-neon" fill="currentColor" />
                 <span>{note.rating} ({note.reviews} reviews)</span>
               </div>
             </div>
@@ -137,15 +147,15 @@ const NoteDetail = ({ note }: NoteDetailProps) => {
 
           <div className="border-t border-ghost-purple/20 pt-4 flex justify-around items-center">
             <Button variant="ghost" className="text-gray-400 hover:text-ghost-neon hover:bg-ghost-purple/10 flex-1 flex-col h-auto py-2">
-              <Share2 className="h-5 w-5 mb-1" />
+              <Share2Icon className="h-5 w-5 mb-1" />
               <span className="text-xs">Share</span>
             </Button>
             <Button variant="ghost" className="text-gray-400 hover:text-ghost-neon hover:bg-ghost-purple/10 flex-1 flex-col h-auto py-2">
-              <Bookmark className="h-5 w-5 mb-1" />
+              <BookmarkIcon className="h-5 w-5 mb-1" />
               <span className="text-xs">Save</span>
             </Button>
             <Button variant="ghost" className="text-gray-400 hover:text-red-500 hover:bg-ghost-purple/10 flex-1 flex-col h-auto py-2">
-              <Flag className="h-5 w-5 mb-1" />
+              <FlagIcon className="h-5 w-5 mb-1" />
               <span className="text-xs">Report</span>
             </Button>
           </div>

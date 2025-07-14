@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import type { UseImageStateReturn } from '../types';
+import type { UseImageStateReturn } from '../../types';
 
 export function useImageState(): UseImageStateReturn {
   const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(null);
-  const [activeMode, setActiveMode] = useState<'move' | 'resize' | null>(null);
+  const [activeMode, setActiveMode] = useState<'move' | 'resize' | 'rotate' | null>(null);
   const [imageTextWrap, setImageTextWrap] = useState<'none' | 'left' | 'right' | 'center'>('none');
   const [imageOpacity, setImageOpacity] = useState<number>(1);
   const [showResizeHelp, setShowResizeHelp] = useState<boolean>(false);

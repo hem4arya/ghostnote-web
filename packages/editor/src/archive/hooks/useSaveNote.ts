@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { saveNote, autoSave, loadDraft, clearDraft, type SaveNoteResult, type AutoSaveOptions } from '../logic/noteApi';
-import type { NoteFormData } from '../types';
+import type { NoteFormData } from '../../types';
 
 export interface UseSaveNoteReturn {
   isLoading: boolean;

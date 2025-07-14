@@ -4,6 +4,7 @@ export const sampleNotes: Note[] = [
   {
     id: '1',
     title: 'Introduction to React Hooks',
+    previewText: 'React Hooks are functions that let you use state and other React features without writing a class component. Learn useState, useEffect, and custom hooks...',
     content: 'React Hooks are functions that let you use state and other React features without writing a class component...',
     description: 'Learn the basics of React Hooks and how they revolutionize React development.',
     tags: ['react', 'hooks', 'javascript', 'frontend'],
@@ -21,6 +22,7 @@ export const sampleNotes: Note[] = [
   {
     id: '2',
     title: 'Advanced TypeScript Patterns',
+    previewText: 'Explore advanced TypeScript patterns including conditional types, mapped types, and template literal types. Master type inference and utility types...',
     content: 'Explore advanced TypeScript patterns including conditional types, mapped types, and template literal types...',
     description: 'Master advanced TypeScript concepts to write more type-safe code.',
     tags: ['typescript', 'patterns', 'advanced', 'programming'],
@@ -40,6 +42,7 @@ export const sampleNotes: Note[] = [
     title: 'CSS Grid Layout Guide',
     content: 'CSS Grid Layout is a two-dimensional layout system for the web. It lets you lay out items in rows and columns...',
     description: 'Complete guide to CSS Grid with practical examples.',
+    previewText: 'CSS Grid Layout is a two-dimensional layout system for the web.',
     tags: ['css', 'grid', 'layout', 'design'],
     category: 'Design',
     author: 'CSS Designer',

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { UseResponsiveReturn } from '../types';
+import type { UseResponsiveReturn } from '../../types';
 
 export function useResponsive(): UseResponsiveReturn {
   const [isMobile, setIsMobile] = useState(false);
