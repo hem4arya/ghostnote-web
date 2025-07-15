@@ -1,21 +1,28 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmit": false,
     "outDir": "dist",
     "jsx": "react-jsx",
+    "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
     "paths": {
-      "@editor-components/*": ["./src/components/*"],
-      "@editor-hooks/*": ["./src/hooks/*"],
-      "@editor-logic/*": ["./src/logic/*"]
+      "@/*": ["../../src/*", "../../lib/*"],
+      "@ui/*": ["../ui-components/src/*"]
     }
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/lexical/libdefs/*.js",
-    "src/lexical/examples/**/*"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
 }

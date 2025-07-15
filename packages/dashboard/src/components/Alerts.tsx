@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/card';
 
 // React 19 compatible icon wrappers
 import { AlertTriangle, CheckCircle, Info, X } from 'lucide-react';

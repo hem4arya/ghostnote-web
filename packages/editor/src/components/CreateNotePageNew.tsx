@@ -1,22 +1,26 @@
 "use client";
 
-import * as React from 'react';
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../ui-components/src/components/card';
-import { Button } from '../../../ui-components/src/components/button';
-import { Input } from '../../../ui-components/src/components/input';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Input,
+} from "@ghostnote/ui-components";
+import { useState } from "react";
 
 // Import the new structured editor
-import Editor from './editor';
+import Editor from "./editor";
 
 const CreateNotePageNew = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
 
   const handleSave = () => {
     // TODO: Implement save functionality
-    console.log('Saving note with title:', title);
+    console.log("Saving note with title:", title);
   };
 
   const handleWordCountChange = (words: number, chars: number) => {
@@ -37,8 +41,8 @@ const CreateNotePageNew = () => {
                 <div className="text-sm text-gray-400">
                   {wordCount} words • {charCount} characters
                 </div>
-                <Button 
-                  onClick={handleSave} 
+                <Button
+                  onClick={handleSave}
                   className="bg-ghost-purple hover:bg-ghost-purple/80 text-white"
                 >
                   Save Note
@@ -66,4 +70,4 @@ const CreateNotePageNew = () => {
   );
 };
 
-export default CreateNotePageNew; 
+export default CreateNotePageNew;

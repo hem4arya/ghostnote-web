@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
+import { Lock, Save, Shield, X } from "lucide-react";
 import { useState } from "react";
-import { X, Save, Lock, Shield } from "lucide-react";
-import { Button } from "packages/ui-components/src/components/button";
-import { Input } from "packages/ui-components/src/components/input";
-import { Label } from "packages/ui-components/src/components/label";
-import { Textarea } from "packages/ui-components/src/components/textarea";
-import { Switch } from "packages/ui-components/src/components/switch";
-import { Card, CardContent, CardHeader, CardTitle } from "packages/ui-components/src/components/card";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Switch } from "./ui/switch";
+import { Textarea } from "./ui/textarea";
 
 // React 19 compatibility wrappers
 const XIcon = X as React.ElementType;
@@ -46,7 +46,10 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
     onClose();
   };
 
-  const handleInputChange = (field: keyof typeof formData, value: string | number | boolean) => {
+  const handleInputChange = (
+    field: keyof typeof formData,
+    value: string | number | boolean
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -140,13 +143,19 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
                   <div className="flex items-center gap-3">
                     <LockIcon className="h-4 w-4 text-ghost-purple" />
                     <div>
-                      <p className="text-sm font-medium text-gray-200">Lock Note</p>
-                      <p className="text-xs text-gray-400">Require purchase to view</p>
+                      <p className="text-sm font-medium text-gray-200">
+                        Lock Note
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        Require purchase to view
+                      </p>
                     </div>
                   </div>
                   <Switch
                     checked={formData.isLocked}
-                    onCheckedChange={(checked) => handleInputChange("isLocked", checked)}
+                    onCheckedChange={(checked) =>
+                      handleInputChange("isLocked", checked)
+                    }
                   />
                 </div>
 
@@ -155,13 +164,19 @@ const NoteEditor = ({ note, onClose }: NoteEditorProps) => {
                   <div className="flex items-center gap-3">
                     <ShieldIcon className="h-4 w-4 text-ghost-cyan" />
                     <div>
-                      <p className="text-sm font-medium text-gray-200">Encrypt Content</p>
-                      <p className="text-xs text-gray-400">Extra security layer</p>
+                      <p className="text-sm font-medium text-gray-200">
+                        Encrypt Content
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        Extra security layer
+                      </p>
                     </div>
                   </div>
                   <Switch
                     checked={formData.isEncrypted}
-                    onCheckedChange={(checked) => handleInputChange("isEncrypted", checked)}
+                    onCheckedChange={(checked) =>
+                      handleInputChange("isEncrypted", checked)
+                    }
                   />
                 </div>
               </div>

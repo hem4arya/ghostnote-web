@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button } from 'packages/ui-components/src/components/button';
-import type { EditorHeaderProps } from '../../types';
+import * as React from "react";
+import { Button } from "../../components/ui/button";
+import type { EditorHeaderProps } from "../../types";
 
-export default function EditorHeader({ 
+export default function EditorHeader({
   title,
   setTitle,
   lastSaved,
@@ -11,16 +11,16 @@ export default function EditorHeader({
   isDirty = false,
   onSave,
   onPublish,
-  children
+  children,
 }: EditorHeaderProps) {
   return (
     <div className="border-b border-ghost-purple/20 bg-ghost-dark/90 backdrop-blur-sm">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-4">
           {onBackClick && (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onBackClick}
               className="border-ghost-purple/30 text-gray-300 hover:bg-ghost-purple/20"
             >
@@ -42,25 +42,19 @@ export default function EditorHeader({
             </span>
           )}
           {isDirty && !isSaving && (
-            <span className="text-sm text-amber-400">
-              Unsaved changes
-            </span>
+            <span className="text-sm text-amber-400">Unsaved changes</span>
           )}
-          {isSaving && (
-            <span className="text-sm text-blue-400">
-              Saving...
-            </span>
-          )}
+          {isSaving && <span className="text-sm text-blue-400">Saving...</span>}
           <div className="flex gap-2">
-            <Button 
+            <Button
               variant="outline"
               onClick={onSave}
               disabled={isSaving}
               className="bg-ghost-purple/20 border-ghost-purple/50 text-white hover:bg-ghost-purple/30 disabled:opacity-50"
             >
-              {isSaving ? 'Saving...' : 'Save Draft'}
+              {isSaving ? "Saving..." : "Save Draft"}
             </Button>
-            <Button 
+            <Button
               onClick={onPublish}
               disabled={isSaving}
               className="bg-gradient-to-r from-ghost-purple to-ghost-neon text-white disabled:opacity-50"

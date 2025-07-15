@@ -1,4 +1,4 @@
-import { supabase } from '../../../../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 export interface CreatorDashboardData {
   original_note: {
@@ -22,8 +22,8 @@ export interface CloneInfo {
     is_anonymous: boolean;
   };
   similarity_score: number;
-  status: 'CLONE' | 'POTENTIAL_COPY';
-  creator_action: 'PENDING' | 'ALLOWED' | 'DENIED' | 'TAKEDOWN_REQUESTED';
+  status: "CLONE" | "POTENTIAL_COPY";
+  creator_action: "PENDING" | "ALLOWED" | "DENIED" | "TAKEDOWN_REQUESTED";
   resale_allowed: boolean | null;
   detected_at: string;
   last_action_at: string | null;
@@ -50,19 +50,24 @@ export interface CloneActionHistory {
 /**
  * Get creator clone dashboard data
  */
-export async function getCreatorCloneDashboard(creatorUserId: string): Promise<CreatorDashboardData[]> {
+export async function getCreatorCloneDashboard(
+  creatorUserId: string
+): Promise<CreatorDashboardData[]> {
   try {
-    const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-      body: {
-        action: 'get_dashboard',
-        creator_user_id: creatorUserId,
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      "creator-clone-dashboard",
+      {
+        body: {
+          action: "get_dashboard",
+          creator_user_id: creatorUserId,
+        },
+      }
+    );
 
     if (error) throw error;
     return data.data || [];
   } catch (error) {
-    console.error('Error fetching creator dashboard:', error);
+    console.error("Error fetching creator dashboard:", error);
     throw error;
   }
 }
@@ -70,19 +75,24 @@ export async function getCreatorCloneDashboard(creatorUserId: string): Promise<C
 /**
  * Get creator clone statistics
  */
-export async function getCreatorCloneStats(creatorUserId: string): Promise<CreatorStats> {
+export async function getCreatorCloneStats(
+  creatorUserId: string
+): Promise<CreatorStats> {
   try {
-    const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-      body: {
-        action: 'get_stats',
-        creator_user_id: creatorUserId,
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      "creator-clone-dashboard",
+      {
+        body: {
+          action: "get_stats",
+          creator_user_id: creatorUserId,
+        },
+      }
+    );
 
     if (error) throw error;
     return data.stats;
   } catch (error) {
-    console.error('Error fetching creator stats:', error);
+    console.error("Error fetching creator stats:", error);
     throw error;
   }
 }
@@ -93,26 +103,33 @@ export async function getCreatorCloneStats(creatorUserId: string): Promise<Creat
 export async function handleCreatorCloneAction(
   creatorUserId: string,
   cloneId: number,
-  actionType: 'TAKEDOWN_REQUESTED' | 'RESALE_ALLOWED' | 'RESALE_DENIED' | 'CLONE_DISMISSED',
+  actionType:
+    | "TAKEDOWN_REQUESTED"
+    | "RESALE_ALLOWED"
+    | "RESALE_DENIED"
+    | "CLONE_DISMISSED",
   message?: string,
   resaleDecision?: boolean
 ): Promise<{ success: boolean; message: string; action_id: number }> {
   try {
-    const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-      body: {
-        action: 'handle_action',
-        creator_user_id: creatorUserId,
-        clone_id: cloneId,
-        action_type: actionType,
-        message,
-        resale_decision: resaleDecision,
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      "creator-clone-dashboard",
+      {
+        body: {
+          action: "handle_action",
+          creator_user_id: creatorUserId,
+          clone_id: cloneId,
+          action_type: actionType,
+          message,
+          resale_decision: resaleDecision,
+        },
+      }
+    );
 
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error handling creator action:', error);
+    console.error("Error handling creator action:", error);
     throw error;
   }
 }
@@ -127,20 +144,23 @@ export async function sendMessageToCloner(
   messageBody: string
 ): Promise<{ success: boolean; message: string; cloner_user_id: string }> {
   try {
-    const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-      body: {
-        action: 'send_message',
-        creator_user_id: creatorUserId,
-        clone_id: cloneId,
-        message_subject: messageSubject,
-        message_body: messageBody,
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      "creator-clone-dashboard",
+      {
+        body: {
+          action: "send_message",
+          creator_user_id: creatorUserId,
+          clone_id: cloneId,
+          message_subject: messageSubject,
+          message_body: messageBody,
+        },
+      }
+    );
 
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error sending message to cloner:', error);
+    console.error("Error sending message to cloner:", error);
     throw error;
   }
 }
@@ -148,19 +168,24 @@ export async function sendMessageToCloner(
 /**
  * Get clone action history
  */
-export async function getCloneActionHistory(cloneId: number): Promise<CloneActionHistory[]> {
+export async function getCloneActionHistory(
+  cloneId: number
+): Promise<CloneActionHistory[]> {
   try {
-    const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-      body: {
-        action: 'get_history',
-        clone_id: cloneId,
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      "creator-clone-dashboard",
+      {
+        body: {
+          action: "get_history",
+          clone_id: cloneId,
+        },
+      }
+    );
 
     if (error) throw error;
     return data.history || [];
   } catch (error) {
-    console.error('Error fetching clone action history:', error);
+    console.error("Error fetching clone action history:", error);
     throw error;
   }
 }
@@ -171,7 +196,7 @@ export async function getCloneActionHistory(cloneId: number): Promise<CloneActio
 export async function handleBulkCloneActions(
   creatorUserId: string,
   cloneIds: number[],
-  actionType: 'TAKEDOWN_REQUESTED' | 'RESALE_ALLOWED' | 'RESALE_DENIED',
+  actionType: "TAKEDOWN_REQUESTED" | "RESALE_ALLOWED" | "RESALE_DENIED",
   message?: string
 ): Promise<{ success: boolean; processed: number; errors: number }> {
   let processed = 0;
@@ -184,7 +209,11 @@ export async function handleBulkCloneActions(
         cloneId,
         actionType,
         message,
-        actionType === 'RESALE_ALLOWED' ? true : actionType === 'RESALE_DENIED' ? false : undefined
+        actionType === "RESALE_ALLOWED"
+          ? true
+          : actionType === "RESALE_DENIED"
+          ? false
+          : undefined
       );
       processed++;
     } catch (error) {
@@ -204,27 +233,27 @@ export async function handleBulkCloneActions(
  * Get clone severity classification
  */
 export function getCloneSeverity(similarityScore: number): {
-  level: 'HIGH' | 'MEDIUM' | 'LOW';
+  level: "HIGH" | "MEDIUM" | "LOW";
   description: string;
   color: string;
 } {
   if (similarityScore >= 90) {
     return {
-      level: 'HIGH',
-      description: 'Very High Similarity - Likely Clone',
-      color: 'bg-red-100 text-red-800',
+      level: "HIGH",
+      description: "Very High Similarity - Likely Clone",
+      color: "bg-red-100 text-red-800",
     };
   } else if (similarityScore >= 80) {
     return {
-      level: 'MEDIUM',
-      description: 'High Similarity - Potential Copy',
-      color: 'bg-orange-100 text-orange-800',
+      level: "MEDIUM",
+      description: "High Similarity - Potential Copy",
+      color: "bg-orange-100 text-orange-800",
     };
   } else {
     return {
-      level: 'LOW',
-      description: 'Moderate Similarity - Similar Content',
-      color: 'bg-yellow-100 text-yellow-800',
+      level: "LOW",
+      description: "Moderate Similarity - Similar Content",
+      color: "bg-yellow-100 text-yellow-800",
     };
   }
 }
@@ -232,7 +261,11 @@ export function getCloneSeverity(similarityScore: number): {
 /**
  * Generate default message templates
  */
-export function getMessageTemplates(originalTitle: string, cloneTitle: string, similarityScore: number) {
+export function getMessageTemplates(
+  originalTitle: string,
+  cloneTitle: string,
+  similarityScore: number
+) {
   return {
     friendly: {
       subject: `Regarding similarity between our notes`,
@@ -274,18 +307,30 @@ Regards`,
 /**
  * Calculate dashboard metrics
  */
-export function calculateDashboardMetrics(dashboardData: CreatorDashboardData[]) {
-  const totalClones = dashboardData.reduce((sum, note) => sum + note.clones.length, 0);
+export function calculateDashboardMetrics(
+  dashboardData: CreatorDashboardData[]
+) {
+  const totalClones = dashboardData.reduce(
+    (sum, note) => sum + note.clones.length,
+    0
+  );
   const highSimilarityClones = dashboardData.reduce(
-    (sum, note) => sum + note.clones.filter(clone => clone.similarity_score >= 90).length,
+    (sum, note) =>
+      sum + note.clones.filter((clone) => clone.similarity_score >= 90).length,
     0
   );
   const pendingActions = dashboardData.reduce(
-    (sum, note) => sum + note.clones.filter(clone => clone.creator_action === 'PENDING').length,
+    (sum, note) =>
+      sum +
+      note.clones.filter((clone) => clone.creator_action === "PENDING").length,
     0
   );
   const takedownRequests = dashboardData.reduce(
-    (sum, note) => sum + note.clones.filter(clone => clone.creator_action === 'TAKEDOWN_REQUESTED').length,
+    (sum, note) =>
+      sum +
+      note.clones.filter(
+        (clone) => clone.creator_action === "TAKEDOWN_REQUESTED"
+      ).length,
     0
   );
 
@@ -294,9 +339,17 @@ export function calculateDashboardMetrics(dashboardData: CreatorDashboardData[])
     highSimilarityClones,
     pendingActions,
     takedownRequests,
-    averageSimilarity: totalClones > 0 ? 
-      dashboardData.reduce((sum, note) => 
-        sum + note.clones.reduce((cloneSum, clone) => cloneSum + clone.similarity_score, 0), 0
-      ) / totalClones : 0,
+    averageSimilarity:
+      totalClones > 0
+        ? dashboardData.reduce(
+            (sum, note) =>
+              sum +
+              note.clones.reduce(
+                (cloneSum, clone) => cloneSum + clone.similarity_score,
+                0
+              ),
+            0
+          ) / totalClones
+        : 0,
   };
 }

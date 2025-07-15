@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { X, HelpCircle } from 'lucide-react';
-import { Button } from 'packages/ui-components/src/components/button';
+import { HelpCircle, X } from "lucide-react";
+import * as React from "react";
+import { Button } from "./ui/button";
 
 // React 19 compatibility wrappers
 const XIcon = X as React.ElementType;
@@ -17,12 +17,12 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const shortcuts = [
-    { key: 'Ctrl + B', action: 'Bold text' },
-    { key: 'Ctrl + I', action: 'Italic text' },
-    { key: 'Ctrl + U', action: 'Underline text' },
-    { key: 'Ctrl + S', action: 'Save note' },
-    { key: 'Ctrl + Enter', action: 'Publish note' },
-    { key: 'Esc', action: 'Close modal' }
+    { key: "Ctrl + B", action: "Bold text" },
+    { key: "Ctrl + I", action: "Italic text" },
+    { key: "Ctrl + U", action: "Underline text" },
+    { key: "Ctrl + S", action: "Save note" },
+    { key: "Ctrl + Enter", action: "Publish note" },
+    { key: "Esc", action: "Close modal" },
   ];
 
   return (
@@ -37,18 +37,20 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             <XIcon className="h-4 w-4" />
           </Button>
         </div>
-        
+
         <div className="p-4">
           <h3 className="font-medium mb-3">Keyboard Shortcuts</h3>
           <div className="space-y-2">
             {shortcuts.map(({ key, action }) => (
               <div key={key} className="flex justify-between text-sm">
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded">{key}</span>
+                <span className="font-mono bg-gray-100 px-2 py-1 rounded">
+                  {key}
+                </span>
                 <span className="text-gray-600">{action}</span>
               </div>
             ))}
           </div>
-          
+
           <h3 className="font-medium mt-6 mb-3">Tips</h3>
           <ul className="text-sm text-gray-600 space-y-1">
             <li>• Use markdown syntax for quick formatting</li>
@@ -57,7 +59,7 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             <li>• Auto-save happens every 30 seconds</li>
           </ul>
         </div>
-        
+
         <div className="p-4 border-t">
           <Button onClick={onClose} className="w-full">
             Got it!

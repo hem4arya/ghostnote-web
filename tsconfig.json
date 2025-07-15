@@ -21,23 +21,30 @@
     ],
     "paths": {
       "@/*": ["./src/*", "./lib/*"],
-      "@packages/*": ["./packages/*/src"],
+      "@packages/*": ["./packages/*/src"]
       // You can add more specific paths here as you create packages, e.g.:
       // "@my-app/homepage": ["./packages/homepage/src"],
       // "@my-app/ui-components": ["./packages/ui-components/src"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": [
     "node_modules",
     "**/examples/**",
     "**/lexical/examples/**",
     "**/vite.config.*"
   ],
-  "references": [] // This array will be populated by your individual package tsconfig.json files
+  "references": [
+    { "path": "packages/access-control" },
+    { "path": "packages/auth" },
+    { "path": "packages/dashboard" },
+    { "path": "packages/editor" },
+    { "path": "packages/homepage" },
+    { "path": "packages/note-reader" },
+    { "path": "packages/notes" },
+    { "path": "packages/search" },
+    { "path": "packages/shell" },
+    { "path": "packages/transparency" },
+    { "path": "packages/ui-components" }
+  ]
 }

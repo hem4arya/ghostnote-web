@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "../..",
     "outDir": "dist",
     "jsx": "react-jsx",
     "plugins": [
@@ -9,14 +10,20 @@
       }
     ],
     "paths": {
-      "@search-components/*": ["./components/*"],
-      "@search-hooks/*": ["./src/hooks/*"],
-      "@search-types/*": ["./src/types/*"]
-    }
+      "@search-components/*": ["./packages/search/src/components/*"],
+      "@search-hooks/*": ["./packages/search/src/hooks/*"],
+      "@search-types/*": ["./packages/search/src/types/*"],
+      "@/*": ["./src/*", "./lib/*", "./packages/ui-components/src/*"]
+    },
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmit": false
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    { "path": "../ui-components" }
+  ]
 }

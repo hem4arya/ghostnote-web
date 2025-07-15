@@ -1,20 +1,20 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { Button } from 'packages/ui-components/src/components/button';
-import { Input } from 'packages/ui-components/src/components/input';
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Input } from "./ui/input";
 
-import SimpleEditor from './SimpleEditor';
+import SimpleEditor from "./SimpleEditor";
 
 const SimpleCreateNotePage = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
 
   const handleSave = () => {
     // TODO: Implement save functionality
-    console.log('Saving note with title:', title);
+    console.log("Saving note with title:", title);
   };
 
   const handleWordCountChange = (words: number, chars: number) => {
@@ -35,8 +35,8 @@ const SimpleCreateNotePage = () => {
                 <div className="text-sm text-gray-400">
                   {wordCount} words • {charCount} characters
                 </div>
-                <Button 
-                  onClick={handleSave} 
+                <Button
+                  onClick={handleSave}
                   className="bg-ghost-purple hover:bg-ghost-purple/80 text-white"
                 >
                   Save Note
@@ -65,4 +65,4 @@ const SimpleCreateNotePage = () => {
   );
 };
 
-export default SimpleCreateNotePage; 
+export default SimpleCreateNotePage;

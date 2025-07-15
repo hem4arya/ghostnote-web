@@ -1,9 +1,16 @@
-'use client';
+"use client";
 
-import { useState, useCallback, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { saveNote, autoSave, loadDraft, clearDraft, type SaveNoteResult, type AutoSaveOptions } from '../logic/noteApi';
-import type { NoteFormData } from '../../types';
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import type { NoteFormData } from "../../types";
+import {
+  autoSave,
+  clearDraft,
+  loadDraft,
+  saveNote,
+  type AutoSaveOptions,
+  type SaveNoteResult,
+} from "../logic/noteApi";
 
 export interface UseSaveNoteReturn {
   isLoading: boolean;
@@ -11,7 +18,10 @@ export interface UseSaveNoteReturn {
   lastSaved: Date | null;
   isDirty: boolean;
   saveNote: (noteData: NoteFormData) => Promise<SaveNoteResult>;
-  saveAndRedirect: (noteData: NoteFormData, redirectPath?: string) => Promise<void>;
+  saveAndRedirect: (
+    noteData: NoteFormData,
+    redirectPath?: string
+  ) => Promise<void>;
   triggerAutoSave: (options: AutoSaveOptions) => Promise<void>;
   loadDraftData: () => Promise<AutoSaveOptions | null>;
   clearDraftData: () => Promise<void>;
@@ -26,27 +36,33 @@ export function useSaveNote(): UseSaveNoteReturn {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isDirty, setIsDirty] = useState(false);
 
-  const handleSaveNote = useCallback(async (noteData: NoteFormData): Promise<SaveNoteResult> => {
-    setIsSaving(true);
-    try {
-      const result = await saveNote(noteData);
-      if (result.success) {
-        setLastSaved(new Date());
-        setIsDirty(false);
-        await clearDraft();
+  const handleSaveNote = useCallback(
+    async (noteData: NoteFormData): Promise<SaveNoteResult> => {
+      setIsSaving(true);
+      try {
+        const result = await saveNote(noteData);
+        if (result.success) {
+          setLastSaved(new Date());
+          setIsDirty(false);
+          await clearDraft();
+        }
+        return result;
+      } finally {
+        setIsSaving(false);
       }
-      return result;
-    } finally {
-      setIsSaving(false);
-    }
-  }, []);
+    },
+    []
+  );
 
-  const saveAndRedirect = useCallback(async (noteData: NoteFormData, redirectPath = '/dashboard') => {
-    const result = await handleSaveNote(noteData);
-    if (result.success) {
-      router.push(redirectPath);
-    }
-  }, [handleSaveNote, router]);
+  const saveAndRedirect = useCallback(
+    async (noteData: NoteFormData, redirectPath = "/dashboard") => {
+      const result = await handleSaveNote(noteData);
+      if (result.success) {
+        router.push(redirectPath);
+      }
+    },
+    [handleSaveNote, router]
+  );
 
   const triggerAutoSave = useCallback(async (options: AutoSaveOptions) => {
     try {
@@ -55,7 +71,7 @@ export function useSaveNote(): UseSaveNoteReturn {
         setLastSaved(new Date());
       }
     } catch (error) {
-      console.error('Auto-save failed:', error);
+      console.error("Auto-save failed:", error);
     }
   }, []);
 
@@ -63,7 +79,7 @@ export function useSaveNote(): UseSaveNoteReturn {
     try {
       return await loadDraft();
     } catch (error) {
-      console.error('Failed to load draft:', error);
+      console.error("Failed to load draft:", error);
       return null;
     }
   }, []);
@@ -74,7 +90,7 @@ export function useSaveNote(): UseSaveNoteReturn {
       setLastSaved(null);
       setIsDirty(false);
     } catch (error) {
-      console.error('Failed to clear draft:', error);
+      console.error("Failed to clear draft:", error);
     }
   }, []);
 
@@ -104,6 +120,6 @@ export function useSaveNote(): UseSaveNoteReturn {
     loadDraftData,
     clearDraftData,
     markDirty,
-    markClean
+    markClean,
   };
 }

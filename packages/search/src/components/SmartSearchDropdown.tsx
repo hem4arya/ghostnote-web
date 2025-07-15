@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { Search, Loader2, Sparkles } from 'lucide-react';
-import { Card } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import { supabase } from '../../../../lib/supabase';
-import Link from 'next/link';
-import { Note } from '../../../notes';
+import { Loader2, Search, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Badge } from "packages/ui-components/src/components/badge";
+import { Card } from "packages/ui-components/src/components/card";
+import { useCallback, useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { Note } from "../types/Note";
 
 // React 19 compatibility wrappers
 const SearchIcon = Search as React.ElementType;
@@ -25,11 +25,11 @@ interface SmartSearchDropdownProps {
   className?: string;
 }
 
-const SmartSearchDropdown = ({ 
-  query, 
-  isOpen, 
-  onClose, 
-  className = "" 
+const SmartSearchDropdown = ({
+  query,
+  isOpen,
+  onClose,
+  className = "",
 }: SmartSearchDropdownProps) => {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,45 +37,60 @@ const SmartSearchDropdown = ({
 
   // Load recent searches from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('ghostnote-recent-searches');
+    const saved = localStorage.getItem("ghostnote-recent-searches");
     if (saved) {
       setRecentSearches(JSON.parse(saved));
     }
   }, []);
 
-  const saveRecentSearch = useCallback((searchQuery: string) => {
-    const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
-    setRecentSearches(updated);
-    localStorage.setItem('ghostnote-recent-searches', JSON.stringify(updated));
-  }, [recentSearches]);
+  const saveRecentSearch = useCallback(
+    (searchQuery: string) => {
+      const updated = [
+        searchQuery,
+        ...recentSearches.filter((s) => s !== searchQuery),
+      ].slice(0, 5);
+      setRecentSearches(updated);
+      localStorage.setItem(
+        "ghostnote-recent-searches",
+        JSON.stringify(updated)
+      );
+    },
+    [recentSearches]
+  );
 
-  const performSearch = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim()) return;
+  const performSearch = useCallback(
+    async (searchQuery: string) => {
+      if (!searchQuery.trim()) return;
 
-    setIsLoading(true);
-    try {
-      // Call the Supabase Edge Function for intelligent search
-      const { data, error } = await supabase.functions.invoke('search-notes', {
-        body: { query: searchQuery }
-      });
+      setIsLoading(true);
+      try {
+        // Call the Supabase Edge Function for intelligent search
+        const { data, error } = await supabase.functions.invoke(
+          "search-notes",
+          {
+            body: { query: searchQuery },
+          }
+        );
 
-      if (error) {
-        console.error('Search error:', error);
+        if (error) {
+          console.error("Search error:", error);
+          // Fallback to sample data for demo
+          setResults([]);
+          return;
+        }
+
+        setResults(data.notes || []);
+        saveRecentSearch(searchQuery);
+      } catch (searchError) {
+        console.error("Search failed:", searchError);
         // Fallback to sample data for demo
         setResults([]);
-        return;
+      } finally {
+        setIsLoading(false);
       }
-
-      setResults(data.notes || []);
-      saveRecentSearch(searchQuery);
-    } catch (searchError) {
-      console.error('Search failed:', searchError);
-      // Fallback to sample data for demo
-      setResults([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [saveRecentSearch]);
+    },
+    [saveRecentSearch]
+  );
 
   // Debounced search
   useEffect(() => {
@@ -92,15 +107,17 @@ const SmartSearchDropdown = ({
 
   const suggestionQueries = [
     "motivational notes for breakup",
-    "dark writing prompts", 
+    "dark writing prompts",
     "startup pitch summary",
-    "creative writing techniques"
+    "creative writing techniques",
   ];
 
   if (!isOpen) return null;
 
   return (
-    <Card className={`absolute top-full mt-2 w-full bg-ghost-dark/95 backdrop-blur-lg border-ghost-purple/30 shadow-2xl shadow-ghost-purple/10 z-50 max-h-96 overflow-y-auto ${className}`}>
+    <Card
+      className={`absolute top-full mt-2 w-full bg-ghost-dark/95 backdrop-blur-lg border-ghost-purple/30 shadow-2xl shadow-ghost-purple/10 z-50 max-h-96 overflow-y-auto ${className}`}
+    >
       <div className="p-4">
         {/* Loading State */}
         {isLoading && (
@@ -115,12 +132,17 @@ const SmartSearchDropdown = ({
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-4">
               <SparklesIcon className="h-5 w-5 text-ghost-neon" />
-              <h3 className="text-lg font-semibold text-white">Smart Results</h3>
-              <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
+              <h3 className="text-lg font-semibold text-white">
+                Smart Results
+              </h3>
+              <Badge
+                variant="secondary"
+                className="bg-ghost-neon/20 text-ghost-neon"
+              >
                 {results.length} found
               </Badge>
             </div>
-            
+
             {results.map((note) => (
               <LinkSafe
                 key={note.id}
@@ -133,7 +155,10 @@ const SmartSearchDropdown = ({
                     {note.title}
                   </h4>
                   {note.similarity && (
-                    <Badge variant="outline" className="text-xs border-ghost-neon/30 text-ghost-neon">
+                    <Badge
+                      variant="outline"
+                      className="text-xs border-ghost-neon/30 text-ghost-neon"
+                    >
                       {Math.round(note.similarity * 100)}% match
                     </Badge>
                   )}
@@ -146,9 +171,13 @@ const SmartSearchDropdown = ({
                     <Badge variant="secondary" className="text-xs">
                       {note.category}
                     </Badge>
-                    <span className="text-xs text-gray-500">by {note.author}</span>
+                    <span className="text-xs text-gray-500">
+                      by {note.author}
+                    </span>
                   </div>
-                  <span className="text-sm font-medium text-ghost-neon">${note.price}</span>
+                  <span className="text-sm font-medium text-ghost-neon">
+                    ${note.price}
+                  </span>
                 </div>
               </LinkSafe>
             ))}
@@ -158,8 +187,12 @@ const SmartSearchDropdown = ({
         {/* No Results */}
         {!isLoading && query.length > 2 && results.length === 0 && (
           <div className="text-center py-8">
-            <div className="text-gray-400 mb-2">No notes found for &ldquo;{query}&rdquo;</div>
-            <div className="text-sm text-gray-500">Try a different search term or browse our categories</div>
+            <div className="text-gray-400 mb-2">
+              No notes found for &ldquo;{query}&rdquo;
+            </div>
+            <div className="text-sm text-gray-500">
+              Try a different search term or browse our categories
+            </div>
           </div>
         )}
 
@@ -167,7 +200,9 @@ const SmartSearchDropdown = ({
         {!isLoading && query.length <= 2 && (
           <div className="space-y-4">
             <div>
-              <h4 className="text-sm font-medium text-gray-300 mb-2">Try Searching For</h4>
+              <h4 className="text-sm font-medium text-gray-300 mb-2">
+                Try Searching For
+              </h4>
               <div className="space-y-2">
                 {suggestionQueries.map((suggestion, index) => (
                   <button

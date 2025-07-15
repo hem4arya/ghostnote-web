@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Button } from 'packages/ui-components/src/components/button';
-import { WordCountWidgetProps } from '../types';
+import React from "react";
+import { WordCountWidgetProps } from "../types";
 
 const WordCountWidget: React.FC<WordCountWidgetProps> = ({
   wordCount,
   charCount,
   characterCount,
   readingTime,
-  target
+  target,
 }) => {
   const displayCharCount = charCount || characterCount || 0;
   const estimatedReadingTime = readingTime || Math.ceil(wordCount / 200);
@@ -20,7 +19,9 @@ const WordCountWidget: React.FC<WordCountWidgetProps> = ({
       <span>{displayCharCount} characters</span>
       <span>{estimatedReadingTime} min read</span>
       {target && (
-        <span className={wordCount >= target ? 'text-green-600' : 'text-orange-600'}>
+        <span
+          className={wordCount >= target ? "text-green-600" : "text-orange-600"}
+        >
           Target: {target} ({((wordCount / target) * 100).toFixed(0)}%)
         </span>
       )}

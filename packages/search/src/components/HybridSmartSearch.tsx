@@ -1,13 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Search, Filter, Clock, TrendingUp, Tag, Zap } from 'lucide-react';
-import { Input } from 'packages/ui-components/src/components/input';
-import { Button } from 'packages/ui-components/src/components/button';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'packages/ui-components/src/components/select';
-import { Slider } from 'packages/ui-components/src/components/slider';
-import { Separator } from 'packages/ui-components/src/components/separator';
-import { cn } from 'packages/ui-components/src/lib/utils';
+import { Clock, Filter, Search, Tag, TrendingUp, Zap } from "lucide-react";
+import { Badge } from "packages/ui-components/src/components/badge";
+import { Button } from "packages/ui-components/src/components/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "packages/ui-components/src/components/card";
+import { Input } from "packages/ui-components/src/components/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "packages/ui-components/src/components/select";
+import { Separator } from "packages/ui-components/src/components/separator";
+import { Slider } from "packages/ui-components/src/components/slider";
+import React, { useCallback, useEffect, useState } from "react";
 // import { useToast } from '../hooks/use-toast';
 // import { supabase } from '../lib/supabase';
 
@@ -68,13 +78,13 @@ interface HybridSearchResponse {
 
 const HybridSmartSearch: React.FC = () => {
   // const { toast } = useToast();
-  const toast = (message: any) => console.log('Toast:', message);
-  
+  const toast = (message: any) => console.log("Toast:", message);
+
   // Mock supabase for compilation
   const supabase = {
     functions: {
       invoke: async (name: string, options: any) => {
-        return { 
+        return {
           data: {
             query: options.body.query,
             search_type: options.body.search_type,
@@ -85,7 +95,7 @@ const HybridSmartSearch: React.FC = () => {
             search_suggestions: {
               popular_queries: [],
               related_categories: [],
-              trending_tags: []
+              trending_tags: [],
             },
             search_metadata: {
               used_semantic: true,
@@ -94,53 +104,65 @@ const HybridSmartSearch: React.FC = () => {
               filters_applied: {
                 category: options.body.category,
                 min_rating: options.body.min_rating,
-                max_price: options.body.max_price
-              }
+                max_price: options.body.max_price,
+              },
             },
-            performance_tips: []
-          } as HybridSearchResponse, 
-          error: null 
+            performance_tips: [],
+          } as HybridSearchResponse,
+          error: null,
         };
-      }
-    }
+      },
+    },
   };
-  const [query, setQuery] = useState('');
-  const [searchType, setSearchType] = useState<'semantic' | 'fulltext' | 'fuzzy' | 'hybrid'>('hybrid');
-  const [category, setCategory] = useState<string>('');
+  const [query, setQuery] = useState("");
+  const [searchType, setSearchType] = useState<
+    "semantic" | "fulltext" | "fuzzy" | "hybrid"
+  >("hybrid");
+  const [category, setCategory] = useState<string>("");
   const [minRating, setMinRating] = useState([0]);
   const [maxPrice, setMaxPrice] = useState([100]);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<HybridSearchResponse | null>(null);
+  const [searchResults, setSearchResults] =
+    useState<HybridSearchResponse | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   // Categories for filtering
   const categories = [
-    'All Categories',
-    'Development',
-    'AI/ML',
-    'Design',
-    'Business',
-    'Writing',
-    'Marketing',
-    'Finance',
-    'Health',
-    'Education'
+    "All Categories",
+    "Development",
+    "AI/ML",
+    "Design",
+    "Business",
+    "Writing",
+    "Marketing",
+    "Finance",
+    "Health",
+    "Education",
   ];
 
   // Load recent searches from localStorage
   useEffect(() => {
-    const recent = localStorage.getItem('ghostnote_recent_searches');
+    const recent = localStorage.getItem("ghostnote_recent_searches");
     if (recent) {
       setRecentSearches(JSON.parse(recent));
     }
   }, []);
 
   // Save search to recent searches
-  const saveRecentSearch = useCallback((searchQuery: string) => {
-    const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
-    setRecentSearches(updated);
-    localStorage.setItem('ghostnote_recent_searches', JSON.stringify(updated));
-  }, [recentSearches]);
+  const saveRecentSearch = useCallback(
+    (searchQuery: string) => {
+      const updated = [
+        searchQuery,
+        ...recentSearches.filter((s) => s !== searchQuery),
+      ].slice(0, 5);
+      setRecentSearches(updated);
+      localStorage.setItem(
+        "ghostnote_recent_searches",
+        JSON.stringify(updated)
+      );
+    },
+    [recentSearches]
+  );
 
   // Perform hybrid search
   const performSearch = async () => {
@@ -148,25 +170,25 @@ const HybridSmartSearch: React.FC = () => {
       toast({
         title: "Search Query Required",
         description: "Please enter a search query to find notes.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
     setIsSearching(true);
-    
+
     try {
-      const { data, error } = await supabase.functions.invoke('hybrid-search', {
+      const { data, error } = await supabase.functions.invoke("hybrid-search", {
         body: {
           query: query.trim(),
           search_type: searchType,
-          category: category === 'All Categories' ? null : category,
+          category: category === "All Categories" ? null : category,
           min_rating: minRating[0],
           max_price: maxPrice[0],
           match_threshold: 0.2,
           match_count: 20,
-          include_analytics: true
-        }
+          include_analytics: true,
+        },
       });
 
       if (error) throw error;
@@ -181,13 +203,12 @@ const HybridSmartSearch: React.FC = () => {
           description: `Found ${data.total_results} results in ${data.execution_time_ms}ms`,
         });
       }
-
     } catch (error) {
-      console.error('Search error:', error);
+      console.error("Search error:", error);
       toast({
         title: "Search Failed",
         description: "Unable to perform search. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsSearching(false);
@@ -196,14 +217,14 @@ const HybridSmartSearch: React.FC = () => {
 
   // Handle Enter key press
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       performSearch();
     }
   };
 
   // Clear search results
   const clearSearch = () => {
-    setQuery('');
+    setQuery("");
     setSearchResults(null);
   };
 
@@ -236,9 +257,7 @@ const HybridSmartSearch: React.FC = () => {
             <div className="text-sm font-medium text-blue-600">
               {(result.combined_score * 100).toFixed(1)}% match
             </div>
-            <div className="text-xs text-gray-500 mt-1">
-              Rank #{index + 1}
-            </div>
+            <div className="text-xs text-gray-500 mt-1">Rank #{index + 1}</div>
           </div>
         </div>
       </CardHeader>
@@ -246,7 +265,7 @@ const HybridSmartSearch: React.FC = () => {
         <p className="text-gray-700 mb-3 line-clamp-2">
           {result.body.substring(0, 200)}...
         </p>
-        
+
         {/* Tags */}
         {result.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-3">
@@ -294,7 +313,8 @@ const HybridSmartSearch: React.FC = () => {
           Hybrid Smart Search
         </h1>
         <p className="text-gray-600">
-          Advanced AI-powered search with semantic understanding, full-text matching, and fuzzy search
+          Advanced AI-powered search with semantic understanding, full-text
+          matching, and fuzzy search
         </p>
       </div>
 
@@ -329,19 +349,24 @@ const HybridSmartSearch: React.FC = () => {
                 </Button>
               )}
             </div>
-            <Button 
-              onClick={performSearch} 
+            <Button
+              onClick={performSearch}
               disabled={isSearching}
               className="min-w-[100px]"
             >
-              {isSearching ? 'Searching...' : 'Search'}
+              {isSearching ? "Searching..." : "Search"}
             </Button>
           </div>
 
           {/* Search Type Selection */}
           <div className="flex gap-4 items-center">
             <label className="text-sm font-medium">Search Type:</label>
-            <Select value={searchType} onValueChange={(value: 'semantic' | 'fulltext' | 'fuzzy' | 'hybrid') => setSearchType(value)}>
+            <Select
+              value={searchType}
+              onValueChange={(
+                value: "semantic" | "fulltext" | "fuzzy" | "hybrid"
+              ) => setSearchType(value)}
+            >
               <SelectTrigger className="w-40">
                 <SelectValue />
               </SelectTrigger>
@@ -415,9 +440,9 @@ const HybridSmartSearch: React.FC = () => {
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {recentSearches.map((search, index) => (
-                <Badge 
+                <Badge
                   key={index}
-                  variant="outline" 
+                  variant="outline"
                   className="cursor-pointer hover:bg-gray-100"
                   onClick={() => setQuery(search)}
                 >
@@ -441,8 +466,9 @@ const HybridSmartSearch: React.FC = () => {
                     Search Results for &ldquo;{searchResults.query}&rdquo;
                   </h2>
                   <p className="text-gray-600">
-                    {searchResults.total_results} results found in {searchResults.execution_time_ms}ms
-                    using {searchResults.search_type} search
+                    {searchResults.total_results} results found in{" "}
+                    {searchResults.execution_time_ms}ms using{" "}
+                    {searchResults.search_type} search
                   </p>
                 </div>
                 <Badge variant="outline" className="capitalize">
@@ -454,19 +480,37 @@ const HybridSmartSearch: React.FC = () => {
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div className="flex items-center gap-2">
                   <ZapIcon className="w-4 h-4 text-blue-500" />
-                  <span className={searchResults.search_metadata.used_semantic ? 'text-green-600' : 'text-gray-400'}>
+                  <span
+                    className={
+                      searchResults.search_metadata.used_semantic
+                        ? "text-green-600"
+                        : "text-gray-400"
+                    }
+                  >
                     Semantic Search
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <SearchIcon className="w-4 h-4 text-green-500" />
-                  <span className={searchResults.search_metadata.used_fulltext ? 'text-green-600' : 'text-gray-400'}>
+                  <span
+                    className={
+                      searchResults.search_metadata.used_fulltext
+                        ? "text-green-600"
+                        : "text-gray-400"
+                    }
+                  >
                     Full-Text Search
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <FilterIcon className="w-4 h-4 text-purple-500" />
-                  <span className={searchResults.search_metadata.used_fuzzy ? 'text-green-600' : 'text-gray-400'}>
+                  <span
+                    className={
+                      searchResults.search_metadata.used_fuzzy
+                        ? "text-green-600"
+                        : "text-gray-400"
+                    }
+                  >
                     Fuzzy Search
                   </span>
                 </div>
@@ -475,7 +519,9 @@ const HybridSmartSearch: React.FC = () => {
               {/* Performance Tips */}
               {searchResults.performance_tips.length > 0 && (
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium text-blue-900 mb-2">Performance Tips:</h4>
+                  <h4 className="font-medium text-blue-900 mb-2">
+                    Performance Tips:
+                  </h4>
                   <ul className="list-disc list-inside text-sm text-blue-800 space-y-1">
                     {searchResults.performance_tips.map((tip, index) => (
                       <li key={index}>{tip}</li>
@@ -490,7 +536,7 @@ const HybridSmartSearch: React.FC = () => {
           {searchResults.search_results.length > 0 && (
             <div>
               <h3 className="text-lg font-semibold mb-4">Primary Results</h3>
-              {searchResults.search_results.map((result, index) => 
+              {searchResults.search_results.map((result, index) =>
                 renderSearchResult(result, index)
               )}
             </div>
@@ -502,10 +548,15 @@ const HybridSmartSearch: React.FC = () => {
               <Separator className="my-6" />
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUpIcon className="w-5 h-5 text-orange-500" />
-                <h3 className="text-lg font-semibold">Trending Notes (Since we found limited results)</h3>
+                <h3 className="text-lg font-semibold">
+                  Trending Notes (Since we found limited results)
+                </h3>
               </div>
-              {searchResults.fallback_results.map((result, index) => 
-                renderSearchResult(result, index + searchResults.search_results.length)
+              {searchResults.fallback_results.map((result, index) =>
+                renderSearchResult(
+                  result,
+                  index + searchResults.search_results.length
+                )
               )}
             </div>
           )}
@@ -520,38 +571,44 @@ const HybridSmartSearch: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {searchResults.search_suggestions.popular_queries.length > 0 && (
+                {searchResults.search_suggestions.popular_queries.length >
+                  0 && (
                   <div>
                     <h4 className="font-medium mb-2">Popular Queries:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {searchResults.search_suggestions.popular_queries.map((query, index) => (
-                        <Badge 
-                          key={index}
-                          variant="outline" 
-                          className="cursor-pointer hover:bg-gray-100"
-                          onClick={() => setQuery(query)}
-                        >
-                          {query}
-                        </Badge>
-                      ))}
+                      {searchResults.search_suggestions.popular_queries.map(
+                        (query, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="cursor-pointer hover:bg-gray-100"
+                            onClick={() => setQuery(query)}
+                          >
+                            {query}
+                          </Badge>
+                        )
+                      )}
                     </div>
                   </div>
                 )}
 
-                {searchResults.search_suggestions.related_categories.length > 0 && (
+                {searchResults.search_suggestions.related_categories.length >
+                  0 && (
                   <div>
                     <h4 className="font-medium mb-2">Related Categories:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {searchResults.search_suggestions.related_categories.map((cat, index) => (
-                        <Badge 
-                          key={index}
-                          variant="secondary" 
-                          className="cursor-pointer hover:bg-gray-200"
-                          onClick={() => setCategory(cat)}
-                        >
-                          {cat}
-                        </Badge>
-                      ))}
+                      {searchResults.search_suggestions.related_categories.map(
+                        (cat, index) => (
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="cursor-pointer hover:bg-gray-200"
+                            onClick={() => setCategory(cat)}
+                          >
+                            {cat}
+                          </Badge>
+                        )
+                      )}
                     </div>
                   </div>
                 )}
@@ -560,16 +617,18 @@ const HybridSmartSearch: React.FC = () => {
                   <div>
                     <h4 className="font-medium mb-2">Trending Tags:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {searchResults.search_suggestions.trending_tags.map((tag, index) => (
-                        <Badge 
-                          key={index}
-                          variant="outline" 
-                          className="cursor-pointer hover:bg-gray-100"
-                          onClick={() => setQuery(tag)}
-                        >
-                          #{tag}
-                        </Badge>
-                      ))}
+                      {searchResults.search_suggestions.trending_tags.map(
+                        (tag, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="cursor-pointer hover:bg-gray-100"
+                            onClick={() => setQuery(tag)}
+                          >
+                            #{tag}
+                          </Badge>
+                        )
+                      )}
                     </div>
                   </div>
                 )}
@@ -580,26 +639,30 @@ const HybridSmartSearch: React.FC = () => {
       )}
 
       {/* No Results */}
-      {searchResults && searchResults.search_results.length === 0 && searchResults.fallback_results.length === 0 && (
-        <Card>
-          <CardContent className="text-center py-12">
-            <SearchIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Results Found</h3>
-            <p className="text-gray-600 mb-6">
-              We couldn&apos;t find any notes matching your search criteria.
-            </p>
-            <div className="space-y-2 text-sm text-gray-500">
-              <p>Try:</p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>Using different keywords</li>
-                <li>Checking your spelling</li>
-                <li>Removing some filters</li>
-                <li>Using broader search terms</li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {searchResults &&
+        searchResults.search_results.length === 0 &&
+        searchResults.fallback_results.length === 0 && (
+          <Card>
+            <CardContent className="text-center py-12">
+              <SearchIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No Results Found
+              </h3>
+              <p className="text-gray-600 mb-6">
+                We couldn&apos;t find any notes matching your search criteria.
+              </p>
+              <div className="space-y-2 text-sm text-gray-500">
+                <p>Try:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Using different keywords</li>
+                  <li>Checking your spelling</li>
+                  <li>Removing some filters</li>
+                  <li>Using broader search terms</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        )}
     </div>
   );
 };

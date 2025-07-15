@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from 'packages/ui-components/src/components/button';
+import React from "react";
+import { Button } from "../ui/button";
 
 interface EditorHeaderProps {
   title?: string;
@@ -13,19 +13,19 @@ interface EditorHeaderProps {
   focusMode?: boolean;
 }
 
-export default function EditorHeader({ 
+export default function EditorHeader({
   title = "Note Editor",
   setTitle,
   lastSaved,
-  onSave, 
-  onPreview, 
+  onSave,
+  onPreview,
   isPreview = false,
   onBackClick,
   children,
-  focusMode = false
+  focusMode = false,
 }: EditorHeaderProps) {
   return (
-    <div className={`border-b ${focusMode ? 'bg-muted/20' : ''}`}>
+    <div className={`border-b ${focusMode ? "bg-muted/20" : ""}`}>
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-4">
           {onBackClick && (
@@ -53,26 +53,15 @@ export default function EditorHeader({
           )}
           <div className="flex gap-2">
             {onPreview && (
-              <Button 
-                variant="outline" 
-                onClick={onPreview}
-              >
-                {isPreview ? 'Edit' : 'Preview'}
+              <Button variant="outline" onClick={onPreview}>
+                {isPreview ? "Edit" : "Preview"}
               </Button>
             )}
-            {onSave && (
-              <Button onClick={onSave}>
-                Save
-              </Button>
-            )}
+            {onSave && <Button onClick={onSave}>Save</Button>}
           </div>
         </div>
       </div>
-      {children && (
-        <div className="border-t">
-          {children}
-        </div>
-      )}
+      {children && <div className="border-t">{children}</div>}
     </div>
   );
 }

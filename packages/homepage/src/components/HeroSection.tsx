@@ -1,14 +1,22 @@
 "use client";
 
 import { Search, Star, Users, Zap } from "lucide-react";
-import { Button } from "../../../ui-components/src/components/button";
+
+// React 19 compatible wrappers for Lucide icons
+const SearchIcon = Search as React.ElementType;
+const StarIcon = Star as React.ElementType;
+const UsersIcon = Users as React.ElementType;
+const ZapIcon = Zap as React.ElementType;
 
 interface HeroSectionProps {
   onGetStarted?: () => void;
   onExplore?: () => void;
 }
 
-export default function HeroSection({ onGetStarted, onExplore }: HeroSectionProps) {
+export default function HeroSection({
+  onGetStarted,
+  onExplore,
+}: HeroSectionProps) {
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">
       {/* Background Effects */}
@@ -20,53 +28,59 @@ export default function HeroSection({ onGetStarted, onExplore }: HeroSectionProp
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           {/* Hero Title */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-ghost-purple via-ghost-neon to-ghost-cyan bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 gradient-text fade-in">
             GhostNote
           </h1>
-          
+
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed fade-in fade-in-delay-1">
             Discover, Create, and Share Amazing Content
           </p>
-          
+
           {/* Features Grid */}
-          <div className="grid grid-cols-3 gap-4 mb-8 sm:gap-8 sm:mb-14 max-w-md mx-auto sm:max-w-2xl">
-            <div className="flex flex-col items-center p-5 sm:p-8 bg-gradient-to-br from-ghost-gray/40 via-ghost-purple/10 to-ghost-neon/10 bg-opacity-70 rounded-2xl border border-ghost-purple/20 shadow-md shadow-ghost-purple/10 transition-transform hover:scale-105 hover:shadow-lg hover:shadow-ghost-neon/20">
-              <Search className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-neon mb-2 sm:mb-4 drop-shadow-md" />
-              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">Smart Search</h3>
-              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">AI-powered search to find exactly what you need</p>
+          <div className="grid grid-cols-3 gap-4 mb-8 sm:gap-8 sm:mb-14 max-w-md mx-auto sm:max-w-2xl fade-in fade-in-delay-2">
+            <div className="flex flex-col items-center p-5 sm:p-8 note-card card-hover scale-in">
+              <SearchIcon className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-neon mb-2 sm:mb-4 icon-glow icon-float" />
+              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">
+                Smart Search
+              </h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">
+                AI-powered search to find exactly what you need
+              </p>
             </div>
-            <div className="flex flex-col items-center p-5 sm:p-8 bg-gradient-to-br from-ghost-gray/40 via-ghost-cyan/10 to-ghost-purple/10 bg-opacity-70 rounded-2xl border border-ghost-cyan/20 shadow-md shadow-ghost-cyan/10 transition-transform hover:scale-105 hover:shadow-lg hover:shadow-ghost-cyan/20">
-              <Star className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-cyan mb-2 sm:mb-4 drop-shadow-md" />
-              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">Quality Content</h3>
-              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">Curated high-quality notes and articles</p>
+            <div className="flex flex-col items-center p-5 sm:p-8 note-card card-hover scale-in">
+              <StarIcon className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-cyan mb-2 sm:mb-4 icon-glow icon-float" />
+              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">
+                Quality Content
+              </h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">
+                Curated high-quality notes and articles
+              </p>
             </div>
-            <div className="flex flex-col items-center p-5 sm:p-8 bg-gradient-to-br from-ghost-gray/40 via-ghost-purple/10 to-ghost-cyan/10 bg-opacity-70 rounded-2xl border border-ghost-purple/20 shadow-md shadow-ghost-purple/10 transition-transform hover:scale-105 hover:shadow-lg hover:shadow-ghost-purple/20">
-              <Users className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-purple mb-2 sm:mb-4 drop-shadow-md" />
-              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">Community</h3>
-              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">Join thousands of creators and learners</p>
+            <div className="flex flex-col items-center p-5 sm:p-8 note-card card-hover scale-in">
+              <UsersIcon className="h-10 w-10 sm:h-14 sm:w-14 text-ghost-purple mb-2 sm:mb-4 icon-glow icon-float" />
+              <h3 className="text-base sm:text-2xl font-semibold text-white mb-0 sm:mb-1 tracking-wide opacity-90">
+                Community
+              </h3>
+              <p className="hidden md:block text-xs sm:text-sm text-gray-300 text-center mt-1">
+                Join thousands of creators and learners
+              </p>
             </div>
           </div>
-          
+
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-ghost-purple to-ghost-neon text-black font-semibold hover:from-ghost-neon hover:to-ghost-cyan"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center fade-in fade-in-delay-3">
+            <button
+              className="btn-primary flex items-center justify-center"
               onClick={onGetStarted}
             >
-              <Zap className="h-5 w-5 mr-2" />
+              <ZapIcon className="h-5 w-5 mr-2" />
               Get Started
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-ghost-purple text-ghost-purple hover:bg-ghost-purple/10"
-              onClick={onExplore}
-            >
+            </button>
+
+            <button className="btn-secondary" onClick={onExplore}>
               Explore Notes
-            </Button>
+            </button>
           </div>
         </div>
       </div>

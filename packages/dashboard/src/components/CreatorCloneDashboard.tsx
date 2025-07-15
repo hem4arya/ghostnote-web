@@ -28,12 +28,12 @@ const supabase = {
     })
   }
 }; 
-import { Button } from 'packages/ui-components/src/components/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import { Textarea } from 'packages/ui-components/src/components/textarea';
-import { Input } from 'packages/ui-components/src/components/input';
-import { Label } from 'packages/ui-components/src/components/label';
+import { Button } from '@/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/card';
+import { Badge } from '@/components/badge';
+import { Textarea } from '@/components/textarea';
+import { Input } from '@/components/input';
+import { Label } from '@/components/label';
 import { 
   AlertTriangle, 
   Eye, 

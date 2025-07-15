@@ -1,9 +1,16 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Upload, Image as ImageIcon, Trash2, RotateCw, Move, Square } from 'lucide-react';
-import { Button } from 'packages/ui-components/src/components/button';
-import { ImageToolboxProps } from '../types';
+import {
+  Image as ImageIcon,
+  Move,
+  RotateCw,
+  Square,
+  Trash2,
+  Upload,
+} from "lucide-react";
+import * as React from "react";
+import { Button } from "./ui/button";
+import { ImageToolboxProps } from "../types";
 
 // React 19 compatibility wrappers
 const UploadIcon = Upload as React.ElementType;
@@ -15,25 +22,25 @@ const SquareIcon = Square as React.ElementType;
 
 const ImageToolbox: React.FC<ImageToolboxProps> = ({
   selectedImage,
-  imageTextWrap = 'none',
+  imageTextWrap = "none",
   setImageTextWrap,
   imageOpacity = 100,
   setImageOpacity,
   activeMode,
   setActiveMode,
-  onHelpClick
+  onHelpClick,
 }) => {
   const wrapOptions = [
-    { value: 'none', label: 'None' },
-    { value: 'left', label: 'Left' },
-    { value: 'right', label: 'Right' },
-    { value: 'center', label: 'Center' }
+    { value: "none", label: "None" },
+    { value: "left", label: "Left" },
+    { value: "right", label: "Right" },
+    { value: "center", label: "Center" },
   ];
 
   const modeButtons = [
-    { mode: 'move', icon: MoveIcon, label: 'Move' },
-    { mode: 'resize', icon: SquareIcon, label: 'Resize' },
-    { mode: 'rotate', icon: RotateCwIcon, label: 'Rotate' }
+    { mode: "move", icon: MoveIcon, label: "Move" },
+    { mode: "resize", icon: SquareIcon, label: "Resize" },
+    { mode: "rotate", icon: RotateCwIcon, label: "Rotate" },
   ];
 
   if (!selectedImage) {
@@ -43,7 +50,7 @@ const ImageToolbox: React.FC<ImageToolboxProps> = ({
   return (
     <div className="p-4 border rounded-lg bg-white shadow-sm">
       <h3 className="text-sm font-medium mb-3">Image Tools</h3>
-      
+
       <div className="space-y-4">
         {/* Text Wrap */}
         <div>

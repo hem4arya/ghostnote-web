@@ -12,13 +12,13 @@
       "@notes-components/*": ["./src/components/*"],
       "@notes-data/*": ["./src/data/*"],
       "@notes-hooks/*": ["./src/hooks/*"]
-    }
+    },
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmit": false
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

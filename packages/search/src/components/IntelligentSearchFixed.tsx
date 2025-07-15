@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, X, Loader2, Sparkles } from 'lucide-react';
+import { Loader2, Search, Sparkles, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // React 19 compatibility wrappers
 const SearchIcon = Search as React.ElementType;
@@ -9,13 +9,16 @@ const XIcon = X as React.ElementType;
 const Loader2Icon = Loader2 as React.ElementType;
 const SparklesIcon = Sparkles as React.ElementType;
 
-import { Button } from 'packages/ui-components/src/components/button';
-import { Input } from 'packages/ui-components/src/components/input';
-import { Card } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import { supabase } from '../../../../lib/supabase';
-import Link from 'next/link';
-import { Note } from 'packages/notes/src/components/NoteCard';
+import Link from "next/link";
+import { Badge } from "packages/ui-components/src/components/badge";
+import { Button } from "packages/ui-components/src/components/button";
+import { Card } from "packages/ui-components/src/components/card";
+import { Input } from "packages/ui-components/src/components/input";
+import { supabase } from "../lib/supabase";
+import { Note } from "../types/Note";
+
+// React 19 compatibility wrapper
+const SafeLink = Link as React.ElementType;
 
 interface SearchResult extends Note {
   similarity?: number;
@@ -27,11 +30,11 @@ interface IntelligentSearchProps {
   className?: string;
 }
 
-const IntelligentSearch = ({ 
-  placeholder = "Search for 'motivational notes for breakup', 'dark writing prompts'...", 
-  className = "" 
+const IntelligentSearch = ({
+  placeholder = "Search for 'motivational notes for breakup', 'dark writing prompts'...",
+  className = "",
 }: IntelligentSearchProps) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +43,7 @@ const IntelligentSearch = ({
 
   // Load recent searches from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('ghostnote-recent-searches');
+    const saved = localStorage.getItem("ghostnote-recent-searches");
     if (saved) {
       setRecentSearches(JSON.parse(saved));
     }
@@ -49,44 +52,62 @@ const IntelligentSearch = ({
   // Close search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const saveRecentSearch = useCallback((searchQuery: string) => {
-    const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
-    setRecentSearches(updated);
-    localStorage.setItem('ghostnote-recent-searches', JSON.stringify(updated));
-  }, [recentSearches]);
+  const saveRecentSearch = useCallback(
+    (searchQuery: string) => {
+      const updated = [
+        searchQuery,
+        ...recentSearches.filter((s) => s !== searchQuery),
+      ].slice(0, 5);
+      setRecentSearches(updated);
+      localStorage.setItem(
+        "ghostnote-recent-searches",
+        JSON.stringify(updated)
+      );
+    },
+    [recentSearches]
+  );
 
-  const performSearch = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim()) return;
+  const performSearch = useCallback(
+    async (searchQuery: string) => {
+      if (!searchQuery.trim()) return;
 
-    setIsLoading(true);
-    try {
-      // Call the Supabase Edge Function for intelligent search
-      const { data, error } = await supabase.functions.invoke('search-notes', {
-        body: { query: searchQuery }
-      });
+      setIsLoading(true);
+      try {
+        // Call the Supabase Edge Function for intelligent search
+        const { data, error } = await supabase.functions.invoke(
+          "search-notes",
+          {
+            body: { query: searchQuery },
+          }
+        );
 
-      if (error) {
-        console.error('Search error:', error);
-        return;
+        if (error) {
+          console.error("Search error:", error);
+          return;
+        }
+
+        setResults(data.notes || []);
+        saveRecentSearch(searchQuery);
+      } catch (searchError) {
+        console.error("Search failed:", searchError);
+      } finally {
+        setIsLoading(false);
       }
-
-      setResults(data.notes || []);
-      saveRecentSearch(searchQuery);
-    } catch (searchError) {
-      console.error('Search failed:', searchError);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [saveRecentSearch]);
+    },
+    [saveRecentSearch]
+  );
 
   // Debounced search
   useEffect(() => {
@@ -102,7 +123,7 @@ const IntelligentSearch = ({
   }, [query, performSearch]);
 
   const clearSearch = () => {
-    setQuery('');
+    setQuery("");
     setResults([]);
     setIsOpen(false);
   };
@@ -120,7 +141,7 @@ const IntelligentSearch = ({
     "startup pitch summary",
     "creative writing techniques",
     "productivity hacks",
-    "coding interview prep"
+    "coding interview prep",
   ];
 
   return (
@@ -168,14 +189,19 @@ const IntelligentSearch = ({
               <div className="space-y-3">
                 <div className="flex items-center gap-2 mb-4">
                   <SparklesIcon className="h-5 w-5 text-ghost-neon" />
-                  <h3 className="text-lg font-semibold text-white">Smart Results</h3>
-                  <Badge variant="secondary" className="bg-ghost-neon/20 text-ghost-neon">
+                  <h3 className="text-lg font-semibold text-white">
+                    Smart Results
+                  </h3>
+                  <Badge
+                    variant="secondary"
+                    className="bg-ghost-neon/20 text-ghost-neon"
+                  >
                     {results.length} found
                   </Badge>
                 </div>
-                
+
                 {results.map((note) => (
-                  <Link
+                  <SafeLink
                     key={note.id}
                     href={`/notes/${note.id}`}
                     onClick={() => setIsOpen(false)}
@@ -186,7 +212,10 @@ const IntelligentSearch = ({
                         {note.title}
                       </h4>
                       {note.similarity && (
-                        <Badge variant="outline" className="text-xs border-ghost-neon/30 text-ghost-neon">
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-ghost-neon/30 text-ghost-neon"
+                        >
                           {Math.round(note.similarity * 100)}% match
                         </Badge>
                       )}
@@ -199,11 +228,15 @@ const IntelligentSearch = ({
                         <Badge variant="secondary" className="text-xs">
                           {note.category}
                         </Badge>
-                        <span className="text-xs text-gray-500">by {note.author}</span>
+                        <span className="text-xs text-gray-500">
+                          by {note.author}
+                        </span>
                       </div>
-                      <span className="text-sm font-medium text-ghost-neon">${note.price}</span>
+                      <span className="text-sm font-medium text-ghost-neon">
+                        ${note.price}
+                      </span>
                     </div>
-                  </Link>
+                  </SafeLink>
                 ))}
               </div>
             )}
@@ -211,8 +244,12 @@ const IntelligentSearch = ({
             {/* No Results */}
             {!isLoading && query.length > 2 && results.length === 0 && (
               <div className="text-center py-8">
-                <div className="text-gray-400 mb-2">No notes found for &ldquo;{query}&rdquo;</div>
-                <div className="text-sm text-gray-500">Try a different search term or browse our categories</div>
+                <div className="text-gray-400 mb-2">
+                  No notes found for &ldquo;{query}&rdquo;
+                </div>
+                <div className="text-sm text-gray-500">
+                  Try a different search term or browse our categories
+                </div>
               </div>
             )}
 
@@ -221,7 +258,9 @@ const IntelligentSearch = ({
               <div className="space-y-4">
                 {recentSearches.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Recent Searches</h4>
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">
+                      Recent Searches
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {recentSearches.map((recent, index) => (
                         <Button
@@ -242,7 +281,9 @@ const IntelligentSearch = ({
                 )}
 
                 <div>
-                  <h4 className="text-sm font-medium text-gray-300 mb-2">Try Searching For</h4>
+                  <h4 className="text-sm font-medium text-gray-300 mb-2">
+                    Try Searching For
+                  </h4>
                   <div className="grid grid-cols-2 gap-2">
                     {suggestionQueries.map((suggestion, index) => (
                       <Button

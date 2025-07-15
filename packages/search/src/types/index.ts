@@ -1,5 +1,31 @@
 // Search Feature Type Definitions
 
+// Local Note interface for search package self-containment
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  category: string;
+  tags: string[];
+  price: number;
+  rating: number;
+  views: number;
+  purchases: number;
+  created_at: string;
+  updated_at?: string;
+  is_free?: boolean;
+  snippet?: string;
+  purchase_count?: number;
+  view_count?: number;
+}
+
+export interface SearchNote extends Note {
+  similarity?: number;
+  relevanceScore?: number;
+  source?: "semantic" | "behavioral" | "collaborative";
+}
+
 export interface SearchResult {
   id: string;
   title: string;
@@ -12,8 +38,8 @@ export interface SearchResult {
 
 export interface SearchFilters {
   category?: string;
-  dateRange?: 'day' | 'week' | 'month' | 'year' | 'all';
-  sortBy?: 'relevance' | 'date' | 'popularity' | 'similarity';
+  dateRange?: "day" | "week" | "month" | "year" | "all";
+  sortBy?: "relevance" | "date" | "popularity" | "similarity";
   author?: string;
   tags?: string[];
 }

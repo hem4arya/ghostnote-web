@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Save, Eye, ArrowLeft } from 'lucide-react';
-import { Button } from 'packages/ui-components/src/components/button';
-import { EditorHeaderProps } from '../types';
+import { ArrowLeft, Eye, Save } from "lucide-react";
+import React from "react";
+import { Button } from "../../../ui-components/src/components/button";
+import { EditorHeaderProps } from "../types";
 
 // React 19 compatibility wrappers
 const SaveIcon = Save as React.ElementType;
@@ -11,7 +11,7 @@ const EyeIcon = Eye as React.ElementType;
 const ArrowLeftIcon = ArrowLeft as React.ElementType;
 
 const EditorHeader: React.FC<EditorHeaderProps> = ({
-  title = '',
+  title = "",
   onTitleChange,
   setTitle,
   onSave,
@@ -21,7 +21,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
   isPublishing = false,
   isDirty = false,
   lastSaved,
-  children
+  children,
 }) => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
@@ -30,11 +30,11 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
   };
 
   const formatLastSaved = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     }).format(date);
   };
 
@@ -51,7 +51,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
             <ArrowLeftIcon className="h-4 w-4" />
           </Button>
         )}
-        
+
         <input
           type="text"
           value={title}
@@ -67,7 +67,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
             Last saved {formatLastSaved(lastSaved)}
           </span>
         )}
-        
+
         {children as React.ReactNode}
 
         <Button
@@ -78,7 +78,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
           className="flex items-center space-x-2"
         >
           <SaveIcon className="h-4 w-4" />
-          <span>{isSaving ? 'Saving...' : 'Save'}</span>
+          <span>{isSaving ? "Saving..." : "Save"}</span>
         </Button>
 
         <Button
@@ -88,7 +88,7 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
           className="flex items-center space-x-2"
         >
           <EyeIcon className="h-4 w-4" />
-          <span>{isPublishing ? 'Publishing...' : 'Publish'}</span>
+          <span>{isPublishing ? "Publishing..." : "Publish"}</span>
         </Button>
       </div>
     </div>

@@ -1,9 +1,18 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
-import { Button } from 'packages/ui-components/src/components/button';
-import { FormattingToolbarProps } from '../types';
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Underline,
+} from "lucide-react";
+import React from "react";
+import { Button } from "../../../ui-components/src/components/button";
+import { FormattingToolbarProps } from "../types";
 
 // React 19 compatibility wrappers
 const BoldIcon = Bold as React.ElementType;
@@ -17,17 +26,17 @@ const AlignRightIcon = AlignRight as React.ElementType;
 
 const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
   activeFormats = [],
-  executeCommand
+  executeCommand,
 }) => {
   const formatButtons = [
-    { command: 'bold', icon: BoldIcon, label: 'Bold' },
-    { command: 'italic', icon: ItalicIcon, label: 'Italic' },
-    { command: 'underline', icon: UnderlineIcon, label: 'Underline' },
-    { command: 'unordered-list', icon: ListIcon, label: 'Bullet List' },
-    { command: 'ordered-list', icon: ListOrderedIcon, label: 'Numbered List' },
-    { command: 'align-left', icon: AlignLeftIcon, label: 'Align Left' },
-    { command: 'align-center', icon: AlignCenterIcon, label: 'Align Center' },
-    { command: 'align-right', icon: AlignRightIcon, label: 'Align Right' }
+    { command: "bold", icon: BoldIcon, label: "Bold" },
+    { command: "italic", icon: ItalicIcon, label: "Italic" },
+    { command: "underline", icon: UnderlineIcon, label: "Underline" },
+    { command: "unordered-list", icon: ListIcon, label: "Bullet List" },
+    { command: "ordered-list", icon: ListOrderedIcon, label: "Numbered List" },
+    { command: "align-left", icon: AlignLeftIcon, label: "Align Left" },
+    { command: "align-center", icon: AlignCenterIcon, label: "Align Center" },
+    { command: "align-right", icon: AlignRightIcon, label: "Align Right" },
   ];
 
   const handleFormat = (command: string) => {

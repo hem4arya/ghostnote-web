@@ -1,4 +1,4 @@
-import { Button } from 'packages/ui-components/src/components/button';
+import { Button } from '@/components/button';
 import { Plus, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
