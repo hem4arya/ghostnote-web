@@ -7,7 +7,8 @@
     "paths": {
       "@dashboard-components/*": ["./packages/dashboard/src/components/*"],
       "@/*": ["./src/*", "./lib/*", "./packages/ui-components/src/*"],
-      "@/lib/*": ["./lib/*"]
+      "@/lib/*": ["./lib/*"],
+      "@ghostnote/ui-components": ["../ui-components/src"]
     },
     "composite": true,
     "declaration": true,
@@ -17,7 +18,5 @@
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"],
-  "references": [
-    { "path": "../ui-components" }
-  ]
+  "references": [{ "path": "../ui-components" }]
 }

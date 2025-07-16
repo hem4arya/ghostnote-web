@@ -1,12 +1,20 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "../..",
     "outDir": "dist",
     "jsx": "react-jsx",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmit": false,
     "paths": {
-      "@transparency-components/*": ["./src/components/*"]
+      "@transparency-components/*": ["./src/components/*"],
+      "@/*": ["./src/*", "./lib/*", "./packages/ui-components/src/*"]
     }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../ui-components" }]
 }

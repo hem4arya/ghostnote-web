@@ -1,10 +1,9 @@
 // Local NoteCard component for dashboard package
 "use client";
 
+import { Badge, Card } from "@ghostnote/ui-components";
 import { Eye, ShoppingCart, Star } from "lucide-react";
 import Link from "next/link";
-import { Badge } from '@/components/badge';
-import { Card } from '@/components/card';
 import { Note } from "../types/Note";
 
 // React 19 compatibility wrappers

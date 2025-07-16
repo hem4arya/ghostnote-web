@@ -1,6 +1,6 @@
-import { Button } from '@/components/button';
-import { Plus, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Button } from "@ghostnote/ui-components";
+import { ArrowLeft, Plus } from "lucide-react";
+import Link from "next/link";
 
 // React 19 compatibility wrappers
 const PlusIcon = Plus as React.ElementType;
