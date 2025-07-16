@@ -13,11 +13,15 @@ import { Badge } from "packages/ui-components/src/components/badge";
 import { Button } from "packages/ui-components/src/components/button";
 import { Card } from "packages/ui-components/src/components/card";
 
-// React 19 compatible wrappers for Lucide icons and Next.js Link
+// React 19 compatibility wrappers
 const HeartIcon = Heart as React.ElementType;
-const TrendingUpIcon = TrendingUp as React.ElementType;
-const SparklesIcon = Sparkles as React.ElementType;
 const RefreshCwIcon = RefreshCw as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
+
+// React 19 compatible wrappers for Lucide icons and Next.js Link
 const SafeLink = Link as React.ElementType;
 
 // Local Note interface

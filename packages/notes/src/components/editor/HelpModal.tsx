@@ -1,8 +1,10 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-// React 19 compatibility wrapper
+// React 19 compatibility wrappers
 const XIcon = X as React.ElementType;
+
+// React 19 compatibility wrapper
 
 interface HelpModalProps {
   showResizeHelp: boolean;

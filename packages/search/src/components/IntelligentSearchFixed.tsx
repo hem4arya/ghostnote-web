@@ -3,12 +3,6 @@
 import { Loader2, Search, Sparkles, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-// React 19 compatibility wrappers
-const SearchIcon = Search as React.ElementType;
-const XIcon = X as React.ElementType;
-const Loader2Icon = Loader2 as React.ElementType;
-const SparklesIcon = Sparkles as React.ElementType;
-
 import Link from "next/link";
 import { Badge } from "packages/ui-components/src/components/badge";
 import { Button } from "packages/ui-components/src/components/button";
@@ -16,6 +10,14 @@ import { Card } from "packages/ui-components/src/components/card";
 import { Input } from "packages/ui-components/src/components/input";
 import { supabase } from "../lib/supabase";
 import { Note } from "../types/Note";
+
+// React 19 compatibility wrappers
+const Loader2Icon = Loader2 as React.ElementType;
+const SearchIcon = Search as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const XIcon = X as React.ElementType;
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
 
 // React 19 compatibility wrapper
 const SafeLink = Link as React.ElementType;

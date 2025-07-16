@@ -15,10 +15,10 @@ import type { ReaderHeaderProps } from "../types";
 
 // React 19 compatibility wrappers
 const ArrowLeftIcon = ArrowLeft as React.ElementType;
-const SettingsIcon = Settings as React.ElementType;
-const Share2Icon = Share2 as React.ElementType;
 const BookmarkIcon = Bookmark as React.ElementType;
 const MoreVerticalIcon = MoreVertical as React.ElementType;
+const SettingsIcon = Settings as React.ElementType;
+const Share2Icon = Share2 as React.ElementType;
 
 export function ReaderHeader({
   note,
@@ -114,15 +114,15 @@ export function ReaderHeader({
             onClick={handleShare}
             className="hidden sm:flex"
           >
-            <Share2 className="h-4 w-4" />
+            <Share2Icon className="h-4 w-4" />
           </Button>
 
           <Button variant="ghost" size="sm" className="hidden sm:flex">
-            <Bookmark className="h-4 w-4" />
+            <BookmarkIcon className="h-4 w-4" />
           </Button>
 
           <Button variant="ghost" size="sm" onClick={onToggleSidebar}>
-            <Settings className="h-4 w-4" />
+            <SettingsIcon className="h-4 w-4" />
           </Button>
 
           {/* Mobile Menu */}
@@ -132,7 +132,7 @@ export function ReaderHeader({
               size="sm"
               onClick={() => setShowOptionsMenu(!showOptionsMenu)}
             >
-              <MoreVertical className="h-4 w-4" />
+              <MoreVerticalIcon className="h-4 w-4" />
             </Button>
 
             {showOptionsMenu && (

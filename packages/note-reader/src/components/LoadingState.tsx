@@ -3,8 +3,10 @@
 import { Loader2 } from 'lucide-react';
 import type { LoadingStateProps } from '../types';
 
-// React 19 compatibility wrapper
+// React 19 compatibility wrappers
 const Loader2Icon = Loader2 as React.ElementType;
+
+// React 19 compatibility wrapper
 
 export function LoadingState({ message = 'Loading Note' }: LoadingStateProps) {
   return (

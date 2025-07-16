@@ -3,8 +3,9 @@ import { ArrowLeft, Plus } from "lucide-react";
 import Link from "next/link";
 
 // React 19 compatibility wrappers
-const PlusIcon = Plus as React.ElementType;
 const ArrowLeftIcon = ArrowLeft as React.ElementType;
+const PlusIcon = Plus as React.ElementType;
+// Next.js component wrappers
 const LinkSafe = Link as React.ElementType;
 
 const DashboardHeader = () => {

@@ -11,14 +11,15 @@ import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 
 // React 19 compatibility wrappers
-const SearchIcon = Search as React.ElementType;
-const XIcon = X as React.ElementType;
-const Loader2Icon = Loader2 as React.ElementType;
-const SparklesIcon = Sparkles as React.ElementType;
-const UserIcon = User as React.ElementType;
 const HeartIcon = Heart as React.ElementType;
-const TrendingUpIcon = TrendingUp as React.ElementType;
 const LightbulbIcon = Lightbulb as React.ElementType;
+const Loader2Icon = Loader2 as React.ElementType;
+const SearchIcon = Search as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const UserIcon = User as React.ElementType;
+const XIcon = X as React.ElementType;
+// Next.js component wrappers
 const LinkSafe = Link as React.ElementType;
 
 // Note interface

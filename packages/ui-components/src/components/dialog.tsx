@@ -6,8 +6,10 @@ import { X } from "lucide-react"
 
 import { cn } from "../lib/utils"
 
-// React 19 compatibility wrapper
+// React 19 compatibility wrappers
 const XIcon = X as React.ElementType;
+
+// React 19 compatibility wrapper
 
 const Dialog = DialogPrimitive.Root
 

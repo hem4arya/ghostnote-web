@@ -10,10 +10,10 @@ import { Switch } from "./ui/switch";
 import { Textarea } from "./ui/textarea";
 
 // React 19 compatibility wrappers
-const XIcon = X as React.ElementType;
-const SaveIcon = Save as React.ElementType;
 const LockIcon = Lock as React.ElementType;
+const SaveIcon = Save as React.ElementType;
 const ShieldIcon = Shield as React.ElementType;
+const XIcon = X as React.ElementType;
 
 interface Note {
   title?: string;

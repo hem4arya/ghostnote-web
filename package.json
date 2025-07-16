@@ -4,10 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm run build:packages && next build",
+    "build:packages": "tsc --build",
+    "build:clean": "tsc --build --clean && pnpm run build",
     "start": "next start",
     "lint": "next lint",
-    "verify-features": "node scripts/verify-features.mjs"
+    "lint:packages": "pnpm -r run lint",
+    "type-check": "tsc --build --dry",
+    "create-feature": "tsx scripts/create-feature.ts",
+    "verify-features": "node scripts/verify-features.mjs",
+    "fix-react19-icons": "node scripts/fix-react19-icons.js"
   },
   "dependencies": {
     "@lexical/code": "^0.33.1",
@@ -56,6 +62,7 @@
     "eslint-config-next": "15.3.5",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   },
   "workspaces": [

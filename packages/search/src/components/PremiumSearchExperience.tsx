@@ -20,19 +20,19 @@ import { Badge } from 'packages/ui-components/src/components/badge';
 import { Card, CardContent, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
 
 // React 19 compatibility wrappers
-const SearchIcon = Search as React.ElementType;
+const ArrowRightIcon = ArrowRight as React.ElementType;
+const ClockIcon = Clock as React.ElementType;
+const EyeIcon = Eye as React.ElementType;
 const FilterIcon = Filter as React.ElementType;
 const MicIcon = Mic as React.ElementType;
 const MicOffIcon = MicOff as React.ElementType;
-const ClockIcon = Clock as React.ElementType;
-const TrendingUpIcon = TrendingUp as React.ElementType;
-const TagIcon = Tag as React.ElementType;
-const StarIcon = Star as React.ElementType;
-const EyeIcon = Eye as React.ElementType;
+const SearchIcon = Search as React.ElementType;
 const ShoppingCartIcon = ShoppingCart as React.ElementType;
-const XIcon = X as React.ElementType;
 const SparklesIcon = Sparkles as React.ElementType;
-const ArrowRightIcon = ArrowRight as React.ElementType;
+const StarIcon = Star as React.ElementType;
+const TagIcon = Tag as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const XIcon = X as React.ElementType;
 
 // Speech Recognition types
 interface SpeechRecognitionEvent {

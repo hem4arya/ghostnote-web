@@ -2,11 +2,13 @@
 
 import { Search, Star, Users, Zap } from "lucide-react";
 
-// React 19 compatible wrappers for Lucide icons
+// React 19 compatibility wrappers
 const SearchIcon = Search as React.ElementType;
 const StarIcon = Star as React.ElementType;
 const UsersIcon = Users as React.ElementType;
 const ZapIcon = Zap as React.ElementType;
+
+// React 19 compatible wrappers for Lucide icons
 
 interface HeroSectionProps {
   onGetStarted?: () => void;

@@ -3,6 +3,8 @@ import React from "react";
 
 // React 19 compatible icon wrappers
 import { AlertTriangle, CheckCircle, Info, X } from "lucide-react";
+
+// React 19 compatibility wrappers
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
 const CheckCircleIcon = CheckCircle as React.ElementType;
 const InfoIcon = Info as React.ElementType;

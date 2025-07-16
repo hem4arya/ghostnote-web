@@ -8,10 +8,13 @@ import Link from "next/link";
 import { Note } from "../types/Note";
 
 // React 19 compatibility wrappers
-const SafeLink = Link as React.ElementType;
-const StarIcon = Star as React.ElementType;
 const EyeIcon = Eye as React.ElementType;
 const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const StarIcon = Star as React.ElementType;
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
+
+const SafeLink = Link as React.ElementType;
 
 interface NoteCardProps {
   note: Note;

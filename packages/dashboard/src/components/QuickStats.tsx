@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { DollarSign, FileText, Shield } from "lucide-react";
 
-// React 19 compatible icon wrappers
+// React 19 compatibility wrappers
 const DollarSignIcon = DollarSign as React.ElementType;
 const FileTextIcon = FileText as React.ElementType;
 const ShieldIcon = Shield as React.ElementType;
+
+// React 19 compatible icon wrappers
 
 const QuickStats = () => {
   return (

@@ -8,10 +8,12 @@ import { useState } from "react";
 import { Button } from "packages/ui-components/src/components/button";
 import { Input } from "packages/ui-components/src/components/input";
 
-// React 19 compatible wrappers for Lucide icons
-const SearchIcon = Search as React.ElementType;
+// React 19 compatibility wrappers
 const FilterIcon = Filter as React.ElementType;
+const SearchIcon = Search as React.ElementType;
 const TrendingUpIcon = TrendingUp as React.ElementType;
+
+// React 19 compatible wrappers for Lucide icons
 
 interface SearchBarProps {
   onSearch?: (query: string) => void;

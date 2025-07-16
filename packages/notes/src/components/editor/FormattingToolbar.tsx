@@ -5,9 +5,9 @@ import { Button } from "../ui/button";
 // React 19 compatibility wrappers
 const BoldIcon = Bold as React.ElementType;
 const ItalicIcon = Italic as React.ElementType;
-const UnderlineIcon = Underline as React.ElementType;
 const ListIcon = List as React.ElementType;
 const ListOrderedIcon = ListOrdered as React.ElementType;
+const UnderlineIcon = Underline as React.ElementType;
 
 interface FormattingToolbarProps {
   onFormat?: (format: string) => void;

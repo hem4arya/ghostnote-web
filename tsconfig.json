@@ -17,7 +17,7 @@
       "@packages/*": ["./packages/*/src"]
     }
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "lib/**/*"],
   "exclude": [
     "node_modules",
     "**/examples/**",
@@ -25,17 +25,41 @@
     "**/vite.config.*"
   ],
   "references": [
-    { "path": "packages/access-control" },
-    { "path": "packages/auth" },
-    { "path": "packages/dashboard" },
-    { "path": "packages/editor" },
-    { "path": "packages/homepage" },
-    { "path": "packages/note-reader" },
-    { "path": "packages/notes" },
-    { "path": "packages/search" },
-    { "path": "packages/shared-lib" },
-    { "path": "packages/shell" },
-    { "path": "packages/transparency" },
-    { "path": "packages/ui-components" }
+    {
+      "path": "packages/access-control"
+    },
+    {
+      "path": "packages/auth"
+    },
+    {
+      "path": "packages/dashboard"
+    },
+    {
+      "path": "packages/editor"
+    },
+    {
+      "path": "packages/homepage"
+    },
+    {
+      "path": "packages/note-reader"
+    },
+    {
+      "path": "packages/notes"
+    },
+    {
+      "path": "packages/search"
+    },
+    {
+      "path": "packages/shared-lib"
+    },
+    {
+      "path": "packages/shell"
+    },
+    {
+      "path": "packages/transparency"
+    },
+    {
+      "path": "packages/ui-components"
+    }
   ]
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 
-// React 19 compatibility wrapper
+// React 19 compatibility wrappers
 const FileTextIcon = FileText as React.ElementType;
+
+// React 19 compatibility wrapper
 
 interface WordCountWidgetProps {
   wordCount?: number;

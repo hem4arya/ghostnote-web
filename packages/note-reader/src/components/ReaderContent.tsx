@@ -3,14 +3,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Clock, User, Tag, Lock, Shield } from 'lucide-react';
 import type { ReaderContentProps } from '../types';
-import '../styles/reader.css';
 
 // React 19 compatibility wrappers
 const ClockIcon = Clock as React.ElementType;
-const UserIcon = User as React.ElementType;
-const TagIcon = Tag as React.ElementType;
 const LockIcon = Lock as React.ElementType;
 const ShieldIcon = Shield as React.ElementType;
+const TagIcon = Tag as React.ElementType;
+const UserIcon = User as React.ElementType;
+
+import '../styles/reader.css';
 
 export function ReaderContent({ 
   note, 

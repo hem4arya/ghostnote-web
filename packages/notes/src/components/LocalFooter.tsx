@@ -3,6 +3,9 @@
 
 import Link from "next/link";
 
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
+
 // React 19 compatibility wrapper
 const SafeLink = Link as React.ElementType;
 

@@ -9,9 +9,10 @@ import { sampleNotes } from "../data/sampleNotes";
 import { Note } from "../types/Note";
 
 // React 19 compatibility wrappers
-const SearchIcon = Search as React.ElementType;
 const Loader2Icon = Loader2 as React.ElementType;
+const SearchIcon = Search as React.ElementType;
 const SparklesIcon = Sparkles as React.ElementType;
+// Next.js component wrappers
 const LinkSafe = Link as React.ElementType;
 
 interface SearchResult extends Note {

@@ -3,8 +3,8 @@ import { FileText, Clock, Type } from 'lucide-react';
 import type { WordCountWidgetProps } from '../../types';
 
 // React 19 compatibility wrappers
-const FileTextIcon = FileText as React.ElementType;
 const ClockIcon = Clock as React.ElementType;
+const FileTextIcon = FileText as React.ElementType;
 const TypeIcon = Type as React.ElementType;
 
 export default function WordCountWidget({ 

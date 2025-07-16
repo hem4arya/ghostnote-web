@@ -2,8 +2,8 @@ import { Card, CardContent } from "packages/ui-components/src/components/card";
 import { TrendingUp, AlertTriangle } from "lucide-react";
 
 // React 19 compatibility wrappers
-const TrendingUpIcon = TrendingUp as React.ElementType;
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
 
 const alerts = [
 	{

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Search, Settings, User, X, ChevronLeft, Plus } from "lucide-react";
+
 import { Button } from "./components/Button";
 import { Input } from "./components/Input";
 import { useState, useRef, useEffect } from "react";
@@ -9,15 +10,19 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from 'next/image';
 
-// Type-safe wrappers for components
-const SafeLink = Link as React.ElementType;
-const SafeImage = Image as React.ElementType;
+// React 19 compatibility wrappers
+const ChevronLeftIcon = ChevronLeft as React.ElementType;
+const PlusIcon = Plus as React.ElementType;
 const SearchIcon = Search as React.ElementType;
 const SettingsIcon = Settings as React.ElementType;
 const UserIcon = User as React.ElementType;
 const XIcon = X as React.ElementType;
-const ChevronLeftIcon = ChevronLeft as React.ElementType;
-const PlusIcon = Plus as React.ElementType;
+// Next.js component wrappers
+const ImageSafe = Image as React.ElementType;
+const LinkSafe = Link as React.ElementType;
+
+const SafeLink = Link as React.ElementType;
+const SafeImage = Image as React.ElementType;
 
 interface NavbarProps {
   onLoginClick?: () => void;
@@ -93,8 +98,6 @@ const Navbar = ({ onLoginClick, onSignUpClick }: NavbarProps) => {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isSearchOpen]);
-
-
 
   // Listen for auth modal events when on homepage
   useEffect(() => {

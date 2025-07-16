@@ -18,16 +18,17 @@ import {
 import { Separator } from "packages/ui-components/src/components/separator";
 import { Slider } from "packages/ui-components/src/components/slider";
 import React, { useCallback, useEffect, useState } from "react";
-// import { useToast } from '../hooks/use-toast';
-// import { supabase } from '../lib/supabase';
 
 // React 19 compatibility wrappers
-const SearchIcon = Search as React.ElementType;
-const FilterIcon = Filter as React.ElementType;
 const ClockIcon = Clock as React.ElementType;
-const TrendingUpIcon = TrendingUp as React.ElementType;
+const FilterIcon = Filter as React.ElementType;
+const SearchIcon = Search as React.ElementType;
 const TagIcon = Tag as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
 const ZapIcon = Zap as React.ElementType;
+
+// import { useToast } from '../hooks/use-toast';
+// import { supabase } from '../lib/supabase';
 
 interface SearchResult {
   id: number;

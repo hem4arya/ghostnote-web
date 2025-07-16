@@ -2,13 +2,14 @@
 
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
-// React 19 compatibility wrappers
-const AlertTriangleIcon = AlertTriangle as React.ElementType;
-const RefreshCwIcon = RefreshCw as React.ElementType;
-const HomeIcon = Home as React.ElementType;
 import { Button } from 'packages/ui-components/src/components/button';
 import { useRouter } from 'next/navigation';
 import type { ErrorStateProps } from '../types';
+
+// React 19 compatibility wrappers
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const HomeIcon = Home as React.ElementType;
+const RefreshCwIcon = RefreshCw as React.ElementType;
 
 export function ErrorState({ error, onRetry }: ErrorStateProps) {
   const router = useRouter();

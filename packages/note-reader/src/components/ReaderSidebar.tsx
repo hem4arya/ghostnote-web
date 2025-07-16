@@ -5,6 +5,13 @@ import { Type, AlignLeft, Download, Share2, Heart } from 'lucide-react';
 import { Button } from 'packages/ui-components/src/components/button';
 import type { ReaderSidebarProps } from '../types';
 
+// React 19 compatibility wrappers
+const AlignLeftIcon = AlignLeft as React.ElementType;
+const DownloadIcon = Download as React.ElementType;
+const HeartIcon = Heart as React.ElementType;
+const Share2Icon = Share2 as React.ElementType;
+const TypeIcon = Type as React.ElementType;
+
 export function ReaderSidebar({ 
   note, 
   fontSize, 
@@ -79,7 +86,7 @@ export function ReaderSidebar({
             {/* Font Size */}
             <div>
               <label className="flex items-center gap-2 text-sm font-medium mb-3">
-                <Type className="h-4 w-4" />
+                <TypeIcon className="h-4 w-4" />
                 Font Size
               </label>
               <div className="space-y-2">
@@ -102,7 +109,7 @@ export function ReaderSidebar({
             {/* Line Height */}
             <div>
               <label className="flex items-center gap-2 text-sm font-medium mb-3">
-                <AlignLeft className="h-4 w-4" />
+                <AlignLeftIcon className="h-4 w-4" />
                 Line Height
               </label>
               <div className="space-y-2">
@@ -233,7 +240,7 @@ export function ReaderSidebar({
               variant="outline"
               className="w-full justify-start"
             >
-              <Share2 className="h-4 w-4 mr-2" />
+              <Share2Icon className="h-4 w-4 mr-2" />
               Share Note
             </Button>
 
@@ -242,7 +249,7 @@ export function ReaderSidebar({
               variant="outline"
               className="w-full justify-start"
             >
-              <Download className="h-4 w-4 mr-2" />
+              <DownloadIcon className="h-4 w-4 mr-2" />
               Download as Text
             </Button>
 
@@ -250,7 +257,7 @@ export function ReaderSidebar({
               variant="outline"
               className="w-full justify-start"
             >
-              <Heart className="h-4 w-4 mr-2" />
+              <HeartIcon className="h-4 w-4 mr-2" />
               Add to Favorites
             </Button>
 

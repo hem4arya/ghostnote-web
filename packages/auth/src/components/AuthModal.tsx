@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { X, Mail, Lock, User } from 'lucide-react';
 
 // React 19 compatibility wrappers
-const XIcon = X as React.ElementType;
-const MailIcon = Mail as React.ElementType;
 const LockIcon = Lock as React.ElementType;
+const MailIcon = Mail as React.ElementType;
 const UserIcon = User as React.ElementType;
+const XIcon = X as React.ElementType;
 
 interface AuthModalProps {
   isOpen: boolean;

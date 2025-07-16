@@ -17,13 +17,14 @@ import { Note } from "./NoteCard";
 import { Button } from "./ui/button";
 
 // React 19 compatibility wrappers
-const Share2Icon = Share2 as React.ElementType;
-const FlagIcon = Flag as React.ElementType;
-const BookmarkIcon = Bookmark as React.ElementType;
-const ShoppingCartIcon = ShoppingCart as React.ElementType;
-const LockIcon = Lock as React.ElementType;
-const StarIcon = Star as React.ElementType;
 const BookOpenIcon = BookOpen as React.ElementType;
+const BookmarkIcon = Bookmark as React.ElementType;
+const FlagIcon = Flag as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const Share2Icon = Share2 as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const StarIcon = Star as React.ElementType;
+// Next.js component wrappers
 const ImageSafe = Image as React.ElementType;
 
 // Types

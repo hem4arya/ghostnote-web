@@ -6,13 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './Car
 import { Badge } from './Badge';
 import { useMockContentAccess } from '../utils/mockAccessControl';
 
-// Safe component wrappers for React 19 compatibility
-const SafeLink = Link as React.ElementType;
-const LockIcon = Lock as React.ElementType;
+// React 19 compatibility wrappers
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
-const ShoppingCartIcon = ShoppingCart as React.ElementType;
 const CheckCircleIcon = CheckCircle as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
 const UserIcon = User as React.ElementType;
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
+
+const SafeLink = Link as React.ElementType;
 
 interface AccessControlProps {
   contentId: number;

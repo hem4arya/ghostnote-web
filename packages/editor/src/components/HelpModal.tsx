@@ -5,8 +5,8 @@ import * as React from "react";
 import { Button } from "./ui/button";
 
 // React 19 compatibility wrappers
-const XIcon = X as React.ElementType;
 const HelpCircleIcon = HelpCircle as React.ElementType;
+const XIcon = X as React.ElementType;
 
 interface HelpModalProps {
   isOpen: boolean;

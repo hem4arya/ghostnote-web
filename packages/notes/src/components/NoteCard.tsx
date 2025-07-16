@@ -5,8 +5,9 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 
 // React 19 compatibility wrappers
-const StarIcon = Star as React.ElementType;
 const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const StarIcon = Star as React.ElementType;
+// Next.js component wrappers
 const LinkSafe = Link as React.ElementType;
 
 export type Note = {

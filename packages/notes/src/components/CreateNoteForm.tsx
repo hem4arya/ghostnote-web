@@ -9,7 +9,7 @@ import { useResponsive } from "../hooks/useResponsive";
 import EditorHeader from "./editor/EditorHeader";
 import FormattingToolbar from "./editor/FormattingToolbar";
 import ImageToolbox from "./editor/ImageToolbox";
-// import WordCountWidget from "./editor/WordCountWidget";
+import WordCountWidget from "./editor/WordCountWidget";
 
 const CreateNoteForm = () => {
   const router = useRouter();
@@ -107,9 +107,8 @@ const CreateNoteForm = () => {
       {!focusMode && (
         <EditorHeader
           title={title}
-          onTitleChange={handleTitleChange}
+          setTitle={handleTitleChange}
           onSave={handleSave}
-          onPublish={handlePublish}
           lastSaved={lastSaved || undefined}
           onBackClick={() => router.push("/")}
         >
@@ -124,8 +123,15 @@ const CreateNoteForm = () => {
             setImageTextWrap={handleImageTextWrapChange}
             imageOpacity={imageOpacity}
             setImageOpacity={setImageOpacity}
-            activeMode={null} // Convert view/edit to ImageToolbox modes
-            setActiveMode={handleActiveModeChange}
+            activeMode={undefined} // Convert view/edit to ImageToolbox modes
+            setActiveMode={(mode: "view" | "edit") => {
+              // Map ImageToolbox modes to internal modes
+              if (mode === "view") {
+                handleActiveModeChange("move");
+              } else {
+                handleActiveModeChange("resize");
+              }
+            }}
             onHelpClick={() => {}}
           />
         </EditorHeader>

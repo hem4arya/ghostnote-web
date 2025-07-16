@@ -24,18 +24,21 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 // Fix React 19 type compatibility issues
-const TrendingUpIcon = TrendingUp as React.ElementType;
-const StarIcon = Star as React.ElementType;
-const EyeIcon = Eye as React.ElementType;
-const ShoppingCartIcon = ShoppingCart as React.ElementType;
-const ShieldIcon = Shield as React.ElementType;
-const FilterIcon = Filter as React.ElementType;
-const BarChart3Icon = BarChart3 as React.ElementType;
-const LinkSafe = Link as React.ElementType;
 
 // Replace problematic imports with local copies
 import { sampleNotes } from "../data/sampleNotes";
 import { Note } from "../types/Note";
+
+// React 19 compatibility wrappers
+const BarChart3Icon = BarChart3 as React.ElementType;
+const EyeIcon = Eye as React.ElementType;
+const FilterIcon = Filter as React.ElementType;
+const ShieldIcon = Shield as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const StarIcon = Star as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
 
 interface RankedNote extends Note {
   content_similarity?: number;

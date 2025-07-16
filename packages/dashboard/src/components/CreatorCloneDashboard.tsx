@@ -22,6 +22,18 @@ import {
   X,
 } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
+
+// React 19 compatibility wrappers
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
+const BanIcon = Ban as React.ElementType;
+const CheckIcon = Check as React.ElementType;
+const EyeIcon = Eye as React.ElementType;
+const FileTextIcon = FileText as React.ElementType;
+const MessageCircleIcon = MessageCircle as React.ElementType;
+const ShieldIcon = Shield as React.ElementType;
+const TrendingUpIcon = TrendingUp as React.ElementType;
+const XIcon = X as React.ElementType;
+
 // import { supabase } from '../../../../supabase';
 // Mock supabase for compilation
 const supabase = {
@@ -53,15 +65,6 @@ const supabase = {
 };
 
 // React 19 compatible icon wrappers
-const AlertTriangleIcon = AlertTriangle as React.ElementType;
-const EyeIcon = Eye as React.ElementType;
-const MessageCircleIcon = MessageCircle as React.ElementType;
-const BanIcon = Ban as React.ElementType;
-const CheckIcon = Check as React.ElementType;
-const XIcon = X as React.ElementType;
-const TrendingUpIcon = TrendingUp as React.ElementType;
-const FileTextIcon = FileText as React.ElementType;
-const ShieldIcon = Shield as React.ElementType;
 
 interface CloneInfo {
   clone_id: number;

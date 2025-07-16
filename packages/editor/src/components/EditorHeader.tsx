@@ -6,9 +6,9 @@ import { Button } from "../../../ui-components/src/components/button";
 import { EditorHeaderProps } from "../types";
 
 // React 19 compatibility wrappers
-const SaveIcon = Save as React.ElementType;
-const EyeIcon = Eye as React.ElementType;
 const ArrowLeftIcon = ArrowLeft as React.ElementType;
+const EyeIcon = Eye as React.ElementType;
+const SaveIcon = Save as React.ElementType;
 
 const EditorHeader: React.FC<EditorHeaderProps> = ({
   title = "",

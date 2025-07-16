@@ -27,12 +27,13 @@ import {
 import { useEffect, useState } from "react";
 
 // React 19 compatibility wrappers
+const AlertTriangleIcon = AlertTriangle as React.ElementType;
 const ArrowLeftIcon = ArrowLeft as React.ElementType;
+const CheckCircleIcon = CheckCircle as React.ElementType;
 const LockIcon = Lock as React.ElementType;
 const ShoppingCartIcon = ShoppingCart as React.ElementType;
 const UserIcon = User as React.ElementType;
-const CheckCircleIcon = CheckCircle as React.ElementType;
-const AlertTriangleIcon = AlertTriangle as React.ElementType;
+// Next.js component wrappers
 const LinkSafe = Link as React.ElementType;
 
 interface ReaderPageProps {
@@ -114,7 +115,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                 again.
               </p>
               <Button asChild className="w-full">
-                <Link href="/">Return Home</Link>
+                <LinkSafe href="/">Return Home</LinkSafe>
               </Button>
             </CardContent>
           </Card>
@@ -133,7 +134,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
           <Card className="max-w-lg bg-black/20 border-ghost-purple/20 backdrop-blur-lg">
             <CardHeader className="text-center">
               <div className="mx-auto mb-4 p-3 rounded-full bg-ghost-purple/10">
-                <Lock className="h-8 w-8 text-ghost-purple" />
+                <LockIcon className="h-8 w-8 text-ghost-purple" />
               </div>
               <CardTitle className="text-2xl text-white">
                 Premium Content
@@ -171,10 +172,10 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                   asChild
                   className="w-full bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-bold"
                 >
-                  <Link href={`/notes/${resolvedParams.id}`}>
-                    <ShoppingCart className="mr-2 h-4 w-4" />
+                  <LinkSafe href={`/notes/${resolvedParams.id}`}>
+                    <ShoppingCartIcon className="mr-2 h-4 w-4" />
                     Purchase to Unlock
-                  </Link>
+                  </LinkSafe>
                 </Button>
 
                 <Button
@@ -182,10 +183,10 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                   asChild
                   className="w-full border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10"
                 >
-                  <Link href={`/notes/${resolvedParams.id}`}>
-                    <ArrowLeft className="mr-2 h-4 w-4" />
+                  <LinkSafe href={`/notes/${resolvedParams.id}`}>
+                    <ArrowLeftIcon className="mr-2 h-4 w-4" />
                     View Note Details
-                  </Link>
+                  </LinkSafe>
                 </Button>
               </div>
             </CardContent>
@@ -212,7 +213,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                 removed.
               </p>
               <Button asChild className="w-full">
-                <Link href="/">Return Home</Link>
+                <LinkSafe href="/">Return Home</LinkSafe>
               </Button>
             </CardContent>
           </Card>
@@ -232,7 +233,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <CheckCircle className="h-5 w-5 text-green-400" />
+              <CheckCircleIcon className="h-5 w-5 text-green-400" />
               <span className="text-green-400 font-medium">
                 {isOwner ? "Owner Access" : "Premium Content Unlocked"}
               </span>
@@ -249,7 +250,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
               )}
             </div>
             <div className="flex items-center gap-2">
-              <User className="h-4 w-4 text-gray-400" />
+              <UserIcon className="h-4 w-4 text-gray-400" />
               <span className="text-sm text-gray-400">
                 {isOwner ? "Your Content" : "Licensed Access"}
               </span>
@@ -269,7 +270,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                 onClick={() => router.back()}
                 className="border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10"
               >
-                <ArrowLeft className="h-4 w-4 mr-2" />
+                <ArrowLeftIcon className="h-4 w-4 mr-2" />
                 Back
               </Button>
               <div className="flex items-center gap-2">
@@ -378,7 +379,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
               variant="outline"
               className="border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10"
             >
-              <Link href={`/notes/${resolvedParams.id}`}>View Note Page</Link>
+              <LinkSafe href={`/notes/${resolvedParams.id}`}>View Note Page</LinkSafe>
             </Button>
 
             {isOwner && (
@@ -387,7 +388,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                 variant="outline"
                 className="border-blue-400/50 text-blue-400 hover:bg-blue-400/10"
               >
-                <Link href={`/notes/${resolvedParams.id}/edit`}>Edit Note</Link>
+                <LinkSafe href={`/notes/${resolvedParams.id}/edit`}>Edit Note</LinkSafe>
               </Button>
             )}
           </div>

@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,7 +22,15 @@
     "sourceMap": true,
     "composite": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@features/test-feature/*": [
+        "packages/test-feature/src/*"
+      ],
+      "@features/test-feature": [
+        "packages/test-feature/index.ts"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

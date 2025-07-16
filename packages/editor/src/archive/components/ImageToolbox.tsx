@@ -4,11 +4,12 @@ import { Button } from "../../components/ui/button";
 import type { ImageToolboxProps } from "../../types";
 
 // React 19 compatibility wrappers
-const UploadIcon = Upload as React.ElementType;
-const ImageIconWrapper = ImageIcon as React.ElementType;
+const HelpCircleIcon = HelpCircle as React.ElementType;
 const MoveIcon = Move as React.ElementType;
 const RotateCcwIcon = RotateCcw as React.ElementType;
-const HelpCircleIcon = HelpCircle as React.ElementType;
+const UploadIcon = Upload as React.ElementType;
+
+const ImageIconWrapper = ImageIcon as React.ElementType;
 
 export default function ImageToolbox({
   selectedImage,

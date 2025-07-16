@@ -13,12 +13,11 @@ import { Button } from "./ui/button";
 import { ImageToolboxProps } from "../types";
 
 // React 19 compatibility wrappers
-const UploadIcon = Upload as React.ElementType;
-const ImageIconSafe = ImageIcon as React.ElementType;
-const Trash2Icon = Trash2 as React.ElementType;
-const RotateCwIcon = RotateCw as React.ElementType;
 const MoveIcon = Move as React.ElementType;
+const RotateCwIcon = RotateCw as React.ElementType;
 const SquareIcon = Square as React.ElementType;
+const Trash2Icon = Trash2 as React.ElementType;
+const UploadIcon = Upload as React.ElementType;
 
 const ImageToolbox: React.FC<ImageToolboxProps> = ({
   selectedImage,

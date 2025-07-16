@@ -12,16 +12,6 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// React 19 compatibility wrappers
-const Share2Icon = Share2 as React.ElementType;
-const FlagIcon = Flag as React.ElementType;
-const BookmarkIcon = Bookmark as React.ElementType;
-const ShoppingCartIcon = ShoppingCart as React.ElementType;
-const LockIcon = Lock as React.ElementType;
-const SparklesIcon = Sparkles as React.ElementType;
-const BookOpenIcon = BookOpen as React.ElementType;
-const LinkSafe = Link as React.ElementType;
-
 import { Button } from "packages/ui-components/src/components/button";
 import LocalFooter from "../components/LocalFooter";
 import LocalNavbar from "../components/LocalNavbar";
@@ -30,6 +20,17 @@ import { sampleNotes } from "../data/sampleNotes";
 // import { TransparencyUI } from 'packages/transparency';
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+
+// React 19 compatibility wrappers
+const BookOpenIcon = BookOpen as React.ElementType;
+const BookmarkIcon = Bookmark as React.ElementType;
+const FlagIcon = Flag as React.ElementType;
+const LockIcon = Lock as React.ElementType;
+const Share2Icon = Share2 as React.ElementType;
+const ShoppingCartIcon = ShoppingCart as React.ElementType;
+const SparklesIcon = Sparkles as React.ElementType;
+// Next.js component wrappers
+const LinkSafe = Link as React.ElementType;
 
 // Types
 type NoteDetailPageProps = {

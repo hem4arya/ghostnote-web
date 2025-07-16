@@ -13,14 +13,14 @@ import { Button } from "../../components/ui/button";
 import type { FormattingToolbarProps } from "../../types";
 
 // React 19 compatibility wrappers
+const AlignCenterIcon = AlignCenter as React.ElementType;
+const AlignLeftIcon = AlignLeft as React.ElementType;
+const AlignRightIcon = AlignRight as React.ElementType;
 const BoldIcon = Bold as React.ElementType;
 const ItalicIcon = Italic as React.ElementType;
-const UnderlineIcon = Underline as React.ElementType;
 const ListIcon = List as React.ElementType;
 const ListOrderedIcon = ListOrdered as React.ElementType;
-const AlignLeftIcon = AlignLeft as React.ElementType;
-const AlignCenterIcon = AlignCenter as React.ElementType;
-const AlignRightIcon = AlignRight as React.ElementType;
+const UnderlineIcon = Underline as React.ElementType;
 
 export default function FormattingToolbar({
   activeFormats = [],
