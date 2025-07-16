@@ -16,6 +16,14 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      xs: "480px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -68,6 +76,11 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "Consolas", "Monaco", "monospace"],
+        tech: ["Orbitron", "system-ui", "sans-serif"],
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -77,10 +90,29 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        flicker: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
+        typewriter: {
+          "0%": { width: "0ch" },
+          "100%": { width: "100%" },
+        },
+        glitch: {
+          "0%": { transform: "translate(0)" },
+          "20%": { transform: "translate(-2px, 2px)" },
+          "40%": { transform: "translate(-2px, -2px)" },
+          "60%": { transform: "translate(2px, 2px)" },
+          "80%": { transform: "translate(2px, -2px)" },
+          "100%": { transform: "translate(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        flicker: "flicker 2s infinite",
+        typewriter: "typewriter 4s steps(40, end) infinite",
+        glitch: "glitch 0.3s infinite",
       },
     },
   },
