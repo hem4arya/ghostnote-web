@@ -1,8 +1,8 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import React from "react";
 
 // React 19 compatible icon wrappers
-import { AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Info, X } from "lucide-react";
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
 const CheckCircleIcon = CheckCircle as React.ElementType;
 const InfoIcon = Info as React.ElementType;
@@ -10,7 +10,7 @@ const XIcon = X as React.ElementType;
 
 interface Alert {
   id: string;
-  type: 'warning' | 'success' | 'info' | 'error';
+  type: "warning" | "success" | "info" | "error";
   title: string;
   message: string;
   timestamp: string;
@@ -18,52 +18,52 @@ interface Alert {
 
 const sampleAlerts: Alert[] = [
   {
-    id: '1',
-    type: 'warning',
-    title: 'Content Review Required',
+    id: "1",
+    type: "warning",
+    title: "Content Review Required",
     message: 'Your note "Advanced JavaScript Concepts" is pending review.',
-    timestamp: '2 hours ago'
+    timestamp: "2 hours ago",
   },
   {
-    id: '2',
-    type: 'success',
-    title: 'Payment Received',
+    id: "2",
+    type: "success",
+    title: "Payment Received",
     message: 'You received $15.99 for "React Best Practices".',
-    timestamp: '5 hours ago'
+    timestamp: "5 hours ago",
   },
   {
-    id: '3',
-    type: 'info',
-    title: 'New Feature Available',
-    message: 'Check out our new search enhancement features.',
-    timestamp: '1 day ago'
-  }
+    id: "3",
+    type: "info",
+    title: "New Feature Available",
+    message: "Check out our new search enhancement features.",
+    timestamp: "1 day ago",
+  },
 ];
 
-const getAlertIcon = (type: Alert['type']) => {
+const getAlertIcon = (type: Alert["type"]) => {
   switch (type) {
-    case 'warning':
-    case 'error':
+    case "warning":
+    case "error":
       return AlertTriangleIcon;
-    case 'success':
+    case "success":
       return CheckCircleIcon;
-    case 'info':
+    case "info":
     default:
       return InfoIcon;
   }
 };
 
-const getAlertColor = (type: Alert['type']) => {
+const getAlertColor = (type: Alert["type"]) => {
   switch (type) {
-    case 'warning':
-      return 'text-orange-500';
-    case 'error':
-      return 'text-red-500';
-    case 'success':
-      return 'text-green-500';
-    case 'info':
+    case "warning":
+      return "text-orange-500";
+    case "error":
+      return "text-red-500";
+    case "success":
+      return "text-green-500";
+    case "info":
     default:
-      return 'text-blue-500';
+      return "text-blue-500";
   }
 };
 
@@ -79,9 +79,12 @@ const Alerts: React.FC = () => {
             {sampleAlerts.map((alert) => {
               const IconComponent = getAlertIcon(alert.type);
               const colorClass = getAlertColor(alert.type);
-              
+
               return (
-                <div key={alert.id} className="flex items-start space-x-3 p-3 border rounded-lg">
+                <div
+                  key={alert.id}
+                  className="flex items-start space-x-3 p-3 border rounded-lg"
+                >
                   <IconComponent className={`h-5 w-5 ${colorClass} mt-0.5`} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground">

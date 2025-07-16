@@ -1,6 +1,6 @@
 "use client";
 
-import { createSupabaseClient } from "../../../../../lib/supabase";
+import { createSupabaseClient } from "@lib/supabase";
 import type { NoteFormData } from "../../types";
 
 const supabase = createSupabaseClient();

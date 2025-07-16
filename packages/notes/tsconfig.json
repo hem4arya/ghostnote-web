@@ -1,24 +1,22 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "jsx": "react-jsx",
+    "rootDir": "./src",
+    "baseUrl": "../..",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@notes-components/*": ["./src/components/*"],
-      "@notes-data/*": ["./src/data/*"],
-      "@notes-hooks/*": ["./src/hooks/*"]
-    },
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": false
+      "@/*": ["./src/*"],
+      "@lib/*": ["./packages/shared-lib/src/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@notes/*": ["./packages/notes/src/*"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "next-env.d.ts"],
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../ui-components" }]
 }

@@ -1,29 +1,22 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "../..",
     "outDir": "dist",
-    "jsx": "react-jsx",
+    "rootDir": "./src",
+    "baseUrl": "../..",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@search-components/*": ["./packages/search/src/components/*"],
-      "@search-hooks/*": ["./packages/search/src/hooks/*"],
-      "@search-types/*": ["./packages/search/src/types/*"],
-      "@/*": ["./src/*", "./lib/*", "./packages/ui-components/src/*"]
-    },
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": false
+      "@/*": ["./src/*"],
+      "@lib/*": ["./packages/shared-lib/src/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@search/*": ["./packages/search/src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"],
-  "references": [
-    { "path": "../ui-components" }
-  ]
+  "references": [{ "path": "../ui-components" }]
 }

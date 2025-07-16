@@ -1,18 +1,17 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "jsx": "react-jsx",
+    "rootDir": "./src",
+    "baseUrl": "../..",
     "paths": {
-      "@auth-components/*": ["./src/components/*"]
-    },
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": false
+      "@/*": ["./src/*"],
+      "@lib/*": ["./packages/shared-lib/src/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@auth/*": ["./packages/auth/src/*"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../ui-components" }]
 }

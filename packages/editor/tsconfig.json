@@ -1,28 +1,25 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": false,
     "outDir": "dist",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "rootDir": "./src",
+    "baseUrl": "../..",
     "strict": false,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "baseUrl": ".",
+    "allowJs": true,
     "paths": {
-      "@/*": ["../../src/*", "../../lib/*"],
-      "@ui/*": ["../ui-components/src/*"]
+      "@/*": ["./src/*"],
+      "@lib/*": ["./packages/shared-lib/src/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@editor/*": ["./packages/editor/src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/lexical/libdefs/**/*.js",
+    "src/lexical/examples/**/*",
+    "src/lexical/jest.config.js"
+  ],
+  "references": [{ "path": "../ui-components" }, { "path": "../shared-lib" }]
 }

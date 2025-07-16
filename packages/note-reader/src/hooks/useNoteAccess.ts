@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { createSupabaseClient } from '../../../../lib/supabase';
-import type { Note, AccessType, UseNoteAccessReturn } from '../types';
+import { createSupabaseClient } from "@lib/supabase";
+import { useCallback, useEffect, useState } from "react";
+import type { AccessType, Note, UseNoteAccessReturn } from "../types";
 
 export function useNoteAccess(noteId: number): UseNoteAccessReturn {
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasAccess, setHasAccess] = useState(false);
-  const [accessType, setAccessType] = useState<AccessType>('free');
+  const [accessType, setAccessType] = useState<AccessType>("free");
 
   const supabase = createSupabaseClient();
 
@@ -20,16 +20,16 @@ export function useNoteAccess(noteId: number): UseNoteAccessReturn {
 
       // First, try to get the note data
       const { data: noteData, error: noteError } = await supabase
-        .from('notes')
-        .select('*')
-        .eq('id', noteId)
+        .from("notes")
+        .select("*")
+        .eq("id", noteId)
         .single();
 
       if (noteError) {
-        if (noteError.code === 'PGRST116') {
-          setError('Note not found');
+        if (noteError.code === "PGRST116") {
+          setError("Note not found");
         } else {
-          setError('Failed to load note');
+          setError("Failed to load note");
         }
         setLoading(false);
         return;
@@ -38,55 +38,61 @@ export function useNoteAccess(noteId: number): UseNoteAccessReturn {
       setNote(noteData);
 
       // Determine access type based on note properties
-      let currentAccessType: AccessType = 'free';
+      let currentAccessType: AccessType = "free";
       let currentHasAccess = true;
 
       if (noteData.isEncrypted) {
-        currentAccessType = 'encrypted';
+        currentAccessType = "encrypted";
       } else if (noteData.isLocked || noteData.price) {
-        currentAccessType = 'premium';
+        currentAccessType = "premium";
       } else if (noteData.is_private) {
-        currentAccessType = 'private';
+        currentAccessType = "private";
       }
 
       // Check if user has access based on access type
-      if (currentAccessType === 'premium') {
+      if (currentAccessType === "premium") {
         // Check if user has purchased this note or has premium subscription
-        const { data: { user } } = await supabase.auth.getUser();
-        
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
         if (!user) {
           currentHasAccess = false;
         } else {
           // Check for purchase record or subscription
           const { data: purchaseData } = await supabase
-            .from('purchases')
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('note_id', noteId)
+            .from("purchases")
+            .select("*")
+            .eq("user_id", user.id)
+            .eq("note_id", noteId)
             .single();
 
           const { data: subscriptionData } = await supabase
-            .from('subscriptions')
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('status', 'active')
+            .from("subscriptions")
+            .select("*")
+            .eq("user_id", user.id)
+            .eq("status", "active")
             .single();
 
           currentHasAccess = !!(purchaseData || subscriptionData);
         }
-      } else if (currentAccessType === 'private') {
+      } else if (currentAccessType === "private") {
         // Check if user is the owner or has been granted access
-        const { data: { user } } = await supabase.auth.getUser();
-        
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
         if (!user) {
           currentHasAccess = false;
         } else {
           currentHasAccess = noteData.user_id === user.id;
         }
-      } else if (currentAccessType === 'encrypted') {
+      } else if (currentAccessType === "encrypted") {
         // For encrypted notes, we need to check if user has the decryption key
-        const { data: { user } } = await supabase.auth.getUser();
-        
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
         if (!user) {
           currentHasAccess = false;
         } else {
@@ -99,8 +105,8 @@ export function useNoteAccess(noteId: number): UseNoteAccessReturn {
       setAccessType(currentAccessType);
       setHasAccess(currentHasAccess);
     } catch (err) {
-      console.error('Error checking note access:', err);
-      setError('Failed to check access permissions');
+      console.error("Error checking note access:", err);
+      setError("Failed to check access permissions");
     } finally {
       setLoading(false);
     }
@@ -118,6 +124,6 @@ export function useNoteAccess(noteId: number): UseNoteAccessReturn {
     error,
     hasAccess,
     accessType,
-    checkAccess
+    checkAccess,
   };
 }

@@ -1,4 +1,4 @@
-import { Button } from "@ghostnote/ui-components";
+import { Button } from "@ui/button";
 import { ArrowLeft, Plus } from "lucide-react";
 import Link from "next/link";
 

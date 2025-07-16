@@ -1,25 +1,31 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "jsx": "react-jsx",
+    "rootDir": "./src",
+    "baseUrl": "../..",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@note-reader-components/*": ["./src/components/*"],
-      "@note-reader-hooks/*": ["./src/hooks/*"],
-      "@note-reader-types/*": ["./src/types/*"],
-      "@note-reader-utils/*": ["./src/utils/*"]
-    },
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": false
+      "@/*": ["./src/*"],
+      "@lib/*": ["./packages/shared-lib/src/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@shell/*": ["./packages/shell/src/*"],
+      "@access-control/*": ["./packages/access-control/src/*"],
+      "@notes/*": ["./packages/notes/src/*"],
+      "@note-reader/*": ["./packages/note-reader/src/*"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "next-env.d.ts"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    { "path": "../ui-components" },
+    { "path": "../shared-lib" },
+    { "path": "../shell" },
+    { "path": "../access-control" },
+    { "path": "../notes" }
+  ]
 }

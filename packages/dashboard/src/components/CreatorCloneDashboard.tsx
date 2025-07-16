@@ -1,17 +1,40 @@
-import React, { useState, useEffect, useCallback } from 'react';
-// import { supabase } from '../../../../supabase'; 
+import { Badge } from "@ui/badge";
+import { Button } from "@ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@ui/card";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { Textarea } from "@ui/textarea";
+import {
+  AlertTriangle,
+  Ban,
+  Check,
+  Eye,
+  FileText,
+  MessageCircle,
+  Shield,
+  TrendingUp,
+  X,
+} from "lucide-react";
+import React, { useCallback, useEffect, useState } from "react";
+// import { supabase } from '../../../../supabase';
 // Mock supabase for compilation
 const supabase = {
   from: (table: string) => ({
     select: () => ({ data: [], error: null }),
     insert: () => ({ data: null, error: null }),
     update: () => ({ data: null, error: null }),
-    delete: () => ({ data: null, error: null })
+    delete: () => ({ data: null, error: null }),
   }),
   functions: {
-    invoke: async (name: string, options?: any) => ({ 
-      data: { 
-        data: [], 
+    invoke: async (name: string, options?: any) => ({
+      data: {
+        data: [],
         stats: {
           total_notes_created: 0,
           total_clones_detected: 0,
@@ -19,32 +42,15 @@ const supabase = {
           pending_actions: 0,
           takedown_requests: 0,
           allowed_resales: 0,
-          denied_resales: 0
+          denied_resales: 0,
         },
         success: true,
-        message: 'Mock response' 
-      }, 
-      error: null 
-    })
-  }
-}; 
-import { Button } from '@/components/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/card';
-import { Badge } from '@/components/badge';
-import { Textarea } from '@/components/textarea';
-import { Input } from '@/components/input';
-import { Label } from '@/components/label';
-import { 
-  AlertTriangle, 
-  Eye, 
-  MessageCircle, 
-  Ban, 
-  Check, 
-  X, 
-  TrendingUp,
-  FileText,
-  Shield
-} from 'lucide-react';
+        message: "Mock response",
+      },
+      error: null,
+    }),
+  },
+};
 
 // React 19 compatible icon wrappers
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
@@ -70,8 +76,8 @@ interface CloneInfo {
     is_anonymous: boolean;
   };
   similarity_score: number;
-  status: 'CLONE' | 'POTENTIAL_COPY';
-  creator_action: 'PENDING' | 'ALLOWED' | 'DENIED' | 'TAKEDOWN_REQUESTED';
+  status: "CLONE" | "POTENTIAL_COPY";
+  creator_action: "PENDING" | "ALLOWED" | "DENIED" | "TAKEDOWN_REQUESTED";
   resale_allowed: boolean | null;
   detected_at: string;
   last_action_at: string | null;
@@ -101,44 +107,52 @@ interface CreatorCloneDashboardProps {
 }
 
 export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
-  const [dashboardData, setDashboardData] = useState<OriginalNoteWithClones[]>([]);
+  const [dashboardData, setDashboardData] = useState<OriginalNoteWithClones[]>(
+    []
+  );
   const [stats, setStats] = useState<CreatorStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [selectedClone, setSelectedClone] = useState<CloneInfo | null>(null);
   const [showMessageModal, setShowMessageModal] = useState(false);
-  const [messageSubject, setMessageSubject] = useState('');
-  const [messageBody, setMessageBody] = useState('');
+  const [messageSubject, setMessageSubject] = useState("");
+  const [messageBody, setMessageBody] = useState("");
 
   const fetchDashboardData = useCallback(async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-        body: {
-          action: 'get_dashboard',
-          creator_user_id: userId,
-        },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "creator-clone-dashboard",
+        {
+          body: {
+            action: "get_dashboard",
+            creator_user_id: userId,
+          },
+        }
+      );
 
       if (error) throw error;
       setDashboardData(data?.data || []);
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error("Error fetching dashboard data:", error);
     }
   }, [userId]);
 
   const fetchStats = useCallback(async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-        body: {
-          action: 'get_stats',
-          creator_user_id: userId,
-        },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "creator-clone-dashboard",
+        {
+          body: {
+            action: "get_stats",
+            creator_user_id: userId,
+          },
+        }
+      );
 
       if (error) throw error;
       setStats(data?.stats);
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      console.error("Error fetching stats:", error);
     }
   }, [userId]);
 
@@ -159,16 +173,19 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
   ) => {
     setActionLoading(cloneId);
     try {
-      const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-        body: {
-          action: 'handle_action',
-          creator_user_id: userId,
-          clone_id: cloneId,
-          action_type: actionType,
-          message,
-          resale_decision: resaleDecision,
-        },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "creator-clone-dashboard",
+        {
+          body: {
+            action: "handle_action",
+            creator_user_id: userId,
+            clone_id: cloneId,
+            action_type: actionType,
+            message,
+            resale_decision: resaleDecision,
+          },
+        }
+      );
 
       if (error) throw error;
 
@@ -177,7 +194,7 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
         await fetchStats(); // Refresh stats
       }
     } catch (error) {
-      console.error('Error handling creator action:', error);
+      console.error("Error handling creator action:", error);
     } finally {
       setActionLoading(null);
     }
@@ -188,27 +205,30 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
 
     setActionLoading(selectedClone.clone_id);
     try {
-      const { data, error } = await supabase.functions.invoke('creator-clone-dashboard', {
-        body: {
-          action: 'send_message',
-          creator_user_id: userId,
-          clone_id: selectedClone.clone_id,
-          message_subject: messageSubject,
-          message_body: messageBody,
-        },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "creator-clone-dashboard",
+        {
+          body: {
+            action: "send_message",
+            creator_user_id: userId,
+            clone_id: selectedClone.clone_id,
+            message_subject: messageSubject,
+            message_body: messageBody,
+          },
+        }
+      );
 
       if (error) throw error;
 
       if (data.success) {
         setShowMessageModal(false);
-        setMessageSubject('');
-        setMessageBody('');
+        setMessageSubject("");
+        setMessageBody("");
         setSelectedClone(null);
         await fetchDashboardData();
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
     } finally {
       setActionLoading(null);
     }
@@ -216,27 +236,27 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'CLONE':
-        return 'bg-red-100 text-red-800';
-      case 'POTENTIAL_COPY':
-        return 'bg-yellow-100 text-yellow-800';
+      case "CLONE":
+        return "bg-red-100 text-red-800";
+      case "POTENTIAL_COPY":
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getActionColor = (action: string) => {
     switch (action) {
-      case 'PENDING':
-        return 'bg-blue-100 text-blue-800';
-      case 'ALLOWED':
-        return 'bg-green-100 text-green-800';
-      case 'DENIED':
-        return 'bg-red-100 text-red-800';
-      case 'TAKEDOWN_REQUESTED':
-        return 'bg-purple-100 text-purple-800';
+      case "PENDING":
+        return "bg-blue-100 text-blue-800";
+      case "ALLOWED":
+        return "bg-green-100 text-green-800";
+      case "DENIED":
+        return "bg-red-100 text-red-800";
+      case "TAKEDOWN_REQUESTED":
+        return "bg-purple-100 text-purple-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -255,17 +275,23 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
               <FileTextIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total_notes_created}</div>
+              <div className="text-2xl font-bold">
+                {stats.total_notes_created}
+              </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Clones Detected</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Clones Detected
+              </CardTitle>
               <AlertTriangleIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.total_clones_detected}</div>
+              <div className="text-2xl font-bold">
+                {stats.total_clones_detected}
+              </div>
               <p className="text-xs text-muted-foreground">
                 {stats.high_similarity_clones} high similarity (90%+)
               </p>
@@ -274,7 +300,9 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Actions</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Pending Actions
+              </CardTitle>
               <TrendingUpIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -284,11 +312,15 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Takedown Requests</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Takedown Requests
+              </CardTitle>
               <ShieldIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.takedown_requests}</div>
+              <div className="text-2xl font-bold">
+                {stats.takedown_requests}
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -297,28 +329,36 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
       {/* Main Dashboard */}
       <div className="space-y-6">
         <h2 className="text-2xl font-bold">Clone Detection Dashboard</h2>
-        
+
         {dashboardData.length === 0 ? (
           <Card>
             <CardHeader>
               <CardTitle>No Clones Detected</CardTitle>
               <CardDescription>
-                No clones with 70%+ similarity have been detected for your notes.
+                No clones with 70%+ similarity have been detected for your
+                notes.
               </CardDescription>
             </CardHeader>
           </Card>
         ) : (
           dashboardData.map((noteData) => (
-            <Card key={noteData.original_note.id} className="border-l-4 border-l-blue-500">
+            <Card
+              key={noteData.original_note.id}
+              className="border-l-4 border-l-blue-500"
+            >
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Original Note: {noteData.original_note.title}</span>
                   <Badge variant="outline">
-                    {noteData.clones.length} clone{noteData.clones.length !== 1 ? 's' : ''} detected
+                    {noteData.clones.length} clone
+                    {noteData.clones.length !== 1 ? "s" : ""} detected
                   </Badge>
                 </CardTitle>
                 <CardDescription>
-                  Created on {new Date(noteData.original_note.created_at).toLocaleDateString()}
+                  Created on{" "}
+                  {new Date(
+                    noteData.original_note.created_at
+                  ).toLocaleDateString()}
                 </CardDescription>
               </CardHeader>
 
@@ -330,14 +370,26 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                         <div className="space-y-2">
                           <h4 className="font-medium">{clone.note.title}</h4>
                           <div className="flex items-center gap-2 text-sm text-gray-600">
-                            <span>By: {clone.cloner.is_anonymous ? 'Anonymous User' : clone.cloner.username}</span>
+                            <span>
+                              By:{" "}
+                              {clone.cloner.is_anonymous
+                                ? "Anonymous User"
+                                : clone.cloner.username}
+                            </span>
                             <span>•</span>
-                            <span>Created: {new Date(clone.note.created_at).toLocaleDateString()}</span>
+                            <span>
+                              Created:{" "}
+                              {new Date(
+                                clone.note.created_at
+                              ).toLocaleDateString()}
+                            </span>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge className={getStatusColor(clone.status)}>
-                            {clone.status === 'CLONE' ? 'Clone' : 'Potential Copy'}
+                            {clone.status === "CLONE"
+                              ? "Clone"
+                              : "Potential Copy"}
                           </Badge>
                           <Badge variant="outline">
                             {clone.similarity_score}% similar
@@ -351,8 +403,14 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                           {clone.creator_action}
                         </Badge>
                         {clone.resale_allowed !== null && (
-                          <Badge className={clone.resale_allowed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
-                            Resale {clone.resale_allowed ? 'Allowed' : 'Denied'}
+                          <Badge
+                            className={
+                              clone.resale_allowed
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }
+                          >
+                            Resale {clone.resale_allowed ? "Allowed" : "Denied"}
                           </Badge>
                         )}
                       </div>
@@ -361,7 +419,9 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => window.open(`/notes/${clone.note.id}`, '_blank')}
+                          onClick={() =>
+                            window.open(`/notes/${clone.note.id}`, "_blank")
+                          }
                         >
                           <EyeIcon className="h-4 w-4 mr-2" />
                           View Clone
@@ -373,8 +433,12 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                             size="sm"
                             onClick={() => {
                               setSelectedClone(clone);
-                              setMessageSubject(`Regarding your note: ${clone.note.title}`);
-                              setMessageBody(`Hello,\n\nI noticed that your note "${clone.note.title}" appears to be very similar (${clone.similarity_score}% match) to my original note "${noteData.original_note.title}".\n\nI'd like to discuss this with you.\n\nBest regards`);
+                              setMessageSubject(
+                                `Regarding your note: ${clone.note.title}`
+                              );
+                              setMessageBody(
+                                `Hello,\n\nI noticed that your note "${clone.note.title}" appears to be very similar (${clone.similarity_score}% match) to my original note "${noteData.original_note.title}".\n\nI'd like to discuss this with you.\n\nBest regards`
+                              );
                               setShowMessageModal(true);
                             }}
                           >
@@ -383,12 +447,19 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                           </Button>
                         )}
 
-                        {clone.creator_action === 'PENDING' && (
+                        {clone.creator_action === "PENDING" && (
                           <>
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => handleCreatorAction(clone.clone_id, 'RESALE_ALLOWED', undefined, true)}
+                              onClick={() =>
+                                handleCreatorAction(
+                                  clone.clone_id,
+                                  "RESALE_ALLOWED",
+                                  undefined,
+                                  true
+                                )
+                              }
                               disabled={actionLoading === clone.clone_id}
                             >
                               <CheckIcon className="h-4 w-4 mr-2" />
@@ -398,7 +469,14 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => handleCreatorAction(clone.clone_id, 'RESALE_DENIED', undefined, false)}
+                              onClick={() =>
+                                handleCreatorAction(
+                                  clone.clone_id,
+                                  "RESALE_DENIED",
+                                  undefined,
+                                  false
+                                )
+                              }
                               disabled={actionLoading === clone.clone_id}
                             >
                               <XIcon className="h-4 w-4 mr-2" />
@@ -408,7 +486,13 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                             <Button
                               variant="destructive"
                               size="sm"
-                              onClick={() => handleCreatorAction(clone.clone_id, 'TAKEDOWN_REQUESTED', 'Requesting takedown due to copyright infringement')}
+                              onClick={() =>
+                                handleCreatorAction(
+                                  clone.clone_id,
+                                  "TAKEDOWN_REQUESTED",
+                                  "Requesting takedown due to copyright infringement"
+                                )
+                              }
                               disabled={actionLoading === clone.clone_id}
                             >
                               <BanIcon className="h-4 w-4 mr-2" />
@@ -431,7 +515,9 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <Card className="max-w-2xl w-full">
             <CardHeader>
-              <CardTitle>Send Message to {selectedClone.cloner.username}</CardTitle>
+              <CardTitle>
+                Send Message to {selectedClone.cloner.username}
+              </CardTitle>
               <CardDescription>
                 Send a message regarding the similar content
               </CardDescription>
@@ -457,12 +543,19 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                 />
               </div>
               <div className="flex gap-2">
-                <Button onClick={() => setShowMessageModal(false)} variant="outline">
+                <Button
+                  onClick={() => setShowMessageModal(false)}
+                  variant="outline"
+                >
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   onClick={handleSendMessage}
-                  disabled={!messageSubject || !messageBody || actionLoading === selectedClone.clone_id}
+                  disabled={
+                    !messageSubject ||
+                    !messageBody ||
+                    actionLoading === selectedClone.clone_id
+                  }
                 >
                   <MessageCircleIcon className="h-4 w-4 mr-2" />
                   Send Message

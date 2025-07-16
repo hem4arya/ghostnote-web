@@ -1,19 +1,10 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "es2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
+    "composite": false,
     "plugins": [
       {
         "name": "next"
@@ -21,11 +12,9 @@
     ],
     "paths": {
       "@/*": ["./src/*", "./lib/*"],
-      "@packages/*": ["./packages/*/src"],
-      "@ghostnote/ui-components": ["./packages/ui-components/src"]
-      // You can add more specific paths here as you create packages, e.g.:
-      // "@my-app/homepage": ["./packages/homepage/src"],
-      // "@my-app/ui-components": ["./packages/ui-components/src"]
+      "@lib/*": ["./lib/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@packages/*": ["./packages/*/src"]
     }
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts"],
@@ -44,6 +33,7 @@
     { "path": "packages/note-reader" },
     { "path": "packages/notes" },
     { "path": "packages/search" },
+    { "path": "packages/shared-lib" },
     { "path": "packages/shell" },
     { "path": "packages/transparency" },
     { "path": "packages/ui-components" }

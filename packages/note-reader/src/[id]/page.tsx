@@ -1,9 +1,30 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft, Lock, ShoppingCart, User, CheckCircle, AlertTriangle } from 'lucide-react';
+import { useContentAccess } from "@access-control/hooks/useContentAccess";
+import { Note } from "@notes/components/NoteCard";
+import { sampleNotes } from "@notes/data/sampleNotes";
+import Footer from "@shell/Footer";
+import Navbar from "@shell/Navbar";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  CheckCircle,
+  Lock,
+  ShoppingCart,
+  User,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Badge } from "packages/ui-components/src/components/badge";
+import { Button } from "packages/ui-components/src/components/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "packages/ui-components/src/components/card";
+import { useEffect, useState } from "react";
 
 // React 19 compatibility wrappers
 const ArrowLeftIcon = ArrowLeft as React.ElementType;
@@ -13,14 +34,6 @@ const UserIcon = User as React.ElementType;
 const CheckCircleIcon = CheckCircle as React.ElementType;
 const AlertTriangleIcon = AlertTriangle as React.ElementType;
 const LinkSafe = Link as React.ElementType;
-import { Button } from 'packages/ui-components/src/components/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'packages/ui-components/src/components/card';
-import { Badge } from 'packages/ui-components/src/components/badge';
-import Navbar from 'packages/shell/src/Navbar';
-import Footer from 'packages/shell/src/Footer';
-import { useContentAccess } from 'packages/access-control/src/hooks/useContentAccess';
-import { sampleNotes } from 'packages/notes/src/data/sampleNotes';
-import { Note } from 'packages/notes/src/components/NoteCard';
 
 interface ReaderPageProps {
   params: Promise<{
@@ -29,7 +42,9 @@ interface ReaderPageProps {
 }
 
 const ReaderPage = ({ params }: ReaderPageProps) => {
-  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(
+    null
+  );
   const [note, setNote] = useState<Note | null>(null);
   const router = useRouter();
 
@@ -41,8 +56,10 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
   // Get note data (in production, this would come from your API)
   useEffect(() => {
     if (!resolvedParams) return;
-    
-    const foundNote = sampleNotes.find((n) => n.id === parseInt(resolvedParams.id));
+
+    const foundNote = sampleNotes.find(
+      (n) => n.id === parseInt(resolvedParams.id)
+    );
     setNote(foundNote || null);
   }, [resolvedParams]);
 
@@ -53,15 +70,12 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
     error: accessError,
     hasAccess,
     isOwner,
-    isPurchaser
-  } = useContentAccess(
-    resolvedParams ? parseInt(resolvedParams.id) : 0,
-    {
-      requireAuth: true,
-      allowOwner: true,
-      allowPurchaser: true
-    }
-  );
+    isPurchaser,
+  } = useContentAccess(resolvedParams ? parseInt(resolvedParams.id) : 0, {
+    requireAuth: true,
+    allowOwner: true,
+    allowPurchaser: true,
+  });
 
   // Loading state
   if (!resolvedParams || accessLoading) {
@@ -96,7 +110,8 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-400 mb-4">
-                We couldn&apos;t verify your access to this content. Please try again.
+                We couldn&apos;t verify your access to this content. Please try
+                again.
               </p>
               <Button asChild className="w-full">
                 <Link href="/">Return Home</Link>
@@ -120,34 +135,53 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
               <div className="mx-auto mb-4 p-3 rounded-full bg-ghost-purple/10">
                 <Lock className="h-8 w-8 text-ghost-purple" />
               </div>
-              <CardTitle className="text-2xl text-white">Premium Content</CardTitle>
+              <CardTitle className="text-2xl text-white">
+                Premium Content
+              </CardTitle>
               <CardDescription className="text-gray-400">
-                {accessResult?.reason || 'This content requires purchase to access'}
+                {accessResult?.reason ||
+                  "This content requires purchase to access"}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {note && (
                 <div className="p-4 rounded-lg bg-ghost-dark/30 border border-ghost-purple/20">
-                  <h3 className="font-semibold text-white mb-2">{note.title}</h3>
-                  <p className="text-sm text-gray-400 mb-3">{note.previewText}</p>
+                  <h3 className="font-semibold text-white mb-2">
+                    {note.title}
+                  </h3>
+                  <p className="text-sm text-gray-400 mb-3">
+                    {note.previewText}
+                  </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-ghost-neon">${note.price}</span>
-                    <Badge variant="outline" className="text-ghost-purple border-ghost-purple/50">
+                    <span className="text-lg font-bold text-ghost-neon">
+                      ${note.price}
+                    </span>
+                    <Badge
+                      variant="outline"
+                      className="text-ghost-purple border-ghost-purple/50"
+                    >
                       Premium
                     </Badge>
                   </div>
                 </div>
               )}
-              
+
               <div className="space-y-3">
-                <Button asChild className="w-full bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-bold">
+                <Button
+                  asChild
+                  className="w-full bg-gradient-to-r from-ghost-neon to-ghost-cyan text-black font-bold"
+                >
                   <Link href={`/notes/${resolvedParams.id}`}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     Purchase to Unlock
                   </Link>
                 </Button>
-                
-                <Button variant="outline" asChild className="w-full border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10">
+
+                <Button
+                  variant="outline"
+                  asChild
+                  className="w-full border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10"
+                >
                   <Link href={`/notes/${resolvedParams.id}`}>
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     View Note Details
@@ -174,7 +208,8 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-400 mb-4">
-                The note you&apos;re looking for doesn&apos;t exist or has been removed.
+                The note you&apos;re looking for doesn&apos;t exist or has been
+                removed.
               </p>
               <Button asChild className="w-full">
                 <Link href="/">Return Home</Link>
@@ -191,7 +226,7 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black text-gray-300">
       <Navbar />
-      
+
       {/* Access Status Banner */}
       <div className="bg-gradient-to-r from-green-500/10 to-ghost-neon/10 border-b border-green-500/20">
         <div className="container mx-auto px-4 py-3">
@@ -199,18 +234,24 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
             <div className="flex items-center gap-3">
               <CheckCircle className="h-5 w-5 text-green-400" />
               <span className="text-green-400 font-medium">
-                {isOwner ? 'Owner Access' : 'Premium Content Unlocked'}
+                {isOwner ? "Owner Access" : "Premium Content Unlocked"}
               </span>
               {isPurchaser && accessResult?.purchase && (
-                <Badge variant="outline" className="text-green-400 border-green-400/50">
-                  Purchased {new Date(accessResult.purchase.purchased_at).toLocaleDateString()}
+                <Badge
+                  variant="outline"
+                  className="text-green-400 border-green-400/50"
+                >
+                  Purchased{" "}
+                  {new Date(
+                    accessResult.purchase.purchased_at
+                  ).toLocaleDateString()}
                 </Badge>
               )}
             </div>
             <div className="flex items-center gap-2">
               <User className="h-4 w-4 text-gray-400" />
               <span className="text-sm text-gray-400">
-                {isOwner ? 'Your Content' : 'Licensed Access'}
+                {isOwner ? "Your Content" : "Licensed Access"}
               </span>
             </div>
           </div>
@@ -222,9 +263,9 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => router.back()}
                 className="border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10"
               >
@@ -232,25 +273,39 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                 Back
               </Button>
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className="text-ghost-neon border-ghost-neon/50">
+                <Badge
+                  variant="outline"
+                  className="text-ghost-neon border-ghost-neon/50"
+                >
                   Reader Mode
                 </Badge>
                 {isOwner && (
-                  <Badge variant="outline" className="text-blue-400 border-blue-400/50">
+                  <Badge
+                    variant="outline"
+                    className="text-blue-400 border-blue-400/50"
+                  >
                     Owner
                   </Badge>
                 )}
               </div>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
               {note.title}
             </h1>
-            
+
             <div className="flex flex-wrap items-center gap-4 text-gray-400">
-              <span>by <span className="text-ghost-purple font-medium">{note.author}</span></span>
+              <span>
+                by{" "}
+                <span className="text-ghost-purple font-medium">
+                  {note.author}
+                </span>
+              </span>
               <span className="text-sm">Premium Content</span>
-              <Badge variant="outline" className="text-ghost-neon border-ghost-neon/50">
+              <Badge
+                variant="outline"
+                className="text-ghost-neon border-ghost-neon/50"
+              >
                 {note.category}
               </Badge>
             </div>
@@ -262,28 +317,32 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
               <h2 className="text-2xl font-bold text-white mb-6 border-b border-ghost-purple/20 pb-4">
                 Full Premium Content
               </h2>
-              
+
               <div className="space-y-6 text-gray-300 leading-relaxed">
-                <p className="text-lg">
-                  {note.previewText}
-                </p>
-                
+                <p className="text-lg">{note.previewText}</p>
+
                 <p>
-                  Welcome to the full premium content! This is where the complete, detailed information would be displayed. 
-                  Only users who have purchased this note or are the original creator can see this content.
+                  Welcome to the full premium content! This is where the
+                  complete, detailed information would be displayed. Only users
+                  who have purchased this note or are the original creator can
+                  see this content.
                 </p>
-                
+
                 <h3 className="text-xl font-semibold text-white mt-8 mb-4">
                   Advanced Techniques
                 </h3>
-                
+
                 <p>
-                  This section contains advanced insights and techniques that provide significant value beyond the preview. 
-                  The content here represents the core value proposition that users have purchased.
+                  This section contains advanced insights and techniques that
+                  provide significant value beyond the preview. The content here
+                  represents the core value proposition that users have
+                  purchased.
                 </p>
-                
+
                 <div className="bg-ghost-dark/30 border border-ghost-purple/20 rounded-lg p-6 my-8">
-                  <h4 className="text-lg font-semibold text-ghost-neon mb-3">💡 Key Insights</h4>
+                  <h4 className="text-lg font-semibold text-ghost-neon mb-3">
+                    💡 Key Insights
+                  </h4>
                   <ul className="space-y-2">
                     <li>• Exclusive methodology and frameworks</li>
                     <li>• Step-by-step implementation guides</li>
@@ -291,16 +350,18 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
                     <li>• Best practices from industry experts</li>
                   </ul>
                 </div>
-                
+
                 <h3 className="text-xl font-semibold text-white mt-8 mb-4">
                   Implementation Guide
                 </h3>
-                
+
                 <p>
-                  Here&apos;s where detailed implementation instructions would be provided, giving users actionable steps 
-                  to apply the knowledge they&apos;ve purchased. This content justifies the premium price point.
+                  Here&apos;s where detailed implementation instructions would
+                  be provided, giving users actionable steps to apply the
+                  knowledge they&apos;ve purchased. This content justifies the
+                  premium price point.
                 </p>
-                
+
                 <div className="bg-gradient-to-r from-ghost-purple/10 to-ghost-neon/10 border border-ghost-purple/20 rounded-lg p-6 mt-8">
                   <p className="text-center text-ghost-neon font-medium">
                     🎉 You have full access to this premium content!
@@ -312,23 +373,27 @@ const ReaderPage = ({ params }: ReaderPageProps) => {
 
           {/* Footer Actions */}
           <div className="mt-12 flex flex-wrap gap-4 justify-center">
-            <Button asChild variant="outline" className="border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10">
-              <Link href={`/notes/${resolvedParams.id}`}>
-                View Note Page
-              </Link>
+            <Button
+              asChild
+              variant="outline"
+              className="border-ghost-purple/50 text-ghost-purple hover:bg-ghost-purple/10"
+            >
+              <Link href={`/notes/${resolvedParams.id}`}>View Note Page</Link>
             </Button>
-            
+
             {isOwner && (
-              <Button asChild variant="outline" className="border-blue-400/50 text-blue-400 hover:bg-blue-400/10">
-                <Link href={`/notes/${resolvedParams.id}/edit`}>
-                  Edit Note
-                </Link>
+              <Button
+                asChild
+                variant="outline"
+                className="border-blue-400/50 text-blue-400 hover:bg-blue-400/10"
+              >
+                <Link href={`/notes/${resolvedParams.id}/edit`}>Edit Note</Link>
               </Button>
             )}
           </div>
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

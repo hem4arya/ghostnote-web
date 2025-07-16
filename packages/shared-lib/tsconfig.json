@@ -2,12 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "./src",
     "baseUrl": "../..",
     "paths": {
-      "@/*": ["./src/*"],
-      "@lib/*": ["./packages/shared-lib/src/*"],
-      "@ui/*": ["./packages/ui-components/src/components/*"]
+      "@shared-lib/*": ["./packages/shared-lib/src/*"]
     }
   },
   "include": ["src/**/*"],

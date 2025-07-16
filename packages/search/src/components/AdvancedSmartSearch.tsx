@@ -1,5 +1,16 @@
 "use client";
 
+import { Badge } from "@ui/badge";
+import { Button } from "@ui/button";
+import { Card } from "@ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@ui/select";
+import { Slider } from "@ui/slider";
 import {
   BarChart3,
   Eye,
@@ -10,17 +21,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/badge";
-import { Button } from "@/components/button";
-import { Card } from "@/components/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/select";
-import { Slider } from "@/components/slider";
 import { useCallback, useEffect, useState } from "react";
 
 // Fix React 19 type compatibility issues

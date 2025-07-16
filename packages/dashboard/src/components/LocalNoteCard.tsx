@@ -1,7 +1,8 @@
 // Local NoteCard component for dashboard package
 "use client";
 
-import { Badge, Card } from "@ghostnote/ui-components";
+import { Badge } from "@ui/badge";
+import { Card } from "@ui/card";
 import { Eye, ShoppingCart, Star } from "lucide-react";
 import Link from "next/link";
 import { Note } from "../types/Note";

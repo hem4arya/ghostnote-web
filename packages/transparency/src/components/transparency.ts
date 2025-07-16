@@ -1,10 +1,10 @@
-import { supabase } from '../../../../lib/supabase';
+import { supabase } from "@lib/supabase";
 
 export interface TransparencyData {
   note_id: number;
   is_clone: boolean;
   originality_score: number;
-  originality_level: 'Original' | 'Modified' | 'Heavily Inspired' | 'Clone';
+  originality_level: "Original" | "Modified" | "Heavily Inspired" | "Clone";
   similarity_score?: number;
   original_note?: {
     id: number;
@@ -16,7 +16,7 @@ export interface TransparencyData {
   };
   transparency_badge: {
     text: string;
-    severity: 'none' | 'low' | 'medium' | 'high';
+    severity: "none" | "low" | "medium" | "high";
     show_source_link: boolean;
   };
   buyer_message: {
@@ -37,21 +37,24 @@ export async function fetchNoteTransparency(
   userId?: string
 ): Promise<TransparencyData | null> {
   try {
-    const { data, error } = await supabase.functions.invoke('note-transparency', {
-      body: {
-        note_id: noteId,
-        user_id: userId,
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      "note-transparency",
+      {
+        body: {
+          note_id: noteId,
+          user_id: userId,
+        },
+      }
+    );
 
     if (error) {
-      console.error('Error fetching transparency data:', error);
+      console.error("Error fetching transparency data:", error);
       return null;
     }
 
     return data as TransparencyData;
   } catch (error) {
-    console.error('Error in fetchNoteTransparency:', error);
+    console.error("Error in fetchNoteTransparency:", error);
     return null;
   }
 }
@@ -61,11 +64,15 @@ export async function fetchNoteTransparency(
  * @param transparencyData - The transparency data to evaluate
  * @returns boolean indicating if transparency warning should be prominent
  */
-export function shouldShowProminentTransparency(transparencyData: TransparencyData): boolean {
+export function shouldShowProminentTransparency(
+  transparencyData: TransparencyData
+): boolean {
   if (!transparencyData.is_clone) return false;
-  
+
   // Show prominent transparency for high similarity scores
-  return transparencyData.similarity_score ? transparencyData.similarity_score >= 70 : false;
+  return transparencyData.similarity_score
+    ? transparencyData.similarity_score >= 70
+    : false;
 }
 
 /**
@@ -75,16 +82,16 @@ export function shouldShowProminentTransparency(transparencyData: TransparencyDa
  */
 export function getOriginalityDescription(level: string): string {
   switch (level) {
-    case 'Original':
-      return 'This content was created from scratch by the author.';
-    case 'Modified':
-      return 'This content significantly builds upon and modifies existing material.';
-    case 'Heavily Inspired':
-      return 'This content draws heavily from existing sources with some modifications.';
-    case 'Clone':
-      return 'This content is very similar to existing material with minimal changes.';
+    case "Original":
+      return "This content was created from scratch by the author.";
+    case "Modified":
+      return "This content significantly builds upon and modifies existing material.";
+    case "Heavily Inspired":
+      return "This content draws heavily from existing sources with some modifications.";
+    case "Clone":
+      return "This content is very similar to existing material with minimal changes.";
     default:
-      return 'Content originality assessment not available.';
+      return "Content originality assessment not available.";
   }
 }
 
@@ -93,23 +100,25 @@ export function getOriginalityDescription(level: string): string {
  * @param transparencyData - The transparency data
  * @returns Warning text for buyers
  */
-export function getPurchaseWarning(transparencyData: TransparencyData): string | null {
+export function getPurchaseWarning(
+  transparencyData: TransparencyData
+): string | null {
   if (!transparencyData.is_clone) return null;
-  
+
   const similarity = transparencyData.similarity_score || 0;
-  
+
   if (similarity >= 90) {
-    return 'This content is nearly identical to existing material. Consider if this offers sufficient value for your needs.';
+    return "This content is nearly identical to existing material. Consider if this offers sufficient value for your needs.";
   }
-  
+
   if (similarity >= 70) {
-    return 'This content is heavily based on existing material. Review the modifications before purchasing.';
+    return "This content is heavily based on existing material. Review the modifications before purchasing.";
   }
-  
+
   if (similarity >= 50) {
-    return 'This content builds upon existing material with notable modifications.';
+    return "This content builds upon existing material with notable modifications.";
   }
-  
+
   return null;
 }
 
@@ -120,7 +129,8 @@ export function getPurchaseWarning(transparencyData: TransparencyData): string |
  */
 export function formatTransparencyForCard(transparencyData: TransparencyData) {
   return {
-    showBadge: transparencyData.is_clone || transparencyData.originality_score === 100,
+    showBadge:
+      transparencyData.is_clone || transparencyData.originality_score === 100,
     badgeText: transparencyData.transparency_badge.text,
     badgeVariant: transparencyData.transparency_badge.severity,
     originalityScore: transparencyData.originality_score,
@@ -132,7 +142,10 @@ export function formatTransparencyForCard(transparencyData: TransparencyData) {
 /**
  * Cache for transparency data to avoid repeated API calls
  */
-const transparencyCache = new Map<number, { data: TransparencyData; timestamp: number }>();
+const transparencyCache = new Map<
+  number,
+  { data: TransparencyData; timestamp: number }
+>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 /**
@@ -147,15 +160,15 @@ export async function fetchNoteTransparencyWithCache(
 ): Promise<TransparencyData | null> {
   const cacheKey = noteId;
   const cached = transparencyCache.get(cacheKey);
-  
+
   // Return cached data if it's still fresh
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
     return cached.data;
   }
-  
+
   // Fetch fresh data
   const data = await fetchNoteTransparency(noteId, userId);
-  
+
   // Cache the data if successful
   if (data) {
     transparencyCache.set(cacheKey, {
@@ -163,7 +176,7 @@ export async function fetchNoteTransparencyWithCache(
       timestamp: Date.now(),
     });
   }
-  
+
   return data;
 }
 
@@ -186,12 +199,19 @@ export function useTransparencyData(noteId: number, userId?: string) {
     async function loadData() {
       setLoading(true);
       setError(null);
-      
+
       try {
-        const transparencyData = await fetchNoteTransparencyWithCache(noteId, userId);
+        const transparencyData = await fetchNoteTransparencyWithCache(
+          noteId,
+          userId
+        );
         setData(transparencyData);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load transparency data');
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load transparency data"
+        );
       } finally {
         setLoading(false);
       }
@@ -206,4 +226,4 @@ export function useTransparencyData(noteId: number, userId?: string) {
 }
 
 // Import React for the hook
-import React from 'react';
+import React from "react";

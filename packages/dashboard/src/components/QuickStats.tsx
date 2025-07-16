@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '../../../ui-components';
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { DollarSign, FileText, Shield } from "lucide-react";
 
 // React 19 compatible icon wrappers

@@ -1,0 +1,20 @@
+{
+  "name": "@ghostnote/shared-lib",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "echo 'Running lint for shared-lib...'",
+    "test": "echo 'Running tests for shared-lib...'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.50.3",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
