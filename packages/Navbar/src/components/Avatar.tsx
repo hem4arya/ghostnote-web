@@ -36,3 +36,5 @@ export const Avatar: React.FC<AvatarProps> = ({ user, size = "md" }) => {
     </div>
   );
 };
+
+export default Avatar;

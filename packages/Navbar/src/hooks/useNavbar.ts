@@ -77,3 +77,5 @@ export function useNavbar(options: UseNavbarOptions = {}) {
     setCurrentRoute,
   };
 }
+
+export default useNavbar;

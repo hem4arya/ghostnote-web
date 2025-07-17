@@ -1,15 +1,34 @@
 {
   "name": "@ghostnote/navbar",
   "version": "1.0.0",
-  "description": "Shared Dynamic Modular Navbar",
+  "description": "A premium, feature-rich React navbar component with animations, responsive design, and dark theme optimized for GhostNote",
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write src",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
+  "keywords": [
+    "react",
+    "navbar",
+    "navigation",
+    "typescript",
+    "css-modules",
+    "responsive",
+    "dark-theme",
+    "animations",
+    "premium",
+    "ghostnote",
+    "component-library"
+  ],
+  "author": "GhostNote Team",
+  "license": "MIT",
   "dependencies": {
     "@ghostnote/ui-components": "workspace:*",
     "@ghostnote/shared-lib": "workspace:*",
@@ -24,5 +43,20 @@
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.0.0",
     "eslint": "^9.0.0"
+  },
+  "files": [
+    "src",
+    "index.ts",
+    "README.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghostnote/ghostnote-web",
+    "directory": "packages/Navbar"
+  },
+  "homepage": "https://github.com/ghostnote/ghostnote-web/tree/main/packages/Navbar",
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

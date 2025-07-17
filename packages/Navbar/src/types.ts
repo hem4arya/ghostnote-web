@@ -112,4 +112,6 @@ export interface NavbarSearchProps {
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
   inputRef?: React.RefObject<HTMLInputElement>;
+  variant?: "desktop" | "mobile";
+  autoFocus?: boolean;
 }
