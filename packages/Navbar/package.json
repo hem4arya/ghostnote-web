@@ -1,0 +1,22 @@
+{
+  "name": "@ghostnote/Navbar",
+  "version": "1.0.0",
+  "description": "Shared Dynamic Modular Navbar",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ghostnote/ui-components": "workspace:*",
+    "@ghostnote/shared-lib": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5",
+    "eslint": "^9"
+  }
+}

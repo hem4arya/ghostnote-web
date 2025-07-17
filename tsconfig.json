@@ -11,13 +11,26 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*", "./lib/*"],
-      "@lib/*": ["./lib/*"],
-      "@ui/*": ["./packages/ui-components/src/components/*"],
-      "@packages/*": ["./packages/*/src"]
+      "@/*": [
+        "./src/*",
+        "./lib/*"
+      ],
+      "@lib/*": [
+        "./lib/*"
+      ],
+      "@ui/*": [
+        "./packages/ui-components/src/components/*"
+      ],
+      "@packages/*": [
+        "./packages/*/src"
+      ]
     }
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "lib/**/*"],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "lib/**/*"
+  ],
   "exclude": [
     "node_modules",
     "**/examples/**",
@@ -39,6 +52,9 @@
     },
     {
       "path": "packages/homepage"
+    },
+    {
+      "path": "packages/Navbar"
     },
     {
       "path": "packages/note-reader"

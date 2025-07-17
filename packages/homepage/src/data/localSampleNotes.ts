@@ -1,58 +1,70 @@
-interface Note {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  tags?: string[];
-}
+import { Note } from "../components/LocalNoteCard";
 
 export const localSampleNotes: Note[] = [
   {
-    id: "1",
-    title: "Welcome to GhostNote",
-    content:
-      "GhostNote is a powerful note-taking application designed for modern workflows. With features like real-time collaboration, advanced search, and intuitive organization, it helps you capture and organize your thoughts effortlessly.",
-    createdAt: "2024-01-15T10:30:00Z",
-    tags: ["welcome", "getting-started"],
+    id: 1,
+    title: "Advanced React Patterns",
+    category: "Development",
+    rating: 4.9,
+    reviews: 120,
+    author: "CodeWizard",
+    price: 29.99,
+    previewText: "Learn advanced React patterns like Compound Components, Control Props, Custom Hooks, and Render Props. This guide will take your React skills to the next level with practical examples and real-world implementations. Perfect for intermediate to advanced React developers.",
+    isPublic: true,
   },
   {
-    id: "2",
-    title: "Project Planning Template",
-    content:
-      "Use this template to structure your project planning sessions. Define clear objectives, break down tasks into manageable chunks, and set realistic timelines for successful project execution.",
-    createdAt: "2024-01-14T15:45:00Z",
-    tags: ["template", "planning"],
+    id: 2,
+    title: "AI for Beginners",
+    category: "AI/ML",
+    rating: 4.8,
+    reviews: 250,
+    author: "AI-Guru",
+    price: 19.99,
+    previewText: "An introduction to artificial intelligence and machine learning concepts. This guide covers neural networks, supervised and unsupervised learning, and practical applications of AI in everyday software. No prior experience required, just a passion for learning.",
+    isPublic: true,
   },
   {
-    id: "3",
-    title: "Meeting Notes - Q1 Strategy",
-    content:
-      "Key points from today's strategy meeting: Focus on user experience improvements, expand mobile capabilities, and strengthen security features. Action items assigned to respective teams.",
-    createdAt: "2024-01-13T09:15:00Z",
-    tags: ["meeting", "strategy"],
+    id: 3,
+    title: "UI/UX Design Principles",
+    category: "Design",
+    rating: 4.9,
+    reviews: 300,
+    author: "DesignMaster",
+    price: 24.99,
+    previewText: "Master the fundamental principles of user interface and user experience design. Learn about color theory, typography, layout grids, usability heuristics, and how to create designs that are both beautiful and functional. Includes case studies and practical exercises.",
+    isPublic: false,
   },
   {
-    id: "4",
-    title: "Reading List",
-    content:
-      "Books to read this quarter: 'The Design of Everyday Things' by Don Norman, 'Atomic Habits' by James Clear, 'Deep Work' by Cal Newport. Focus on design principles and productivity.",
-    createdAt: "2024-01-12T14:20:00Z",
-    tags: ["reading", "books"],
+    id: 4,
+    title: "Cybersecurity Essentials",
+    category: "Security",
+    rating: 4.7,
+    reviews: 150,
+    author: "SecureMind",
+    price: 39.99,
+    previewText: "A comprehensive guide to modern cybersecurity practices. Learn about threat modeling, encryption, secure coding practices, and how to protect systems from common attacks. Essential knowledge for developers and IT professionals in today's digital landscape.",
+    isPublic: true,
   },
   {
-    id: "5",
-    title: "Recipe: Perfect Coffee",
-    content:
-      "My perfected coffee brewing method: Use a 1:15 ratio of coffee to water, grind beans just before brewing, water temperature at 195°F, and brew for exactly 4 minutes. Enjoy!",
-    createdAt: "2024-01-11T08:00:00Z",
-    tags: ["recipe", "coffee"],
+    id: 5,
+    title: "Mastering the Coding Interview",
+    category: "Interview",
+    rating: 4.8,
+    reviews: 180,
+    author: "InterviewPro",
+    price: 34.99,
+    previewText: "Comprehensive guide to acing technical interviews. Covers data structures, algorithms, system design, and behavioral questions. Includes 100+ practice problems with detailed solutions and tips from hiring managers at top tech companies.",
+    isPublic: true,
   },
   {
-    id: "6",
-    title: "Workout Routine",
-    content:
-      "Weekly fitness plan: Monday - Upper body strength, Tuesday - Cardio and flexibility, Wednesday - Lower body strength, Thursday - Active recovery, Friday - Full body circuit, Weekend - Outdoor activities.",
-    createdAt: "2024-01-10T07:30:00Z",
-    tags: ["fitness", "health"],
+    id: 6,
+    title: "Creative Writing Masterclass",
+    category: "Writing",
+    rating: 4.6,
+    reviews: 95,
+    author: "WordSmith",
+    price: 22.99,
+    previewText: "Unlock your creative potential with this comprehensive writing guide. Learn storytelling techniques, character development, dialogue writing, and how to find your unique voice. Includes exercises and prompts to spark your creativity.",
+    isPublic: true,
   },
 ];

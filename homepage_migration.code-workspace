@@ -1,13 +1,13 @@
 {
   "folders": [
-    {
-      "name": "Homepage",
-      "path": "packages/homepage"
-    },
-    {
-      "path": "../ghostnote‑old"
-    }
-  ],
+	{
+		"name": "Homepage",
+		"path": "packages/homepage"
+	},
+	{
+		"path": "../ghostnote‑old"
+	}
+],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
     "typescript.preferences.includePackageJsonAutoImports": "on",

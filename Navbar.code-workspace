@@ -1,18 +1,15 @@
 {
   "folders": [
     {
-      "name": "Homepage",
-      "path": "packages/homepage"
-    },
-    {
-      "path": "../ghostnote‑old"
+      "name": "Navbar",
+      "path": "packages/Navbar"
     }
   ],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
     "typescript.preferences.includePackageJsonAutoImports": "on",
     "typescript.suggest.autoImports": true,
-    "eslint.workingDirectories": ["packages/homepage"],
+    "eslint.workingDirectories": ["packages/Navbar"],
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit",
@@ -27,7 +24,7 @@
   "extensions": {
     "recommendations": [
       "bradlc.vscode-tailwindcss",
-      "esbenp.prettier-vscode",
+      "esbenp.prettier-vscode", 
       "dbaeumer.vscode-eslint",
       "ms-vscode.vscode-typescript-next"
     ]

@@ -29,6 +29,12 @@
       ],
       "@features/test-feature": [
         "packages/test-feature/index.ts"
+      ],
+      "@features/Navbar/*": [
+        "packages/Navbar/src/*"
+      ],
+      "@features/Navbar": [
+        "packages/Navbar/index.ts"
       ]
     }
   },

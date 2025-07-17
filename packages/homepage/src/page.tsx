@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 // Import self-contained styles
 import "./styles/homepage.css";
 // Feature-local imports (relative) - self-contained homepage components
-import HeroSection from "./components/HeroSection";
-import LocalAuthModal from "./components/LocalAuthModal";
-import LocalFooter from "./components/LocalFooter";
 import LocalNavbar from "./components/LocalNavbar";
+import Hero from "./components/Hero";
 import LocalNoteCard from "./components/LocalNoteCard";
 import { localSampleNotes } from "./data/localSampleNotes";
-// import SearchBar from "./components/SearchBar"; // TODO: Integrate search bar
+import LocalFooter from "./components/LocalFooter";
+import LocalAuthModal from "./components/LocalAuthModal";
 
 export default function HomePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -46,13 +45,10 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="homepage-container flex flex-col min-h-screen bg-gradient-hero">
-      <LocalNavbar
-        onLoginClick={handleLoginClick}
-        onSignUpClick={handleSignUpClick}
-      />
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black">
+      <LocalNavbar onLoginClick={handleLoginClick} onSignUpClick={handleSignUpClick} />
       <main className="flex-grow">
-        <HeroSection onGetStarted={handleSignUpClick} onExplore={() => {}} />
+        <Hero />
         <section className="container mx-auto px-3 xs:px-4 pb-12 sm:pb-16 md:pb-20">
           <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-8">
             {localSampleNotes.map((note) => (
