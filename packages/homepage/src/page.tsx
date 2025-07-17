@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 // Import self-contained styles
 import "./styles/homepage.css";
+// Import Navbar from the shared package
+import { Navbar } from "../../Navbar/src/components/Navbar";
 // Feature-local imports (relative) - self-contained homepage components
-import LocalNavbar from "./components/LocalNavbar";
 import Hero from "./components/Hero";
+import LocalAuthModal from "./components/LocalAuthModal";
+import LocalFooter from "./components/LocalFooter";
 import LocalNoteCard from "./components/LocalNoteCard";
 import { localSampleNotes } from "./data/localSampleNotes";
-import LocalFooter from "./components/LocalFooter";
-import LocalAuthModal from "./components/LocalAuthModal";
 
 export default function HomePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -46,7 +47,11 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black">
-      <LocalNavbar onLoginClick={handleLoginClick} onSignUpClick={handleSignUpClick} />
+      <Navbar
+        user={null}
+        onLoginClick={handleLoginClick}
+        onSignUpClick={handleSignUpClick}
+      />
       <main className="flex-grow">
         <Hero />
         <section className="container mx-auto px-3 xs:px-4 pb-12 sm:pb-16 md:pb-20">

@@ -1,5 +1,5 @@
 {
-  "name": "@ghostnote/Navbar",
+  "name": "@ghostnote/navbar",
   "version": "1.0.0",
   "description": "Shared Dynamic Modular Navbar",
   "main": "index.ts",
@@ -12,11 +12,17 @@
   },
   "dependencies": {
     "@ghostnote/ui-components": "workspace:*",
-    "@ghostnote/shared-lib": "workspace:*"
+    "@ghostnote/shared-lib": "workspace:*",
+    "lucide-react": "^0.323.0",
+    "next": "^14.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^19",
-    "typescript": "^5",
-    "eslint": "^9"
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^9.0.0"
   }
 }

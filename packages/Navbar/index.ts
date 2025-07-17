@@ -1,5 +1,5 @@
 // Export all components and utilities from this package
-export * from './components';
-export * from './hooks';
-export * from './utils';
-export * from './types';
+export * from "./src/components";
+export * from "./src/hooks";
+export * from "./src/types";
+export * from "./src/utils";

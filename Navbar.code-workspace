@@ -3,6 +3,9 @@
     {
       "name": "Navbar",
       "path": "packages/Navbar"
+    },
+    {
+      "path": "../ghostnote‑old"
     }
   ],
   "settings": {
@@ -24,7 +27,7 @@
   "extensions": {
     "recommendations": [
       "bradlc.vscode-tailwindcss",
-      "esbenp.prettier-vscode", 
+      "esbenp.prettier-vscode",
       "dbaeumer.vscode-eslint",
       "ms-vscode.vscode-typescript-next"
     ]
