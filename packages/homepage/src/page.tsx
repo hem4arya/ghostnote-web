@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 // Import self-contained styles
 import "./styles/homepage.css";
-// Import Navbar from the shared package
-import { Navbar } from "../../Navbar/src/components/Navbar";
+// Import Navbar from the shared package using webpack alias
+import { Button, Navbar } from "@ghostnote/navbar/";
 // Feature-local imports (relative) - self-contained homepage components
+import { HelpCircle, Settings, Star } from "lucide-react";
 import Hero from "./components/Hero";
 import LocalAuthModal from "./components/LocalAuthModal";
 import LocalFooter from "./components/LocalFooter";
@@ -48,6 +49,40 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black">
       <Navbar
+        overrides={{
+          logo: (
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-lg"></div>
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                DemoApp
+              </span>
+            </div>
+          ),
+          menuItems: [
+            {
+              label: "Premium Features",
+              href: "#premium",
+              icon: <Star className="h-4 w-4" />,
+            },
+            {
+              label: "Help Center",
+              href: "#help",
+              icon: <HelpCircle className="h-4 w-4" />,
+            },
+            {
+              label: "Custom Action",
+              onClick: () => alert("Custom action clicked!"),
+              icon: <Settings className="h-4 w-4" />,
+            },
+          ],
+          rightButtons: (
+            <Button variant="default" size="sm">
+              Demo Button
+            </Button>
+          ),
+          hideSearch: true,
+          className: "border-b-2 border-cyan-500/30",
+        }}
         user={null}
         onLoginClick={handleLoginClick}
         onSignUpClick={handleSignUpClick}

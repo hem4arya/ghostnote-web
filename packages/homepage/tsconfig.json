@@ -3,21 +3,22 @@
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "../..",
+    "composite": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./packages/homepage/src/*"],
       "@lib/*": ["./packages/shared-lib/src/*"],
       "@ui/*": ["./packages/ui-components/src/components/*"],
       "@homepage/*": ["./packages/homepage/src/*"],
-      "@ghostnote/navbar": ["./packages/Navbar/index.ts"],
-      "@ghostnote/navbar/*": ["./packages/Navbar/src/*"]
+      "@ghostnote/navbar": ["./packages/Navbar"],
+      "@ghostnote/navbar/*": ["./packages/Navbar/*"]
     }
   },
   "include": ["src/**/*", "next-env.d.ts"],
   "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../ui-components" }, { "path": "../Navbar" }]
+  "references": [{ "path": "../Navbar" }]
 }

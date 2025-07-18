@@ -27,12 +27,12 @@ export interface NavbarProps {
   /**
    * The current user, if authenticated
    */
-  user: User | null;
+  user?: User | null;
 
   /**
    * Callback when login button is clicked
    */
-  onLoginClick: () => void;
+  onLoginClick?: () => void;
 
   /**
    * Callback when signup button is clicked

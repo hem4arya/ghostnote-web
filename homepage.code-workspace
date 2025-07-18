@@ -3,6 +3,9 @@
     {
       "name": "Homepage",
       "path": "packages/homepage"
+    },
+    {
+      "path": "packages/Navbar"
     }
   ],
   "settings": {

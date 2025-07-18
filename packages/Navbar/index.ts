@@ -13,11 +13,13 @@ export * from "./src/utils";
 export { default as Avatar } from "./src/components/Avatar";
 export { default as Navbar } from "./src/components/Navbar";
 export { default as NavbarSearch } from "./src/components/NavbarSearch";
+export { default as PrivateAccountSetup } from "./src/components/PrivateAccountSetup";
 export { default as UserDropdown } from "./src/components/UserDropdown";
 
 // UI Components
 export { default as Button } from "./src/components/ui/Button";
 export { default as Input } from "./src/components/ui/Input";
+export { default as Label } from "./src/components/ui/Label";
 
 // Hooks
 export { default as useExample } from "./src/hooks/useExample";

@@ -6,10 +6,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-// Import self-contained styles for the Navbar
-import "../styles/global.css";
-import "./Navbar.module.css";
-
 import { useNavbar } from "../hooks/useNavbar";
 import { NavbarProps } from "../types";
 import PrivateAccountSetup from "./PrivateAccountSetup";

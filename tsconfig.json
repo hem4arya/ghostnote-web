@@ -11,26 +11,15 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*",
-        "./lib/*"
-      ],
-      "@lib/*": [
-        "./lib/*"
-      ],
-      "@ui/*": [
-        "./packages/ui-components/src/components/*"
-      ],
-      "@packages/*": [
-        "./packages/*/src"
-      ]
+      "@/*": ["./src/*", "./lib/*"],
+      "@lib/*": ["./lib/*"],
+      "@ui/*": ["./packages/ui-components/src/components/*"],
+      "@packages/*": ["./packages/*/src"],
+      "@ghostnote/navbar": ["./packages/Navbar/index.ts"],
+      "@ghostnote/navbar/*": ["./packages/Navbar/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "lib/**/*"
-  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "lib/**/*"],
   "exclude": [
     "node_modules",
     "**/examples/**",

@@ -8,9 +8,7 @@ interface UseNavbarOptions {
 export function useNavbar(options: UseNavbarOptions = {}) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(
-    document.createElement("input")
-  );
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Current route handling
   const [currentRoute, setCurrentRoute] = useState<string>(
