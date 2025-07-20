@@ -1,11 +1,43 @@
 # Navbar Component Documentation
 
-## 📦 How to Import and Use
+## � Quick Setup
+
+**BEFORE YOU START**: Ensure you have the following:
+
+1. **Tailwind CSS** configured in your project (recommended)
+2. **React 18+** and **Next.js 13+** (if using Next.js)
+3. **TypeScript** (optional but recommended)
+
+**If your Navbar looks unstyled (no buttons, plain text), see [Troubleshooting](#troubleshooting) below.**
+
+## �📦 How to Import and Use
 
 ### Basic Usage
 
+**IMPORTANT**: You must import the CSS file for proper styling!
+
 ```tsx
 import { Navbar } from "@ghostnote/navbar";
+// Import the styles - REQUIRED for proper formatting
+import "@ghostnote/navbar/src/styles/global.css";
+
+function App() {
+  return (
+    <div>
+      <Navbar />
+      {/* Your app content */}
+    </div>
+  );
+}
+```
+
+### Alternative Import with Styles
+
+If the above doesn't work, try importing the component directly:
+
+```tsx
+import Navbar from "@ghostnote/navbar/src/components/Navbar";
+// The Navbar component already imports its styles internally
 
 function App() {
   return (
@@ -19,8 +51,12 @@ function App() {
 
 ### With User Authentication
 
+**IMPORTANT**: Always import the CSS for proper styling!
+
 ```tsx
 import { Navbar } from "@ghostnote/navbar";
+// Import the styles - REQUIRED for proper formatting
+import "@ghostnote/navbar/src/styles/global.css";
 
 function App() {
   const user = {
@@ -128,17 +164,93 @@ import { Button } from "@ghostnote/ui-components";
 
 ## 🎨 Theme Integration with globals.css
 
-The Navbar automatically respects the GhostNote theme system defined in `globals.css`. Here's how to maintain consistency:
+The Navbar automatically respects the GhostNote theme system and imports its own styles. However, for full compatibility:
 
-### Color Scheme
+### Tailwind CSS Integration
+
+**IMPORTANT**: The Navbar uses Tailwind CSS classes. Make sure Tailwind is configured in your project:
+
+```js
+// tailwind.config.js
+module.exports = {
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@ghostnote/navbar/**/*.{js,ts,jsx,tsx}", // Add this line
+  ],
+  theme: {
+    extend: {
+      colors: {
+        "ghost-dark": "#1a1a1a",
+        "ghost-purple": "#6b46c1",
+        "ghost-neon": "#00ff41",
+        "ghost-cyan": "#00ffff",
+        "ghost-gray": "#2a2a2a",
+      },
+    },
+  },
+  plugins: [],
+};
+```
+
+### CSS Custom Properties
 
 The component uses these CSS custom properties:
 
-- `--ghost-dark`: Main background color
-- `--ghost-purple`: Primary accent color
-- `--ghost-neon`: Hover and focus states
-- `--ghost-cyan`: Secondary accent
-- `--ghost-gray`: Input backgrounds
+- `--ghost-dark`: Main background color (#1a1a1a)
+- `--ghost-purple`: Primary accent color (#6b46c1)
+- `--ghost-neon`: Hover and focus states (#00ff41)
+- `--ghost-cyan`: Secondary accent (#00ffff)
+- `--ghost-gray`: Input backgrounds (#2a2a2a)
+
+### Manual CSS Setup (if Tailwind is not available)
+
+If you're not using Tailwind, add these styles to your global CSS:
+
+```css
+/* Add these to your global CSS file */
+:root {
+  --ghost-dark: #1a1a1a;
+  --ghost-purple: #6b46c1;
+  --ghost-neon: #00ff41;
+  --ghost-cyan: #00ffff;
+  --ghost-gray: #2a2a2a;
+}
+
+/* Utility classes used by the Navbar */
+.bg-ghost-dark {
+  background-color: var(--ghost-dark);
+}
+.bg-ghost-gray {
+  background-color: var(--ghost-gray);
+}
+.text-ghost-neon {
+  color: var(--ghost-neon);
+}
+.text-ghost-cyan {
+  color: var(--ghost-cyan);
+}
+.border-ghost-purple {
+  border-color: var(--ghost-purple);
+}
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+.from-ghost-purple {
+  --tw-gradient-from: var(--ghost-purple);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(107, 70, 193, 0));
+}
+.to-ghost-neon {
+  --tw-gradient-to: var(--ghost-neon);
+}
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+```
 
 ### Using Theme Colors in Custom Components
 
@@ -820,10 +932,64 @@ interface MenuItem {
 
 ### Common Issues
 
-1. **Styles not loading**: Ensure `globals.css` is imported in your app
-2. **TypeScript errors**: Make sure you have the correct type definitions
-3. **Search not working**: Verify your search handler is properly set up
-4. **Mobile menu not opening**: Check for CSS conflicts with z-index
+1. **Styles not loading / Navbar looks unstyled**:
+
+   - **SOLUTION**: Make sure to import the CSS file:
+
+   ```tsx
+   import "@ghostnote/navbar/src/styles/global.css";
+   ```
+
+   - Alternative: Import the component directly:
+
+   ```tsx
+   import Navbar from "@ghostnote/navbar/src/components/Navbar";
+   ```
+
+2. **Buttons have no shape / Everything is plain text**:
+
+   - This means CSS modules aren't loading. Try:
+
+   ```tsx
+   // Import global styles in your app's root file (_app.tsx or main.tsx)
+   import "@ghostnote/navbar/src/styles/global.css";
+
+   // Then import the component normally
+   import { Navbar } from "@ghostnote/navbar";
+   ```
+
+3. **TypeScript errors**: Make sure you have the correct type definitions
+
+4. **Search not working**: Verify your search handler is properly set up
+
+5. **Mobile menu not opening**: Check for CSS conflicts with z-index
+
+### CSS Import Methods
+
+**Method 1: Import styles globally in your app**
+
+```tsx
+// In your _app.tsx or main.tsx
+import "@ghostnote/navbar/src/styles/global.css";
+
+// Then use the component anywhere
+import { Navbar } from "@ghostnote/navbar";
+```
+
+**Method 2: Import styles with component**
+
+```tsx
+// Import both at the same time
+import { Navbar } from "@ghostnote/navbar";
+import "@ghostnote/navbar/src/styles/global.css";
+```
+
+**Method 3: Direct component import (styles auto-included)**
+
+```tsx
+// The component imports its own styles
+import Navbar from "@ghostnote/navbar/src/components/Navbar";
+```
 
 ### Browser Support
 

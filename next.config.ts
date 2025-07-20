@@ -13,6 +13,7 @@ const nextConfig = {
       "@features/Navbar": path.resolve(__dirname, "packages/Navbar"),
       "@ghostnote/navbar": path.resolve(__dirname, "packages/Navbar"),
     };
+
     return config;
   },
 } as NextConfig;

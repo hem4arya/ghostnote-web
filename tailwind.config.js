@@ -7,6 +7,8 @@ module.exports = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
     "./packages/**/*.{ts,tsx}",
+    "./packages/**/src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@ghostnote/navbar/**/*.{js,ts,jsx,tsx}", // Include Navbar package
   ],
   theme: {
     container: {
@@ -61,12 +63,12 @@ module.exports = {
         },
         // GhostNote theme colors
         "ghost-black": "var(--ghost-black)",
-        "ghost-dark": "var(--ghost-dark)",
+        "ghost-dark": "#1a1a1a",
         "ghost-gray": "var(--ghost-gray)",
-        "ghost-purple": "var(--ghost-purple)",
-        "ghost-neon": "var(--ghost-neon)",
+        "ghost-purple": "#6b46c1",
+        "ghost-neon": "#00ff41",
         "ghost-red": "var(--ghost-red)",
-        "ghost-cyan": "var(--ghost-cyan)",
+        "ghost-cyan": "#00ffff",
         "ghost-white": "#ffffff",
         "ghost-light": "#e5e7eb",
         "ghost-muted": "#6b7280",

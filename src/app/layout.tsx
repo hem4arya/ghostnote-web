@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+// Import Navbar global styles AFTER main globals.css - CRITICAL for styling
+import "@ghostnote/navbar/src/styles/global.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,14 +17,24 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "GhostNote - Anonymous Creative Writing Marketplace",
-  description: "Write. Sell. Clone. Defend Your Ghost. Marketplace for original thought in the digital underground.",
-  keywords: ["writing", "marketplace", "anonymous", "creative", "remix", "notes", "ghost"],
+  description:
+    "Write. Sell. Clone. Defend Your Ghost. Marketplace for original thought in the digital underground.",
+  keywords: [
+    "writing",
+    "marketplace",
+    "anonymous",
+    "creative",
+    "remix",
+    "notes",
+    "ghost",
+  ],
   authors: [{ name: "GhostNote" }],
   creator: "GhostNote",
   publisher: "GhostNote",
   openGraph: {
     title: "GhostNote - Anonymous Creative Writing Marketplace",
-    description: "Write. Sell. Clone. Defend Your Ghost. Marketplace for original thought in the digital underground.",
+    description:
+      "Write. Sell. Clone. Defend Your Ghost. Marketplace for original thought in the digital underground.",
     type: "website",
     locale: "en_US",
     siteName: "GhostNote",
@@ -30,7 +42,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "GhostNote - Anonymous Creative Writing Marketplace",
-    description: "Write. Sell. Clone. Defend Your Ghost. Marketplace for original thought in the digital underground.",
+    description:
+      "Write. Sell. Clone. Defend Your Ghost. Marketplace for original thought in the digital underground.",
   },
   robots: {
     index: true,
@@ -49,7 +62,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-ghost-black text-white`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-ghost-black text-white`}
+      >
         {children}
         <Toaster position="top-right" richColors closeButton />
       </body>

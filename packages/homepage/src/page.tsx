@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 // Import self-contained styles
 import "./styles/homepage.css";
-// Import Navbar from the shared package using webpack alias
+// Import Navbar components from the shared package (styles loaded globally)
 import { Button, Navbar } from "@ghostnote/navbar/";
 // Feature-local imports (relative) - self-contained homepage components
 import { HelpCircle, Settings, Star } from "lucide-react";

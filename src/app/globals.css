@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -62,6 +62,19 @@
   --ghost-neon: #00ff41;
   --ghost-red: #ff073a;
   --ghost-cyan: #00ffff;
+  --ghost-white: #ffffff;
+  --ghost-light: #e5e7eb;
+  --ghost-muted: #6b7280;
+
+  /* Essential Navbar color opacities */
+  --ghost-purple-10: rgba(107, 70, 193, 0.1);
+  --ghost-purple-20: rgba(107, 70, 193, 0.2);
+  --ghost-purple-30: rgba(107, 70, 193, 0.3);
+  --ghost-purple-40: rgba(107, 70, 193, 0.4);
+  --ghost-purple-50: rgba(107, 70, 193, 0.5);
+  --ghost-neon-20: rgba(0, 255, 65, 0.2);
+  --ghost-neon-30: rgba(0, 255, 65, 0.3);
+  --ghost-neon-50: rgba(0, 255, 65, 0.5);
 }
 
 * {
@@ -71,7 +84,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -119,7 +132,8 @@ button:focus-visible {
   caret-color: var(--ghost-neon); /* Set cursor color */
   max-width: 100%;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -184,7 +198,7 @@ button:focus-visible {
 /* Visual indicators for corners to suggest resizability */
 .prose-editor img.selected-for-resize:not(.dragging)::before,
 .prose-editor img.selected-for-resize:not(.dragging)::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 14px;
   height: 14px;
@@ -238,7 +252,7 @@ body.resize-in-progress {
 
 /* Add resize corner indicators */
 .prose-editor img.selected-for-resize:not(.dragging)::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   right: 0;
@@ -266,7 +280,7 @@ body.resize-in-progress {
 }
 
 .prose-editor img.selected-for-resize.dragging::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -288,26 +302,53 @@ body.resize-in-progress {
 }
 
 @keyframes pulse-resize {
-  0% { box-shadow: 0 0 8px rgba(0, 255, 65, 0.7); transform: scale(1); }
-  50% { box-shadow: 0 0 15px rgba(0, 255, 65, 0.9); transform: scale(1.15); }
-  100% { box-shadow: 0 0 8px rgba(0, 255, 65, 0.7); transform: scale(1); }
+  0% {
+    box-shadow: 0 0 8px rgba(0, 255, 65, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
+    transform: scale(1.15);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(0, 255, 65, 0.7);
+    transform: scale(1);
+  }
 }
 
 @keyframes pulse-resize-corner {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
 }
 
 @keyframes pulse-drag {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); }
-  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; box-shadow: 0 0 25px rgba(0, 255, 255, 0.8); }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); }
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+  }
 }
 
 /* Remove duplicated rules */
 .prose-editor img.selected-for-resize.dragging::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -330,7 +371,7 @@ body.resize-in-progress {
 
 /* Add corner and edge indicators for resize mode */
 .prose-editor img.selected-for-resize:not(.dragging)::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -6px;
   right: -6px;
@@ -420,8 +461,14 @@ body.resize-in-progress {
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 0.98; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 0.98;
+    transform: translateY(0);
+  }
 }
 
 /* Prose styles for note content */
@@ -448,7 +495,10 @@ body.resize-in-progress {
   font-weight: 600;
 }
 
-.prose h1, .prose h2, .prose h3, .prose h4 {
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
   color: white;
   font-weight: 700;
   margin-top: 2em;
@@ -470,7 +520,8 @@ body.resize-in-progress {
   line-height: 1.6;
 }
 
-.prose ul, .prose ol {
+.prose ul,
+.prose ol {
   padding-left: 1.625em;
 }
 
@@ -481,7 +532,7 @@ body.resize-in-progress {
 
 .prose code {
   color: var(--ghost-purple);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.875em;
   background: rgba(107, 70, 193, 0.1);
   padding: 0.2em 0.4em;
@@ -501,7 +552,8 @@ body.resize-in-progress {
 
 /* Prose editor typography and focus mode styles */
 .prose-editor {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -563,7 +615,8 @@ body.resize-in-progress {
   line-height: 1.6;
 }
 
-.prose-editor ul, .prose-editor ol {
+.prose-editor ul,
+.prose-editor ol {
   margin: 1rem 0;
   padding-left: 1.5rem;
 }
@@ -586,7 +639,7 @@ body.resize-in-progress {
   color: #8b5cf6;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-  font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  font-family: "Fira Code", "Cascadia Code", Consolas, monospace;
   font-size: 0.875em;
 }
 
@@ -597,7 +650,7 @@ body.resize-in-progress {
   border-radius: 0.5rem;
   overflow-x: auto;
   margin: 1rem 0;
-  font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  font-family: "Fira Code", "Cascadia Code", Consolas, monospace;
   font-size: 0.875rem;
   line-height: 1.5;
 }

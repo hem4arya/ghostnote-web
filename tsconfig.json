@@ -16,7 +16,8 @@
       "@ui/*": ["./packages/ui-components/src/components/*"],
       "@packages/*": ["./packages/*/src"],
       "@ghostnote/navbar": ["./packages/Navbar/index.ts"],
-      "@ghostnote/navbar/*": ["./packages/Navbar/*"]
+      "@ghostnote/navbar/*": ["./packages/Navbar/*"],
+      "@homepage/*": ["./packages/homepage/src/*"]
     }
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "lib/**/*"],
