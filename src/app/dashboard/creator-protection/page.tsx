@@ -3,17 +3,15 @@
 import React, { useState } from 'react';
 import { CreatorCloneDashboard } from '@/components/CreatorCloneDashboard';
 import { CloneAlerts } from '@/components/CloneAlerts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/components/card';
+import { Button } from '@shared/ui/components/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/components/tabs';
 import { Shield, AlertTriangle, BarChart3, Settings } from 'lucide-react';
 
-interface CreatorDashboardPageProps {
-  userId: string;
-}
-
-export default function CreatorDashboardPage({ userId }: CreatorDashboardPageProps) {
+export default function CreatorDashboardPage() {
   const [activeTab, setActiveTab] = useState('overview');
+  // TODO: Get userId from authentication context or session
+  const userId = "temp-user-id"; // Temporary placeholder
 
   return (
     <div className="container mx-auto px-4 py-8">

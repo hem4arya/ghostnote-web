@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@shared/ui/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/components/card';
+import { Badge } from '@shared/ui/components/badge';
 import { AlertTriangle, Eye, X } from 'lucide-react';
 
 interface CloneAlert {

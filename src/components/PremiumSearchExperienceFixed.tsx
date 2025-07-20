@@ -13,10 +13,10 @@ import {
   Sparkles,
   ArrowRight
 } from 'lucide-react';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Input } from '@shared/ui/components/input';
+import { Button } from '@shared/ui/components/button';
+import { Badge } from '@shared/ui/components/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/components/card';
 
 interface SearchSuggestion {
   id: string;

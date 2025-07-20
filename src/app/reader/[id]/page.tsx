@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Heart, Share2, User, Flag, Volume2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Button } from '@shared/ui/components/button';
+import { Progress } from '@shared/ui/components/progress';
+import { Card } from '@shared/ui/components/card';
+import { Badge } from "@shared/ui/components/badge";
+import { Separator } from "@shared/ui/components/separator";
 import { toast } from "sonner";
 import '../reader.css';
 

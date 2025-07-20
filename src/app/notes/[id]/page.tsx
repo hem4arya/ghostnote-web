@@ -3,26 +3,21 @@
 import { useState, useEffect } from 'react';
 import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles, BookOpen } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button } from '@shared/ui/components/button';
 import { sampleNotes } from '@/data/sampleNotes';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Note } from '@/components/NoteCard';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
-// Types
-type NoteDetailPageProps = {
-  params: {
-    id: string;
-  };
-};
-
-const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
+const NoteDetailPage = () => {
   const [isPurchased, setIsPurchased] = useState(false);
   const [note, setNote] = useState<Note | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
 
   // In a real app, you would fetch the note from an API
   // For now, we'll simulate it using the sampleNotes
@@ -31,7 +26,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
       setIsLoading(true);
       try {
         // Find the note with the matching ID
-        const foundNote = sampleNotes.find((n) => n.id === parseInt(params.id));
+        const foundNote = sampleNotes.find((n) => n.id === parseInt(id));
         setNote(foundNote || null);
       } catch (error) {
         console.error('Error fetching note:', error);
@@ -41,7 +36,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
     };
 
     fetchNote();
-  }, [params.id]);
+  }, [id]);
 
   const handlePurchase = () => {
     // Show a loading toast
@@ -57,7 +52,7 @@ const NoteDetailPage = ({ params }: NoteDetailPageProps) => {
   };
   
   const handleReadNow = () => {
-    router.push(`/reader/${params.id}`);
+    router.push(`/reader/${id}`);
   };
 
   if (isLoading) {

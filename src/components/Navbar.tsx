@@ -1,8 +1,8 @@
 'use client';
 
 import { Search, Settings, User, X, ChevronLeft, Plus } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "@shared/ui/components/button";
+import { Input } from "@shared/ui/components/input";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

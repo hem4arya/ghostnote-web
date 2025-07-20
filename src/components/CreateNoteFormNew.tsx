@@ -18,14 +18,12 @@ const CreateNoteForm = () => {
   
   // Basic state
   const [title, setTitle] = useState("");
-  const [wordCount, setWordCount] = useState(0);
-  const [charCount, setCharCount] = useState(0);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [focusMode, setFocusMode] = useState<boolean>(false);
 
   // Custom hooks
   const { activeFormats, executeCommand, checkFormatting } = useFormatting();
-  const { isMobile, showToolbarMenu, setShowToolbarMenu } = useResponsive();
+  const { isMobile } = useResponsive();
   const { hasSeenHelp, showResizeHelp, manualHelp, openHelpModal, closeHelpModal } = useHelpModal();
   const {
     selectedImage,
@@ -55,11 +53,7 @@ const CreateNoteForm = () => {
     hasSeenHelp
   });
 
-  const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
-    const plainText = e.currentTarget.textContent || "";
-    setWordCount(plainText.trim() ? plainText.trim().split(/\s+/).length : 0);
-    setCharCount(plainText.length);
-
+  const handleContentChange = () => {
     // Simulate autosave
     setTimeout(() => setLastSaved(new Date()), 1000);
     
@@ -77,21 +71,12 @@ const CreateNoteForm = () => {
         title={title}
         setTitle={setTitle}
         lastSaved={lastSaved}
-        wordCount={wordCount}
-        charCount={charCount}
-        showToolbarMenu={showToolbarMenu}
-        setShowToolbarMenu={setShowToolbarMenu}
-        isMobile={isMobile}
         focusMode={focusMode}
         onBackClick={() => router.push('/')}
       >
         <FormattingToolbar
           activeFormats={activeFormats}
           executeCommand={handleExecuteCommand}
-          showToolbarMenu={showToolbarMenu}
-          isMobile={isMobile}
-          selectedImage={selectedImage}
-          onHelpClick={openHelpModal}
         />
         
         <ImageToolbox

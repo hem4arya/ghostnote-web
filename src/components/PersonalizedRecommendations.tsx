@@ -3,9 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Card } from '@shared/ui/components/card';
+import { Badge } from '@shared/ui/components/badge';
+import { Button } from '@shared/ui/components/button';
 import { Heart, TrendingUp, Sparkles, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { Note } from '@/components/NoteCard';

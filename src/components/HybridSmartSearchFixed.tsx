@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Search, Filter, Clock, TrendingUp, Tag, Zap } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@shared/ui/components/input';
+import { Button } from '@shared/ui/components/button';
+import { Badge } from '@shared/ui/components/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/components/card';
 import { supabase } from '../../lib/supabase';
 
 interface SearchResult {

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@shared/ui/components/button';
 
 const categories = ["All", "Development", "AI/ML", "Design", "Security", "Interview", "Writing", "Marketing", "Blockchain"];
 

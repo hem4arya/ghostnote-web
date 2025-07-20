@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from '@shared/ui/components/button';
+import { Card } from '@shared/ui/components/card';
 import IntelligentSearch from '@/components/IntelligentSearch';
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations';
 import AuthForm from '@/components/AuthForm';

@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Search, Loader2, Sparkles } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card } from '@shared/ui/components/card';
+import { Badge } from '@shared/ui/components/badge';
 import Link from 'next/link';
 import { sampleNotes } from '@/data/sampleNotes';
 import { Note } from '@/components/NoteCard';

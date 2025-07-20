@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Search, Filter, Clock, TrendingUp, Tag, Zap } from 'lucide-react';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Separator } from './ui/separator';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Slider } from './ui/slider';
+import { Input } from '@shared/ui/components/input';
+import { Button } from '@shared/ui/components/button';
+import { Badge } from '@shared/ui/components/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/components/card';
+import { Separator } from '@shared/ui/components/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/components/select';
+import { Slider } from '@shared/ui/components/slider';
 import { useToast } from '../hooks/use-toast';
 import { supabase } from '../../lib/supabase';
 
