@@ -5,7 +5,7 @@ import { Share2, Flag, Bookmark, ShoppingCart, Lock, Sparkles, BookOpen } from '
 import Link from 'next/link';
 import { Button } from '@shared/ui/components/button';
 import { sampleNotes } from '@/data/sampleNotes';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 import Footer from '@/components/Footer';
 import { Note } from '@/components/NoteCard';
 import { toast } from 'sonner';
