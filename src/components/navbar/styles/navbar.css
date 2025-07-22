@@ -1,30 +1,81 @@
 /**
- * Navbar-specific styles and CSS variables
+ * Enhanced Navbar-specific styles with glass morphism
  * These styles complement the global Tailwind theme
  */
 
-/* Custom CSS properties for navbar theming */
+/* Enhanced CSS properties for navbar theming */
 :root {
   --navbar-height: 4rem;
   --navbar-height-mobile: 4rem;
-  --navbar-backdrop-blur: 12px;
-  --navbar-border-opacity: 0.2;
+  --navbar-backdrop-blur: 8px;
+  --navbar-border-opacity: 0.15;
   --navbar-bg-opacity: 0.8;
+  --navbar-margin-top: 15px;
+  --navbar-margin-horizontal: 20px;
+  --navbar-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --navbar-border: 1px solid rgba(255, 255, 255, 0.2);
+  --search-focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  --search-focus-border: rgba(59, 130, 246, 0.3);
 }
 
-/* Navbar container styles */
+/* Enhanced Navbar container with glass morphism */
 .navbar-container {
+  /* Positioning and spacing */
+  position: relative;
+  margin: var(--navbar-margin-top) var(--navbar-margin-horizontal) 0;
   height: var(--navbar-height);
+  
+  /* Glass morphism effect */
+  background: rgba(255, 255, 255, var(--navbar-bg-opacity));
   backdrop-filter: blur(var(--navbar-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--navbar-backdrop-blur));
-  border-bottom: 1px solid rgb(147 51 234 / var(--navbar-border-opacity));
-  background-color: rgb(17 24 39 / var(--navbar-bg-opacity));
+  
+  /* Sharp rectangular borders with subtle shadow */
+  border: var(--navbar-border);
+  border-radius: 0;
+  box-shadow: var(--navbar-shadow);
+  
+  /* Performance optimization */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @media (max-width: 640px) {
   .navbar-container {
     height: var(--navbar-height-mobile);
+    margin: 10px 15px 0; /* Slightly reduced margins on mobile */
   }
+}
+
+/* Enhanced search bar styles */
+.navbar-search-button {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(156, 163, 175, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-search-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(156, 163, 175, 0.3);
+}
+
+.navbar-search-button:focus {
+  outline: none;
+  box-shadow: var(--search-focus-glow);
+  border-color: var(--search-focus-border);
+  transform: scaleX(1.05);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Search input enhancement */
+.navbar-search-input {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-search-input:focus {
+  box-shadow: var(--search-focus-glow);
+  border-color: var(--search-focus-border);
+  transform: scaleX(1.1);
 }
 
 /* Search overlay styles */

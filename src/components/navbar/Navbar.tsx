@@ -36,8 +36,8 @@ const Navbar = ({
 
   return (
     <>
-      <nav className="navbar-container sticky top-0 z-50 w-full">
-        <div className="container mx-auto flex h-16 sm:h-16 items-center justify-between px-4 sm:px-6 gap-4">
+      <nav className="navbar-container z-50 w-full">
+        <div className="mx-auto flex h-16 sm:h-16 items-center justify-between px-6 sm:px-8 gap-4 max-w-7xl">
           {/* Logo or Back Button based on current page */}
           <div className={`flex items-center transition-all duration-300 ${searchState.isOpen ? 'md:flex w-0 md:w-auto opacity-0 md:opacity-100' : 'w-auto opacity-100'}`}>
             {isHomepage ? (
@@ -57,7 +57,7 @@ const Navbar = ({
               <Button 
                 onClick={handleBack}
                 variant="ghost" 
-                className="navbar-item flex items-center text-gray-300 hover:text-ghost-neon gap-1 px-2"
+                className="navbar-item flex items-center text-gray-700 hover:text-gray-900 gap-1 px-2"
               >
                 <ChevronLeft className="h-5 w-5" />
                 <span className="font-medium">Back</span>
@@ -72,7 +72,7 @@ const Navbar = ({
                 <Button
                   onClick={openSearch}
                   variant="ghost"
-                  className="w-full justify-start text-gray-400 hover:text-ghost-neon hover:bg-ghost-purple/10 border border-ghost-purple/20 rounded-lg px-4 py-2"
+                  className="navbar-search-button w-full justify-start text-gray-600 hover:text-gray-800 px-4 py-2"
                 >
                   <Search className="h-4 w-4 mr-2" />
                   <span className="truncate">{searchPlaceholder}</span>
@@ -93,7 +93,7 @@ const Navbar = ({
                       <Link href="/create">
                         <Button
                           variant="ghost"
-                          className="navbar-item text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10 flex items-center gap-2"
+                          className="navbar-item text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 flex items-center gap-2"
                         >
                           <Plus className="h-4 w-4" />
                           <span className="hidden lg:inline">Create</span>
@@ -126,7 +126,7 @@ const Navbar = ({
               onClick={openSearch}
               variant="ghost"
               size="sm"
-              className="md:hidden text-gray-300 hover:text-ghost-neon"
+              className="md:hidden text-gray-700 hover:text-gray-900"
               aria-label="Search"
             >
               <Search className="h-5 w-5" />

@@ -52,7 +52,7 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
       <Button
         variant="ghost"
         onClick={toggleDropdown}
-        className="flex items-center gap-2 text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10 px-2 py-1"
+        className="flex items-center gap-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 px-2 py-1"
       >
         {/* Avatar */}
         <div className="relative">
@@ -89,9 +89,9 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 bg-ghost-dark border border-ghost-purple/20 rounded-lg shadow-xl z-50 overflow-hidden">
+        <div className="absolute right-0 top-full mt-2 w-64 bg-white/90 backdrop-blur-md border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden">
           {/* User Info Header */}
-          <div className="p-4 border-b border-ghost-purple/20 bg-ghost-purple/5">
+          <div className="p-4 border-b border-gray-200 bg-gray-50/50">
             <div className="flex items-center gap-3">
               {user.avatar ? (
                 <Image
@@ -99,24 +99,24 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
                   alt={user.name || 'User'}
                   width={40}
                   height={40}
-                  className="h-10 w-10 rounded-full object-cover border border-ghost-purple/30"
+                  className="h-10 w-10 rounded-full object-cover border border-gray-200"
                 />
               ) : (
-                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-ghost-purple to-ghost-neon flex items-center justify-center">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
                   <User className="h-5 w-5 text-white" />
                 </div>
               )}
               
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-white truncate">
+                  <p className="text-sm font-medium text-gray-900 truncate">
                     {user.name || 'User'}
                   </p>
                   {user.isPremium && (
-                    <Crown className="h-3 w-3 text-yellow-400" />
+                    <Crown className="h-3 w-3 text-yellow-500" />
                   )}
                 </div>
-                <p className="text-xs text-gray-400 truncate">
+                <p className="text-xs text-gray-500 truncate">
                   {user.email}
                 </p>
               </div>
@@ -130,7 +130,7 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
                 key={item.href}
                 href={item.href}
                 onClick={closeDropdown}
-                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10 transition-colors"
+                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 transition-colors"
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}
@@ -140,11 +140,11 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
             {/* Premium Upgrade (if not premium) */}
             {!user.isPremium && (
               <>
-                <div className="border-t border-ghost-purple/20 my-2" />
+                <div className="border-t border-white/10 my-2" />
                 <Link
                   href="/premium"
                   onClick={closeDropdown}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10 transition-all duration-200 rounded-md"
                 >
                   <Crown className="h-4 w-4" />
                   Upgrade to Premium
@@ -153,13 +153,13 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
             )}
 
             {/* Sign Out */}
-            <div className="border-t border-ghost-purple/20 my-2" />
+            <div className="border-t border-white/10 my-2" />
             <button
               onClick={() => {
                 onSignOut?.();
                 closeDropdown();
               }}
-              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200 rounded-md"
             >
               <LogOut className="h-4 w-4" />
               Sign Out

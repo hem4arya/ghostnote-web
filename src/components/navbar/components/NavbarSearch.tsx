@@ -121,11 +121,11 @@ export const NavbarSearch = ({
       />
 
       {/* Search Container */}
-      <div className="fixed top-4 left-4 right-4 md:static md:top-auto md:left-auto md:right-auto bg-ghost-dark md:bg-transparent border border-ghost-purple/20 md:border-0 rounded-lg md:rounded-none shadow-xl md:shadow-none">
+      <div className="fixed top-4 left-4 right-4 md:static md:top-auto md:left-auto md:right-auto glass-morphism md:bg-transparent border border-white/20 md:border-0 rounded-lg md:rounded-none shadow-xl md:shadow-none">
         {/* Search Input */}
         <div className="relative">
           <div className="flex items-center gap-2 p-3 md:p-0">
-            <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
+            <Search className="h-4 w-4 text-gray-300 flex-shrink-0" />
             <Input
               ref={inputRef}
               value={query}
@@ -136,13 +136,13 @@ export const NavbarSearch = ({
                 }
               }}
               placeholder={placeholder}
-              className="flex-1 border-0 bg-transparent focus:ring-0 text-white placeholder:text-gray-400"
+              className="flex-1 border-0 bg-transparent focus:ring-0 text-white placeholder:text-gray-300 navbar-search-input"
             />
             <Button
               variant="ghost"
               size="sm"
               onClick={onClose}
-              className="text-gray-400 hover:text-white flex-shrink-0 md:hidden"
+              className="text-gray-300 hover:text-white flex-shrink-0 md:hidden"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -153,22 +153,22 @@ export const NavbarSearch = ({
         {(query || suggestions.length > 0 || recentSearches.length > 0) && (
           <div 
             ref={dropdownRef}
-            className="border-t border-ghost-purple/20 md:absolute md:top-full md:left-0 md:right-0 md:mt-2 md:border md:rounded-lg md:shadow-xl bg-ghost-dark max-h-80 overflow-y-auto"
+            className="border-t border-white/10 md:absolute md:top-full md:left-0 md:right-0 md:mt-2 md:border md:rounded-lg md:shadow-xl glass-morphism max-h-80 overflow-y-auto"
           >
             {/* Suggestions */}
             {suggestions.length > 0 && (
               <div className="p-2">
-                <div className="text-xs font-medium text-gray-400 px-2 py-1 mb-1">
+                <div className="text-xs font-medium text-gray-300 px-2 py-1 mb-1">
                   Suggestions
                 </div>
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={suggestion.id}
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className={`w-full text-left p-2 rounded-md transition-colors ${
+                    className={`w-full text-left p-2 rounded-md transition-all duration-200 ${
                       index === selectedIndex
-                        ? 'bg-ghost-purple/20 text-ghost-neon'
-                        : 'text-gray-300 hover:bg-ghost-purple/10 hover:text-white'
+                        ? 'bg-white/20 text-white'
+                        : 'text-gray-300 hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     <div className="flex items-start gap-3">
@@ -198,8 +198,8 @@ export const NavbarSearch = ({
 
             {/* Recent Searches */}
             {recentSearches.length > 0 && (
-              <div className="p-2 border-t border-ghost-purple/20">
-                <div className="text-xs font-medium text-gray-400 px-2 py-1 mb-1">
+              <div className="p-2 border-t border-white/10">
+                <div className="text-xs font-medium text-gray-300 px-2 py-1 mb-1">
                   Recent Searches
                 </div>
                 {recentSearches.map((recent, index) => {
@@ -208,10 +208,10 @@ export const NavbarSearch = ({
                     <button
                       key={recent}
                       onClick={() => handleSearch(recent)}
-                      className={`w-full text-left p-2 rounded-md transition-colors ${
+                      className={`w-full text-left p-2 rounded-md transition-all duration-200 ${
                         actualIndex === selectedIndex
-                          ? 'bg-ghost-purple/20 text-ghost-neon'
-                          : 'text-gray-300 hover:bg-ghost-purple/10 hover:text-white'
+                          ? 'bg-white/20 text-white'
+                          : 'text-gray-300 hover:bg-white/10 hover:text-white'
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -226,7 +226,7 @@ export const NavbarSearch = ({
 
             {/* No Results */}
             {query && suggestions.length === 0 && recentSearches.length === 0 && (
-              <div className="p-4 text-center text-gray-400">
+              <div className="p-4 text-center text-gray-300">
                 <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 <p>No suggestions found</p>
                 <p className="text-xs mt-1">Try a different search term</p>

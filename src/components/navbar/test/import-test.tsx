@@ -11,14 +11,16 @@ import {
   type User
 } from '@/components/navbar';
 
-// Test that all exports are working
-const testNavbar = Navbar;
-const testMobileMenu = MobileMenu;
-const testUserDropdown = UserDropdown;
-const testNavbarSearch = NavbarSearch;
-const testNavigationButtons = NavigationButtons;
-const testUseNavbar = useNavbar;
-const testGetNavStyles = getNavStyles;
+// Test that all exports are working - log them to avoid unused variable warnings
+console.log('Testing navbar exports:', {
+  Navbar,
+  MobileMenu,
+  UserDropdown,
+  NavbarSearch,
+  NavigationButtons,
+  useNavbar,
+  getNavStyles
+});
 
 // Test types
 const testUser: User = {
@@ -33,6 +35,9 @@ const testProps: NavbarProps = {
   user: testUser,
   isAuthenticated: true
 };
+
+// Use testProps to avoid unused warning
+console.log('Test props configured:', testProps);
 
 console.log('All navbar exports working correctly!');
 

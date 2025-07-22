@@ -24,17 +24,16 @@ export const NavigationButtons = ({
           <Link href="/create">
             <Button
               variant="ghost"
-              className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10"
+              className="text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium px-4 flex items-center gap-2 rounded-lg backdrop-blur-md"
             >
               Create Note
             </Button>
           </Link>
         )}
-        
         <Link href="/dashboard">
           <Button
             variant="ghost"
-            className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10"
+            className="text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium px-4 flex items-center gap-2 rounded-lg backdrop-blur-md"
           >
             My Notes
           </Button>
@@ -45,30 +44,11 @@ export const NavigationButtons = ({
 
   return (
     <div className="hidden md:flex items-center gap-3">
-      {/* Navigation Links */}
-      <Link href="/demo">
-        <Button
-          variant="ghost"
-          className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10"
-        >
-          Demo
-        </Button>
-      </Link>
-
-      <Link href="/pricing">
-        <Button
-          variant="ghost"
-          className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10"
-        >
-          Pricing
-        </Button>
-      </Link>
-
       {/* Auth Buttons */}
       <Button
         onClick={onLoginClick}
         variant="ghost"
-        className="text-gray-300 hover:text-ghost-neon hover:bg-ghost-purple/10 flex items-center gap-2"
+        className="text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 flex items-center gap-2 rounded-lg backdrop-blur-md"
       >
         <LogIn className="h-4 w-4" />
         Sign In
@@ -76,7 +56,7 @@ export const NavigationButtons = ({
 
       <Button
         onClick={onSignUpClick}
-        className="bg-gradient-to-r from-ghost-purple to-ghost-neon hover:from-ghost-purple/80 hover:to-ghost-neon/80 text-white font-medium px-6 flex items-center gap-2"
+        className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium px-6 flex items-center gap-2 shadow-md rounded-lg transition-all duration-200"
       >
         <User className="h-4 w-4" />
         Get Started
