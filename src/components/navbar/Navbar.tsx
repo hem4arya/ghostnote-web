@@ -9,6 +9,7 @@ import { NavbarProps } from './types';
 import { UserDropdown } from './components/UserDropdown';
 import { NavigationButtons } from './components/NavigationButtons';
 import { MobileMenu } from './components/MobileMenu';
+import { ThemeToggle } from './ThemeToggle';
 import './styles/navbar.css';
 
 const Navbar = ({ 
@@ -100,6 +101,7 @@ const Navbar = ({
           <div className="flex items-center gap-3">
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center gap-3">
+              <ThemeToggle />
               <NavigationButtons 
                 isAuthenticated={isAuthenticated}
                 onSignUpClick={() => handleAuth('signup')}
@@ -109,6 +111,7 @@ const Navbar = ({
 
             {/* Mobile Actions */}
             <div className="flex md:hidden items-center gap-2">
+              <ThemeToggle size={18} />
               <Button
                 onClick={toggleMobileSearch}
                 variant="ghost"

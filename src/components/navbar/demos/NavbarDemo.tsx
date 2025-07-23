@@ -148,7 +148,6 @@ export function NavbarDemo() {
             <NavigationButtons
               isAuthenticated={isAuthenticated}
               onSignUpClick={handleSignUp}
-              showCreateButton={true}
             />
           </div>
         </section>

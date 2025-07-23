@@ -1,0 +1,319 @@
+/**
+ * GhostNote Theme System - Centralized Design Tokens
+ * This file defines all visual design tokens for the application
+ * Supports dark/light mode switching through CSS variable overrides
+ */
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('../../components/navbar/Ethnocentric Rg.otf') format('opentype');
+}
+
+/* Dark Theme (Default) */
+:root {
+  /* Color Palette */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --primary: 262.1 83.3% 57.8%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 142.1 76.2% 36.3%;
+  --accent-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 262.1 83.3% 57.8%;
+
+  /* Custom GhostNote Colors */
+  --ghost-black: #0a0a0a;
+  --ghost-dark: #1a1a1a;
+  --ghost-gray: #2a2a2a;
+  --ghost-purple: #6b46c1;
+  --ghost-neon: #00ff41;
+  --ghost-red: #ff073a;
+  --ghost-cyan: #00ffff;
+
+  /* Typography */
+  --font-primary: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Orbitron', sans-serif;
+  --font-logo: 'Ethnocentric', sans-serif;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+
+  /* Font Weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;      /* 4px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px */
+  --space-6: 1.5rem;       /* 24px */
+  --space-8: 2rem;         /* 32px */
+  --space-10: 2.5rem;      /* 40px */
+  --space-12: 3rem;        /* 48px */
+  --space-16: 4rem;        /* 64px */
+
+  /* Border Radius */
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-base: 0.25rem;  /* 4px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 20px rgb(107 70 193 / 0.3);
+  --shadow-neon: 0 0 15px rgb(0 255 65 / 0.5);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+
+  /* Navbar Specific */
+  --navbar-height: 4rem;
+  --navbar-height-mobile: 4rem;
+  --navbar-bg: rgba(10, 10, 10, 0.75);
+  --navbar-backdrop-blur: 20px;
+  --navbar-border: rgba(255, 255, 255, 0.1);
+  --navbar-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+
+  /* Search Components */
+  --search-bg: rgba(255, 255, 255, 0.05);
+  --search-border: rgba(255, 255, 255, 0.1);
+  --search-focus-border: rgba(107, 33, 168, 0.8);
+  --search-text: #ffffff;
+  --search-placeholder: rgba(255, 255, 255, 0.5);
+
+  /* Interactive Elements */
+  --button-primary-bg: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  --button-primary-hover-bg: linear-gradient(135deg, #7c3aed, #2563eb);
+  --button-primary-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  --button-primary-hover-shadow: 0 6px 16px rgba(139, 92, 246, 0.5);
+
+  /* Icon Colors */
+  --icon-primary: #ffffff;
+  --icon-secondary: rgba(255, 255, 255, 0.7);
+  --icon-hover: #d8b4fe;
+
+  /* Logo Gradient */
+  --logo-gradient: linear-gradient(90deg, #a78bfa, #38bdf8, #4ade80);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* Light Theme Override */
+[data-theme="light"] {
+  /* Color Palette - Light Mode */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 262.1 83.3% 57.8%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 98%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 98%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 142.1 76.2% 36.3%;
+  --accent-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 262.1 83.3% 57.8%;
+
+  /* Custom GhostNote Colors - Light Mode */
+  --ghost-black: #ffffff;
+  --ghost-dark: #f8fafc;
+  --ghost-gray: #e2e8f0;
+  --ghost-purple: #8b5cf6;
+  --ghost-neon: #10b981;
+  --ghost-red: #ef4444;
+  --ghost-cyan: #06b6d4;
+
+  /* Navbar Specific - Light Mode */
+  --navbar-bg: rgba(255, 255, 255, 0.85);
+  --navbar-border: rgba(0, 0, 0, 0.1);
+  --navbar-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  /* Search Components - Light Mode */
+  --search-bg: rgba(0, 0, 0, 0.05);
+  --search-border: rgba(0, 0, 0, 0.1);
+  --search-focus-border: rgba(139, 92, 246, 0.8);
+  --search-text: #1f2937;
+  --search-placeholder: rgba(0, 0, 0, 0.5);
+
+  /* Icon Colors - Light Mode */
+  --icon-primary: #1f2937;
+  --icon-secondary: rgba(0, 0, 0, 0.7);
+  --icon-hover: #8b5cf6;
+
+  /* Glassmorphism - Light Mode */
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
+}
+
+/* Theme transition animation */
+* {
+  transition: background-color var(--transition-base), 
+              color var(--transition-base), 
+              border-color var(--transition-base);
+}
+
+/* Base body styles using theme variables */
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-primary);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* Selection styling using theme variables */
+::selection {
+  background: var(--ghost-neon);
+  color: var(--ghost-black);
+}
+
+/* Custom scrollbar using theme variables */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ghost-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ghost-purple);
+  border-radius: var(--radius-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ghost-neon);
+}
+
+/* Focus styles using theme variables */
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.5);
+}
+
+/* Utility classes for theme-aware components */
+.theme-bg-primary {
+  background: hsl(var(--background));
+}
+
+.theme-text-primary {
+  color: hsl(var(--foreground));
+}
+
+.theme-border-primary {
+  border-color: hsl(var(--border));
+}
+
+.theme-shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.theme-transition {
+  transition: var(--transition-base);
+}
+
+/* Animation keyframes */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

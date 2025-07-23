@@ -1,45 +1,27 @@
 /**
- * Enhanced Navbar-specific styles with glass morphism and scroll behavior
- * These styles complement the global Tailwind theme
+ * Enhanced Navbar-specific styles using centralized theme system
+ * All values now reference theme variables from shared/config/theme.css
  */
 
-/* Enhanced CSS properties for navbar theming */
-:root {
-  --navbar-height: 4rem;
-  --navbar-height-mobile: 4rem;
-  --navbar-bg-color: rgba(10, 10, 10, 0.75); /* Blackish, 75% transparent */
-  --navbar-backdrop-blur: 20px;
-  --navbar-border-color: rgba(255, 255, 255, 0.1);
-  --navbar-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  --search-bg-color: rgba(255, 255, 255, 0.05);
-  --search-border-color: rgba(255, 255, 255, 0.1);
-  --search-focus-border-color: rgba(107, 33, 168, 0.8);
-  --search-text-color: #ffffff;
-  --icon-color: #ffffff;
-  --logo-font: 'Ethnocentric';
-}
+/* Import the centralized theme system */
+@import '../../../shared/config/theme.css';
 
-@font-face {
-  font-family: 'Ethnocentric';
-  src: url('../Ethnocentric Rg.otf') format('opentype');
-}
-
-/* Enhanced Navbar container with glass morphism and scroll behavior */
+/* Enhanced Navbar container with glass morphism using theme variables */
 .navbar-container {
   position: sticky;
   top: 0;
   height: var(--navbar-height);
-  z-index: 40;
+  z-index: var(--z-sticky);
   
-  /* Glassmorphism effect */
-  background: var(--navbar-bg-color);
+  /* Glassmorphism effect using theme variables */
+  background: var(--navbar-bg);
   backdrop-filter: blur(var(--navbar-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--navbar-backdrop-blur));
-  border-bottom: 1px solid var(--navbar-border-color);
+  border-bottom: 1px solid var(--navbar-border);
   box-shadow: var(--navbar-shadow);
   
-  /* Smooth transitions for scroll effects */
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Smooth transitions using theme variables */
+  transition: var(--transition-base);
   
   /* Performance optimization */
   will-change: transform, opacity;
@@ -57,36 +39,36 @@
   }
 }
 
-/* Enhanced search bar styles */
+/* Enhanced search bar styles using theme variables */
 .navbar-search-input {
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--search-bg-color);
-  border: 1px solid var(--search-border-color);
-  color: var(--search-text-color);
-  border-radius: 0.5rem;
-  padding: 0.5rem 2.5rem;
+  transition: var(--transition-base);
+  background: var(--search-bg);
+  border: 1px solid var(--search-border);
+  color: var(--search-text);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2) var(--space-10);
   width: 100%;
 }
 
 .navbar-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--search-placeholder);
 }
 
 .navbar-search-input:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
 }
 
 .navbar-search-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--search-focus-border-color);
-  box-shadow: 0 0 0 2px rgba(107, 33, 168, 0.5);
+  background: var(--glass-bg);
+  border-color: var(--search-focus-border);
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.5);
 }
 
 /* Desktop search container - slight size increase on hover/focus */
 .search-container {
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-base);
 }
 
 .search-container:hover,
@@ -94,20 +76,20 @@
   transform: scale(1.03);
 }
 
-/* Get Started button enhanced styling */
+/* Get Started button using theme variables */
 .get-started-btn {
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 8px;
-  font-weight: 500;
-  padding: 0.75rem 1.5rem;
+  background: var(--button-primary-bg);
+  box-shadow: var(--button-primary-shadow);
+  transition: var(--transition-base);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  padding: var(--space-3) var(--space-6);
   color: white;
 }
 
 .get-started-btn:hover {
-  background: linear-gradient(135deg, #7c3aed, #2563eb);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.5);
+  background: var(--button-primary-hover-bg);
+  box-shadow: var(--button-primary-hover-shadow);
   transform: translateY(-1px) scale(1.02);
 }
 
@@ -115,73 +97,62 @@
   transform: translateY(0) scale(0.98);
 }
 
-/* Mobile search overlay - no longer full page */
+/* Mobile search overlay using theme variables */
 .mobile-search-overlay {
   position: absolute;
   top: var(--navbar-height-mobile);
   left: 0;
   right: 0;
-  background: var(--navbar-bg-color);
+  background: var(--navbar-bg);
   backdrop-filter: blur(var(--navbar-backdrop-blur));
   -webkit-backdrop-filter: blur(var(--navbar-backdrop-blur));
-  padding: 1rem;
-  border-bottom: 1px solid var(--navbar-border-color);
-  animation: slide-down 300ms ease-out;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--navbar-border);
+  animation: slide-down var(--transition-base);
 }
 
-@keyframes slide-down {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Mobile search input */
+/* Mobile search input using theme variables */
 .mobile-search-input {
-  background: var(--search-bg-color);
-  border: 1px solid var(--search-border-color);
-  color: var(--search-text-color);
-  border-radius: 0.5rem;
-  padding: 0.75rem 2.5rem;
+  background: var(--search-bg);
+  border: 1px solid var(--search-border);
+  color: var(--search-text);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-10);
   width: 100%;
 }
 
 .mobile-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--search-placeholder);
 }
 
 .mobile-search-input:focus {
   outline: none;
-  border-color: var(--search-focus-border-color);
-  box-shadow: 0 0 0 2px rgba(107, 33, 168, 0.5);
+  border-color: var(--search-focus-border);
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.5);
 }
 
-/* Mobile icons color */
+/* Mobile icons using theme variables */
 .mobile-icon {
-  color: var(--icon-color);
-  transition: color 200ms ease-out;
+  color: var(--icon-primary);
+  transition: var(--transition-fast);
 }
 
 .mobile-icon:hover {
-  color: #d8b4fe; /* A light purple for hover */
+  color: var(--icon-hover);
 }
 
-/* Logo animation and font */
+/* Logo animation and font using theme variables */
 .logo-text {
-  font-family: var(--logo-font), sans-serif;
-  font-weight: bold;
-  font-size: 1.75rem;
-  background: linear-gradient(90deg, #a78bfa, #38bdf8, #4ade80);
+  font-family: var(--font-logo), sans-serif;
+  font-weight: var(--font-bold);
+  font-size: var(--text-2xl);
+  background: var(--logo-gradient);
   background-size: 200% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-shift 4s ease-in-out infinite;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-base);
 }
 
 .logo-text:hover {
@@ -190,7 +161,7 @@
 
 @media (max-width: 640px) {
   .logo-text {
-    font-size: 1.25rem; /* Reduce font size for mobile */
+    font-size: var(--text-xl);
   }
 }
 
@@ -203,17 +174,17 @@
   }
 }
 
-/* Navbar item hover effects */
+/* Navbar item hover effects using theme variables */
 .navbar-item {
   position: relative;
-  transition: all 200ms ease-out;
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  color: var(--icon-color);
+  transition: var(--transition-fast);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  color: var(--icon-primary);
 }
 
 .navbar-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
   transform: translateY(-1px);
 }
 
@@ -224,10 +195,10 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #a78bfa, #38bdf8);
-  transition: all 300ms ease;
+  background: var(--logo-gradient);
+  transition: var(--transition-base);
   transform: translateX(-50%);
-  border-radius: 1px;
+  border-radius: var(--radius-sm);
 }
 
 .navbar-item:hover::after {
@@ -245,23 +216,25 @@
   opacity: 1;
 }
 
-/* Focus visible improvements */
+/* Focus visible improvements using theme variables */
 .focus-ring {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
 .focus-ring:focus-visible {
-  outline: 2px solid #a78bfa;
+  outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
 }
 
-/* Back button styling */
+/* Back button styling using theme variables */
 .back-button {
-  color: var(--icon-color);
+  color: var(--icon-primary);
+  transition: var(--transition-fast);
 }
+
 .back-button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
 }
 
 /* Smooth animations for state changes */
