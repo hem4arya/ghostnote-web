@@ -4,7 +4,7 @@ import { Input } from '@shared/ui/components/input';
 import { Button } from '@shared/ui/components/button';
 import { Badge } from '@shared/ui/components/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/components/card';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '@lib/supabase';
 
 interface SearchResult {
   id: number;

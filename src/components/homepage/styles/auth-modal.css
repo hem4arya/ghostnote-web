@@ -1,0 +1,477 @@
+/**
+ * Auth Modal Styles - Theme System Integration
+ * Based on original globals.css with theme variables
+ */
+
+@import '../../../shared/config/theme.css';
+
+/* ========== AUTH MODAL ========== */
+.auth-modal-container {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.auth-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.auth-modal-wrapper {
+  position: relative;
+  z-index: var(--z-modal);
+  width: 100%;
+  max-width: 28rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.auth-modal {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--navbar-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--navbar-backdrop-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-modal-close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: var(--space-1-5);
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: none;
+  color: hsl(var(--muted-foreground));
+  transition: var(--transition-base);
+  z-index: 10;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .auth-modal-close {
+    top: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-2);
+  }
+}
+
+.auth-modal-close:hover {
+  background: var(--ghost-purple)/0.2;
+  color: hsl(var(--foreground));
+}
+
+.auth-modal-close-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .auth-modal-close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.auth-modal-header {
+  padding: var(--space-6) var(--space-8) var(--space-4);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .auth-modal-header {
+    padding: var(--space-8) var(--space-8) var(--space-6);
+  }
+}
+
+.auth-modal-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  background: var(--logo-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: var(--space-1);
+}
+
+@media (min-width: 640px) {
+  .auth-modal-title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-2);
+  }
+}
+
+.auth-modal-subtitle {
+  color: hsl(var(--muted-foreground));
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 640px) {
+  .auth-modal-subtitle {
+    font-size: var(--text-base);
+  }
+}
+
+/* Tabs */
+.auth-modal-tabs-container {
+  border-bottom: 1px solid var(--glass-border);
+  margin: 0 var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .auth-modal-tabs-container {
+    margin: 0 var(--space-8);
+  }
+}
+
+.auth-modal-tabs {
+  display: flex;
+  gap: var(--space-8);
+  justify-content: center;
+}
+
+.auth-modal-tab {
+  padding: var(--space-3) var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: hsl(var(--muted-foreground));
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition-base);
+  cursor: pointer;
+  position: relative;
+  margin-bottom: -1px;
+}
+
+@media (min-width: 640px) {
+  .auth-modal-tab {
+    font-size: var(--text-base);
+  }
+}
+
+.auth-modal-tab-active {
+  color: var(--ghost-neon);
+  border-bottom-color: var(--ghost-neon);
+}
+
+.auth-modal-tab:hover:not(.auth-modal-tab-active) {
+  color: hsl(var(--foreground));
+}
+
+/* Form */
+.auth-modal-form {
+  padding: var(--space-6) var(--space-6) var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .auth-modal-form {
+    padding: var(--space-8) var(--space-8) var(--space-8);
+  }
+}
+
+.auth-modal-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.auth-modal-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: hsl(var(--muted-foreground));
+  margin-bottom: var(--space-2);
+}
+
+.auth-modal-input-wrapper {
+  position: relative;
+}
+
+.auth-modal-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: hsl(var(--foreground));
+  font-size: var(--text-sm);
+  transition: var(--transition-base);
+}
+
+.auth-modal-input::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+.auth-modal-input:focus {
+  outline: none;
+  border-color: var(--ghost-purple);
+  box-shadow: 0 0 0 2px var(--ghost-purple)/0.2;
+}
+
+.auth-modal-input-icon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.auth-modal-password-toggle {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: hsl(var(--muted-foreground));
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-base);
+}
+
+.auth-modal-password-toggle:hover {
+  color: hsl(var(--foreground));
+  background: var(--glass-bg);
+}
+
+.auth-modal-password-toggle-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Social Login */
+.auth-modal-social-container {
+  margin-bottom: var(--space-6);
+}
+
+.auth-modal-social-divider {
+  display: flex;
+  align-items: center;
+  margin: var(--space-6) 0;
+  color: hsl(var(--muted-foreground));
+  font-size: var(--text-sm);
+}
+
+.auth-modal-social-divider::before,
+.auth-modal-social-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--glass-border);
+}
+
+.auth-modal-social-divider::before {
+  margin-right: var(--space-3);
+}
+
+.auth-modal-social-divider::after {
+  margin-left: var(--space-3);
+}
+
+.auth-modal-social-buttons {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.auth-modal-social-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: hsl(var(--muted-foreground));
+  transition: var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.auth-modal-social-btn:hover {
+  background: var(--glass-bg);
+  border-color: var(--ghost-purple);
+  color: var(--ghost-purple);
+  transform: translateY(-1px);
+}
+
+.auth-modal-social-btn-active {
+  background: var(--ghost-purple);
+  border-color: var(--ghost-purple);
+  color: white;
+}
+
+/* Submit Button */
+.auth-modal-submit {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, var(--ghost-purple), var(--ghost-neon));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+
+.auth-modal-submit:hover {
+  background: linear-gradient(135deg, var(--ghost-purple)/0.9, var(--ghost-neon)/0.9);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.auth-modal-submit:active {
+  transform: translateY(0);
+}
+
+/* Footer */
+.auth-modal-footer {
+  text-align: center;
+  padding-top: var(--space-4);
+  color: hsl(var(--muted-foreground));
+  font-size: var(--text-sm);
+}
+
+.auth-modal-link {
+  color: var(--ghost-purple);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: var(--transition-base);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.auth-modal-link:hover {
+  color: var(--ghost-neon);
+  text-decoration: underline;
+}
+
+/* Private Account Form */
+.auth-modal-private-form {
+  padding: var(--space-6) var(--space-6) var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .auth-modal-private-form {
+    padding: var(--space-8) var(--space-8) var(--space-8);
+  }
+}
+
+.auth-modal-private-field {
+  margin-bottom: var(--space-6);
+}
+
+.auth-modal-private-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: hsl(var(--foreground));
+  margin-bottom: var(--space-2);
+}
+
+.auth-modal-private-username {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.auth-modal-private-input {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: hsl(var(--foreground));
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+}
+
+.auth-modal-copy-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: hsl(var(--muted-foreground));
+  padding: var(--space-3);
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+
+.auth-modal-copy-btn:hover {
+  background: var(--ghost-purple);
+  border-color: var(--ghost-purple);
+  color: white;
+}
+
+.auth-modal-private-password-wrapper {
+  position: relative;
+}
+
+.auth-modal-private-password {
+  width: 100%;
+  padding: var(--space-3) var(--space-10) var(--space-3) var(--space-4);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: hsl(var(--foreground));
+  font-size: var(--text-sm);
+  transition: var(--transition-base);
+}
+
+.auth-modal-private-password:focus {
+  outline: none;
+  border-color: var(--ghost-purple);
+  box-shadow: 0 0 0 2px var(--ghost-purple)/0.2;
+}
+
+.auth-modal-info-box {
+  background: var(--ghost-purple)/0.1;
+  border: 1px solid var(--ghost-purple)/0.3;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.auth-modal-info-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--ghost-purple);
+  margin-bottom: var(--space-2);
+}
+
+.auth-modal-info-text {
+  font-size: var(--text-xs);
+  color: hsl(var(--muted-foreground));
+  line-height: 1.5;
+}
+
+/* Animations */
+@keyframes auth-modal-slide-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.auth-modal {
+  animation: auth-modal-slide-in 0.2s ease-out;
+}

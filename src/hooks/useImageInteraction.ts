@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { constrainImageToBounds, showModeNotification } from '../utils/imageUtils';
-import { injectImageStyles } from '../styles/imageStyles';
+import { constrainImageToBounds, showModeNotification } from '@/utils/imageUtils';
+import { injectImageStyles } from '@/styles/imageStyles';
 
 interface UseImageInteractionProps {
   editorRef: React.RefObject<HTMLDivElement | null>;

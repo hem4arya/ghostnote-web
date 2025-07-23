@@ -7,8 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/components/
 import { Separator } from '@shared/ui/components/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/components/select';
 import { Slider } from '@shared/ui/components/slider';
-import { useToast } from '../hooks/use-toast';
-import { supabase } from '../../lib/supabase';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@lib/supabase';
 
 interface SearchResult {
   id: number;

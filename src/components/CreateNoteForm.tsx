@@ -2,10 +2,10 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useFormatting } from "../hooks/useFormatting";
-import { useResponsive } from "../hooks/useResponsive";
-import { useImageState } from "../hooks/useImageState";
-import { useImageInteraction } from "../hooks/useImageInteraction";
+import { useFormatting } from "@/hooks/useFormatting";
+import { useResponsive } from "@/hooks/useResponsive";
+import { useImageState } from "@/hooks/useImageState";
+import { useImageInteraction } from "@/hooks/useImageInteraction";
 import { EditorHeader } from "./editor/EditorHeader";
 import { FormattingToolbar } from "./editor/FormattingToolbar";
 import { ImageToolbox } from "./editor/ImageToolbox";

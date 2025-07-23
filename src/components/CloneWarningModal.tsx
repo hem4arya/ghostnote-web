@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '@lib/supabase';
 import { Button } from '@shared/ui/components/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/components/card';
 import { Badge } from '@shared/ui/components/badge';

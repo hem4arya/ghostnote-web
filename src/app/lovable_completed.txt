@@ -1,75 +1,115 @@
-✅ COMPLETED: Part 2: Search Ranking Algorithm (Scoring & Weights)
-Goal: Decide what shows up first and why.
+Refine the prompt : You are an expert software engineer tasked with refactoring the homepage structure for improved modularity, maintainability, and isolation.
 
-STATUS: FULLY IMPLEMENTED ✅
+[ IMPORTANT : HAVE A LOOK AT THE CODEBASE BE YOURSELF THE PROMPT BELOW IS JUST FOR REFERENCE ACT Think like a long-term teammate—prioritize readability, scalability, and zero-friction AN  theming.]
 
-Implementation Summary:
+Review the files in app/BACKUP/ (from my old commit) to understand the original homepage implementation. Specifically analyze how these files:
 
-✅ Multi-factor scoring algorithm with weighted formula:
-   - Content Match: 35% (semantic + keyword matching)
-   - Popularity: 25% (purchases + views + ratings)
-   - Recency: 15% (time-based freshness boost)
-   - Creator Trust: 15% (verification + reputation)
-   - Personalization: 10% (user behavior patterns)
+Reference global.css:
 
-✅ Fallback system for low-quality results:
-   - Triggers when <3 results or top score <0.4
-   - Shows trending notes with clear labeling
-   - Maintains search context for refinement
+Map CSS naming conventions to HTML elements
 
-✅ Lightweight Supabase implementation:
-   - Edge Functions for ranking calculations
-   - Optimized SQL functions with proper indexing
-   - Vector embeddings for semantic search
-   - Analytics tables for tracking and improvement
+Identify color schemes (text/bg/hover states)
 
-✅ Adaptive scoring system:
-   - Real-time updates for views/purchases/ratings
-   - Scheduled batch updates for trending/trust scores
-   - Decay mechanisms to prevent stale content dominance
-   - Seasonal adjustments for topic relevance
+Extract animation logic and timing
 
-✅ Storage & Update Strategy:
-   - Extended notes table with ranking columns
-   - User interactions table for personalization
-   - Search analytics for performance tracking
-   - Background processing for heavy calculations
+Note background treatments (gradients/images)
 
-Files: 
-- supabase/functions/advanced-search/index.ts
-- supabase/migrations/20250710130000_advanced_ranking.sql
-- src/components/AdvancedSmartSearch.tsx
-- INTELLIGENT_SEARCH.md (full documentation)
+Replicate in Current Site:
 
-Original Requirements:
-"Design a search ranking algorithm for GhostNote's marketplace:
+Implement identical styling patterns for:
 
-Each note can be ranked based on multiple factors:
+Color system (primary/secondary/hover values)
 
-Title/content match with user query
+Interactive states (button/link hover effects)
 
-Tag/category match
+Animation behaviors (transitions/transforms)
 
-Purchase count (popularity)
+Responsive design approach
 
-View count
+Maintain CSS class naming consistency where possible
 
-Recency (freshness)
+Ensure visual parity with backup homepage components
 
-Creator trust level (verified, high-rated)
+Key Requirements:
 
-User's past behavior (if logged in)
+Prioritize global.css relationships from backup files
 
-Requirements:
+Preserve original aesthetic (verified via backup rendering)
 
-Output a clear scoring function or pseudo-algorithm that weighs each factor (e.g., 30% content match, 20% popularity...)
+Document any naming convention changes needed for integration
 
-Optional: Create a fallback system if scores are too low (suggest random trending notes)
+Target homepage components exclusively"
 
-Keep the system lightweight enough to run on Supabase or an external API
 
-Also suggest:
 
-How to store/update score values in Supabase
 
-How to make scores adaptive over time (e.g., view decay, rising stars)"
+Your current task is to reorganize all the homepage-related logic, design, components, and utilities into a new, self-contained folder, while leaving only the main `page.tsx` at the root (e.g., `app/page.tsx`) to serve as the entry point.
+
+---
+
+### Current Homepage Files
+
+**Main Entry File:**
+- `page.tsx` – Defines the homepage structure and logic.
+
+**Design & Components:**
+- `Hero.tsx` – Hero section at the top.
+- `NoteCard.tsx` – Represents individual cards displayed on homepage.
+- `Footer.tsx` – Footer component.
+
+**Modal & Auth Logic:**
+- `AuthModal.tsx` – Authentication modal UI and logic.
+
+**Data:**
+- `sampleNotes.ts` – Demo data for the homepage.
+
+---
+
+Use and include our Theme-System for this, strucutre the files of this folder in a way to use our Theme-System
+Restrucutre just like we restrured the Navbar have a look at the Navbar folder for an example of how to structure your components. 
+### New Folder Structure to be Created:
+
+Create a new directory:  
+`src/components/homepage/`  
+
+Inside this folder, organize the files as follows:
+
+#### `src/components/homepage/sections/`
+- Move `Hero.tsx`, `Footer.tsx`, and `NoteCard.tsx` here.
+
+#### `src/components/homepage/modals/`
+- Move `AuthModal.tsx` here.
+
+#### `src/components/homepage/data/`
+- Move `sampleNotes.ts` here.
+
+#### `src/components/homepage/styles/`
+- Extract all homepage-specific styles from `globals.css` and place them in `homepage.module.css` and optionally a `homepage-global.css` here.
+
+#### `src/components/homepage/types/` _(if any types are defined inline)_
+- Extract homepage-specific TypeScript types into `types.ts`.
+
+#### `src/components/homepage/index.ts`
+- Export all relevant subcomponents and utilities from this index file for clean external import. For example:
+
+```ts
+export * from './sections/Hero';
+export * from './sections/Footer';
+export * from './sections/NoteCard';
+export * from './modals/AuthModal';
+export * from './data/sampleNotes';
+export * from './types';
+Final Integration:
+app/page.tsx should now import everything cleanly from src/components/homepage.
+
+Additional Instructions:
+Ensure all imports inside page.tsx are updated to reflect the new structure.
+
+
+
+Solve all existing lint, type, and runtime errors.
+
+Run all ESLint, TypeScript, and build checks. Address and resolve any additional errors or inconsistencies discovered during this process.
+
+Remove the BACKUP FOLDER and files inside the folder.
+

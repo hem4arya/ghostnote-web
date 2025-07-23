@@ -6,7 +6,7 @@ import { Button } from '@shared/ui/components/button';
 import { Input } from '@shared/ui/components/input';
 import { Card } from '@shared/ui/components/card';
 import { Badge } from '@shared/ui/components/badge';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '@lib/supabase';
 import Link from 'next/link';
 import { Note } from '@/components/NoteCard';
 
