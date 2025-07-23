@@ -1,41 +1,36 @@
 'use client';
 
-import { User, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import { Plus } from 'lucide-react';
 
 interface NavigationButtonsProps {
   isAuthenticated?: boolean;
-  onLoginClick?: () => void;
   onSignUpClick?: () => void;
-  showCreateButton?: boolean;
 }
 
 export const NavigationButtons = ({
   isAuthenticated = false,
-  onLoginClick,
   onSignUpClick,
-  showCreateButton = true
 }: NavigationButtonsProps) => {
   if (isAuthenticated) {
     return (
-      <div className="hidden md:flex items-center gap-3">
-        {showCreateButton && (
-          <Link href="/create">
-            <Button
-              variant="ghost"
-              className="text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium px-4 flex items-center gap-2 rounded-lg backdrop-blur-md"
-            >
-              Create Note
-            </Button>
-          </Link>
-        )}
+      <div className="hidden md:flex items-center gap-2">
+        <Link href="/create">
+          <Button
+            variant="ghost"
+            className="navbar-item flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Create</span>
+          </Button>
+        </Link>
         <Link href="/dashboard">
           <Button
             variant="ghost"
-            className="text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium px-4 flex items-center gap-2 rounded-lg backdrop-blur-md"
+            className="navbar-item"
           >
-            My Notes
+            Dashboard
           </Button>
         </Link>
       </div>
@@ -43,22 +38,11 @@ export const NavigationButtons = ({
   }
 
   return (
-    <div className="hidden md:flex items-center gap-3">
-      {/* Auth Buttons */}
-      <Button
-        onClick={onLoginClick}
-        variant="ghost"
-        className="text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 flex items-center gap-2 rounded-lg backdrop-blur-md"
-      >
-        <LogIn className="h-4 w-4" />
-        Sign In
-      </Button>
-
+    <div className="hidden md:flex items-center">
       <Button
         onClick={onSignUpClick}
-        className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium px-6 flex items-center gap-2 shadow-md rounded-lg transition-all duration-200"
+        className="get-started-btn"
       >
-        <User className="h-4 w-4" />
         Get Started
       </Button>
     </div>

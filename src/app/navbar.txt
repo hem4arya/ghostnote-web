@@ -1,0 +1,27 @@
+Objective: Enhance the navbar of the GhostNote website to improve its appearance, functionality, and consistency with the website's theme, ensuring a polished and professional user experience.
+
+Tasks:
+
+Update Navbar Background:
+Implement a 90% transparent, blackish glassmorphism effect (using blur) for the navbar background across all website sections.
+Replace the current behavior where the navbar switches to a solid black background after scrolling past the hero section with the same 90% transparent, blurred blackish glassmorphism effect for consistency.
+Enhance Search Bar:
+Slightly increase the search bar's size, ensuring it stays within the navbar's boundaries when hovered or focused.
+Set the text color inside the search bar to white when the user types.
+On mobile devices, modify the search bar behavior to prevent it from expanding to full page when the search icon is clicked. Ensure its styling matches the website's theme.
+Improve Mobile Icon Visibility:
+Adjust the search and profile icons on mobile devices to use a white color for better visibility.
+Ensure the icons' styling aligns seamlessly with the website's theme for a cohesive look.
+Update GhostNote Logo:
+Redesign the GhostNote logo to match the website's theme, specifically mirroring the design and color of the "DashBoard" text.
+Apply the Ethnocentric font (located in the navbar folder) for the logo text.
+Refine Sign-In/Login Form:
+Change the input boxes' background color in the sign-in/login form from white to a slightly greyish tone that complements the website's theme (refer to the form's CSS file for context).
+Add a subtle hover and click effect (e.g., slight scale, shadow, or color change) to the Google, Mobile, and PrivateAccount buttons to improve interactivity while aligning with the website's aesthetic.
+Enhance Back Button Navigation:
+Ensure the back button in the navbar, when visible on different routes, navigates the user to the previous page they visited.
+Requirements:
+
+All changes must align with the GhostNote website's overall theme for a cohesive and professional appearance.
+Maintain responsiveness and compatibility across desktop and mobile devices.
+Use the Ethnocentric font file from the navbar folder for the logo.

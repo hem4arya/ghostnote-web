@@ -124,8 +124,6 @@ export function NavbarDemo() {
             <MobileMenu
               isAuthenticated={isAuthenticated}
               onLoginClick={handleLogin}
-              onSignUpClick={handleSignUp}
-              onSearchClick={() => setSearchOpen(true)}
             />
           </div>
         </section>
@@ -149,7 +147,6 @@ export function NavbarDemo() {
           <div className="flex justify-center">
             <NavigationButtons
               isAuthenticated={isAuthenticated}
-              onLoginClick={handleLogin}
               onSignUpClick={handleSignUp}
               showCreateButton={true}
             />

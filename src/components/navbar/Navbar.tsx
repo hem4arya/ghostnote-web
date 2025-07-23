@@ -1,16 +1,15 @@
 'use client';
 
-import { Search, ChevronLeft, Plus } from "lucide-react";
+import { Search, ChevronLeft, } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { useNavbar } from './hooks/useNavbar';
 import { NavbarProps } from './types';
-import { MobileMenu } from './components/MobileMenu';
 import { UserDropdown } from './components/UserDropdown';
-import { NavbarSearch } from './components/NavbarSearch';
 import { NavigationButtons } from './components/NavigationButtons';
-import { shouldShowAuthFeatures } from './utils';
+import { MobileMenu } from './components/MobileMenu';
+import './styles/navbar.css';
 
 const Navbar = ({ 
   onLoginClick, 
@@ -19,37 +18,49 @@ const Navbar = ({
   isAuthenticated = false
 }: NavbarProps) => {
   const {
-    searchState,
     isHomepage,
-    isDashboardPage,
     searchPlaceholder,
     handleBack,
-    openSearch,
-    closeSearch,
     navigateToSearch,
     handleAuth
   } = useNavbar(onLoginClick, onSignUpClick);
 
-  // For now, we'll use a simple check since window might not be available
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
-  const showAuthFeatures = shouldShowAuthFeatures(isAuthenticated, pathname);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobileSearchActive, setIsMobileSearchActive] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Handle scroll behavior for navbar visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsVisible(lastScrollY > currentScrollY || currentScrollY < 10);
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  // Toggle mobile search
+  const toggleMobileSearch = () => setIsMobileSearchActive(prev => !prev);
+
+  const handleMobileSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigateToSearch(searchQuery);
+      setIsMobileSearchActive(false);
+    }
+  };
 
   return (
     <>
-      <nav className="navbar-container z-50 w-full">
-        <div className="mx-auto flex h-16 sm:h-16 items-center justify-between px-6 sm:px-8 gap-4 max-w-7xl">
-          {/* Logo or Back Button based on current page */}
-          <div className={`flex items-center transition-all duration-300 ${searchState.isOpen ? 'md:flex w-0 md:w-auto opacity-0 md:opacity-100' : 'w-auto opacity-100'}`}>
+      <header className={`navbar-container ${isVisible ? 'navbar-visible' : 'navbar-hidden'}`}>
+        <div className="mx-auto flex h-16 items-center justify-between px-6 sm:px-8 gap-4 max-w-7xl">
+          {/* Logo or Back Button */}
+          <div className="flex items-center">
             {isHomepage ? (
               <Link href="/" className="flex items-center gap-2 group">
-                <Image 
-                  src="/logo.svg" 
-                  alt="GhostNote Logo" 
-                  width={28} 
-                  height={28} 
-                  className="h-7 w-7 logo-hover-scale"
-                />
-                <h1 className="text-2xl font-bold gradient-text">
+                <h1 className="logo-text">
                   GhostNote
                 </h1>
               </Link>
@@ -57,7 +68,7 @@ const Navbar = ({
               <Button 
                 onClick={handleBack}
                 variant="ghost" 
-                className="navbar-item flex items-center text-gray-700 hover:text-gray-900 gap-1 px-2"
+                className="back-button flex items-center gap-1 px-2"
               >
                 <ChevronLeft className="h-5 w-5" />
                 <span className="font-medium">Back</span>
@@ -65,95 +76,74 @@ const Navbar = ({
             )}
           </div>
 
-          {/* Search Section */}
-          <div className="flex-1 max-w-md mx-4 relative">
-            {!searchState.isOpen && (
-              <div className="hidden md:block">
-                <Button
-                  onClick={openSearch}
-                  variant="ghost"
-                  className="navbar-search-button w-full justify-start text-gray-600 hover:text-gray-800 px-4 py-2"
-                >
-                  <Search className="h-4 w-4 mr-2" />
-                  <span className="truncate">{searchPlaceholder}</span>
-                </Button>
-              </div>
-            )}
+          {/* Desktop Search */}
+          <div className="hidden md:flex flex-1 max-w-md mx-4 justify-center">
+            <div className="relative w-full search-container">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder={searchPlaceholder}
+                className="navbar-search-input"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const target = e.target as HTMLInputElement;
+                    if (target.value.trim()) {
+                      navigateToSearch(target.value.trim());
+                    }
+                  }
+                }}
+              />
+            </div>
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center gap-2">
-            {/* Desktop Navigation */}
-            {!searchState.isOpen && (
-              <>
-                {showAuthFeatures ? (
-                  <div className="hidden md:flex items-center gap-3">
-                    {/* Create Note Button */}
-                    {(isDashboardPage || isHomepage) && (
-                      <Link href="/create">
-                        <Button
-                          variant="ghost"
-                          className="navbar-item text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 flex items-center gap-2"
-                        >
-                          <Plus className="h-4 w-4" />
-                          <span className="hidden lg:inline">Create</span>
-                        </Button>
-                      </Link>
-                    )}
+          <div className="flex items-center gap-3">
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center gap-3">
+              <NavigationButtons 
+                isAuthenticated={isAuthenticated}
+                onSignUpClick={() => handleAuth('signup')}
+              />
+              {isAuthenticated && <UserDropdown user={user} onSignOut={() => console.log('sign out')} />}
+            </div>
 
-                    {/* User Dropdown */}
-                    <UserDropdown 
-                      user={user} 
-                      onSignOut={() => {
-                        // Handle sign out logic
-                        console.log('Sign out');
-                      }} 
-                    />
-                  </div>
-                ) : (
-                  <NavigationButtons
-                    isAuthenticated={isAuthenticated}
-                    onLoginClick={() => handleAuth('login')}
-                    onSignUpClick={() => handleAuth('signup')}
-                    showCreateButton={false}
-                  />
-                )}
-              </>
-            )}
-
-            {/* Mobile Search Button */}
-            <Button
-              onClick={openSearch}
-              variant="ghost"
-              size="sm"
-              className="md:hidden text-gray-700 hover:text-gray-900"
-              aria-label="Search"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-
-            {/* Mobile Menu */}
-            <MobileMenu
-              isAuthenticated={isAuthenticated}
-              onLoginClick={() => handleAuth('login')}
-              onSignUpClick={() => handleAuth('signup')}
-              onSearchClick={openSearch}
-            />
+            {/* Mobile Actions */}
+            <div className="flex md:hidden items-center gap-2">
+              <Button
+                onClick={toggleMobileSearch}
+                variant="ghost"
+                size="icon"
+                className="mobile-icon"
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+              <MobileMenu 
+                isAuthenticated={isAuthenticated}
+                onLoginClick={() => handleAuth('login')}
+              />
+               {isAuthenticated && <UserDropdown user={user} onSignOut={() => console.log('sign out')} />}
+            </div>
           </div>
         </div>
-      </nav>
-
-      {/* Search Overlay */}
-      <NavbarSearch
-        isOpen={searchState.isOpen}
-        onClose={closeSearch}
-        onSearch={(query) => {
-          navigateToSearch(query);
-        }}
-        placeholder={searchPlaceholder}
-        suggestions={[]} // TODO: Connect to actual search suggestions
-        recentSearches={user?.preferences?.searchHistory || []}
-      />
+        
+        {/* Mobile Search Dropdown */}
+        {isMobileSearchActive && (
+          <div className="mobile-search-overlay md:hidden">
+            <form onSubmit={handleMobileSearch} className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search notes..."
+                className="mobile-search-input"
+                autoFocus
+              />
+            </form>
+          </div>
+        )}
+      </header>
     </>
   );
 };
