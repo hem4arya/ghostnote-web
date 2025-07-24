@@ -1,3 +1,3 @@
-// Re-export sampleNotes from the new homepage structure for backward compatibility
-export { sampleNotes } from '@/components/homepage/data';
-export type { Note } from '@/components/homepage/types';
+// Re-export sampleNotes from the new modular structure for backward compatibility
+export { sampleNotes, categories } from '@/components/note-card';
+export type { Note, NoteCardProps } from '@/components/note-card';

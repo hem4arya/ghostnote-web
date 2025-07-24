@@ -3,7 +3,7 @@
  * Combines original globals.css styles with centralized theme variables
  */
 
-@import '../../../shared/config/theme.css';
+@import '../../theme/theme.css';
 
 /* ========== HOMEPAGE CONTAINER ========== */
 .homepage-container {

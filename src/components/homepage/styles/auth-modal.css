@@ -3,7 +3,7 @@
  * Based on original globals.css with theme variables
  */
 
-@import '../../../shared/config/theme.css';
+@import '../../theme/theme.css';
 
 /* ========== AUTH MODAL ========== */
 .auth-modal-container {
@@ -172,6 +172,9 @@
 /* Form */
 .auth-modal-form {
   padding: var(--space-6) var(--space-6) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 @media (min-width: 640px) {
@@ -180,20 +183,10 @@
   }
 }
 
-.auth-modal-form-group {
-  margin-bottom: var(--space-4);
-}
-
-.auth-modal-label {
-  display: block;
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: hsl(var(--muted-foreground));
-  margin-bottom: var(--space-2);
-}
-
 .auth-modal-input-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .auth-modal-input {

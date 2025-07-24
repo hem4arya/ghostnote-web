@@ -10,7 +10,6 @@ export { default } from './Homepage';
 // Sections
 export { Hero } from './sections/Hero';
 export { NoteCard } from './sections/NoteCard';
-export { Footer } from './sections/Footer';
 
 // Modals
 export { AuthModal } from './modals/AuthModal';

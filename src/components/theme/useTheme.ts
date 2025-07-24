@@ -1,6 +1,7 @@
 /**
  * Theme System Hook - Manages dark/light mode switching
  * Provides centralized theme state management for the application
+ * Enhanced with system preference detection and improved localStorage handling
  */
 
 'use client';
@@ -38,19 +39,27 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 }) => {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
 
-  // Load theme from localStorage on mount
+  // Load theme from localStorage or system preference on mount
   useEffect(() => {
+    // Check localStorage first
     const savedTheme = localStorage.getItem('ghostnote-theme') as Theme;
     if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
       setThemeState(savedTheme);
+      return;
+    }
+
+    // Fall back to system preference if no saved theme
+    if (typeof window !== 'undefined') {
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setThemeState(systemPrefersDark ? 'dark' : 'light');
     }
   }, []);
 
-  // Apply theme to document root
+  // Apply theme to document root and avoid page reflows
   useEffect(() => {
     const root = document.documentElement;
     
-    // Remove existing theme classes
+    // Remove existing theme classes immediately to avoid flash
     root.removeAttribute('data-theme');
     
     // Apply new theme

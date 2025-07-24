@@ -1,3 +1,3 @@
-// Re-export NoteCard from the new homepage structure for backward compatibility
-export { NoteCard as default } from '@/components/homepage/sections/NoteCard';
-export type { Note } from '@/components/homepage/types';
+// Re-export NoteCard from the new modular structure for backward compatibility
+export { NoteCard as default, sampleNotes } from '@/components/note-card';
+export type { Note, NoteCardProps } from '@/components/note-card';

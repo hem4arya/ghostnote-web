@@ -6,16 +6,14 @@ import Link from "next/link";
 import { useState, useEffect } from 'react';
 import { useNavbar } from './hooks/useNavbar';
 import { NavbarProps } from './types';
-import { UserDropdown } from './components/UserDropdown';
 import { NavigationButtons } from './components/NavigationButtons';
 import { MobileMenu } from './components/MobileMenu';
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggle } from '@/components/theme';
 import './styles/navbar.css';
 
 const Navbar = ({ 
   onLoginClick, 
   onSignUpClick, 
-  user, 
   isAuthenticated = false
 }: NavbarProps) => {
   const {
@@ -62,7 +60,7 @@ const Navbar = ({
             {isHomepage ? (
               <Link href="/" className="flex items-center gap-2 group">
                 <h1 className="logo-text">
-                  GhostNote
+                  GN
                 </h1>
               </Link>
             ) : (
@@ -106,7 +104,6 @@ const Navbar = ({
                 isAuthenticated={isAuthenticated}
                 onSignUpClick={() => handleAuth('signup')}
               />
-              {isAuthenticated && <UserDropdown user={user} onSignOut={() => console.log('sign out')} />}
             </div>
 
             {/* Mobile Actions */}
@@ -125,7 +122,6 @@ const Navbar = ({
                 isAuthenticated={isAuthenticated}
                 onLoginClick={() => handleAuth('login')}
               />
-               {isAuthenticated && <UserDropdown user={user} onSignOut={() => console.log('sign out')} />}
             </div>
           </div>
         </div>

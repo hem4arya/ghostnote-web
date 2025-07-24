@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: 'Ethnocentric';
-  src: url('../../components/navbar/Ethnocentric Rg.otf') format('opentype');
+  src: url('../navbar/Ethnocentric Rg.otf') format('opentype');
 }
 
 /* Dark Theme (Default) */

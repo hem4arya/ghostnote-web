@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Button } from '@shared/ui/components/button';
-import { categories } from '@/components/homepage/data';
+import { categories } from '@/components/note-card';
 import type { CategoryFilterProps } from '@/components/homepage/types';
 
 interface HeroProps extends Partial<CategoryFilterProps> {
@@ -30,13 +30,8 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="hero-container">
         {/* Main Heading */}
         <h1 className="hero-title">
-          Discover Premium Notes
+          A structured arena for chaos—a black market of the mind.
         </h1>
-        
-        {/* Subtitle */}
-        <p className="hero-subtitle">
-          A curated marketplace for high-quality notes, guides, and resources from top experts in every field.
-        </p>
         
         {/* Category Filters */}
         <div className="hero-categories">
