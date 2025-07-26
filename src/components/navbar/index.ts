@@ -3,17 +3,17 @@ export { default as Navbar } from './Navbar';
 export { default } from './Navbar';
 
 // Components
-export { MobileMenu, UserDropdown, NavbarSearch, NavigationButtons } from './components';
+export { MobileMenu, UserDropdown, NavbarSearch, NavigationButtons, AuthButton, PrivateAccountSetup } from './components';
 
 // Hooks
 export { useNavbar } from './hooks/useNavbar';
+export { useAuth } from './hooks/useAuth';
 
 // Types
 export type { 
   NavbarProps, 
   SearchState, 
   AuthMode, 
-  AuthModalEvent,
   User,
   UserPreferences,
   NavbarVariant,

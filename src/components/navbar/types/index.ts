@@ -13,12 +13,6 @@ export interface SearchState {
 
 export type AuthMode = 'login' | 'signup';
 
-export interface AuthModalEvent extends CustomEvent {
-  detail: {
-    mode: AuthMode;
-  };
-}
-
 export interface User {
   id: string;
   name?: string;

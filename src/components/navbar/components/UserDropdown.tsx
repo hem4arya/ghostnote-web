@@ -125,6 +125,10 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
 
           {/* Menu Items */}
           <div className="py-2">
+            <div className="px-4 py-2 border-b border-gray-200">
+              <p className="text-sm font-medium text-gray-900 truncate">{user.name || 'User'}</p>
+              <p className="text-xs text-gray-500 truncate">{user.email}</p>
+            </div>
             {menuItems.map((item) => (
               <Link
                 key={item.href}
@@ -140,11 +144,11 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
             {/* Premium Upgrade (if not premium) */}
             {!user.isPremium && (
               <>
-                <div className="border-t border-white/10 my-2" />
+                <div className="border-t border-gray-200 my-2" />
                 <Link
                   href="/premium"
                   onClick={closeDropdown}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10 transition-all duration-200 rounded-md"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-yellow-600 hover:text-yellow-700 hover:bg-yellow-100/50 transition-all duration-200 rounded-md"
                 >
                   <Crown className="h-4 w-4" />
                   Upgrade to Premium
@@ -153,13 +157,13 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
             )}
 
             {/* Sign Out */}
-            <div className="border-t border-white/10 my-2" />
+            <div className="border-t border-gray-200 my-2" />
             <button
               onClick={() => {
                 onSignOut?.();
                 closeDropdown();
               }}
-              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200 rounded-md"
+              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-red-600 hover:text-red-700 hover:bg-red-100/50 transition-all duration-200 rounded-md"
             >
               <LogOut className="h-4 w-4" />
               Sign Out

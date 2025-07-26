@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, ChevronLeft, } from "lucide-react";
+import { Search, ChevronLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
@@ -9,7 +9,11 @@ import { NavbarProps } from './types';
 import { NavigationButtons } from './components/NavigationButtons';
 import { MobileMenu } from './components/MobileMenu';
 import { ThemeToggle } from '@/components/theme';
+import { AuthButton } from './components/AuthButton';
+import { useAuth } from './hooks/useAuth';
 import './styles/navbar.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = ({ 
   onLoginClick, 
@@ -23,6 +27,11 @@ const Navbar = ({
     navigateToSearch,
     handleAuth
   } = useNavbar(onLoginClick, onSignUpClick);
+
+  const { isAuthenticated: authIsAuthenticated } = useAuth();
+
+  // Use the actual authentication state from useAuth
+  const actuallyAuthenticated = authIsAuthenticated || isAuthenticated;
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -101,7 +110,7 @@ const Navbar = ({
             <div className="hidden md:flex items-center gap-3">
               <ThemeToggle />
               <NavigationButtons 
-                isAuthenticated={isAuthenticated}
+                isAuthenticated={actuallyAuthenticated}
                 onSignUpClick={() => handleAuth('signup')}
               />
             </div>
@@ -119,9 +128,14 @@ const Navbar = ({
                 <Search className="h-5 w-5" />
               </Button>
               <MobileMenu 
-                isAuthenticated={isAuthenticated}
+                isAuthenticated={actuallyAuthenticated}
                 onLoginClick={() => handleAuth('login')}
               />
+            </div>
+
+            {/* Auth Button */}
+            <div className="hidden md:flex items-center gap-3">
+              <AuthButton />
             </div>
           </div>
         </div>
@@ -143,6 +157,7 @@ const Navbar = ({
           </div>
         )}
       </header>
+      <ToastContainer />
     </>
   );
 };

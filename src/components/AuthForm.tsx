@@ -3,7 +3,7 @@ import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@shared/ui/components/dialog';
 import { useState } from 'react';
-import PrivateAccountSetup from './PrivateAccountSetup';
+import PrivateAccountSetup from './navbar/components/PrivateAccountSetup';
 
 interface AuthModalProps {
   open: boolean;
