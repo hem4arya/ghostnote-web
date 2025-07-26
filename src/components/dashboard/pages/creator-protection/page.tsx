@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CreatorCloneDashboard } from '@/components/CreatorCloneDashboard';
+import { CreatorCloneDashboard } from '@/components/dashboard/components/CreatorCloneDashboard';
 import { CloneAlerts } from '@/components/CloneAlerts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/components/card';
-import { Button } from '@shared/ui/components/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/components/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/shared/ui/components/card';
+import { Button } from '@/components/shared/ui/components/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shared/ui/components/tabs';
 import { Shield, AlertTriangle, BarChart3, Settings } from 'lucide-react';
 
 export default function CreatorDashboardPage() {

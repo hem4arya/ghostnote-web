@@ -4,12 +4,14 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useFormatting } from "@/hooks/useFormatting";
 import { useResponsive } from "@/hooks/useResponsive";
+import { useHelpModal } from "@/hooks/useHelpModal";
 import { useImageState } from "@/hooks/useImageState";
 import { useImageInteraction } from "@/hooks/useImageInteraction";
-import { EditorHeader } from "./editor/EditorHeader";
-import { FormattingToolbar } from "./editor/FormattingToolbar";
-import { ImageToolbox } from "./editor/ImageToolbox";
-import { WordCountWidget } from "./editor/WordCountWidget";
+import { EditorHeader } from "@/components/editor/EditorHeader";
+import { FormattingToolbar } from "@/components/editor/FormattingToolbar";
+import { ImageToolbox } from "@/components/editor/ImageToolbox";
+import { WordCountWidget } from "@/components/editor/WordCountWidget";
+import { HelpModal } from "@/components/editor/HelpModal";
 
 const CreateNoteForm = () => {
   const router = useRouter();
@@ -25,6 +27,7 @@ const CreateNoteForm = () => {
   // Custom hooks
   const { activeFormats, executeCommand, checkFormatting } = useFormatting();
   const { isMobile } = useResponsive();
+  const { hasSeenHelp, showResizeHelp, manualHelp, openHelpModal, closeHelpModal } = useHelpModal();
   const {
     selectedImage,
     setSelectedImage,
@@ -48,9 +51,9 @@ const CreateNoteForm = () => {
     imageOpacity,
     setImageOpacity,
     isMobile,
-    showResizeHelp: false,
-    setShowResizeHelp: () => {},
-    hasSeenHelp: true
+    showResizeHelp,
+    setShowResizeHelp: (show: boolean) => show ? openHelpModal() : closeHelpModal(),
+    hasSeenHelp
   });
 
   const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
@@ -93,7 +96,7 @@ const CreateNoteForm = () => {
             setImageOpacity={setImageOpacity}
             activeMode={activeMode}
             setActiveMode={setActiveMode}
-            onHelpClick={() => {}}
+            onHelpClick={openHelpModal}
           />
         </EditorHeader>
       )}
@@ -153,6 +156,14 @@ const CreateNoteForm = () => {
             )}
           </svg>
         </button>
+
+        <HelpModal
+          showResizeHelp={showResizeHelp}
+          hasSeenHelp={hasSeenHelp}
+          manualHelp={manualHelp}
+          isMobile={isMobile}
+          onClose={closeHelpModal}
+        />
       </div>
     </div>
   );

@@ -1,19 +1,11 @@
-import DashboardHeader from '@/components/DashboardHeader';
-import DashboardTabs from '@/components/DashboardTabs';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/Footer';
+import DashboardPage from '@/components/dashboard/pages/DashboardPage';
 
-const DashboardPage = () => {
-  return (
-    <div className="bg-gradient-to-br from-ghost-black via-ghost-dark to-ghost-black text-white min-h-screen">
-      <Navbar />
-      <DashboardHeader />
-      <main className="p-4 sm:p-6 md:p-8">
-        <DashboardTabs />
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
-export default DashboardPage;
+/**
+ * The new entry point for the refactored dashboard.
+ * This page simply renders the main DashboardPage component from the features directory.
+ *
+ * @returns {JSX.Element} The rendered dashboard page.
+ */
+export default function Page() {
+  return <DashboardPage />;
+}

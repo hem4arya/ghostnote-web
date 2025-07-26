@@ -3,17 +3,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
-import { Card } from '@shared/ui/components/card';
-import { Badge } from '@shared/ui/components/badge';
-import { Button } from '@shared/ui/components/button';
+import { Card } from '@/components/shared/ui/components/card';
+import { Badge } from '@/components/shared/ui/components/badge';
+import { Button } from '@/components/shared/ui/components/button';
 import { Heart, TrendingUp, Sparkles, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import { Note } from '@/components/NoteCard';
-
-interface RecommendationResult extends Note {
-  score?: number;
-  source: 'behavioral' | 'collaborative' | 'popular';
-}
+import { Note, RecommendationResult } from '../types';
 
 interface PersonalizedRecommendationsProps {
   className?: string;
@@ -134,14 +129,14 @@ const PersonalizedRecommendations = ({
 
   if (!user) {
     return (
-      <Card className={`p-6 bg-ghost-dark/50 border-ghost-purple/30 ${className}`}>
+      <Card className={`p-6 bg-background-secondary border-border ${className}`}>
         <div className="text-center">
-          <Sparkles className="h-12 w-12 text-ghost-neon mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-white mb-2">Get Personalized Recommendations</h3>
-          <p className="text-gray-400 mb-4">
+          <Sparkles className="h-12 w-12 text-accent mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-foreground mb-2">Get Personalized Recommendations</h3>
+          <p className="text-muted-foreground mb-4">
             Sign in to see notes tailored just for you based on your reading history and preferences.
           </p>
-          <Button className="bg-ghost-neon hover:bg-ghost-neon/90 text-black">
+          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
             Sign In
           </Button>
         </div>
@@ -150,16 +145,16 @@ const PersonalizedRecommendations = ({
   }
 
   return (
-    <Card className={`p-6 bg-ghost-dark/50 border-ghost-purple/30 ${className}`}>
+    <Card className={`p-6 bg-background-secondary border-border ${className}`}>
       {showHeader && (
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-semibold text-white">Recommended for You</h3>
+          <h3 className="text-xl font-semibold text-foreground">Recommended for You</h3>
           <Button
             variant="ghost"
             size="sm"
             onClick={loadRecommendations}
             disabled={isLoading}
-            className="text-ghost-neon hover:bg-ghost-purple/20"
+            className="text-accent hover:bg-accent/20"
           >
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
           </Button>
@@ -187,7 +182,7 @@ const PersonalizedRecommendations = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: limit }).map((_, i) => (
             <div key={i} className="animate-pulse">
-              <div className="bg-ghost-gray/20 h-32 rounded-lg"></div>
+              <div className="bg-background-tertiary h-32 rounded-lg"></div>
             </div>
           ))}
         </div>
@@ -197,33 +192,33 @@ const PersonalizedRecommendations = ({
             <Link
               key={note.id}
               href={`/notes/${note.id}`}
-              className="block p-4 bg-ghost-gray/20 hover:bg-ghost-purple/20 rounded-lg transition-colors group"
+              className="block p-4 bg-background-tertiary hover:bg-accent/20 rounded-lg transition-colors group"
             >
               <div className="flex items-start justify-between mb-2">
-                <h4 className="font-medium text-white group-hover:text-ghost-neon transition-colors line-clamp-2 flex-1">
+                <h4 className="font-medium text-foreground group-hover:text-accent transition-colors line-clamp-2 flex-1">
                   {note.title}
                 </h4>
                 {note.score && (
-                  <Badge variant="outline" className="text-xs border-green-300/30 text-green-300 ml-2">
+                  <Badge variant="outline" className="text-xs border-green-500/30 text-green-500 ml-2">
                     {note.score.toFixed(1)}
                   </Badge>
                 )}
               </div>
-              <p className="text-sm text-gray-400 line-clamp-2 mb-3">
+              <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
                 {note.previewText}
               </p>
               <div className="flex items-center justify-between">
                 <Badge variant="secondary" className="text-xs">
                   {note.category}
                 </Badge>
-                <span className="text-sm font-medium text-ghost-neon">${note.price}</span>
+                <span className="text-sm font-medium text-accent">${note.price}</span>
               </div>
             </Link>
           ))}
         </div>
       ) : (
         <div className="text-center py-8">
-          <div className="text-gray-400 mb-2">No recommendations available yet</div>
+          <div className="text-muted-foreground mb-2">No recommendations available yet</div>
           <div className="text-sm text-gray-500">
             Start exploring notes to get personalized recommendations!
           </div>

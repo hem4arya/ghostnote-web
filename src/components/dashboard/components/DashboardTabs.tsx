@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import NoteCard from './NoteCard';
+import NoteCard from '@/components/note-card/NoteCard';
 import { sampleNotes } from '@/data/sampleNotes';
 import QuickStats from './QuickStats';
-import Alerts from './Alerts';
-import { Note } from './NoteCard';
+import Alerts from '@/components/Alerts';
+import { Note } from '@/components/note-card/NoteCard.types';
 
 const DashboardTabs = () => {
   const [activeTab, setActiveTab] = useState('private');
@@ -13,13 +13,13 @@ const DashboardTabs = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'private':
-        return <NoteGrid title="My Private Notes" notes={sampleNotes.filter(n => !n.isPublic)} />;
+        return <NoteGrid title="My Private Notes" notes={sampleNotes.filter(n => n.isPublic === false)} />;
       case 'public':
-        return <NoteGrid title="My Public Notes" notes={sampleNotes.filter(n => n.isPublic)} />;
+        return <NoteGrid title="My Public Notes" notes={sampleNotes.filter(n => n.isPublic === true)} />;
       case 'stats':
         return (
           <div>
-            <h2 className="text-2xl font-bold mb-6 text-white">Statistics & Alerts</h2>
+            <h2 className="text-2xl font-bold mb-6 text-foreground">Statistics & Alerts</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
               <div className="lg:col-span-2 space-y-8">
                  <QuickStats />
@@ -37,7 +37,7 @@ const DashboardTabs = () => {
 
   return (
     <div className="max-w-full overflow-x-hidden">
-      <div className="flex border-b border-ghost-purple/20 mb-6 overflow-x-auto pb-1 hide-scrollbar">
+      <div className="flex border-b border-border mb-6 overflow-x-auto pb-1 hide-scrollbar">
         <TabButton
           title="Private"
           isActive={activeTab === 'private'}
@@ -64,8 +64,8 @@ const TabButton = ({ title, isActive, onClick }: { title: string; isActive: bool
     onClick={onClick}
     className={`px-4 py-2 text-sm sm:text-base font-medium transition-colors duration-200 -mb-px border-b-2 focus:outline-none ${
       isActive
-        ? 'border-ghost-neon text-ghost-neon'
-        : 'border-transparent text-gray-400 hover:text-white'
+        ? 'border-accent text-accent'
+        : 'border-transparent text-muted-foreground hover:text-foreground'
     }`}
   >
     {title}
@@ -74,7 +74,7 @@ const TabButton = ({ title, isActive, onClick }: { title: string; isActive: bool
 
 const NoteGrid = ({ title, notes }: { title: string; notes: Note[] }) => (
   <div>
-    <h2 className="text-2xl font-bold mb-4 md:mb-6 text-white">{title}</h2>
+    <h2 className="text-2xl font-bold mb-4 md:mb-6 text-foreground">{title}</h2>
     {notes.length > 0 ? (
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
         {notes.map((note) => (
@@ -82,8 +82,8 @@ const NoteGrid = ({ title, notes }: { title: string; notes: Note[] }) => (
         ))}
       </div>
     ) : (
-      <div className="text-center py-12 md:py-16 bg-ghost-dark/30 rounded-lg border border-dashed border-ghost-purple/20">
-        <p className="text-gray-400">No notes here yet.</p>
+      <div className="text-center py-12 md:py-16 bg-card rounded-lg border border-dashed border-border">
+        <p className="text-muted-foreground">No notes here yet.</p>
       </div>
     )}
   </div>

@@ -87,7 +87,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({ note }) => {
         </div>
       </div>
       
-      {/* Hover overlay effect */}
+      Hover overlay effect
       <Link 
         href={`/notes/${note.id}`} 
         className="note-card-overlay"

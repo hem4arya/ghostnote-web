@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@lib/supabase';
-import { Button } from '@shared/ui/components/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/components/card';
-import { Badge } from '@shared/ui/components/badge';
-import { Textarea } from '@shared/ui/components/textarea';
-import { Input } from '@shared/ui/components/input';
-import { Label } from '@shared/ui/components/label';
+import { supabase } from '../../../../lib/supabase';
+import { Button } from '@/components/shared/ui/components/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/shared/ui/components/card';
+import { Badge } from '@/components/shared/ui/components/badge';
+import { Textarea } from '@/components/shared/ui/components/textarea';
+import { Input } from '@/components/shared/ui/components/input';
+import { Label } from '@/components/shared/ui/components/label';
 import { 
   AlertTriangle, 
   Eye, 
@@ -178,31 +178,31 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'CLONE':
-        return 'bg-red-100 text-red-800';
+        return 'bg-destructive/10 text-destructive';
       case 'POTENTIAL_COPY':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-500/10 text-yellow-500';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-muted text-muted-foreground';
     }
   };
 
   const getActionColor = (action: string) => {
     switch (action) {
       case 'PENDING':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-primary/10 text-primary';
       case 'ALLOWED':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500/10 text-green-500';
       case 'DENIED':
-        return 'bg-red-100 text-red-800';
+        return 'bg-destructive/10 text-destructive';
       case 'TAKEDOWN_REQUESTED':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-500/10 text-purple-500';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-muted text-muted-foreground';
     }
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading creator dashboard...</div>;
+    return <div className="text-center py-8 text-foreground">Loading creator dashboard...</div>;
   }
 
   return (
@@ -257,7 +257,7 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
 
       {/* Main Dashboard */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Clone Detection Dashboard</h2>
+        <h2 className="text-2xl font-bold text-foreground">Clone Detection Dashboard</h2>
         
         {dashboardData.length === 0 ? (
           <Card>
@@ -270,10 +270,10 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
           </Card>
         ) : (
           dashboardData.map((noteData) => (
-            <Card key={noteData.original_note.id} className="border-l-4 border-l-blue-500">
+            <Card key={noteData.original_note.id} className="border-l-4 border-l-primary">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  <span>Original Note: {noteData.original_note.title}</span>
+                  <span className="text-foreground">Original Note: {noteData.original_note.title}</span>
                   <Badge variant="outline">
                     {noteData.clones.length} clone{noteData.clones.length !== 1 ? 's' : ''} detected
                   </Badge>
@@ -289,8 +289,8 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between mb-4">
                         <div className="space-y-2">
-                          <h4 className="font-medium">{clone.note.title}</h4>
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <h4 className="font-medium text-foreground">{clone.note.title}</h4>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <span>By: {clone.cloner.is_anonymous ? 'Anonymous User' : clone.cloner.username}</span>
                             <span>•</span>
                             <span>Created: {new Date(clone.note.created_at).toLocaleDateString()}</span>
@@ -307,12 +307,12 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
                       </div>
 
                       <div className="flex items-center gap-2 mb-4">
-                        <span className="text-sm font-medium">Status:</span>
+                        <span className="text-sm font-medium text-foreground">Status:</span>
                         <Badge className={getActionColor(clone.creator_action)}>
                           {clone.creator_action}
                         </Badge>
                         {clone.resale_allowed !== null && (
-                          <Badge className={clone.resale_allowed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                          <Badge className={clone.resale_allowed ? 'bg-green-500/10 text-green-500' : 'bg-destructive/10 text-destructive'}>
                             Resale {clone.resale_allowed ? 'Allowed' : 'Denied'}
                           </Badge>
                         )}
@@ -390,31 +390,33 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
       {/* Message Modal */}
       {showMessageModal && selectedClone && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <Card className="max-w-2xl w-full">
+          <Card className="max-w-2xl w-full bg-background border-border">
             <CardHeader>
-              <CardTitle>Send Message to {selectedClone.cloner.username}</CardTitle>
+              <CardTitle className="text-foreground">Send Message to {selectedClone.cloner.username}</CardTitle>
               <CardDescription>
                 Send a message regarding the similar content
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="subject">Subject</Label>
+                <Label htmlFor="subject" className="text-foreground">Subject</Label>
                 <Input
                   id="subject"
                   value={messageSubject}
                   onChange={(e) => setMessageSubject(e.target.value)}
                   placeholder="Message subject"
+                  className="bg-input text-foreground border-border"
                 />
               </div>
               <div>
-                <Label htmlFor="message">Message</Label>
+                <Label htmlFor="message" className="text-foreground">Message</Label>
                 <Textarea
                   id="message"
                   value={messageBody}
                   onChange={(e) => setMessageBody(e.target.value)}
                   placeholder="Your message..."
                   rows={6}
+                  className="bg-input text-foreground border-border"
                 />
               </div>
               <div className="flex gap-2">
@@ -436,3 +438,5 @@ export function CreatorCloneDashboard({ userId }: CreatorCloneDashboardProps) {
     </div>
   );
 }
+
+export default CreatorCloneDashboard;

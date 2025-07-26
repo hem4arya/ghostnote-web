@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Button } from '@shared/ui/components/button';
-import { Card } from '@shared/ui/components/card';
+import { Button } from '@/components/shared/ui/components/button';
+import { Card } from '@/components/shared/ui/components/card';
 import IntelligentSearch from '@/components/IntelligentSearch';
-import PersonalizedRecommendations from '@/components/PersonalizedRecommendations';
+import PersonalizedRecommendations from '@/components/dashboard/components/PersonalizedRecommendations';
 import AuthForm from '@/components/AuthForm';
 
 export default function PersonalizedSearchDemo() {

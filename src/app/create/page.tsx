@@ -1,9 +1,6 @@
-import CreateNoteForm from "@/components/CreateNoteForm";
+import CreatePage from '@/components/create/pages/CreatePage';
 
 export default function CreateNotePage() {
-  return (
-    <main className="min-h-screen bg-ghost-black">
-      <CreateNoteForm />
-    </main>
-  );
+  return <CreatePage />;
 }
+
