@@ -48,13 +48,11 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* User Avatar Button */}
       <Button
         variant="ghost"
         onClick={toggleDropdown}
-        className="flex items-center gap-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 px-2 py-1"
+        className="flex items-center gap-2 rounded-full p-1 group"
       >
-        {/* Avatar */}
         <div className="relative">
           {user.avatar ? (
             <Image
@@ -62,36 +60,23 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
               alt={user.name || 'User'}
               width={32}
               height={32}
-              className="h-8 w-8 rounded-full object-cover border border-ghost-purple/30"
+              className="h-8 w-8 rounded-full object-cover border-2 border-transparent group-hover:border-primary transition-colors"
             />
           ) : (
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-ghost-purple to-ghost-neon flex items-center justify-center">
-              <User className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-ghost-purple to-ghost-neon flex items-center justify-center text-white">
+              <User className="h-4 w-4" />
             </div>
           )}
-          
-          {/* Premium Badge */}
           {user.isPremium && (
-            <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 border border-ghost-dark">
-              <Crown className="h-2 w-2 text-white absolute top-0.5 left-0.5" />
-            </div>
+            <Crown className="absolute -top-1 -right-1 h-3 w-3 text-yellow-400" />
           )}
         </div>
-
-        {/* User Name (Hidden on mobile) */}
-        <span className="hidden sm:block text-sm font-medium truncate max-w-24">
-          {user.name || 'User'}
-        </span>
-
-        {/* Dropdown Arrow */}
         <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </Button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 bg-white/90 backdrop-blur-md border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden">
-          {/* User Info Header */}
-          <div className="p-4 border-b border-gray-200 bg-gray-50/50">
+        <div className="absolute right-0 top-full mt-2 w-64 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="p-4 border-b border-border">
             <div className="flex items-center gap-3">
               {user.avatar ? (
                 <Image
@@ -99,74 +84,61 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
                   alt={user.name || 'User'}
                   width={40}
                   height={40}
-                  className="h-10 w-10 rounded-full object-cover border border-gray-200"
+                  className="h-10 w-10 rounded-full object-cover"
                 />
               ) : (
-                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                  <User className="h-5 w-5 text-white" />
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-ghost-purple to-ghost-neon flex items-center justify-center text-white">
+                  <User className="h-5 w-5" />
                 </div>
               )}
-              
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {user.name || 'User'}
-                  </p>
-                  {user.isPremium && (
-                    <Crown className="h-3 w-3 text-yellow-500" />
-                  )}
-                </div>
-                <p className="text-xs text-gray-500 truncate">
+                <p className="text-sm font-medium text-foreground truncate">
+                  {user.name || 'User'}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
                   {user.email}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Menu Items */}
           <div className="py-2">
-            <div className="px-4 py-2 border-b border-gray-200">
-              <p className="text-sm font-medium text-gray-900 truncate">{user.name || 'User'}</p>
-              <p className="text-xs text-gray-500 truncate">{user.email}</p>
-            </div>
             {menuItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={closeDropdown}
-                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 transition-colors"
+                className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted/50 transition-colors"
               >
-                <item.icon className="h-4 w-4" />
-                {item.label}
+                <item.icon className="h-4 w-4 text-muted-foreground" />
+                <span>{item.label}</span>
               </Link>
             ))}
 
-            {/* Premium Upgrade (if not premium) */}
             {!user.isPremium && (
               <>
-                <div className="border-t border-gray-200 my-2" />
+                <div className="border-t border-border my-2" />
                 <Link
                   href="/premium"
                   onClick={closeDropdown}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-yellow-600 hover:text-yellow-700 hover:bg-yellow-100/50 transition-all duration-200 rounded-md"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-primary hover:bg-primary/10 transition-colors"
                 >
                   <Crown className="h-4 w-4" />
-                  Upgrade to Premium
+                  <span>Upgrade to Premium</span>
                 </Link>
               </>
             )}
 
-            {/* Sign Out */}
-            <div className="border-t border-gray-200 my-2" />
+            <div className="border-t border-border my-2" />
             <button
               onClick={() => {
                 onSignOut?.();
                 closeDropdown();
               }}
-              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-red-600 hover:text-red-700 hover:bg-red-100/50 transition-all duration-200 rounded-md"
+              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-destructive hover:bg-destructive/10 transition-colors"
             >
               <LogOut className="h-4 w-4" />
-              Sign Out
+              <span>Sign Out</span>
             </button>
           </div>
         </div>
@@ -174,5 +146,3 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
     </div>
   );
 };
-
-export default UserDropdown;

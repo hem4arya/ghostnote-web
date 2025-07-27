@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '../ui/button';
+import { Button } from '@/components/shared/ui/components/button';
 import { Plus } from 'lucide-react';
 
 interface NavigationButtonsProps {
@@ -49,4 +49,3 @@ export const NavigationButtons = ({
   );
 };
 
-export default NavigationButtons;

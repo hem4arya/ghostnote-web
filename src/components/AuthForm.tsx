@@ -1,47 +1,91 @@
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@shared/ui/components/dialog';
-import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/shared/ui/components/dialog';
+import { useState, useEffect } from 'react';
 import PrivateAccountSetup from './navbar/components/PrivateAccountSetup';
+import { Button } from './shared/ui/components/button';
+import { Github, Chrome } from 'lucide-react';
 
-interface AuthModalProps {
+interface AuthFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  view?: 'sign_in' | 'sign_up';
 }
 
-export default function AuthForm({ open, onOpenChange }: AuthModalProps) {
-  const supabase = createClientComponentClient()
+export default function AuthForm({ open, onOpenChange, view: initialView = 'sign_in' }: AuthFormProps) {
+  const supabase = createClientComponentClient();
   const [showPrivateSetup, setShowPrivateSetup] = useState(false);
+  const [view, setView] = useState(initialView);
+
+  useEffect(() => {
+    setView(initialView);
+  }, [initialView, open]);
 
   const handlePrivateAccountClick = () => {
-    onOpenChange(false); // Close the auth modal
-    setShowPrivateSetup(true); // Open the private account setup modal
+    onOpenChange(false);
+    setShowPrivateSetup(true);
   };
 
+  const handleOAuthLogin = async (provider: 'github' | 'google') => {
+    await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}/auth/callback`,
+      },
+    });
+  };
 
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-md bg-gradient-to-br from-card to-card/90 border-primary/20">
+        <DialogContent className="sm:max-w-md bg-card border-primary/20">
           <DialogHeader className="text-center">
             <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Connect Your Account
+              {view === 'sign_in' ? 'Welcome Back' : 'Create an Account'}
             </DialogTitle>
-            <p className="text-muted-foreground mt-2">
-              Join the community and start sharing your notes.
-            </p>
+            <DialogDescription>
+              {view === 'sign_in' ? 'Sign in to continue to Ghost-Note.' : 'Join the community and start sharing your notes.'}
+            </DialogDescription>
           </DialogHeader>
+          <div className="flex flex-col gap-4 py-4">
+            <Button variant="outline" onClick={() => handleOAuthLogin('github')}>
+              <Github className="mr-2 h-4 w-4" />
+              Continue with Github
+            </Button>
+            <Button variant="outline" onClick={() => handleOAuthLogin('google')}>
+              <Chrome className="mr-2 h-4 w-4" />
+              Continue with Google
+            </Button>
+          </div>
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">
+                Or continue with email
+              </span>
+            </div>
+          </div>
           <Auth
             supabaseClient={supabase}
-            view="sign_in"
+            view={view}
             appearance={{ theme: ThemeSupa }}
             theme="dark"
             showLinks={false}
-            providers={['github', 'google']}
-            redirectTo="http://localhost:3000/auth/callback"
+            providers={[]}
+            redirectTo={`${typeof window !== 'undefined' ? window.location.origin : ''}/auth/callback`}
           />
-          <div className="text-center mt-4">
+           <div className="text-center mt-4">
+            <button
+              onClick={() => setView(view === 'sign_in' ? 'sign_up' : 'sign_in')}
+              className="text-sm text-muted-foreground/80 hover:text-muted-foreground transition-colors"
+            >
+              {view === 'sign_in' ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+            </button>
+          </div>
+          <div className="text-center mt-2">
             <button
               onClick={handlePrivateAccountClick}
               className="text-sm text-muted-foreground/80 hover:text-muted-foreground transition-colors"

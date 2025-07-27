@@ -11,6 +11,7 @@ import { MobileMenu } from './components/MobileMenu';
 import { ThemeToggle } from '@/components/theme';
 import { AuthButton } from './components/AuthButton';
 import { useAuth } from './hooks/useAuth';
+import AuthForm from '@/components/AuthForm';
 import './styles/navbar.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,10 +26,16 @@ const Navbar = ({
     searchPlaceholder,
     handleBack,
     navigateToSearch,
-    handleAuth
   } = useNavbar(onLoginClick, onSignUpClick);
 
   const { isAuthenticated: authIsAuthenticated } = useAuth();
+  const [showAuthForm, setShowAuthForm] = useState(false);
+  const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in');
+
+  const handleGetStarted = () => {
+    setAuthView('sign_up');
+    setShowAuthForm(true);
+  };
 
   // Use the actual authentication state from useAuth
   const actuallyAuthenticated = authIsAuthenticated || isAuthenticated;
@@ -111,7 +118,7 @@ const Navbar = ({
               <ThemeToggle />
               <NavigationButtons 
                 isAuthenticated={actuallyAuthenticated}
-                onSignUpClick={() => handleAuth('signup')}
+                onSignUpClick={handleGetStarted}
               />
             </div>
 
@@ -129,7 +136,6 @@ const Navbar = ({
               </Button>
               <MobileMenu 
                 isAuthenticated={actuallyAuthenticated}
-                onLoginClick={() => handleAuth('login')}
               />
             </div>
 
@@ -156,8 +162,25 @@ const Navbar = ({
             </form>
           </div>
         )}
+
+      <AuthForm 
+        open={showAuthForm}
+        onOpenChange={setShowAuthForm}
+        view={authView}
+      />
       </header>
-      <ToastContainer />
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 };

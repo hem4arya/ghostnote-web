@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { User, Session } from '@supabase/auth-helpers-nextjs';
-import { toast } from 'react-toastify';
+import { User, Session } from '@supabase/supabase-js';
+import { toast, Id } from 'react-toastify';
 
 interface UseAuthReturn {
   user: User | null;
@@ -20,56 +20,59 @@ export const useAuth = (): UseAuthReturn => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClientComponentClient();
+  const toastId = useRef<Id | null>(null);
+  const userRef = useRef(user);
 
-  // Initialize auth state
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
+
+  const showToast = (type: 'success' | 'info' | 'error', message: string) => {
+    if (toastId.current && toast.isActive(toastId.current)) {
+      toast.dismiss(toastId.current);
+    }
+    toastId.current = toast[type](message, {
+      autoClose: 3000,
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
+  };
+
   useEffect(() => {
     let mounted = true;
-    let hasInitialized = false;
+    let lastEventTime = 0;
+    const EVENT_COOLDOWN = 1000; // 1 second cooldown between similar events
 
-    const initializeAuth = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error('Error getting session:', error);
-        } else if (mounted) {
-          setSession(session);
-          setUser(session?.user ?? null);
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-      } finally {
-        if (mounted) {
-          setLoading(false);
-          hasInitialized = true;
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!mounted) return;
+      
+      const currentTime = Date.now();
+      const currentUser = session?.user ?? null;
+      const previousUser = userRef.current;
+      
+      setSession(session);
+      setUser(currentUser);
+      setLoading(false);
+
+      // Only show toasts for actual state changes with cooldown
+      if (currentTime - lastEventTime > EVENT_COOLDOWN) {
+        if (event === 'SIGNED_IN' && currentUser && !previousUser) {
+          showToast('success', 'Welcome back!');
+          lastEventTime = currentTime;
+        } else if (event === 'SIGNED_OUT' && !currentUser && previousUser) {
+          showToast('info', 'Signed out successfully.');
+          lastEventTime = currentTime;
         }
       }
-    };
+    });
 
-    initializeAuth();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (!mounted) return;
-        
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (mounted) {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
-
-        // Only show toast after initialization and for actual user events
-        if (hasInitialized && event !== 'TOKEN_REFRESHED') {
-          if (event === 'SIGNED_IN' && session?.user) {
-            if (session?.user.last_sign_in_at === session?.user.created_at) {
-              toast.success('Signup successful! Please check your email to confirm your account.');
-            } else {
-              toast.success('Welcome back!');
-            }
-          } else if (event === 'SIGNED_OUT' && !session?.user) {
-            toast.success('Logged out successfully.');
-          }
-        }
       }
-    );
+    });
 
     return () => {
       mounted = false;
@@ -80,26 +83,18 @@ export const useAuth = (): UseAuthReturn => {
   const signUp = useCallback(async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`
-        }
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        toast.success('Signup successful! Please check your email to confirm your account.');
-      }
+      if (error) throw error;
+      showToast('success', 'Signup successful! Please check your email to confirm your account.');
     } catch (error: unknown) {
-      console.error('Signup error:', error);
-      const message = error instanceof Error ? error.message : 'Signup failed. Please try again.';
-      toast.error(message);
-      throw error;
+      const message = error instanceof Error ? error.message : 'An unknown error occurred during sign up.';
+      showToast('error', message);
     } finally {
       setLoading(false);
     }
@@ -112,17 +107,11 @@ export const useAuth = (): UseAuthReturn => {
         email,
         password,
       });
-
-      if (error) {
-        throw error;
-      }
-
-      // Success toast will be handled by onAuthStateChange
+      if (error) throw error;
+      // onAuthStateChange will handle the success toast
     } catch (error: unknown) {
-      console.error('Signin error:', error);
-      const message = error instanceof Error ? error.message : 'Login failed. Please try again.';
-      toast.error(message);
-      throw error;
+      const message = error instanceof Error ? error.message : 'An unknown error occurred during sign in.';
+      showToast('error', message);
     } finally {
       setLoading(false);
     }
@@ -131,18 +120,11 @@ export const useAuth = (): UseAuthReturn => {
   const signOut = useCallback(async () => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        throw error;
-      }
-
-      // Success toast will be handled by onAuthStateChange
+      await supabase.auth.signOut();
+      // onAuthStateChange will handle the success toast
     } catch (error: unknown) {
-      console.error('Signout error:', error);
-      const message = error instanceof Error ? error.message : 'Logout failed. Please try again.';
-      toast.error(message);
-      throw error;
+      const message = error instanceof Error ? error.message : 'An unknown error occurred during sign out.';
+      showToast('error', message);
     } finally {
       setLoading(false);
     }

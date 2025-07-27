@@ -123,7 +123,6 @@ export function NavbarDemo() {
           <div className="flex justify-center">
             <MobileMenu
               isAuthenticated={isAuthenticated}
-              onLoginClick={handleLogin}
             />
           </div>
         </section>
