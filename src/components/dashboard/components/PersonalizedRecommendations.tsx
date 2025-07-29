@@ -25,7 +25,17 @@ const PersonalizedRecommendations = ({
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [activeTab, setActiveTab] = useState<'behavioral' | 'collaborative' | 'popular'>('behavioral');
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    }
+  });
 
   // Check user authentication
   useEffect(() => {

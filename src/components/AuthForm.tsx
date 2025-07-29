@@ -14,7 +14,17 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ open, onOpenChange, view: initialView = 'sign_in' }: AuthFormProps) {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    }
+  });
   const [showPrivateSetup, setShowPrivateSetup] = useState(false);
   const [view, setView] = useState(initialView);
 

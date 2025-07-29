@@ -38,7 +38,17 @@ export const NoteCard: React.FC<NoteCardProps> = ({
   const handleBuy = async (note_id: number) => {
     try {
       // Create Supabase client instance
-      const supabase = createClientComponentClient();
+      const supabase = createClientComponentClient({
+        supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        options: {
+          global: {
+            headers: {
+              'Accept': 'application/json'
+            }
+          }
+        }
+      });
       
       // Step 1: Check if user is logged in
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();

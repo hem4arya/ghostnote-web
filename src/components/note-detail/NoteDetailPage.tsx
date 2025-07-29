@@ -13,7 +13,17 @@ interface NoteDetailPageProps {
 export const NoteDetailPage: React.FC<NoteDetailPageProps> = ({ className = '' }) => {
   const { note, isLoading, error, hasAccess, checkingAccess, user, refreshAccess } = useNoteDetail();
   const [purchasing, setPurchasing] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    }
+  });
 
   const handleBuy = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,9 +58,16 @@ export const NoteDetailPage: React.FC<NoteDetailPageProps> = ({ className = '' }
         alert('Purchase failed. Please try again.');
       } else {
         console.log('Purchase successful:', data);
-        alert('Purchase successful!');
-        // Refresh access check
-        await refreshAccess();
+        alert('Purchase successful! Loading your content...');
+        // Refresh access check to update the page
+        try {
+          await refreshAccess();
+          console.log('Access refreshed successfully after purchase');
+        } catch (refreshError) {
+          console.error('Error refreshing access after purchase:', refreshError);
+          // Even if refresh fails, the purchase was successful
+          alert('Purchase successful! Please refresh the page to see your content.');
+        }
       }
     } catch (error) {
       console.error('Purchase error:', error);

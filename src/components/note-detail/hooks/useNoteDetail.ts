@@ -26,7 +26,17 @@ export const useNoteDetail = () => {
   const [user, setUser] = useState<{ id: string } | null>(null);
   const params = useParams();
   const id = params.id as string;
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    }
+  });
 
   // Fetch note data from Supabase and check access
   useEffect(() => {
@@ -79,18 +89,14 @@ export const useNoteDetail = () => {
         }
 
         // Check if user has purchased the note
-        const { data: purchase, error: purchaseError } = await supabase
-          .from('purchases')
-          .select('*')
-          .eq('note_id', id)
-          .eq('buyer_id', user.id)
-          .single();
+        const { data: hasPurchased, error: purchaseError } = await supabase
+          .rpc('has_user_purchased_note', { note_id_to_check: id });
 
-        if (purchaseError && purchaseError.code !== 'PGRST116') {
-          console.error('Error checking purchase:', purchaseError);
+        if (purchaseError) {
+          console.error('Error checking purchase via RPC:', purchaseError);
         }
 
-        if (purchase) {
+        if (hasPurchased) {
           console.log('User has purchased note, granting access');
           setHasAccess(true);
         } else {
@@ -134,18 +140,14 @@ export const useNoteDetail = () => {
       }
 
       // Check if user has purchased the note
-      const { data: purchase, error } = await supabase
-        .from('purchases')
-        .select('*')
-        .eq('note_id', id)
-        .eq('buyer_id', user.id)
-        .single();
+      const { data: hasPurchased, error } = await supabase
+        .rpc('has_user_purchased_note', { note_id_to_check: id });
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking purchase:', error);
+      if (error) {
+        console.error('Error checking purchase via RPC:', error);
       }
 
-      setHasAccess(!!purchase);
+      setHasAccess(!!hasPurchased);
     } catch (error) {
       console.error('Error refreshing access:', error);
       setHasAccess(false);

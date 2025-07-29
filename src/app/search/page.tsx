@@ -15,7 +15,17 @@ export default function SearchPage() {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [searchMode, setSearchMode] = useState<'basic' | 'advanced' | 'intelligent'>('intelligent');
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    }
+  });
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();

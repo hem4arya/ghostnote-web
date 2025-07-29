@@ -18,7 +18,17 @@ import { toast } from 'react-toastify';
 const CreateNoteForm = () => {
   const router = useRouter();
   const editorRef = useRef<HTMLDivElement>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    }
+  });
   
   // Basic state
   const [title, setTitle] = useState("");
