@@ -7,12 +7,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/navbar';
-import { NoteCard, sampleNotes, categories } from '@/components/note-card';
+import { NoteCard, NOTE_CATEGORIES } from '@/components/note-card';
 import { Footer } from '@/components/shared/Footer';
 import { AuthModal } from './modals/AuthModal';
 import type { HomepageProps, AuthMode } from './types';
 import './styles/homepage.css';
 import { HeroSection } from './sections/HeroSection';
+import { supabase } from '../../../lib/supabase';
+import type { Note } from '@/components/note-card/NoteCard.types';
 
 export const Homepage: React.FC<HomepageProps> = ({ 
   onLoginClick, 
@@ -20,12 +22,31 @@ export const Homepage: React.FC<HomepageProps> = ({
 }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [initialMode, setInitialMode] = useState<AuthMode>("login");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [publishedNotes, setPublishedNotes] = useState<Note[]>([]);
+
+  // Fetch published notes from Supabase
+  useEffect(() => {
+    const fetchPublishedNotes = async () => {
+      const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .eq('is_published', true);
+
+      if (error) {
+        console.error('Error fetching published notes:', error);
+      } else {
+        setPublishedNotes(data);
+      }
+    };
+
+    fetchPublishedNotes();
+  }, []);
 
   // Filter notes based on selected category
-  const filteredNotes = selectedCategory === "All" 
-    ? sampleNotes 
-    : sampleNotes.filter(note => note.category === selectedCategory);
+  const filteredNotes = selectedCategory === 'All'
+    ? publishedNotes
+    : publishedNotes.filter(note => note.category === selectedCategory);
 
   const handleLoginClick = () => {
     setInitialMode("login");
@@ -82,7 +103,7 @@ export const Homepage: React.FC<HomepageProps> = ({
               Explore Categories
             </h2>
             <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-              {categories.map((category) => (
+              {['All', ...NOTE_CATEGORIES].map((category) => (
                 <button
                   key={category}
                   onClick={() => handleCategorySelect(category)}

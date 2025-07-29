@@ -11,6 +11,7 @@ import Link from 'next/link';
 import type { NoteCardProps } from './NoteCard.types';
 import { noteToast } from './utils/noteToast';
 import './styles/note-card.css';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export const NoteCard: React.FC<NoteCardProps> = ({ 
   note, 
@@ -33,6 +34,57 @@ export const NoteCard: React.FC<NoteCardProps> = ({
 
   // Keep for future use - favorite functionality
   void handleFavorite;
+
+  const handleBuy = async (note_id: number) => {
+    try {
+      // Create Supabase client instance
+      const supabase = createClientComponentClient();
+      
+      // Step 1: Check if user is logged in
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      console.log('Session check:', { session, sessionError });
+      
+      if (sessionError) {
+        console.error('Session error:', sessionError);
+        alert('Authentication error. Please try logging in again.');
+        return;
+      }
+
+      if (!session || !session.user) {
+        console.log('No active session found');
+        alert('You need to log in to buy this note.');
+        return;
+      }
+
+      const user_id = session.user.id;
+      console.log('User authenticated:', user_id);
+
+      // Step 2: Insert purchase record
+      const { data, error } = await supabase
+        .from('purchases')
+        .insert({
+          note_id: note_id,
+          buyer_id: user_id,
+        })
+        .select();
+
+      if (error) {
+        console.error('Purchase insert error:', error);
+        alert(`Failed to complete purchase: ${error.message}`);
+        return;
+      }
+
+      console.log('Purchase successful:', data);
+
+      // Step 3: Navigate to note detail page
+      window.location.href = `/notes/${note_id}`;
+      
+    } catch (err) {
+      console.error('Unexpected error in handleBuy:', err);
+      alert('An unexpected error occurred. Please try again.');
+    }
+  };
 
   const getVariantClasses = () => {
     switch (variant) {
@@ -66,9 +118,9 @@ export const NoteCard: React.FC<NoteCardProps> = ({
       <Link href={`/notes/${note.id}`} className="note-card-preview-link">
         <div className="note-card-preview">
           <p className="note-card-preview-text">
-            {note.previewText.length > 250 
+            {note.previewText && note.previewText.length > 250 
               ? `${note.previewText.substring(0, 250)}...`
-              : note.previewText}
+              : note.previewText || ''}
           </p>
         </div>
       </Link>
@@ -107,6 +159,18 @@ export const NoteCard: React.FC<NoteCardProps> = ({
         className="note-card-overlay"
         aria-label={`View details for ${note.title}`}
       />
+      
+      {/* Buy Button - positioned above overlay */}
+      <button
+        className="note-card-buy-button bg-primary text-white py-2 px-4 rounded mt-4 relative z-10"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleBuy(note.id);
+        }}
+      >
+        Buy
+      </button>
     </div>
   );
 };

@@ -7,6 +7,7 @@ interface EditorHeaderProps {
   lastSaved: Date | null;
   focusMode: boolean;
   onBackClick: () => void;
+  onSave?: () => void;
   children?: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
   lastSaved,
   focusMode,
   onBackClick,
+  onSave,
   children
 }) => {
   return (
@@ -47,9 +49,12 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
               <span className="hidden sm:inline">Saved</span> {lastSaved.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
             </div>
           )}
-          <button className="px-3 sm:px-3 py-2 sm:py-1.5 text-sm sm:text-sm font-semibold text-black bg-gradient-to-r from-ghost-cyan to-ghost-neon rounded-md hover:from-ghost-neon hover:to-ghost-cyan transition-colors flex items-center gap-2 sm:gap-1.5 focus:outline-none">
+          <button 
+            onClick={onSave}
+            className="px-3 sm:px-3 py-2 sm:py-1.5 text-sm sm:text-sm font-semibold text-black bg-gradient-to-r from-ghost-cyan to-ghost-neon rounded-md hover:from-ghost-neon hover:to-ghost-cyan transition-colors flex items-center gap-2 sm:gap-1.5 focus:outline-none"
+          >
             <Save className="h-4 w-4 sm:h-4 sm:w-4" />
-            <span className="hidden xs:inline">Sell</span>
+            <span className="hidden xs:inline">Save</span>
           </button>
         </div>
       </div>

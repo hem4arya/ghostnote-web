@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useFormatting } from "@/hooks/useFormatting";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useHelpModal } from "@/hooks/useHelpModal";
@@ -12,10 +13,12 @@ import { FormattingToolbar } from "@/components/editor/FormattingToolbar";
 import { ImageToolbox } from "@/components/editor/ImageToolbox";
 import { WordCountWidget } from "@/components/editor/WordCountWidget";
 import { HelpModal } from "@/components/editor/HelpModal";
+import { toast } from 'react-toastify';
 
 const CreateNoteForm = () => {
   const router = useRouter();
   const editorRef = useRef<HTMLDivElement>(null);
+  const supabase = createClientComponentClient();
   
   // Basic state
   const [title, setTitle] = useState("");
@@ -23,6 +26,7 @@ const CreateNoteForm = () => {
   const [charCount, setCharCount] = useState(0);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [focusMode, setFocusMode] = useState<boolean>(false);
+  const [, setSaving] = useState(false);
 
   // Custom hooks
   const { activeFormats, executeCommand, checkFormatting } = useFormatting();
@@ -72,6 +76,49 @@ const CreateNoteForm = () => {
     executeCommand(command, value, editorRef);
   };
 
+  const handleSave = async () => {
+    if (!title.trim() && !editorRef.current?.textContent?.trim()) {
+      toast.error('Please add a title or content before saving');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast.error('You must be logged in to save notes');
+        return;
+      }
+
+      const content = editorRef.current?.innerHTML || '';
+
+      const { error } = await supabase
+        .from('notes')
+        .insert({
+          title: title.trim() || 'Untitled Note',
+          content: content,
+          user_id: user.id,
+          created_at: new Date().toISOString()
+        });
+
+      if (error) {
+        console.error('Error saving note:', error);
+        toast.error('Failed to save note. Please try again.');
+      } else {
+        toast.success('Note saved successfully!');
+        setLastSaved(new Date());
+        // Redirect to dashboard after successful save
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Error saving note:', error);
+      toast.error('Failed to save note. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-ghost-black text-white">
       {/* Header and toolbars - hidden in focus mode */}
@@ -82,6 +129,7 @@ const CreateNoteForm = () => {
           lastSaved={lastSaved}
           focusMode={focusMode}
           onBackClick={() => router.push('/')}
+          onSave={handleSave}
         >
           <FormattingToolbar
             activeFormats={activeFormats}
