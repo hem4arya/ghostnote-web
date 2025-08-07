@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { Button } from '@/components/shared/ui/components/button';
 import { Card } from '@/components/shared/ui/components/card';
 import { Input } from '@/components/shared/ui/components/input';
@@ -10,22 +10,17 @@ import IntelligentSearch from '@/components/search/components/IntelligentSearch'
 import PersonalizedRecommendations from '@/components/dashboard/components/PersonalizedRecommendations';
 import AuthForm from '@/components/AuthForm';
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function SearchPage() {
   const [showAuth, setShowAuth] = useState(false);
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [searchMode, setSearchMode] = useState<'basic' | 'advanced' | 'intelligent'>('intelligent');
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const supabase = getSupabaseClient();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();

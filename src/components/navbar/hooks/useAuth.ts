@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { User, Session } from '@supabase/supabase-js';
+import { getSupabaseClient } from '../../../../lib/supabase';
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { toast, Id } from 'react-toastify';
 
 interface UseAuthReturn {
@@ -19,17 +19,8 @@ export const useAuth = (): UseAuthReturn => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const [initialized, setInitialized] = useState(false);
+  const supabaseRef = useRef(getSupabaseClient());
   const toastId = useRef<Id | null>(null);
   const userRef = useRef(user);
 
@@ -49,11 +40,14 @@ export const useAuth = (): UseAuthReturn => {
   };
 
   useEffect(() => {
+    if (initialized) return; // Prevent multiple initializations
+    
     let mounted = true;
     let lastEventTime = 0;
     const EVENT_COOLDOWN = 1000; // 1 second cooldown between similar events
+    const supabase = supabaseRef.current;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
       if (!mounted) return;
       
       const currentTime = Date.now();
@@ -81,6 +75,7 @@ export const useAuth = (): UseAuthReturn => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        setInitialized(true);
       }
     });
 
@@ -88,12 +83,12 @@ export const useAuth = (): UseAuthReturn => {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [initialized]);
 
   const signUp = useCallback(async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signUp({
+      const { error } = await supabaseRef.current.auth.signUp({
         email,
         password,
         options: {
@@ -108,12 +103,12 @@ export const useAuth = (): UseAuthReturn => {
     } finally {
       setLoading(false);
     }
-  }, [supabase.auth]);
+  }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabaseRef.current.auth.signInWithPassword({
         email,
         password,
       });
@@ -125,12 +120,12 @@ export const useAuth = (): UseAuthReturn => {
     } finally {
       setLoading(false);
     }
-  }, [supabase.auth]);
+  }, []);
 
   const signOut = useCallback(async () => {
     try {
       setLoading(true);
-      await supabase.auth.signOut();
+      await supabaseRef.current.auth.signOut();
       // onAuthStateChange will handle the success toast
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'An unknown error occurred during sign out.';
@@ -138,7 +133,7 @@ export const useAuth = (): UseAuthReturn => {
     } finally {
       setLoading(false);
     }
-  }, [supabase.auth]);
+  }, []);
 
   return {
     user,

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseClient } from '../../../lib/supabase';
 import Navbar from '@/components/navbar';
 import { useNoteDetail } from './hooks/useNoteDetail';
 
@@ -13,17 +13,7 @@ interface NoteDetailPageProps {
 export const NoteDetailPage: React.FC<NoteDetailPageProps> = ({ className = '' }) => {
   const { note, isLoading, error, hasAccess, checkingAccess, user, refreshAccess } = useNoteDetail();
   const [purchasing, setPurchasing] = useState(false);
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const supabase = getSupabaseClient();
 
   const handleBuy = async (e: React.MouseEvent) => {
     e.preventDefault();

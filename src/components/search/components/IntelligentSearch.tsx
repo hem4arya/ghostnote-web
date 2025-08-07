@@ -6,8 +6,8 @@ import { Button } from '@shared/ui/components/button';
 import { Input } from '@shared/ui/components/input';
 import { Card } from '@shared/ui/components/card';
 import { Badge } from '@shared/ui/components/badge';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseClient } from '../../../../lib/supabase';
+import { User as SupabaseUser } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { Note } from '@/components/NoteCard';
 
@@ -49,17 +49,7 @@ const IntelligentSearch = ({
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [activeTab, setActiveTab] = useState<'all' | 'behavioral' | 'collaborative'>('all');
   const searchRef = useRef<HTMLDivElement>(null);
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const supabase = getSupabaseClient();
 
   // Check user authentication
   useEffect(() => {

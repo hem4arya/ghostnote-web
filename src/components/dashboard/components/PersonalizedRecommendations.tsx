@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { User as SupabaseUser } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseClient } from '../../../../lib/supabase';
+import { User as SupabaseUser } from '@supabase/supabase-js';
 import { Card } from '@/components/shared/ui/components/card';
 import { Badge } from '@/components/shared/ui/components/badge';
 import { Button } from '@/components/shared/ui/components/button';
@@ -25,17 +25,7 @@ const PersonalizedRecommendations = ({
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [activeTab, setActiveTab] = useState<'behavioral' | 'collaborative' | 'popular'>('behavioral');
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const supabase = getSupabaseClient();
 
   // Check user authentication
   useEffect(() => {

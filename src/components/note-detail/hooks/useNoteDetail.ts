@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseClient } from '../../../../lib/supabase';
 
 // Simple note interface matching Supabase table structure
 interface SimpleNote {
@@ -26,17 +26,7 @@ export const useNoteDetail = () => {
   const [user, setUser] = useState<{ id: string } | null>(null);
   const params = useParams();
   const id = params.id as string;
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const supabase = getSupabaseClient();
 
   // Fetch note data from Supabase and check access
   useEffect(() => {

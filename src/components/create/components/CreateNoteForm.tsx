@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { getSupabaseClient } from '../../../../lib/supabase';
 import { useFormatting } from "@/hooks/useFormatting";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useHelpModal } from "@/hooks/useHelpModal";
@@ -18,17 +18,7 @@ import { toast } from 'react-toastify';
 const CreateNoteForm = () => {
   const router = useRouter();
   const editorRef = useRef<HTMLDivElement>(null);
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    options: {
-      global: {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }
-    }
-  });
+  const supabase = getSupabaseClient();
   
   // Basic state
   const [title, setTitle] = useState("");
