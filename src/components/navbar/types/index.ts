@@ -84,3 +84,5 @@ export interface NavbarActions {
   navigateToSearch: (query: string) => void;
   handleAuth: (mode: AuthMode) => void;
 }
+// Re-export auth types
+export * from './auth';
