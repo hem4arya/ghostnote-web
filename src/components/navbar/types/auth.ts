@@ -47,7 +47,11 @@ export interface ValidationRules {
 
 export interface AuthResponse {
   success: boolean;
-  user?: any;
+  user?: {
+    id: string;
+    email: string;
+    [key: string]: unknown;
+  };
   error?: {
     code: string;
     message: string;

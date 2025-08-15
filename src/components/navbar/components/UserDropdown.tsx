@@ -75,8 +75,8 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden animate-in fade-in-0 zoom-in-95">
-          <div className="p-4 border-b border-border">
+        <div className="absolute right-0 top-full mt-2 w-64 bg-black/70 backdrop-blur-xl border border-white/30 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="p-4 border-b border-white/30">
             <div className="flex items-center gap-3">
               {user.avatar ? (
                 <Image
@@ -92,10 +92,10 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
+                <p className="text-sm font-medium text-white truncate">
                   {user.name || 'User'}
                 </p>
-                <p className="text-xs text-muted-foreground truncate">
+                <p className="text-xs text-gray-300 truncate">
                   {user.email}
                 </p>
               </div>
@@ -108,20 +108,20 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
                 key={item.href}
                 href={item.href}
                 onClick={closeDropdown}
-                className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted/50 transition-colors"
+                className="flex items-center gap-3 px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors"
               >
-                <item.icon className="h-4 w-4 text-muted-foreground" />
+                <item.icon className="h-4 w-4 text-gray-300" />
                 <span>{item.label}</span>
               </Link>
             ))}
 
             {!user.isPremium && (
               <>
-                <div className="border-t border-border my-2" />
+                <div className="border-t border-white/30 my-2" />
                 <Link
                   href="/premium"
                   onClick={closeDropdown}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-primary hover:bg-primary/10 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-yellow-300 hover:bg-white/10 transition-colors"
                 >
                   <Crown className="h-4 w-4" />
                   <span>Upgrade to Premium</span>
@@ -129,13 +129,13 @@ export const UserDropdown = ({ user, onSignOut }: UserDropdownProps) => {
               </>
             )}
 
-            <div className="border-t border-border my-2" />
+            <div className="border-t border-white/30 my-2" />
             <button
               onClick={() => {
                 onSignOut?.();
                 closeDropdown();
               }}
-              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-destructive hover:bg-destructive/10 transition-colors"
+              className="flex items-center gap-3 px-4 py-2 w-full text-sm text-red-300 hover:bg-white/10 transition-colors"
             >
               <LogOut className="h-4 w-4" />
               <span>Sign Out</span>

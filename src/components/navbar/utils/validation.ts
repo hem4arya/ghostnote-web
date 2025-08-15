@@ -59,7 +59,7 @@ export const validatePasswordMatch = (password: string, confirmPassword: string)
   return { isValid: true };
 };
 
-export const validateForm = (formData: AuthFormData, mode: 'sign_in' | 'sign_up') => {
+export const validateForm = (formData: AuthFormData, mode: 'sign_in' | 'sign_up' | 'private_account') => {
   const errors: Record<string, string> = {};
   
   // Validate email
@@ -81,6 +81,9 @@ export const validateForm = (formData: AuthFormData, mode: 'sign_in' | 'sign_up'
       errors.confirmPassword = confirmPasswordValidation.error!;
     }
   }
+  
+  // For private_account mode, we might have different validation rules in the future
+  // Currently, it follows the same rules as sign_up
   
   return {
     isValid: Object.keys(errors).length === 0,

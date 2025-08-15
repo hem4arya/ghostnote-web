@@ -10,11 +10,6 @@ import IntelligentSearch from '@/components/search/components/IntelligentSearch'
 import PersonalizedRecommendations from '@/components/dashboard/components/PersonalizedRecommendations';
 import AuthForm from '@/components/navbar/components/AuthForm';
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-};
-
 export default function SearchPage() {
   const [showAuth, setShowAuth] = useState(false);
   const [query, setQuery] = useState('');

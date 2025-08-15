@@ -5,11 +5,6 @@ import { useAuth } from '@/components/navbar';
 import { Button } from '@/components/shared/ui/components/button';
 import { Card } from '@/components/shared/ui/components/card';
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-};
-
 export default function AuthDemo() {
   const { user, isAuthenticated, loading, signOut } = useAuth();
 
