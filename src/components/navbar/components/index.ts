@@ -4,13 +4,12 @@ export { UserDropdown } from './UserDropdown';
 export { default as NavbarSearch } from './NavbarSearch';
 export { NavigationButtons } from './NavigationButtons';
 export { AuthButton } from './AuthButton';
-export { default as PrivateAccountSetup } from './PrivateAccountSetup_simple';
-export { default as AuthForm } from './AuthForm';
+// PrivateAccountSetup removed - using PrivateAccountForm with AuthDialog instead
 // export {getSupabaseClient} from '../../../lib/supabase'
-// New authentication components
+// Authentication components
+export { default as AuthForm } from './AuthForm';
 export { SignInForm } from './SignInForm';
 export { SignUpForm } from './SignUpForm';
-export { PrivateAccountForm } from './PrivateAccountForm';
 export { SocialAuthButtons } from './SocialAuthButtons';
 export { FormToggle } from './FormToggle';
 export { AuthDialog } from './AuthDialog';

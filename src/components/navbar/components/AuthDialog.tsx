@@ -42,12 +42,24 @@ export function AuthDialog({
   // Add custom styles for backdrop when dialog opens
   useEffect(() => {
     if (open) {
+      // Add blur to main content behind dialog
+      const mainContent = document.querySelector('main, #__next, [data-main-content]');
+      if (mainContent) {
+        (mainContent as HTMLElement).style.filter = 'blur(8px)';
+        (mainContent as HTMLElement).style.transition = 'filter 0.3s ease-in-out';
+      }
+      // Blur navbar if it exists
+      const navbar = document.querySelector('nav, header, [data-navbar]');
+      if (navbar) {
+        (navbar as HTMLElement).style.filter = 'blur(8px)';
+        (navbar as HTMLElement).style.transition = 'filter 0.3s ease-in-out';
+      }
       // Add custom backdrop styles
       const style = document.createElement("style");
       style.id = "auth-dialog-styles";
       style.textContent = `
         [data-radix-dialog-overlay] {
-          background: rgba(0, 0, 0, 0.7) !important;
+          background: rgba(0, 0, 0, 0.75) !important;
           backdrop-filter: blur(12px) !important;
           -webkit-backdrop-filter: blur(12px) !important;
           transition: all 0.3s ease-in-out !important;
@@ -110,9 +122,34 @@ export function AuthDialog({
           -webkit-text-fill-color: hsl(var(--foreground)) !important;
           background-color: hsl(var(--muted) / 0.3) !important;
         }
+        
+        /* Custom Input Focus Styling */
+        input[data-auth-input]:focus {
+          outline: none !important;
+          ring: none !important;
+          border-width: 2px !important;
+          border-color: rgba(255, 255, 255, 0.4) !important;
+          box-shadow: none !important;
+        }
+        
+        input[data-auth-input]:focus:hover {
+          box-shadow: 0 0 8px rgba(0, 255, 65, 0.2) !important;
+        }
       `;
       document.head.appendChild(style);
     } else {
+      // Remove blur from main content
+      const mainContent = document.querySelector('main, #__next, [data-main-content]');
+      if (mainContent) {
+        (mainContent as HTMLElement).style.filter = '';
+        (mainContent as HTMLElement).style.transition = '';
+      }
+      // Remove blur from navbar
+      const navbar = document.querySelector('nav, header, [data-navbar]');
+      if (navbar) {
+        (navbar as HTMLElement).style.filter = '';
+        (navbar as HTMLElement).style.transition = '';
+      }
       // Remove custom styles
       const existingStyle = document.getElementById("auth-dialog-styles");
       if (existingStyle) {
@@ -121,6 +158,17 @@ export function AuthDialog({
     }
 
     return () => {
+      // Cleanup: remove blur effects
+      const mainContent = document.querySelector('main, #__next, [data-main-content]');
+      if (mainContent) {
+        (mainContent as HTMLElement).style.filter = '';
+        (mainContent as HTMLElement).style.transition = '';
+      }
+      const navbar = document.querySelector('nav, header, [data-navbar]');
+      if (navbar) {
+        (navbar as HTMLElement).style.filter = '';
+        (navbar as HTMLElement).style.transition = '';
+      }
       const existingStyle = document.getElementById("auth-dialog-styles");
       if (existingStyle) {
         existingStyle.remove();

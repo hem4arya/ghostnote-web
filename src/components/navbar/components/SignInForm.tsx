@@ -55,9 +55,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({
 
       onSuccess?.();
     } catch (error: unknown) {
-const errorMessage = 
-        error instanceof Error 
-          ? error.message 
+      const errorMessage =
+        error instanceof Error
+          ? error.message
           : "An error occurred during sign in";
       onError?.(errorMessage);
     } finally {
@@ -93,8 +93,8 @@ const errorMessage =
           onBlur={handleEmailBlur}
           placeholder="Enter your email"
           data-auth-input
-          className={`bg-muted/30 border-primary/30 text-foreground transition-all duration-300 focus:border-primary focus:outline-none focus:ring-0 hover:border-[#00ff41] hover:shadow-[0_0_8px_rgba(0,255,65,0.2)] ${
-            getFieldError("email") ? "border-destructive" : ""
+          className={`bg-muted/30 border border-white/20 text-foreground transition-all duration-300 focus:outline-none focus:ring-0 focus:border-white/20 hover:border-white/20 hover:shadow-[0_0_8px_rgba(0,255,65,0.2)] ${
+            getFieldError("email") ? "" : ""
           }`}
           required
         />
@@ -122,8 +122,8 @@ const errorMessage =
             onBlur={handlePasswordBlur}
             placeholder="Enter your password"
             data-auth-input
-            className={`pr-10 bg-muted/30 border-primary/30 text-foreground transition-all duration-300 focus:border-primary focus:outline-none focus:ring-0 hover:border-[#00ff41] hover:shadow-[0_0_8px_rgba(0,255,65,0.2)] ${
-              getFieldError("password") ? "border-destructive" : ""
+            className={`pr-10 bg-muted/30 border border-white/20 text-foreground transition-all duration-300 focus:outline-none focus:ring-0 focus:border-white/20 hover:border-white/20 hover:shadow-[0_0_8px_rgba(0,255,65,0.2)] ${
+              getFieldError("password") ? "" : ""
             }`}
             required
           />

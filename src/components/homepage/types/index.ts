@@ -15,11 +15,7 @@ export interface Note {
   isPublic: boolean;
 }
 
-export interface AuthModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  initialMode: AuthMode;
-}
+// AuthModalProps removed - using AuthDialog instead
 
 export interface NoteCardProps {
   note: Note;

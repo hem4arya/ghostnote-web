@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { AuthDialog } from './AuthDialog';
 import { SignInForm } from './SignInForm';
 import { SignUpForm } from './SignUpForm';
-import { PrivateAccountForm } from './PrivateAccountForm';
+// PrivateAccountForm removed - using SignUpForm instead
 import { SocialAuthButtons } from './SocialAuthButtons';
 import { FormToggle } from './FormToggle';
 import { AuthFormProps, AuthMode } from '../types/auth';
@@ -110,7 +110,7 @@ export default function AuthForm({
               onError={handleAuthError}
             />
           ) : (
-            <PrivateAccountForm 
+            <SignUpForm 
               onSuccess={handleAuthSuccess}
               onError={handleAuthError}
             />

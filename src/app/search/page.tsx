@@ -8,7 +8,7 @@ import { Input } from '@/components/shared/ui/components/input';
 import AdvancedSmartSearch from '@/components/search/components/AdvancedSmartSearch';
 import IntelligentSearch from '@/components/search/components/IntelligentSearch';
 import PersonalizedRecommendations from '@/components/dashboard/components/PersonalizedRecommendations';
-import AuthForm from '@/components/AuthForm';
+import AuthForm from '@/components/navbar/components/AuthForm';
 
 export const viewport = {
   width: "device-width",

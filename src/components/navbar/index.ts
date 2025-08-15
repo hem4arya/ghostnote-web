@@ -3,7 +3,7 @@ export { default as Navbar } from './Navbar';
 export { default } from './Navbar';
 
 // Components
-export { MobileMenu, UserDropdown, NavbarSearch, NavigationButtons, AuthButton, PrivateAccountSetup } from './components';
+export { MobileMenu, UserDropdown, NavbarSearch, NavigationButtons, AuthButton } from './components';
 
 // Hooks
 export { useNavbar } from './hooks/useNavbar';

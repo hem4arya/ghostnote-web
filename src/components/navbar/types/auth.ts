@@ -62,7 +62,4 @@ export interface AuthFormProps {
   onOpenPrivateAccount?: () => void;
 }
 
-export interface PrivateAccountSetupProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+// PrivateAccountSetupProps removed - using PrivateAccountForm with AuthDialog instead

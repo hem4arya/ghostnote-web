@@ -11,7 +11,7 @@ import { MobileMenu } from './components/MobileMenu';
 import { ThemeToggle } from '@/components/theme';
 import { AuthButton } from './components/AuthButton';
 import { useAuth } from './hooks/useAuth';
-import AuthForm from '@/components/AuthForm';
+import AuthForm from './components/AuthForm';
 import './styles/navbar.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -33,6 +33,11 @@ const Navbar = ({
   const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in');
 
   const handleGetStarted = () => {
+    setAuthView('sign_up');
+    setShowAuthForm(true);
+  };
+
+  const handleMobileAuth = () => {
     setAuthView('sign_up');
     setShowAuthForm(true);
   };
@@ -136,6 +141,7 @@ const Navbar = ({
               </Button>
               <MobileMenu 
                 isAuthenticated={actuallyAuthenticated}
+                onAuthClick={handleMobileAuth}
               />
             </div>
 

@@ -11,8 +11,7 @@ export { default } from './Homepage';
 export { Hero } from './sections/Hero';
 export { NoteCard } from './sections/NoteCard';
 
-// Modals
-export { AuthModal } from './modals/AuthModal';
+// Modals - AuthModal removed, using AuthDialog instead
 
 // Data
 export { sampleNotes, categories } from './data';
@@ -20,7 +19,6 @@ export { sampleNotes, categories } from './data';
 // Types
 export type {
   Note,
-  AuthModalProps,
   NoteCardProps,
   HomepageProps,
   AuthMode,

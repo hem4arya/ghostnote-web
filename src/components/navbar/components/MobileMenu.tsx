@@ -1,23 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { User, Menu, X, Plus, Home, LogOut } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useAuth } from '../hooks/useAuth';
-import AuthForm from '@/components/AuthForm';
-import Link from 'next/link';
+import { useState } from "react";
+import { User, Menu, X, Plus, Home, LogOut } from "lucide-react";
+import { Button } from "../ui/button";
+import { useAuth } from "../hooks/useAuth";
+// AuthForm removed - using main Navbar's AuthForm to prevent duplicates
+import Link from "next/link";
 
 interface MobileMenuProps {
   isAuthenticated?: boolean;
+  onAuthClick?: () => void;
 }
 
-export const MobileMenu = ({ 
-  isAuthenticated = false
-}: MobileMenuProps) => {
+export const MobileMenu = ({ isAuthenticated = false, onAuthClick }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showAuthForm, setShowAuthForm] = useState(false);
   const { user, signOut } = useAuth();
-  
+
   const actuallyAuthenticated = isAuthenticated || !!user;
 
   const handleSignOut = async () => {
@@ -25,12 +23,14 @@ export const MobileMenu = ({
       await signOut();
       setIsOpen(false);
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error("Sign out error:", error);
     }
   };
 
   const handleAuthClick = () => {
-    setShowAuthForm(true);
+    if (onAuthClick) {
+      onAuthClick();
+    }
     setIsOpen(false);
   };
 
@@ -46,12 +46,8 @@ export const MobileMenu = ({
         >
           <User className="h-5 w-5" />
         </Button>
-        
-        <AuthForm
-          open={showAuthForm}
-          onOpenChange={setShowAuthForm}
-          view="sign_up"
-        />
+
+        {/* AuthForm removed - using main Navbar's AuthForm to prevent duplicates */}
       </>
     );
   }
@@ -71,11 +67,11 @@ export const MobileMenu = ({
       {isOpen && (
         <>
           {/* Backdrop */}
-          <div 
+          <div
             className="fixed inset-0 bg-black/20 z-40"
             onClick={() => setIsOpen(false)}
           />
-          
+
           {/* Menu */}
           <div className="absolute right-0 top-full mt-2 w-56 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="p-3">
@@ -87,35 +83,39 @@ export const MobileMenu = ({
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">
-                      {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
+                      {user?.user_metadata?.full_name ||
+                        user?.email?.split("@")[0] ||
+                        "User"}
                     </p>
-                    <p className="text-xs text-muted-foreground truncate max-w-32">{user?.email}</p>
+                    <p className="text-xs text-muted-foreground truncate max-w-32">
+                      {user?.email}
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Menu Items */}
               <div className="space-y-1">
-                <Link 
-                  href="/dashboard" 
+                <Link
+                  href="/dashboard"
                   className="flex items-center gap-3 px-3 py-2.5 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   <Home className="h-4 w-4 text-muted-foreground" />
                   Dashboard
                 </Link>
-                
-                <Link 
-                  href="/create" 
+
+                <Link
+                  href="/create"
                   className="flex items-center gap-3 px-3 py-2.5 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   <Plus className="h-4 w-4 text-muted-foreground" />
                   Create Note
                 </Link>
-                
+
                 <div className="border-t border-border my-2" />
-                
+
                 <button
                   onClick={handleSignOut}
                   className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors"

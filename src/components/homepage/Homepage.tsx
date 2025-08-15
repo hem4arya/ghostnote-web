@@ -9,8 +9,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/navbar';
 import { NoteCard, NOTE_CATEGORIES } from '@/components/note-card';
 import { Footer } from '@/components/shared/Footer';
-import { AuthModal } from './modals/AuthModal';
-import type { HomepageProps, AuthMode } from './types';
+import AuthForm from '@/components/navbar/components/AuthForm';
+import type { HomepageProps } from './types';
 import './styles/homepage.css';
 import { HeroSection } from './sections/HeroSection';
 import { supabase } from '../../../lib/supabase';
@@ -20,8 +20,8 @@ export const Homepage: React.FC<HomepageProps> = ({
   onLoginClick, 
   onSignUpClick 
 }) => {
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [initialMode, setInitialMode] = useState<AuthMode>("login");
+  const [isAuthFormOpen, setIsAuthFormOpen] = useState(false);
+  const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [publishedNotes, setPublishedNotes] = useState<Note[]>([]);
 
@@ -49,14 +49,14 @@ export const Homepage: React.FC<HomepageProps> = ({
     : publishedNotes.filter(note => note.category === selectedCategory);
 
   const handleLoginClick = () => {
-    setInitialMode("login");
-    setIsAuthModalOpen(true);
+    setAuthView('sign_in');
+    setIsAuthFormOpen(true);
     if(onLoginClick) onLoginClick();
   };
 
   const handleSignUpClick = () => {
-    setInitialMode("signup");
-    setIsAuthModalOpen(true);
+    setAuthView('sign_up');
+    setIsAuthFormOpen(true);
     if(onSignUpClick) onSignUpClick();
   };
 
@@ -67,8 +67,13 @@ export const Homepage: React.FC<HomepageProps> = ({
   // Listen for auth modal events from Navbar
   useEffect(() => {
     const handleAuthModalEvent = (e: CustomEvent) => {
-      setInitialMode(e.detail.mode);
-      setIsAuthModalOpen(true);
+      if (e.detail.mode === 'login') {
+        setAuthView('sign_in');
+        setIsAuthFormOpen(true);
+      } else if (e.detail.mode === 'signup' || e.detail.mode === 'private') {
+        setAuthView('sign_up');
+        setIsAuthFormOpen(true);
+      }
     };
 
     const eventName = "open-auth-modal";
@@ -135,11 +140,11 @@ export const Homepage: React.FC<HomepageProps> = ({
       {/* Footer */}
       <Footer />
       
-      {/* Authentication Modal */}
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        initialMode={initialMode}
+      {/* Authentication Form */}
+      <AuthForm 
+        open={isAuthFormOpen}
+        onOpenChange={setIsAuthFormOpen}
+        view={authView}
       />
     </div>
   );
