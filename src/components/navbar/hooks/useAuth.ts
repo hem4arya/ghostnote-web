@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '../../../../lib/supabase';
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { toast, Id } from 'react-toastify';
@@ -122,18 +123,21 @@ export const useAuth = (): UseAuthReturn => {
     }
   }, []);
 
+  const router = useRouter();
+
   const signOut = useCallback(async () => {
     try {
       setLoading(true);
       await supabaseRef.current.auth.signOut();
       // onAuthStateChange will handle the success toast
+      router.refresh(); // Refresh the page to update auth state
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'An unknown error occurred during sign out.';
       showToast('error', message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [router]);
 
   return {
     user,

@@ -8,12 +8,12 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/shared/ui/components/button';
-import { ProfileSettings } from '../components/ProfileSettings';
-import { PreferencesSettings } from '../components/PreferencesSettings';
-import { AvatarUpload } from '../components/AvatarUpload';
-import { useProfile } from '../hooks/useProfile';
-import { useSettings } from '../hooks/useSettings';
-import type { SettingsPageProps } from '../types';
+import { ProfileSettings } from '@/components/settings/components/ProfileSettings';
+import { PreferencesSettings } from '@/components/settings/components/PreferencesSettings';
+import { AvatarUpload } from '@/components/settings/components/AvatarUpload';
+import { useProfile } from '@/components/settings/hooks/useProfile';
+import { useSettings } from '@/components/settings/hooks/useSettings';
+import type { SettingsPageProps } from '@/components/settings/types';
 
 export const SettingsPage: React.FC<SettingsPageProps> = () => {
   const { loading: authLoading, checkAuth, goBack } = useSettings();

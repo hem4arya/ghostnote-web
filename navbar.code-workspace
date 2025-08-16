@@ -1,0 +1,18 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "root"
+    },
+    {
+      "path": "src/components/navbar",
+      "name": "navbar"
+    }
+  ],
+  "settings": {
+    "typescript.tsdk": "root/node_modules/typescript/lib",
+    "files.exclude": {
+      "src/components/navbar": true
+    }
+  }
+}

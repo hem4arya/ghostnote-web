@@ -11,19 +11,24 @@ import { Input } from '@/components/shared/ui/components/input';
 import { Label } from '@/components/shared/ui/components/label';
 import { Textarea } from '@/components/shared/ui/components/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/shared/ui/components/card';
-import { Save, User } from 'lucide-react';
-import type { ProfileSettingsProps, SettingsFormData } from '../types';
+import { Save, User, Mail } from 'lucide-react';
+import { useAuth } from '@/components/settings/hooks/useAuth';
+import { settingsToast } from '@/components/settings/utils/settingsToast';
+import type { ProfileSettingsProps, SettingsFormData } from '@/components/settings/types';
 
 export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
   profile,
   loading,
   onSave
 }) => {
+  const { updating, updateEmail } = useAuth();
   const [formData, setFormData] = useState<SettingsFormData>({
     username: '',
     bio: ''
   });
+  const [newEmail, setNewEmail] = useState('');
   const [saving, setSaving] = useState(false);
+  const [usernameError, setUsernameError] = useState('');
 
   // Update form data when profile changes
   useEffect(() => {
@@ -37,6 +42,16 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
 
   // Handle form input changes
   const handleInputChange = (field: keyof SettingsFormData, value: string) => {
+    if (field === 'username') {
+      // Check for hyphens and spaces
+      if (value.includes('-') || value.includes(' ')) {
+        setUsernameError('Username cannot contain hyphens or spaces');
+        settingsToast.validationError('Username cannot contain hyphens or spaces');
+        return;
+      }
+      setUsernameError('');
+    }
+    
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -45,6 +60,10 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
 
   // Handle save
   const handleSave = async () => {
+    if (usernameError) {
+      return;
+    }
+    
     setSaving(true);
     try {
       await onSave(formData);
@@ -92,11 +111,19 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
             value={formData.username}
             onChange={(e) => handleInputChange('username', e.target.value)}
             placeholder="Enter your username"
-            className="bg-muted/30 border border-white/20 text-foreground transition-all duration-300 focus:outline-none focus:ring-0 focus:border-white/40 hover:border-white/30"
+            className={`bg-muted/30 border border-white/20 text-foreground transition-all duration-300 focus:outline-none focus:ring-0 focus:border-white/40 hover:border-white/30 ${
+              usernameError ? 'border-destructive' : ''
+            }`}
           />
-          <p className="text-xs text-muted-foreground">
-            This is your public display name. It can be your real name or a pseudonym.
-          </p>
+          {usernameError ? (
+            <p className="text-xs text-destructive mt-1">
+              {usernameError}
+            </p>
+          ) : (
+            <p className="text-xs text-muted-foreground">
+              This is your public display name. It can be your real name or a pseudonym.
+            </p>
+          )}
         </div>
 
         {/* Bio Field */}
@@ -114,6 +141,43 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
           />
           <p className="text-xs text-muted-foreground">
             Brief description for your profile. Maximum 500 characters.
+          </p>
+        </div>
+
+        {/* Email Change Section */}
+        <div className="space-y-2">
+          <Label htmlFor="newEmail" className="text-sm font-medium text-foreground">
+            Change Login Email
+          </Label>
+          <div className="flex gap-2">
+            <Input
+              id="newEmail"
+              type="email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="Enter your new email"
+              className="bg-muted/30 border border-white/20 text-foreground transition-all duration-300 focus:outline-none focus:ring-0 focus:border-white/40 hover:border-white/30"
+            />
+            <Button
+              onClick={() => updateEmail(newEmail)}
+              disabled={updating || !newEmail}
+              className="bg-primary hover:bg-primary/90 hover:shadow-[0_0_16px_rgba(0,255,65,0.3)] hover:border-[#00ff41] text-white font-medium transition-all duration-300 border border-transparent"
+            >
+              {updating ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Updating...
+                </>
+              ) : (
+                <>
+                  <Mail className="h-4 w-4 mr-2" />
+                  Save New Email
+                </>
+              )}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            A confirmation email will be sent to your new email address.
           </p>
         </div>
 

@@ -24,3 +24,4 @@ export type {
 // Hooks
 export { useProfile } from './hooks/useProfile';
 export { useSettings } from './hooks/useSettings';
+export { useAuth } from './hooks/useAuth';

@@ -1,7 +1,7 @@
 'use client';
 
 import Navbar from '@/components/navbar';
-import { useAuth } from '@/components/navbar';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/shared/ui/components/button';
 import { Card } from '@/components/shared/ui/components/card';
 
