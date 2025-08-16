@@ -4,6 +4,8 @@ import { ArrowLeft, Save } from 'lucide-react';
 interface EditorHeaderProps {
   title: string;
   setTitle: (title: string) => void;
+  wordHandle?: string;
+  setWordHandle?: (wordHandle: string) => void;
   lastSaved: Date | null;
   focusMode: boolean;
   onBackClick: () => void;
@@ -14,6 +16,8 @@ interface EditorHeaderProps {
 export const EditorHeader: React.FC<EditorHeaderProps> = ({
   title,
   setTitle,
+  wordHandle,
+  setWordHandle,
   lastSaved,
   focusMode,
   onBackClick,
@@ -33,13 +37,26 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
           </button>
         </div>
         
-        <div className="flex-1 flex justify-center">
+        <div className="flex-1 flex flex-col items-center gap-2">
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Untitled Note"
             className="text-base sm:text-lg font-medium bg-transparent border-none shadow-none focus:ring-0 focus:outline-none p-0 h-auto text-white placeholder-gray-400 text-center w-full"
           />
+          {setWordHandle && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">Word Handle:</span>
+              <input
+                value={wordHandle || ''}
+                onChange={(e) => setWordHandle(e.target.value)}
+                placeholder="my-note"
+                className="text-xs bg-transparent border border-gray-600 rounded px-2 py-1 focus:ring-0 focus:outline-none focus:border-ghost-neon text-white placeholder-gray-500 text-center w-24"
+                maxLength={20}
+              />
+              <span className="text-xs text-gray-500">(optional)</span>
+            </div>
+          )}
         </div>
         
         <div className="flex items-center gap-2 sm:gap-2 justify-end">

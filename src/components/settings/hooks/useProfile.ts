@@ -145,6 +145,14 @@ export const useProfile = () => {
     }
   };
 
+  // Update avatar URL in local state
+  const updateAvatarUrl = (avatarUrl: string) => {
+    setProfile(prev => prev ? {
+      ...prev,
+      avatar_url: avatarUrl
+    } : null);
+  };
+
   // Fetch profile when user is available
   useEffect(() => {
     if (user && !authLoading) {
@@ -157,6 +165,7 @@ export const useProfile = () => {
     loading: authLoading || loading,
     saving,
     saveProfile,
+    updateAvatarUrl,
     refetchProfile: fetchProfile,
   };
 };

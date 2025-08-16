@@ -10,6 +10,7 @@ export { default } from './pages/SettingsPage';
 // Settings components
 export { ProfileSettings } from './components/ProfileSettings';
 export { PreferencesSettings } from './components/PreferencesSettings';
+export { AvatarUpload } from './components/AvatarUpload';
 
 // Types
 export type {

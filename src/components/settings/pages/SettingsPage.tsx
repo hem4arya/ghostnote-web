@@ -10,13 +10,14 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/shared/ui/components/button';
 import { ProfileSettings } from '../components/ProfileSettings';
 import { PreferencesSettings } from '../components/PreferencesSettings';
+import { AvatarUpload } from '../components/AvatarUpload';
 import { useProfile } from '../hooks/useProfile';
 import { useSettings } from '../hooks/useSettings';
 import type { SettingsPageProps } from '../types';
 
 export const SettingsPage: React.FC<SettingsPageProps> = () => {
   const { loading: authLoading, checkAuth, goBack } = useSettings();
-  const { profile, loading: profileLoading, saveProfile } = useProfile();
+  const { profile, loading: profileLoading, saveProfile, updateAvatarUrl } = useProfile();
 
   // Check authentication
   if (!checkAuth()) {
@@ -62,6 +63,14 @@ export const SettingsPage: React.FC<SettingsPageProps> = () => {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="grid gap-6">
+          {/* Avatar Upload */}
+          {!profileLoading && profile && (
+            <AvatarUpload
+              profile={profile}
+              onAvatarUpdate={updateAvatarUrl}
+            />
+          )}
+
           {/* Profile Settings */}
           <ProfileSettings
             profile={profile}
