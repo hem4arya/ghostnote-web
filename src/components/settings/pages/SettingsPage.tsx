@@ -8,16 +8,18 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/shared/ui/components/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shared/ui/components/tabs';
 import { ProfileSettings } from '@/components/settings/components/ProfileSettings';
 import { PreferencesSettings } from '@/components/settings/components/PreferencesSettings';
 import { AvatarUpload } from '@/components/settings/components/AvatarUpload';
+import { ProfilePreview } from '@/components/settings/components/ProfilePreview';
 import { useProfile } from '@/components/settings/hooks/useProfile';
 import { useSettings } from '@/components/settings/hooks/useSettings';
 import type { SettingsPageProps } from '@/components/settings/types';
 
 export const SettingsPage: React.FC<SettingsPageProps> = () => {
   const { loading: authLoading, checkAuth, goBack } = useSettings();
-  const { profile, loading: profileLoading, saveProfile, updateAvatarUrl } = useProfile();
+  const { profile, publishedNotes, loading: profileLoading, saveProfile, updateAvatarUrl } = useProfile();
 
   // Check authentication
   if (!checkAuth()) {
@@ -62,25 +64,39 @@ export const SettingsPage: React.FC<SettingsPageProps> = () => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="grid gap-6">
-          {/* Avatar Upload */}
-          {!profileLoading && profile && (
-            <AvatarUpload
+        <Tabs defaultValue="edit" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="edit">Edit Profile</TabsTrigger>
+            <TabsTrigger value="preview">Preview Profile</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="edit" className="space-y-6">
+            {/* Avatar Upload */}
+            {!profileLoading && profile && (
+              <AvatarUpload
+                profile={profile}
+                onAvatarUpdate={updateAvatarUrl}
+              />
+            )}
+
+            {/* Profile Settings */}
+            <ProfileSettings
               profile={profile}
-              onAvatarUpdate={updateAvatarUrl}
+              loading={profileLoading}
+              onSave={saveProfile}
             />
-          )}
 
-          {/* Profile Settings */}
-          <ProfileSettings
-            profile={profile}
-            loading={profileLoading}
-            onSave={saveProfile}
-          />
+            {/* Preferences Settings */}
+            <PreferencesSettings />
+          </TabsContent>
 
-          {/* Preferences Settings */}
-          <PreferencesSettings />
-        </div>
+          <TabsContent value="preview">
+            <ProfilePreview 
+              profile={profile}
+              publishedNotes={publishedNotes}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

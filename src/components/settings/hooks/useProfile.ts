@@ -9,14 +9,37 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/components/navbar/hooks/useAuth";
 import { getSupabaseClient } from "@lib/supabase";
 import { toast } from "sonner";
-import type { Profile, SettingsFormData } from "../types";
+import type { Profile, SettingsFormData, Note } from "../types";
 
 export const useProfile = () => {
   const { user, loading: authLoading } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [publishedNotes, setPublishedNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const supabase = getSupabaseClient();
+
+  // Fetch published notes
+  const fetchPublishedNotes = useCallback(async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("notes")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("published", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching published notes:", error);
+        return [];
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error("Unexpected error fetching notes:", error);
+      return [];
+    }
+  }, [supabase]);
 
   // Wrap fetchProfile in useCallback to fix dependency warning
   const fetchProfile = useCallback(async () => {
@@ -51,6 +74,8 @@ export const useProfile = () => {
 
       if (data) {
         setProfile(data);
+        const notes = await fetchPublishedNotes(user.id);
+        setPublishedNotes(notes);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
@@ -58,7 +83,7 @@ export const useProfile = () => {
     } finally {
       setLoading(false);
     }
-  }, [user, supabase]);
+  }, [user, supabase, fetchPublishedNotes]);
 
   // Save profile changes
   const saveProfile = async (formData: SettingsFormData) => {
@@ -162,6 +187,7 @@ export const useProfile = () => {
 
   return {
     profile,
+    publishedNotes,
     loading: authLoading || loading,
     saving,
     saveProfile,

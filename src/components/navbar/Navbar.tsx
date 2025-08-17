@@ -10,7 +10,7 @@ import { NavigationButtons } from './components/NavigationButtons';
 import { MobileMenu } from './components/MobileMenu';
 import { ThemeToggle } from '@/components/theme';
 import { AuthButton } from './components/AuthButton';
-import { useAuth } from './hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 import AuthForm from './components/AuthForm';
 import './styles/navbar.css';
 import { ToastContainer } from 'react-toastify';

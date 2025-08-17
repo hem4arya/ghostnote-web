@@ -129,6 +129,8 @@ export const useAuth = (): UseAuthReturn => {
     try {
       setLoading(true);
       await supabaseRef.current.auth.signOut();
+      setUser(null);
+      setSession(null);
       // onAuthStateChange will handle the success toast
       router.refresh(); // Refresh the page to update auth state
     } catch (error: unknown) {

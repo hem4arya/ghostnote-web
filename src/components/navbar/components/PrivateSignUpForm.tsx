@@ -137,7 +137,10 @@ export const PrivateSignUpForm: React.FC<PrivateSignUpFormProps> = ({
         }
       });
 
-      if (signUpError) throw signUpError;
+      if (signUpError) {
+        console.error('Signup error:', signUpError);
+        throw new Error(signUpError.message);
+      }
 
       // Create the profile
       const { error: profileError } = await supabase
@@ -147,11 +150,19 @@ export const PrivateSignUpForm: React.FC<PrivateSignUpFormProps> = ({
           is_private: true
         });
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error('Profile creation error:', profileError);
+        // Attempt to clean up the auth user if profile creation fails
+        await supabase.auth.signOut();
+        throw new Error('Failed to create user profile. Please try again.');
+      }
 
       onSuccess?.();
     } catch (error) {
-      console.error('Error creating private account:', error);
+      console.error('Error creating private account:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        error
+      });
       onError?.(error instanceof Error ? error.message : 'An error occurred while creating your account');
     } finally {
       setLoading(false);

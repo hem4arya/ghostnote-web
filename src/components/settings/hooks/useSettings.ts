@@ -7,7 +7,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/navbar/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const useSettings = () => {
   const { user, loading: authLoading } = useAuth();

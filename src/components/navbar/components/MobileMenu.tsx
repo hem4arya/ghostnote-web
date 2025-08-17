@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { User, Menu, X, Plus, Home, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from '@/contexts/AuthContext';
 // AuthForm removed - using main Navbar's AuthForm to prevent duplicates
 import Link from "next/link";
 

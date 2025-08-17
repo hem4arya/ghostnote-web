@@ -32,3 +32,24 @@ export interface ProfileSettingsProps {
 export interface PreferencesSettingsProps {
   // Add preferences props when implemented
 }
+
+export interface Note {
+  id: number;
+  title: string;
+  previewText: string;
+  content: string;
+  user_id: string;
+  author: string;
+  category: string;
+  price: number;
+  rating: number;
+  reviews: number;
+  created_at: string;
+  updated_at: string;
+  published: boolean;
+  description?: string;
+  tags?: string[];
+  isPurchased?: boolean;
+  isPublic?: boolean;
+  difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
+}
