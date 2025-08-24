@@ -91,8 +91,24 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </p>
             )}
 
+            {/* User Stats */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 mt-4">
+              <div className="flex flex-col items-center md:items-start">
+                <span className="text-2xl font-bold text-foreground">{profile.notes_count || 0}</span>
+                <span className="text-sm text-muted-foreground">Notes</span>
+              </div>
+              <div className="flex flex-col items-center md:items-start">
+                <span className="text-2xl font-bold text-foreground">{profile.sales_count || 0}</span>
+                <span className="text-sm text-muted-foreground">Sales</span>
+              </div>
+              <div className="flex flex-col items-center md:items-start">
+                <span className="text-2xl font-bold text-foreground">{profile.views_count || 0}</span>
+                <span className="text-sm text-muted-foreground">Views</span>
+              </div>
+            </div>
+
             {profile.created_at && (
-              <div className="flex items-center justify-center md:justify-start gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center justify-center md:justify-start gap-2 text-sm text-muted-foreground mt-4">
                 <Calendar className="h-4 w-4" />
                 <span>Member since {new Date(profile.created_at).toLocaleDateString()}</span>
               </div>

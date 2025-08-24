@@ -1,39 +1,142 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// lib/supabase.ts
+import { createBrowserClient } from '@supabase/ssr';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+export type Database = {
+  public : {
+    Tables: {
+      notes: {
+        Row: {
+          id: number; // bigint in PostgreSQL becomes number in TypeScript
+          title: string | null;
+          content: string | null;
+          category?: string; // Not in schema, but used in your app
+          is_published: boolean;
+          price: number | null; // bigint
+          user_id: string | null; // uuid
+          created_at: string;
+          word_handle: string | null;
+          view_count: number; // bigint
+        };
+        Insert: {
+          title?: string | null;
+          content?: string | null;
+          category?: string;
+          is_published?: boolean;
+          price?: number | null;
+          user_id?: string | null;
+          created_at?: string;
+          word_handle?: string | null;
+          view_count?: number;
+        };
+        Update: {
+          title?: string | null;
+          content?: string | null;
+          category?: string;
+          is_published?: boolean;
+          price?: number | null;
+          user_id?: string | null;
+          created_at?: string;
+          word_handle?: string | null;
+          view_count?: number;
+        };
+      };
+      purchases: {
+        Row: {
+          id: number; // bigint
+          note_id: number; // bigint
+          buyer_id: string | null; // uuid
+          created_at: string;
+        };
+        Insert: {
+          note_id: number;
+          buyer_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          note_id?: number;
+          buyer_id?: string | null;
+          created_at?: string;
+        };
+      };
+      note_views: {
+        Row: {
+          note_id: number; // bigint, but also primary key with user_id
+          user_id: string; // uuid, primary key with note_id
+          created_at: string;
+        };
+        Insert: {
+          note_id: number;
+          user_id?: string;
+          created_at?: string;
+        };
+        Update: {
+          note_id?: number;
+          user_id?: string;
+          created_at?: string;
+        };
+      };
+      profiles: {
+        Row: {
+          id: string; // uuid
+          username: string;
+          email: string | null;
+          bio: string | null;
+          avatar_url: string | null;
+          notes_count: number; // bigint
+          sales_count: number; // bigint
+          views_count: number; // bigint
+          is_private: boolean;
+          referral_code: string | null;
+          account_type: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          username: string;
+          email?: string | null;
+          bio?: string | null;
+          avatar_url?: string | null;
+          notes_count?: number;
+          sales_count?: number;
+          views_count?: number;
+          is_private?: boolean;
+          referral_code?: string | null;
+          account_type?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          username?: string;
+          email?: string | null;
+          bio?: string | null;
+          avatar_url?: string | null;
+          notes_count?: number;
+          sales_count?: number;
+          views_count?: number;
+          is_private?: boolean;
+          referral_code?: string | null;
+          account_type?: string;
+          created_at?: string;
+        };
+      };
+    };
+  } }
 
-// Server-side client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Client-side client (singleton to prevent multiple instances)
-let clientInstance: SupabaseClient | null = null;
+let supabaseClient: SupabaseClient<Database> | null = null;
 
-export const getSupabaseClient = (): SupabaseClient => {
-  if (typeof window === 'undefined') {
-    // Server-side: return the basic client
-    return supabase;
+export function getSupabaseClient(): SupabaseClient<Database> {
+  if (!supabaseClient) {
+    supabaseClient = createBrowserClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
   }
-  
-  // Client-side: return singleton instance
-  if (!clientInstance) {
-    try {
-      // Try to use the auth-helpers client first
-      clientInstance = createClientComponentClient();
-    } catch (error) {
-      // Fallback to basic client if auth-helpers fails
-      console.warn('Failed to create auth client, falling back to basic client:', error);
-      clientInstance = createClient(supabaseUrl, supabaseAnonKey);
-    }
-  }
-  return clientInstance;
-};
+  return supabaseClient;
+}
 
-// Export a function to create client for edge cases
-export const createSupabaseClient = () => createClient(supabaseUrl, supabaseAnonKey);
-
-// Reset client instance (useful for testing or forced refresh)
-export const resetClientInstance = () => {
-  clientInstance = null;
-};
+// For backward compatibility
+export function createClientComponentClient<T = Database>(): SupabaseClient<T> {
+  return getSupabaseClient() as SupabaseClient<T>;
+}

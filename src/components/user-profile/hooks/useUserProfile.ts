@@ -33,7 +33,7 @@ export const useUserProfile = (username: string) => {
       
       const { data, error } = await supabase
         .from('profiles')
-        .select('*')
+        .select('id, username, bio, avatar_url, created_at, notes_count, sales_count, views_count')
         .eq('username', decodedUsername)
         .single();
 

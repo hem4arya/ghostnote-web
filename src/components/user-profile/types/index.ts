@@ -9,6 +9,9 @@ export interface PublicProfile {
   bio: string | null;
   avatar_url: string | null;
   created_at?: string;
+  notes_count?: number;
+  sales_count?: number;
+  views_count?: number;
 }
 
 export interface PublishedNote {

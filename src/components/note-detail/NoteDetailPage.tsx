@@ -1,8 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
-import { getSupabaseClient } from '../../../lib/supabase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { type Database } from '@lib/supabase'; // Make sure this path is correct
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/navbar';
 import { useNoteDetail } from './hooks/useNoteDetail';
 
@@ -13,7 +15,35 @@ interface NoteDetailPageProps {
 export const NoteDetailPage: React.FC<NoteDetailPageProps> = ({ className = '' }) => {
   const { note, isLoading, error, hasAccess, checkingAccess, user, refreshAccess } = useNoteDetail();
   const [purchasing, setPurchasing] = useState(false);
-  const supabase = getSupabaseClient();
+  
+  // Create supabase client instance
+const supabase = createClientComponentClient<Database>();
+
+  // Record view if the user is not the note owner
+  useEffect(() => {
+    if (!note || !user || checkingAccess || isLoading) return;
+
+    // Don't record view if the user is the note owner
+    if (note.user_id === user.id) return;
+
+    // Record the view
+    const recordView = async () => {
+      try {
+        await supabase
+          .from('note_views')
+          .insert([
+            {
+              note_id: note.id,
+              user_id: user.id
+            }
+          ]);
+      } catch {
+        // Silently ignore errors (e.g., if user has already viewed the note)
+      }
+    };
+
+    recordView();
+  }, [note, user, checkingAccess, isLoading]); // Remove supabase from dependencies since it's stable
 
   const handleBuy = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -160,12 +190,12 @@ export const NoteDetailPage: React.FC<NoteDetailPageProps> = ({ className = '' }
                     <p className="text-muted-foreground mb-4">
                       Please log in to purchase this note.
                     </p>
-                    <a
+                    <Link
                       href="/auth"
                       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors inline-block"
                     >
                       Log In
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>

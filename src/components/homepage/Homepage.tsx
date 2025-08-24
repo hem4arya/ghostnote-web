@@ -13,7 +13,7 @@ import AuthForm from '@/components/navbar/components/AuthForm';
 import type { HomepageProps } from './types';
 import './styles/homepage.css';
 import { HeroSection } from './sections/HeroSection';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '@lib/supabase';
 import type { Note } from '@/components/note-card/NoteCard.types';
 
 export const Homepage: React.FC<HomepageProps> = ({ 
@@ -24,24 +24,30 @@ export const Homepage: React.FC<HomepageProps> = ({
   const [authView, setAuthView] = useState<'sign_in' | 'sign_up'>('sign_in');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [publishedNotes, setPublishedNotes] = useState<Note[]>([]);
+  
+  const supabase = getSupabaseClient();
 
   // Fetch published notes from Supabase
   useEffect(() => {
     const fetchPublishedNotes = async () => {
-      const { data, error } = await supabase
-        .from('notes')
-        .select('*')
-        .eq('is_published', true);
+      try {
+        const { data, error } = await supabase
+          .from('notes')
+          .select('*')
+          .eq('is_published', true);
 
-      if (error) {
+        if (error) {
+          console.error('Error fetching published notes:', error);
+        } else if (data) {
+          setPublishedNotes(data);
+        }
+      } catch (error) {
         console.error('Error fetching published notes:', error);
-      } else {
-        setPublishedNotes(data);
       }
     };
 
     fetchPublishedNotes();
-  }, []);
+  }, []); // Remove supabase dependency since it's stable
 
   // Filter notes based on selected category
   const filteredNotes = selectedCategory === 'All'
