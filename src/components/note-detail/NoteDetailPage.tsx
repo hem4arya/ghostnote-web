@@ -1,8 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { type Database } from '@lib/supabase'; // Make sure this path is correct
+import { getSupabaseClient } from '@lib/supabase';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/navbar';
@@ -17,7 +16,7 @@ export const NoteDetailPage: React.FC<NoteDetailPageProps> = ({ className = '' }
   const [purchasing, setPurchasing] = useState(false);
   
   // Create supabase client instance
-const supabase = createClientComponentClient<Database>();
+  const supabase = getSupabaseClient();
 
   // Record view if the user is not the note owner
   useEffect(() => {
@@ -43,7 +42,7 @@ const supabase = createClientComponentClient<Database>();
     };
 
     recordView();
-  }, [note, user, checkingAccess, isLoading]); // Remove supabase from dependencies since it's stable
+  }, [note, user, checkingAccess, isLoading, supabase]); // Include supabase dependency
 
   const handleBuy = async (e: React.MouseEvent) => {
     e.preventDefault();

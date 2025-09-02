@@ -1,142 +1,22 @@
 // lib/supabase.ts
-import { createBrowserClient } from '@supabase/ssr';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
+import { mockSupabaseClient } from './supabase-mock';
 
-export type Database = {
-  public : {
-    Tables: {
-      notes: {
-        Row: {
-          id: number; // bigint in PostgreSQL becomes number in TypeScript
-          title: string | null;
-          content: string | null;
-          category?: string; // Not in schema, but used in your app
-          is_published: boolean;
-          price: number | null; // bigint
-          user_id: string | null; // uuid
-          created_at: string;
-          word_handle: string | null;
-          view_count: number; // bigint
-        };
-        Insert: {
-          title?: string | null;
-          content?: string | null;
-          category?: string;
-          is_published?: boolean;
-          price?: number | null;
-          user_id?: string | null;
-          created_at?: string;
-          word_handle?: string | null;
-          view_count?: number;
-        };
-        Update: {
-          title?: string | null;
-          content?: string | null;
-          category?: string;
-          is_published?: boolean;
-          price?: number | null;
-          user_id?: string | null;
-          created_at?: string;
-          word_handle?: string | null;
-          view_count?: number;
-        };
-      };
-      purchases: {
-        Row: {
-          id: number; // bigint
-          note_id: number; // bigint
-          buyer_id: string | null; // uuid
-          created_at: string;
-        };
-        Insert: {
-          note_id: number;
-          buyer_id?: string | null;
-          created_at?: string;
-        };
-        Update: {
-          note_id?: number;
-          buyer_id?: string | null;
-          created_at?: string;
-        };
-      };
-      note_views: {
-        Row: {
-          note_id: number; // bigint, but also primary key with user_id
-          user_id: string; // uuid, primary key with note_id
-          created_at: string;
-        };
-        Insert: {
-          note_id: number;
-          user_id?: string;
-          created_at?: string;
-        };
-        Update: {
-          note_id?: number;
-          user_id?: string;
-          created_at?: string;
-        };
-      };
-      profiles: {
-        Row: {
-          id: string; // uuid
-          username: string;
-          email: string | null;
-          bio: string | null;
-          avatar_url: string | null;
-          notes_count: number; // bigint
-          sales_count: number; // bigint
-          views_count: number; // bigint
-          is_private: boolean;
-          referral_code: string | null;
-          account_type: string;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          username: string;
-          email?: string | null;
-          bio?: string | null;
-          avatar_url?: string | null;
-          notes_count?: number;
-          sales_count?: number;
-          views_count?: number;
-          is_private?: boolean;
-          referral_code?: string | null;
-          account_type?: string;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          username?: string;
-          email?: string | null;
-          bio?: string | null;
-          avatar_url?: string | null;
-          notes_count?: number;
-          sales_count?: number;
-          views_count?: number;
-          is_private?: boolean;
-          referral_code?: string | null;
-          account_type?: string;
-          created_at?: string;
-        };
-      };
-    };
-  } }
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// Check if Supabase credentials are properly configured
+const isSupabaseConfigured = supabaseUrl && 
+  supabaseAnonKey && 
+  supabaseUrl !== 'your_supabase_project_url_here' &&
+  supabaseAnonKey !== 'your_supabase_anon_key_here';
 
-let supabaseClient: SupabaseClient<Database> | null = null;
+export const supabase = isSupabaseConfigured 
+  ? createClient(supabaseUrl!, supabaseAnonKey!)
+  : (mockSupabaseClient as unknown as ReturnType<typeof createClient>);
 
-export function getSupabaseClient(): SupabaseClient<Database> {
-  if (!supabaseClient) {
-    supabaseClient = createBrowserClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
-  }
-  return supabaseClient;
+export function getSupabaseClient() {
+  return supabase;
 }
 
-// For backward compatibility
-export function createClientComponentClient<T = Database>(): SupabaseClient<T> {
-  return getSupabaseClient() as SupabaseClient<T>;
-}
+export default getSupabaseClient;

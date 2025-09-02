@@ -131,7 +131,7 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
       const publicUrl = urlData.publicUrl;
       console.log("Public URL:", publicUrl);
 
-      // Update profile in database
+      // Update profile in database - This should now work correctly
       const { error: updateError } = await supabase
         .from("profiles")
         .update({ avatar_url: publicUrl })

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "../../../../lib/supabase";
+import { getSupabaseClient } from "@lib/supabase";
 import { useFormatting } from "@/hooks/useFormatting";
 import { useResponsive } from "@/hooks/useResponsive";
 import { useHelpModal } from "@/hooks/useHelpModal";

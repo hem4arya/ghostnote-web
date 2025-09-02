@@ -47,7 +47,7 @@ export const Homepage: React.FC<HomepageProps> = ({
     };
 
     fetchPublishedNotes();
-  }, []); // Remove supabase dependency since it's stable
+  }, [supabase]); // Include supabase dependency
 
   // Filter notes based on selected category
   const filteredNotes = selectedCategory === 'All'

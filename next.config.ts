@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig = {
+  outputFileTracingRoot: __dirname,
   images: {
     remotePatterns: [
       {
@@ -43,7 +44,7 @@ const nextConfig = {
     return config
   },
   experimental: {
-    allowedDevOrigins: ["http://192.168.0.105:3000"]
+    // allowedDevOrigins is not a valid Next.js experimental option
   },
   // Server configuration
   async headers() {
