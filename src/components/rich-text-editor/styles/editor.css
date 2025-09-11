@@ -1,0 +1,422 @@
+/* Rich Text Editor Styles */
+
+.rich-text-editor {
+  border: 2px solid var(--ghost-gray, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-xl, 12px);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(12px);
+  overflow: visible;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.rich-text-editor:focus-within {
+  border-color: var(--ghost-purple, #8b5cf6);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), 0 0 0 1px var(--ghost-purple, #8b5cf6);
+}
+
+/* When toolbar is not shown, remove top border radius */
+.rich-text-editor.no-toolbar {
+  border-radius: var(--radius-xl, 12px);
+}
+
+.rich-text-editor.no-toolbar .editor-content-wrapper {
+  border-radius: var(--radius-xl, 12px) var(--radius-xl, 12px) 0 0;
+}
+
+.editor-toolbar {
+  position: relative;
+  z-index: 100; /* Increased from 10 to 100 */
+  overflow: visible;
+}
+
+/* Dropdown container positioning with high z-index */
+.editor-toolbar .relative {
+  position: relative;
+  z-index: 101; /* Added higher z-index for dropdown containers */
+}
+
+.toolbar-placeholder {
+  color: var(--text-muted, rgba(255, 255, 255, 0.6));
+  font-size: var(--text-sm, 14px);
+  text-align: center;
+  padding: var(--spacing-2, 8px);
+}
+
+.editor-content-wrapper {
+  min-height: 400px;
+  overflow-y: auto;
+  background: var(--ghost-black, #0a0a0a);
+  border-radius: var(--radius-xl, 12px);
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.rich-text-editor.no-toolbar .editor-content-wrapper {
+  border-radius: var(--radius-xl, 12px);
+}
+
+.editor-content {
+  padding: 0;
+  height: 100%;
+}
+
+.editor-content .ProseMirror {
+  outline: none;
+  color: var(--text-primary, #ffffff);
+  font-family: var(--font-sans, system-ui);
+  line-height: 1.7;
+  font-size: 16px;
+  min-height: 400px;
+  text-align: left;
+  width: 100%;
+  padding: 8px 12px; /* Reduced padding for less spacing */
+}
+
+.editor-content .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--text-muted, rgba(255, 255, 255, 0.4));
+  pointer-events: none;
+  height: 0;
+}
+
+.editor-content .ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--text-primary, #ffffff);
+}
+
+.editor-content .ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem 0;
+  color: var(--text-primary, #ffffff);
+}
+
+.editor-content .ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem 0;
+  color: var(--text-primary, #ffffff);
+}
+
+.editor-content .ProseMirror ul,
+.editor-content .ProseMirror ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.editor-content .ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.editor-content .ProseMirror strong {
+  font-weight: 700;
+}
+
+.editor-content .ProseMirror em {
+  font-style: italic;
+}
+
+.editor-content .ProseMirror blockquote {
+  border-left: 4px solid var(--ghost-purple, #8b5cf6);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+}
+
+.editor-content .ProseMirror code {
+  background: var(--glass-surface, rgba(255, 255, 255, 0.1));
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm, 4px);
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: 0.875em;
+}
+
+.editor-content .ProseMirror pre {
+  background: var(--glass-surface, rgba(255, 255, 255, 0.1));
+  padding: 1rem;
+  border-radius: var(--radius-md, 6px);
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.editor-content .ProseMirror pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+/* Text alignment styles */
+.editor-content .ProseMirror [data-text-align="left"] {
+  text-align: left;
+}
+
+.editor-content .ProseMirror [data-text-align="center"] {
+  text-align: center;
+}
+
+.editor-content .ProseMirror [data-text-align="right"] {
+  text-align: right;
+}
+
+.editor-content .ProseMirror [data-text-align="justify"] {
+  text-align: justify;
+}
+
+/* Underline styles */
+.editor-content .ProseMirror u {
+  text-decoration: underline;
+}
+
+/* Superscript and subscript styles */
+.editor-content .ProseMirror sup {
+  vertical-align: super;
+  font-size: 0.75em;
+}
+
+.editor-content .ProseMirror sub {
+  vertical-align: sub;
+  font-size: 0.75em;
+}
+
+/* Horizontal rule styles */
+.editor-content .ProseMirror hr {
+  border: none;
+  border-top: 2px solid var(--ghost-purple, #8b5cf6);
+  margin: 2rem 0;
+  opacity: 0.6;
+}
+
+/* Task list styles */
+.editor-content .ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.editor-content .ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.5rem 0;
+}
+
+.editor-content .ProseMirror ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.editor-content .ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}
+
+.editor-content .ProseMirror ul[data-type="taskList"] input[type="checkbox"] {
+  cursor: pointer;
+  margin: 0;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--ghost-purple, #8b5cf6);
+}
+
+.editor-content .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Nested task lists */
+.editor-content .ProseMirror ul[data-type="taskList"] ul[data-type="taskList"] {
+  margin: 0.25rem 0 0.25rem 1.5rem;
+}
+
+/* Font family styles */
+.editor-content .ProseMirror [style*="font-family"] {
+  font-family: inherit;
+}
+
+/* Color and highlight styles */
+.editor-content .ProseMirror [style*="color"] {
+  color: inherit;
+}
+
+.editor-content .ProseMirror mark {
+  background-color: var(--ghost-neon, #00ffff);
+  color: var(--ghost-black, #000000);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.editor-content .ProseMirror mark[data-color] {
+  background-color: attr(data-color);
+}
+
+/* Theme-aware highlight colors */
+[data-theme="light"] .editor-content .ProseMirror mark {
+  background-color: #fbbf24;
+  color: #1f2937;
+}
+
+/* Font size styles */
+.editor-content .ProseMirror [style*="font-size"] {
+  font-size: inherit;
+}
+
+/* Ensure proper line height for different font sizes */
+.editor-content .ProseMirror {
+  line-height: 1.6;
+}
+
+.editor-content .ProseMirror * {
+  line-height: inherit;
+}
+
+.rich-text-editor-loading {
+  padding: var(--spacing-8, 32px);
+  text-align: center;
+  color: var(--text-muted, rgba(255, 255, 255, 0.6));
+  background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-lg, 8px);
+}
+
+/* Dropdown Styles - FIXED Z-INDEX */
+.toolbar-dropdown-menu {
+  position: fixed !important; /* Changed to fixed positioning */
+  z-index: 999999 !important; /* Maximum z-index */
+  background: var(--ghost-dark, rgba(0, 0, 0, 0.95));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.color-picker-dropdown {
+  position: fixed !important; /* Changed to fixed positioning */
+  z-index: 999999 !important; /* Maximum z-index */
+  background: var(--ghost-dark, rgba(0, 0, 0, 0.98));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+}
+
+/* Fullscreen button fix */
+.fullscreen-button {
+  position: relative;
+  z-index: 999999 !important;
+}
+
+/* Light theme overrides */
+[data-theme="light"] .rich-text-editor {
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .rich-text-editor:focus-within {
+  border-color: var(--ghost-purple, #8b5cf6);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15), 0 0 0 1px var(--ghost-purple, #8b5cf6);
+}
+
+[data-theme="light"] .editor-content-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="light"] .toolbar-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .editor-content .ProseMirror {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .editor-content .ProseMirror h1,
+[data-theme="light"] .editor-content .ProseMirror h2,
+[data-theme="light"] .editor-content .ProseMirror h3 {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .editor-content .ProseMirror p.is-editor-empty:first-child::before {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .editor-content .ProseMirror blockquote {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] .rich-text-editor-loading {
+  color: rgba(0, 0, 0, 0.6);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .toolbar-dropdown-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .color-picker-dropdown {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Compact toolbar styles */
+.compact-toolbar .editor-toolbar {
+  padding: 0;
+  background: transparent;
+  border: none;
+  gap: 1px;
+  position: relative;
+  z-index: 100; /* Increased z-index */
+  overflow: visible;
+}
+
+.compact-toolbar .editor-toolbar > div {
+  padding: 2px 4px;
+  background: var(--ghost-dark, rgba(255, 255, 255, 0.05));
+  border-radius: 4px;
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.1));
+  position: relative;
+}
+
+.compact-toolbar .editor-toolbar button {
+  min-width: 24px;
+  height: 24px;
+  padding: 2px 4px;
+  font-size: 11px;
+  border-radius: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.compact-toolbar .editor-toolbar .relative > button {
+  min-width: 24px;
+  height: 24px;
+  padding: 2px 4px;
+}
+
+/* Floating word count styles */
+.floating-word-count {
+  backdrop-filter: blur(12px);
+  z-index: 5;
+}
+
+/* Light theme overrides for new components */
+[data-theme="light"] .compact-toolbar .editor-toolbar > div {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+}

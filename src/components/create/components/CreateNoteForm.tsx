@@ -1,72 +1,28 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "@lib/supabase";
-import { useFormatting } from "@/hooks/useFormatting";
-import { useResponsive } from "@/hooks/useResponsive";
-import { useHelpModal } from "@/hooks/useHelpModal";
-import { useImageState } from "@/hooks/useImageState";
-import { useImageInteraction } from "@/hooks/useImageInteraction";
-import { EditorHeader } from "@/components/editor/EditorHeader";
-import { FormattingToolbar } from "@/components/editor/FormattingToolbar";
-import { ImageToolbox } from "@/components/editor/ImageToolbox";
-import { WordCountWidget } from "@/components/editor/WordCountWidget";
-import { HelpModal } from "@/components/editor/HelpModal";
+import { RichTextEditor } from "@/components/rich-text-editor";
 import { toast } from "react-toastify";
+import { Editor } from "@tiptap/react";
+import CompactEditorHeader from "./CompactEditorHeader";
+import FloatingWordCount from "./FloatingWordCount";
 
 const CreateNoteForm = () => {
   const router = useRouter();
-  const editorRef = useRef<HTMLDivElement>(null);
   const supabase = getSupabaseClient();
 
   // Basic state
   const [title, setTitle] = useState("");
   const [wordHandle, setWordHandle] = useState("");
+  const [content, setContent] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [focusMode, setFocusMode] = useState<boolean>(false);
   const [, setSaving] = useState(false);
-
-  // Custom hooks
-  const { activeFormats, executeCommand, checkFormatting } = useFormatting();
-  const { isMobile } = useResponsive();
-  const {
-    hasSeenHelp,
-    showResizeHelp,
-    manualHelp,
-    openHelpModal,
-    closeHelpModal,
-  } = useHelpModal();
-  const {
-    selectedImage,
-    setSelectedImage,
-    activeMode,
-    setActiveMode,
-    imageTextWrap,
-    setImageTextWrap,
-    imageOpacity,
-    setImageOpacity,
-  } = useImageState();
-
-  // Image interaction hook
-  useImageInteraction({
-    editorRef,
-    selectedImage,
-    setSelectedImage,
-    activeMode,
-    setActiveMode,
-    imageTextWrap,
-    setImageTextWrap,
-    imageOpacity,
-    setImageOpacity,
-    isMobile,
-    showResizeHelp,
-    setShowResizeHelp: (show: boolean) =>
-      show ? openHelpModal() : closeHelpModal(),
-    hasSeenHelp,
-  });
+  const [editor, setEditor] = useState<Editor | null>(null);
 
   // Validate Word Handle format (two words separated by hyphen)
   const validateWordHandle = (handle: string): boolean => {
@@ -88,24 +44,28 @@ const CreateNoteForm = () => {
     setWordHandle(sanitized);
   };
 
-  const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
-    const plainText = e.currentTarget.textContent || "";
+  const handleContentChange = (htmlContent: string) => {
+    setContent(htmlContent);
+
+    // Extract plain text for word/character count
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = htmlContent;
+    const plainText = tempDiv.textContent || tempDiv.innerText || "";
+
     setWordCount(plainText.trim() ? plainText.trim().split(/\s+/).length : 0);
     setCharCount(plainText.length);
 
     // Simulate autosave
     setTimeout(() => setLastSaved(new Date()), 1000);
-
-    // Check formatting status after change
-    checkFormatting();
-  };
-
-  const handleExecuteCommand = (command: string, value?: string) => {
-    executeCommand(command, value, editorRef);
   };
 
   const handleSave = async () => {
-    if (!title.trim() && !editorRef.current?.textContent?.trim()) {
+    // Extract plain text from HTML content for validation
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = content;
+    const plainText = tempDiv.textContent || tempDiv.innerText || "";
+
+    if (!title.trim() && !plainText.trim()) {
       toast.error("Please add a title or content before saving");
       return;
     }
@@ -129,7 +89,6 @@ const CreateNoteForm = () => {
         return;
       }
 
-      const content = editorRef.current?.innerHTML || "";
       const trimmedWordHandle = wordHandle.trim();
 
       // Check if Word Handle already exists (if provided)
@@ -175,62 +134,60 @@ const CreateNoteForm = () => {
 
   return (
     <div className="min-h-screen bg-ghost-black text-white">
-      {/* Header and toolbars - hidden in focus mode */}
+      {/* Compact Header - hidden in focus mode */}
       {!focusMode && (
-        <EditorHeader
+        <CompactEditorHeader
           title={title}
           setTitle={setTitle}
           wordHandle={wordHandle}
           setWordHandle={handleWordHandleChange}
           lastSaved={lastSaved}
-          focusMode={focusMode}
           onBackClick={() => router.push("/")}
           onSave={handleSave}
-        >
-          <FormattingToolbar
-            activeFormats={activeFormats}
-            executeCommand={handleExecuteCommand}
-          />
-
-          <ImageToolbox
-            selectedImage={selectedImage}
-            imageTextWrap={imageTextWrap}
-            setImageTextWrap={setImageTextWrap}
-            imageOpacity={imageOpacity}
-            setImageOpacity={setImageOpacity}
-            activeMode={activeMode}
-            setActiveMode={setActiveMode}
-            onHelpClick={openHelpModal}
-          />
-        </EditorHeader>
-      )}
-
-      {/* Word Count Widget - hidden in focus mode */}
-      {!focusMode && (
-        <WordCountWidget wordCount={wordCount} charCount={charCount} />
-      )}
-
-      {/* Editor - Responsive layout with full-screen focus mode */}
-      <div
-        className={
-          focusMode
-            ? "w-full h-screen relative"
-            : "max-w-5xl mx-auto px-2 sm:px-4 py-3 sm:py-5 relative"
-        }
-      >
-        <div
-          ref={editorRef}
-          contentEditable
-          suppressContentEditableWarning
-          onInput={handleContentChange}
-          className={
-            focusMode
-              ? "w-full h-full p-6 sm:p-8 md:p-12 bg-ghost-black focus:outline-none text-white prose-editor overflow-auto text-lg sm:text-xl leading-relaxed resize-none"
-              : "min-h-[70vh] sm:min-h-[80vh] p-4 sm:p-6 md:p-8 bg-ghost-dark/80 rounded-lg border border-ghost-gray/50 focus:outline-none focus:ring-1 focus:ring-ghost-purple/50 focus:border-ghost-purple/30 transition-all duration-200 text-white prose-editor overflow-hidden text-base sm:text-lg leading-relaxed"
-          }
-          data-placeholder="Start writing your masterpiece..."
-          style={{ caretColor: "var(--ghost-neon)", position: "relative" }}
+          editor={editor}
+          features={{
+            basicFormatting: true,
+            advancedFormatting: true,
+            media: false,
+            tables: false,
+            code: true,
+            math: false,
+            citations: false,
+            collaboration: false,
+          }}
         />
+      )}
+
+      {/* Floating Word Count - always visible except in focus mode */}
+      {!focusMode && (
+        <FloatingWordCount wordCount={wordCount} charCount={charCount} />
+      )}
+
+      {/* Editor - Clean layout with maximum writing space */}
+      <div
+        className={focusMode ? "w-full h-screen relative" : "w-full relative"}
+      >
+        <div className={focusMode ? "h-full" : "max-w-6xl mx-auto px-4 py-6"}>
+          <RichTextEditor
+            initialContent=""
+            placeholder="Start writing your masterpiece..."
+            onChange={handleContentChange}
+            className={focusMode ? "w-full h-full" : "min-h-[80vh]"}
+            autoFocus={false}
+            showToolbar={false}
+            onEditorReady={setEditor}
+            features={{
+              basicFormatting: true,
+              advancedFormatting: true,
+              media: false, // Disable for now to keep it simple
+              tables: false,
+              code: true,
+              math: false,
+              citations: false,
+              collaboration: false,
+            }}
+          />
+        </div>
 
         {/* Focus mode toggle button */}
         <button
@@ -238,7 +195,7 @@ const CreateNoteForm = () => {
           className={
             focusMode
               ? "fixed top-4 right-4 p-3 rounded-full bg-ghost-dark/90 border border-ghost-purple/40 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/60 transition-all duration-200 z-50 focus:outline-none shadow-lg backdrop-blur-sm"
-              : "absolute top-4 right-4 p-2 rounded-full bg-ghost-dark/80 border border-ghost-purple/30 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/50 transition-all duration-200 z-10 focus:outline-none shadow-md"
+              : "fixed top-20 right-4 p-2 rounded-full bg-ghost-dark/80 border border-ghost-purple/30 text-gray-400 hover:text-ghost-neon hover:border-ghost-neon/50 transition-all duration-200 z-10 focus:outline-none shadow-md"
           }
           aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
           title={focusMode ? "Exit focus mode" : "Enter focus mode"}
@@ -262,14 +219,6 @@ const CreateNoteForm = () => {
             )}
           </svg>
         </button>
-
-        <HelpModal
-          showResizeHelp={showResizeHelp}
-          hasSeenHelp={hasSeenHelp}
-          manualHelp={manualHelp}
-          isMobile={isMobile}
-          onClose={closeHelpModal}
-        />
       </div>
     </div>
   );
