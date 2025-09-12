@@ -33,7 +33,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     collaboration: false,
   },
   theme = "auto",
-  showToolbar = true, // Changed default to true since we only want toolbar
+  showToolbar = true,
   onEditorReady, // New prop to pass editor instance to parent
 }) => {
   // Use initialContent if provided, otherwise use content
@@ -68,7 +68,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           className="editor-toolbar"
         />
       )}
-      {/* Editor content is now visible (removed display: none) */}
       <div className="editor-content-wrapper">
         <EditorContent editor={editor} className="editor-content" />
       </div>
