@@ -3,7 +3,7 @@ import React from "react";
 import { EditorContent } from "@tiptap/react";
 import { RichTextEditorProps } from "./types";
 import { useEditor } from "./hooks";
-import { EditorToolbar } from "./components";
+import { EditorToolbar, LinkDialog } from "./components";
 import "./styles/editor.css";
 
 /**
@@ -38,6 +38,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 }) => {
   // Use initialContent if provided, otherwise use content
   const editorContent = initialContent || content;
+  
+  // Link dialog state
+  const [isLinkDialogOpen, setIsLinkDialogOpen] = React.useState(false);
    
   const { editor } = useEditor({
     content: editorContent,
@@ -55,6 +58,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     }
   }, [editor, onEditorReady]);
 
+  // Handle link button click
+  const handleLinkClick = React.useCallback(() => {
+    setIsLinkDialogOpen(true);
+  }, []);
+
   if (!editor) {
     return <div className="rich-text-editor-loading">Loading editor...</div>;
   }
@@ -66,11 +74,21 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           editor={editor}
           features={features}
           className="editor-toolbar"
+          onLinkClick={handleLinkClick}
         />
       )}
       <div className="editor-content-wrapper">
         <EditorContent editor={editor} className="editor-content" />
       </div>
+      
+      {/* Link Dialog */}
+      {editor && (
+        <LinkDialog
+          editor={editor}
+          isOpen={isLinkDialogOpen}
+          onClose={() => setIsLinkDialogOpen(false)}
+        />
+      )}
     </div>
   );
 };

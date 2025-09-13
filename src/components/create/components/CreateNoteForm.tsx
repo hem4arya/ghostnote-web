@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "@lib/supabase";
-import { RichTextEditor } from "@/components/rich-text-editor";
+import { RichTextEditor, LinkDialog } from "@/components/rich-text-editor";
 import { toast } from "react-toastify";
 import { Editor } from "@tiptap/react";
 import CompactEditorHeader from "./CompactEditorHeader";
@@ -23,6 +23,7 @@ const CreateNoteForm = () => {
   const [focusMode, setFocusMode] = useState<boolean>(false);
   const [, setSaving] = useState(false);
   const [editor, setEditor] = useState<Editor | null>(null);
+  const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
 
   // Validate Word Handle format (two words separated by hyphen)
   const validateWordHandle = (handle: string): boolean => {
@@ -57,6 +58,11 @@ const CreateNoteForm = () => {
 
     // Simulate autosave
     setTimeout(() => setLastSaved(new Date()), 1000);
+  };
+
+  // Handle link button click
+  const handleLinkClick = () => {
+    setIsLinkDialogOpen(true);
   };
 
   const handleSave = async () => {
@@ -155,6 +161,7 @@ const CreateNoteForm = () => {
             citations: false,
             collaboration: false,
           }}
+          onLinkClick={handleLinkClick}
         />
       )}
 
@@ -220,6 +227,15 @@ const CreateNoteForm = () => {
           </svg>
         </button>
       </div>
+
+      {/* Link Dialog */}
+      {editor && (
+        <LinkDialog
+          editor={editor}
+          isOpen={isLinkDialogOpen}
+          onClose={() => setIsLinkDialogOpen(false)}
+        />
+      )}
     </div>
   );
 };

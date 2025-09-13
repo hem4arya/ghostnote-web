@@ -15,6 +15,7 @@ interface CompactEditorHeaderProps {
   onSave?: () => void;
   editor: Editor | null;
   features: Partial<EditorFeatures>;
+  onLinkClick?: () => void;
 }
 
 /**
@@ -28,6 +29,7 @@ const CompactEditorHeader: React.FC<CompactEditorHeaderProps> = ({
   onSave,
   editor,
   features,
+  onLinkClick,
 }) => {
   return (
     <div className="sticky top-0 z-40 bg-ghost-dark/95 backdrop-blur-sm">
@@ -49,6 +51,7 @@ const CompactEditorHeader: React.FC<CompactEditorHeaderProps> = ({
               editor={editor}
               features={features}
               className="compact-toolbar"
+              onLinkClick={onLinkClick}
             />
           )}
         </div>

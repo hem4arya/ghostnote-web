@@ -22,7 +22,8 @@
 
 .rich-text-editor:focus-within {
   border-color: var(--ghost-purple, #8b5cf6);
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), 0 0 0 1px var(--ghost-purple, #8b5cf6);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2),
+    0 0 0 1px var(--ghost-purple, #8b5cf6);
 }
 
 .rich-text-editor.no-toolbar {
@@ -91,7 +92,7 @@
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box;
-  padding: 8px 0 !important; /* Vertical padding only, zero horizontal */
+  padding: 8px 5px !important; /* Vertical padding and horizontal padding for text input area */
   margin: 0 !important;
 }
 
@@ -129,14 +130,22 @@
   color: var(--text-primary, #ffffff);
 }
 
-.editor-content .ProseMirror ul,
+/* Regular list styles - ensure bullets and numbers are visible */
+.editor-content .ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5rem !important;
+  margin: 0.5rem 0 !important;
+}
+
 .editor-content .ProseMirror ol {
-  padding-left: 1rem !important; /* Reduced from 1.5rem to minimize indent space */
+  list-style-type: decimal;
+  padding-left: 1.5rem !important;
   margin: 0.5rem 0 !important;
 }
 
 .editor-content .ProseMirror li {
   margin: 0.25rem 0 !important;
+  display: list-item;
 }
 
 .editor-content .ProseMirror strong {
@@ -149,17 +158,20 @@
 
 .editor-content .ProseMirror blockquote {
   border-left: 4px solid var(--ghost-purple, #8b5cf6);
-  padding-left: 0.5rem !important; /* Reduced indent for less side space */
+  padding-left: 1rem !important;
+  padding-right: 0.5rem !important;
   margin: 1rem 0 !important;
   font-style: italic;
   color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+  background: rgba(139, 92, 246, 0.05);
+  border-radius: 0 4px 4px 0;
 }
 
 .editor-content .ProseMirror code {
   background: var(--glass-surface, rgba(255, 255, 255, 0.1));
   padding: 0.125rem 0.25rem;
   border-radius: var(--radius-sm, 4px);
-  font-family: var(--font-mono, 'Courier New', monospace);
+  font-family: var(--font-mono, "Courier New", monospace);
   font-size: 0.875em;
 }
 
@@ -218,13 +230,174 @@
   opacity: 0.6;
 }
 
-/* Task list styles */
+/* Task list styles - Updated for inline fixing */
 .editor-content .ProseMirror ul[data-type="taskList"] {
   list-style: none;
-  padding-left: 0 !important; /* Reduced for task lists */
+  padding-left: 0 !important;
+  margin: 0.5rem 0 !important;
 }
 
-/* ... (truncated parts remain unchanged) ... */
+.editor-content .ProseMirror li[data-type="taskItem"] {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  margin: 0.25rem 0 !important;
+  list-style: none !important;
+}
+
+.editor-content .ProseMirror li[data-type="taskItem"] > label {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.editor-content .ProseMirror li[data-type="taskItem"] > label > input[type="checkbox"] {
+  margin: 0;
+  padding: 0;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--ghost-purple, #8b5cf6);
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
+
+.editor-content .ProseMirror li[data-type="taskItem"] > div {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure completed tasks have proper styling */
+.editor-content .ProseMirror li[data-type="taskItem"][data-checked="true"] > div {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Custom task markers */
+.editor-content .ProseMirror li[data-marker-type="checkbox"] input[type="checkbox"] {
+  appearance: checkbox;
+}
+
+.editor-content .ProseMirror li[data-marker-type="radio"] input {
+  appearance: radio;
+}
+
+.editor-content .ProseMirror li[data-marker-type="check"] input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid currentColor;
+  position: relative;
+  background: transparent;
+}
+
+.editor-content .ProseMirror li[data-marker-type="check"] input:checked::before {
+  content: '✔️';
+  position: absolute;
+  left: -0.1em;
+  top: -0.3em;
+  font-size: 1.2em;
+}
+
+.editor-content .ProseMirror li[data-marker-type="cross"] input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid currentColor;
+  position: relative;
+  background: transparent;
+}
+
+.editor-content .ProseMirror li[data-marker-type="cross"] input:checked::before {
+  content: '✖️';
+  position: absolute;
+  left: -0.1em;
+  top: -0.3em;
+  font-size: 1.2em;
+}
+
+/* Nested task lists */
+.editor-content .ProseMirror ul[data-type="taskList"] ul[data-type="taskList"] {
+  margin: 0.25rem 0 0.25rem 1.5rem !important;
+  padding-left: 0 !important;
+}
+
+/* Ensure task list items don't inherit regular list styles */
+.editor-content .ProseMirror ul[data-type="taskList"] li[data-type="taskItem"] {
+  list-style-type: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Nested list styles */
+.editor-content .ProseMirror ul ul,
+.editor-content .ProseMirror ol ol,
+.editor-content .ProseMirror ul ol,
+.editor-content .ProseMirror ol ul {
+  margin: 0.25rem 0 !important;
+  padding-left: 1.5rem !important;
+}
+
+/* Ensure nested lists have proper list styles */
+.editor-content .ProseMirror ul ul {
+  list-style-type: circle;
+}
+
+.editor-content .ProseMirror ul ul ul {
+  list-style-type: square;
+}
+
+.editor-content .ProseMirror ol ol {
+  list-style-type: lower-alpha;
+}
+
+.editor-content .ProseMirror ol ol ol {
+  list-style-type: lower-roman;
+}
+
+/* For dash bullet */
+.editor-content .ProseMirror ul[data-style-type="dash"] {
+  list-style-type: none;
+}
+
+.editor-content .ProseMirror ul[data-style-type="dash"] li::before {
+  content: '- ';
+  margin-right: 0.5em;
+}
+
+/* Link styles */
+.editor-content .ProseMirror a.editor-link {
+  color: var(--ghost-purple, #8b5cf6);
+  text-decoration: underline;
+  text-decoration-color: var(--ghost-purple, #8b5cf6);
+  text-underline-offset: 2px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.editor-content .ProseMirror a.editor-link:hover {
+  color: var(--ghost-neon, #00ffff);
+  text-decoration-color: var(--ghost-neon, #00ffff);
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Light theme link styles */
+[data-theme="light"] .editor-content .ProseMirror a.editor-link {
+  color: var(--ghost-purple, #8b5cf6);
+}
+
+[data-theme="light"] .editor-content .ProseMirror a.editor-link:hover {
+  color: #6d28d9;
+  background: rgba(139, 92, 246, 0.1);
+}
 
 /* Color and highlight styles */
 .editor-content .ProseMirror [style*="color"] {
@@ -278,12 +451,26 @@
   background: var(--ghost-dark, rgba(0, 0, 0, 0.95));
   backdrop-filter: blur(20px);
   border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   min-width: 200px;
   max-height: 300px;
   overflow-y: auto;
   margin-top: 8px;
+}
+
+/* Enhanced dropdown styling for new components */
+.toolbar-dropdown-menu .grid {
+  padding: 8px;
+}
+
+.toolbar-dropdown-menu button {
+  transition: all 0.2s ease;
+}
+
+.toolbar-dropdown-menu button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .color-picker-dropdown {
@@ -312,7 +499,8 @@
 
 [data-theme="light"] .rich-text-editor:focus-within {
   border-color: var(--ghost-purple, #8b5cf6);
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15), 0 0 0 1px var(--ghost-purple, #8b5cf6);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15),
+    0 0 0 1px var(--ghost-purple, #8b5cf6);
 }
 
 [data-theme="light"] .editor-content-wrapper {
@@ -333,12 +521,16 @@
   color: #1a1a1a;
 }
 
-[data-theme="light"] .editor-content .ProseMirror p.is-editor-empty:first-child::before {
+[data-theme="light"]
+  .editor-content
+  .ProseMirror
+  p.is-editor-empty:first-child::before {
   color: rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="light"] .editor-content .ProseMirror blockquote {
   color: rgba(0, 0, 0, 0.7);
+  background: rgba(139, 92, 246, 0.08);
 }
 
 [data-theme="light"] .rich-text-editor-loading {
@@ -400,8 +592,285 @@
   z-index: 5;
 }
 
+/* Compact toolbar styles - Enhanced for proper dropdown functionality */
+.compact-toolbar .editor-toolbar {
+  padding: 0;
+  background: transparent;
+  border: none;
+  gap: 1px;
+  position: relative;
+  z-index: 100;
+  overflow: visible;
+}
+
+.compact-toolbar .editor-toolbar .toolbar-groups {
+  gap: 1px;
+  padding: 2px 4px;
+  border-bottom: none;
+}
+
+.compact-toolbar .editor-toolbar > div {
+  padding: 2px 4px;
+  background: var(--ghost-dark, rgba(255, 255, 255, 0.05));
+  border-radius: 4px;
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.1));
+  position: relative;
+}
+
+.compact-toolbar .editor-toolbar button {
+  min-width: 24px;
+  height: 24px;
+  padding: 2px 4px;
+  font-size: 11px;
+  border-radius: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.compact-toolbar .editor-toolbar .relative > button {
+  min-width: 24px;
+  height: 24px;
+  padding: 2px 4px;
+}
+
+/* Ensure dropdowns work properly in compact toolbar */
+.compact-toolbar .toolbar-dropdown-menu {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: var(--ghost-dark, rgba(0, 0, 0, 0.95));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.compact-toolbar .color-picker-dropdown {
+  position: fixed !important;
+  z-index: 999999 !important;
+  background: var(--ghost-dark, rgba(0, 0, 0, 0.98));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+}
+
 /* Light theme overrides for new components */
 [data-theme="light"] .compact-toolbar .editor-toolbar > div {
   background: rgba(255, 255, 255, 0.8);
   border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme overrides for enhanced dropdowns */
+[data-theme="light"] .toolbar-dropdown-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .toolbar-dropdown-menu button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .compact-toolbar .toolbar-dropdown-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .compact-toolbar .color-picker-dropdown {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}/*
+ Additional styles for enhanced list functionality */
+
+/* Editor content padding */
+.editor-content .ProseMirror {
+  padding: 0 5px;
+}
+
+/* Task list inline alignment */
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 1.5em;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: center; /* Align checkbox and text inline */
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label input {
+  margin: 0; /* Remove default margin for precise alignment */
+  vertical-align: middle;
+}
+
+/* Custom task markers */
+li[data-marker-type="checkbox"] input[type="checkbox"] {
+  appearance: checkbox;
+  width: 1em;
+  height: 1em;
+}
+
+li[data-marker-type="radio"] input {
+  appearance: radio;
+  width: 1em;
+  height: 1em;
+}
+
+li[data-marker-type="check"] input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid currentColor;
+  position: relative;
+  background: transparent;
+}
+
+li[data-marker-type="check"] input:checked::before {
+  content: '✔️';
+  position: absolute;
+  left: -0.1em;
+  top: -0.2em;
+  font-size: 1.2em;
+}
+
+li[data-marker-type="cross"] input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid currentColor;
+  position: relative;
+  background: transparent;
+}
+
+li[data-marker-type="cross"] input:checked::before {
+  content: '✖️';
+  position: absolute;
+  left: -0.1em;
+  top: -0.2em;
+  font-size: 1.2em;
+}
+
+/* Dash bullet style */
+ul[data-style-type="none"] {
+  list-style-type: none;
+}
+
+ul[data-style-type="none"] li::before {
+  content: '- ';
+  margin-right: 0.5em;
+}
+
+/* For dash bullet - legacy support */
+ul[data-style-type="dash"] {
+  list-style-type: none;
+}
+
+ul[data-style-type="dash"] li::before {
+  content: '- ';
+  margin-right: 0.5em;
+  color: currentColor;
+}
+
+/* Ensure toggling works - no additional CSS needed, handled in extensions *//* Add
+itional styles for enhanced editor functionality */
+
+/* Editor content padding */
+.editor-content .ProseMirror {
+  padding: 0 5px;
+}
+
+/* Task list inline alignment */
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 1.5em;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: center; /* Align checkbox and text inline */
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label input {
+  margin: 0; /* Remove default margin for precise alignment */
+  vertical-align: middle;
+}
+
+/* Custom task markers */
+li[data-marker-type="checkbox"] input[type="checkbox"] {
+  appearance: checkbox;
+  width: 1em;
+  height: 1em;
+}
+
+li[data-marker-type="radio"] input {
+  appearance: radio;
+  width: 1em;
+  height: 1em;
+}
+
+li[data-marker-type="check"] input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid currentColor;
+  position: relative;
+  background: transparent;
+}
+
+li[data-marker-type="check"] input:checked::before {
+  content: '✔️';
+  position: absolute;
+  left: -0.1em;
+  top: -0.2em;
+  font-size: 1.2em;
+}
+
+li[data-marker-type="cross"] input {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid currentColor;
+  position: relative;
+  background: transparent;
+}
+
+li[data-marker-type="cross"] input:checked::before {
+  content: '✖️';
+  position: absolute;
+  left: -0.1em;
+  top: -0.2em;
+  font-size: 1.2em;
+}
+
+/* Dash bullet style */
+ul[data-style-type="none"] {
+  list-style-type: none;
+}
+
+ul[data-style-type="none"] li::before {
+  content: '- ';
+  margin-right: 0.5em;
 }

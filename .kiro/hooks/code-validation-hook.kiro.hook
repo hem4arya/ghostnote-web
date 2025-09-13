@@ -1,0 +1,28 @@
+{
+  "enabled": true,
+  "name": "Code Validation Hook",
+  "description": "Automatically runs linting, type checking, and build validation on code changes to ensure quality and compilation before returning control to the user",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "lib/**/*.ts",
+      "*.ts",
+      "*.tsx",
+      "*.js",
+      "*.jsx",
+      "package.json",
+      "tsconfig.json",
+      "eslint.config.mjs",
+      "next.config.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A code file has been modified. Please run comprehensive validation checks including: 1) ESLint linting and Prettier formatting validation, 2) TypeScript type checking using tsc --noEmit, 3) Next.js build validation using npm run build or next build, 4) Dependency validation by checking package.json integrity. Report any errors, warnings, or issues found clearly and request fixes before proceeding. Only if ALL checks pass successfully, confirm the code is ready and return control to the user."
+  }
+}

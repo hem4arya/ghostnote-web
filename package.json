@@ -7,7 +7,7 @@
     "dev:local": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint eslint . --ext .ts,.tsx",
+    "lint": "eslint --ext .ts,.tsx .",
     "type-check": "tsc --noEmit",
     "clear-cache": "node clear-cache.js",
     "test": "jest --passWithNoTests"
@@ -33,6 +33,7 @@
     "@tiptap/extension-font-family": "^2.26.1",
     "@tiptap/extension-highlight": "^2.26.1",
     "@tiptap/extension-horizontal-rule": "^2.26.1",
+    "@tiptap/extension-link": "^2.26.1",
     "@tiptap/extension-mention": "^2.26.1",
     "@tiptap/extension-subscript": "^2.26.1",
     "@tiptap/extension-superscript": "^2.26.1",
