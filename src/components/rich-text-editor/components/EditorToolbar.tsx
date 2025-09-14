@@ -612,6 +612,28 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({
           </DropdownItem>
         </ToolbarDropdown>
 
+        {/* Font Size Dropdown */}
+        <ToolbarDropdown title="Font Size" icon="12">
+          {[8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48, 72].map((size) => (
+            <DropdownItem
+              key={size}
+              onClick={() =>
+                (editor.commands as any).setFontSize(`${size}px`)
+              }
+              isActive={editor.getAttributes("textStyle").fontSize === `${size}px`}
+              closeMenu={() => {}}
+            >
+              {size}px
+            </DropdownItem>
+          ))}
+          <DropdownItem
+            onClick={() => (editor.commands as any).unsetFontSize()}
+            closeMenu={() => {}}
+          >
+            Default
+          </DropdownItem>
+        </ToolbarDropdown>
+
         {/* Text Color Picker */}
         <ColorPicker
           title="Text Color"
@@ -662,6 +684,28 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({
             closeMenu={() => {}}
           >
             ⟷ Justify
+          </DropdownItem>
+        </ToolbarDropdown>
+
+        {/* Text Case Dropdown */}
+        <ToolbarDropdown title="Text Case" icon="Aa">
+          <DropdownItem
+            onClick={() => (editor.commands as any).toggleUppercase()}
+            closeMenu={() => {}}
+          >
+            UPPERCASE
+          </DropdownItem>
+          <DropdownItem
+            onClick={() => (editor.commands as any).toggleLowercase()}
+            closeMenu={() => {}}
+          >
+            lowercase
+          </DropdownItem>
+          <DropdownItem
+            onClick={() => (editor.commands as any).toggleTitleCase()}
+            closeMenu={() => {}}
+          >
+            Title Case
           </DropdownItem>
         </ToolbarDropdown>
 
