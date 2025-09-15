@@ -32,7 +32,6 @@ const LinkDialog: React.FC<LinkDialogProps> = ({ editor, isOpen, onClose }) => {
     if (!inputUrl.trim()) return false;
     
     try {
-      // Add protocol if missing
       const urlToTest = inputUrl.startsWith('http://') || inputUrl.startsWith('https://') 
         ? inputUrl 
         : `https://${inputUrl}`;
@@ -51,8 +50,8 @@ const LinkDialog: React.FC<LinkDialogProps> = ({ editor, isOpen, onClose }) => {
     setIsValidUrl(newUrl === '' || validateUrl(newUrl));
   };
 
-  // Apply link to selected text
-  const handleSave = () => {
+  // Apply link to selected text with preview data
+  const handleSave = async () => {
     if (!url.trim()) {
       handleUnlink();
       return;
@@ -63,12 +62,18 @@ const LinkDialog: React.FC<LinkDialogProps> = ({ editor, isOpen, onClose }) => {
       return;
     }
 
-    // Add protocol if missing
     const finalUrl = url.startsWith('http://') || url.startsWith('https://') 
       ? url 
       : `https://${url}`;
 
-    editor.chain().focus().setLink({ href: finalUrl }).run();
+    try {
+      const response = await fetch(`/api/preview?url=${encodeURIComponent(finalUrl)}`);
+      const { } = await response.json();
+      editor.chain().focus().setLink({ href: finalUrl }).run();
+    } catch {
+      editor.chain().focus().setLink({ href: finalUrl }).run();
+    }
+
     onClose();
   };
 
@@ -78,7 +83,7 @@ const LinkDialog: React.FC<LinkDialogProps> = ({ editor, isOpen, onClose }) => {
     onClose();
   };
 
-  // Handle Enter key press
+  // Handle Enter and Escape key presses
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();

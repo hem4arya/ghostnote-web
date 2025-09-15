@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "@lib/supabase";
-import { RichTextEditor, LinkDialog } from "@/components/rich-text-editor";
+import {
+  RichTextEditor,
+  LinkDialog,
+
+} from "@/components/rich-text-editor";
 import { toast } from "react-toastify";
 import { Editor } from "@tiptap/react";
 import CompactEditorHeader from "./CompactEditorHeader";
@@ -24,6 +28,7 @@ const CreateNoteForm = () => {
   const [, setSaving] = useState(false);
   const [editor, setEditor] = useState<Editor | null>(null);
   const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
+
 
   // Validate Word Handle format (two words separated by hyphen)
   const validateWordHandle = (handle: string): boolean => {
@@ -64,6 +69,8 @@ const CreateNoteForm = () => {
   const handleLinkClick = () => {
     setIsLinkDialogOpen(true);
   };
+
+
 
   const handleSave = async () => {
     // Extract plain text from HTML content for validation
@@ -155,7 +162,7 @@ const CreateNoteForm = () => {
             basicFormatting: true,
             advancedFormatting: true,
             media: false,
-            tables: false,
+            tables: true,
             code: true,
             math: false,
             citations: false,
@@ -187,7 +194,7 @@ const CreateNoteForm = () => {
               basicFormatting: true,
               advancedFormatting: true,
               media: false, // Disable for now to keep it simple
-              tables: false,
+              tables: true,
               code: true,
               math: false,
               citations: false,

@@ -1,4 +1,5 @@
 /* Rich Text Editor Styles */
+@import './toolbar.css';
 
 .rich-text-editor {
   border: 2px solid var(--ghost-gray, rgba(255, 255, 255, 0.1));
@@ -389,85 +390,7 @@
   padding: 0 2px;
 }
 
-/* Light theme link styles */
-[data-theme="light"] .editor-content .ProseMirror a.editor-link {
-  color: var(--ghost-purple, #8b5cf6);
-}
-
-[data-theme="light"] .editor-content .ProseMirror a.editor-link:hover {
-  color: #6d28d9;
-  background: rgba(139, 92, 246, 0.1);
-}
-
-/* Color and highlight styles */
-.editor-content .ProseMirror [style*="color"] {
-  color: inherit;
-}
-
-.editor-content .ProseMirror mark {
-  background-color: var(--ghost-neon, #00ffff);
-  color: var(--ghost-black, #000000);
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-
-.editor-content .ProseMirror mark[data-color] {
-  background-color: attr(data-color);
-}
-
-/* Theme-aware highlight colors */
-[data-theme="light"] .editor-content .ProseMirror mark {
-  background-color: #fbbf24;
-  color: #1f2937;
-}
-
-/* Font size styles */
-.editor-content .ProseMirror [style*="font-size"] {
-  font-size: inherit;
-}
-
-/* Font size validation - ensure sizes stay within bounds */
-.editor-content .ProseMirror [style*="font-size: 8px"] { font-size: 8px !important; }
-.editor-content .ProseMirror [style*="font-size: 10px"] { font-size: 10px !important; }
-.editor-content .ProseMirror [style*="font-size: 12px"] { font-size: 12px !important; }
-.editor-content .ProseMirror [style*="font-size: 14px"] { font-size: 14px !important; }
-.editor-content .ProseMirror [style*="font-size: 16px"] { font-size: 16px !important; }
-.editor-content .ProseMirror [style*="font-size: 18px"] { font-size: 18px !important; }
-.editor-content .ProseMirror [style*="font-size: 20px"] { font-size: 20px !important; }
-.editor-content .ProseMirror [style*="font-size: 24px"] { font-size: 24px !important; }
-.editor-content .ProseMirror [style*="font-size: 28px"] { font-size: 28px !important; }
-.editor-content .ProseMirror [style*="font-size: 32px"] { font-size: 32px !important; }
-.editor-content .ProseMirror [style*="font-size: 36px"] { font-size: 36px !important; }
-.editor-content .ProseMirror [style*="font-size: 48px"] { font-size: 48px !important; }
-.editor-content .ProseMirror [style*="font-size: 72px"] { font-size: 72px !important; }
-
-/* Ensure proper line height for different font sizes */
-.editor-content .ProseMirror {
-  line-height: 1.6;
-}
-
-.editor-content .ProseMirror * {
-  line-height: inherit;
-}
-
-.rich-text-editor-loading {
-  padding: var(--spacing-8, 32px);
-  text-align: center;
-  color: var(--text-muted, rgba(255, 255, 255, 0.6));
-  background: var(--glass-bg, rgba(255, 255, 255, 0.05));
-  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-  border-radius: var(--radius-lg, 8px);
-}
-
-/* Dropdown Styles - FIXED Z-INDEX */
-.toolbar-dropdown-menu {
-  position: fixed !important;
-  z-index: 999999 !important;
-  background: var(--ghost-dark, rgba(0, 0, 0, 0.95));
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+/* Light theme link styles...(truncated 2923 characters)...ow: 0 20px 40px rgba(0, 0, 0, 0.4);
   min-width: 200px;
   max-height: 300px;
   overflow-y: auto;
@@ -888,4 +811,51 @@ ul[data-style-type="none"] {
 ul[data-style-type="none"] li::before {
   content: '- ';
   margin-right: 0.5em;
+}
+
+/* Additional styles from new code */
+.editor-content .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0.5rem 0 !important;
+}
+
+.editor-content .ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0 !important;
+}
+
+.editor-content .ProseMirror td, .editor-content .ProseMirror th {
+  border: 1px solid var(--ghost-gray, rgba(255, 255, 255, 0.2));
+  padding: 0.5rem;
+}
+
+.editor-content .ProseMirror th {
+  background: var(--glass-surface, rgba(255, 255, 255, 0.05));
+  font-weight: bold;
+}
+
+.editor-content .ProseMirror .katex {
+  font-size: 1.2em;
+  margin: 0.5rem 0 !important;
+}
+
+@media (max-width: 768px) {
+  .editor-toolbar {
+    flex-wrap: wrap;
+  }
+  .editor-content .ProseMirror {
+    font-size: 14px;
+  }
+}
+
+/* Light theme adjustments for new elements */
+[data-theme="light"] .editor-content .ProseMirror td, [data-theme="light"] .editor-content .ProseMirror th {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .editor-content .ProseMirror th {
+  background: rgba(0, 0, 0, 0.05);
 }

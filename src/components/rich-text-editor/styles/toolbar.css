@@ -1,0 +1,59 @@
+.editor-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--ghost-white, #ffffff);
+  border-bottom: 1px solid var(--ghost-gray, rgba(229, 231, 235, 0.3));
+  padding: 0.5rem;
+  backdrop-filter: blur(12px);
+}
+
+.editor-toolbar-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ghost-purple, rgb(124 58 237 / 0.3)) transparent;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.25rem;
+}
+
+.editor-toolbar > .editor-toolbar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 -0.25rem;
+  padding: 0.25rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, transparent, black 20px, black 90%, transparent);
+}
+
+.editor-toolbar > div::-webkit-scrollbar {
+  height: 6px;
+}
+
+.editor-toolbar > div::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.editor-toolbar > div::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 3px;
+}
+
+/* Dark mode */
+[data-theme="dark"] .editor-toolbar {
+  background-color: var(--ghost-dark, rgb(31 41 55));
+}
+
+[data-theme="dark"] .editor-toolbar > div::-webkit-scrollbar-thumb {
+  background-color: rgb(75 85 99);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .editor-toolbar {
+    flex-wrap: wrap;
+  }
+}

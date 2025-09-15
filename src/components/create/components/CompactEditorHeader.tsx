@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ArrowLeft, Save } from 'lucide-react';
-import { Editor } from '@tiptap/react';
+import type { Editor as TipTapEditor } from '@tiptap/react';
 import { EditorToolbar, EditorFeatures } from '@/components/rich-text-editor';
 
 interface CompactEditorHeaderProps {
@@ -13,7 +13,7 @@ interface CompactEditorHeaderProps {
   lastSaved: Date | null;
   onBackClick: () => void;
   onSave?: () => void;
-  editor: Editor | null;
+  editor: TipTapEditor | null;
   features: Partial<EditorFeatures>;
   onLinkClick?: () => void;
 }
@@ -46,11 +46,10 @@ const CompactEditorHeader: React.FC<CompactEditorHeaderProps> = ({
         
         {/* Center: Toolbar */}
         <div className="flex-1 mx-4 overflow-x-auto scrollbar-thin scrollbar-thumb-ghost-gray/30 scrollbar-track-transparent">
-          {editor && (
+          {editor && onLinkClick && (
             <EditorToolbar
               editor={editor}
               features={features}
-              className="compact-toolbar"
               onLinkClick={onLinkClick}
             />
           )}
