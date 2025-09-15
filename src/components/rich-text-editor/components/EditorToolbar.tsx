@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { type Editor } from "@tiptap/react";
 import {
   Bold,
@@ -36,26 +37,23 @@ interface EditorToolbarProps {
   editor: Editor;
 }
 
-const NewToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
+const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
   const onLinkClick = () => {
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
 
-    // cancelled
     if (url === null) {
       return;
     }
 
-    // empty
     if (url === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
-
       return;
     }
 
-    // update link
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   };
+
   return (
     <div className="flex items-center space-x-1 p-1 border-b border-zinc-700 bg-zinc-900/50 backdrop-blur-sm rounded-t-md overflow-x-auto">
       <>
@@ -103,6 +101,39 @@ const NewToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
         </Toggle>
       </>
 
+      <Separator orientation="vertical" className="h-6 mx-1" />
+
+      <>
+        <Toggle
+          size="sm"
+          pressed={editor.isActive({ textAlign: "left" })}
+          onPressedChange={() => editor.chain().focus().setTextAlign("left").run()}
+        >
+          <AlignLeft className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          size="sm"
+          pressed={editor.isActive({ textAlign: "center" })}
+          onPressedChange={() => editor.chain().focus().setTextAlign("center").run()}
+        >
+          <AlignCenter className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          size="sm"
+          pressed={editor.isActive({ textAlign: "right" })}
+          onPressedChange={() => editor.chain().focus().setTextAlign("right").run()}
+        >
+          <AlignRight className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          size="sm"
+          pressed={editor.isActive({ textAlign: "justify" })}
+          onPressedChange={() => editor.chain().focus().setTextAlign("justify").run()}
+        >
+          <AlignJustify className="h-4 w-4" />
+        </Toggle>
+      </>
+      
       <Separator orientation="vertical" className="h-6 mx-1" />
 
       <>
@@ -173,39 +204,6 @@ const NewToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
           }
         >
           <Code className="h-4 w-4" />
-        </Toggle>
-      </>
-
-      <Separator orientation="vertical" className="h-6 mx-1" />
-
-      <>
-        <Toggle
-          size="sm"
-          pressed={editor.isActive({ textAlign: "left" })}
-          onPressedChange={() => editor.chain().focus().setTextAlign("left").run()}
-        >
-          <AlignLeft className="h-4 w-4" />
-        </Toggle>
-        <Toggle
-          size="sm"
-          pressed={editor.isActive({ textAlign: "center" })}
-          onPressedChange={() => editor.chain().focus().setTextAlign("center").run()}
-        >
-          <AlignCenter className="h-4 w-4" />
-        </Toggle>
-        <Toggle
-          size="sm"
-          pressed={editor.isActive({ textAlign: "right" })}
-          onPressedChange={() => editor.chain().focus().setTextAlign("right").run()}
-        >
-          <AlignRight className="h-4 w-4" />
-        </Toggle>
-        <Toggle
-          size="sm"
-          pressed={editor.isActive({ textAlign: "justify" })}
-          onPressedChange={() => editor.chain().focus().setTextAlign("justify").run()}
-        >
-          <AlignJustify className="h-4 w-4" />
         </Toggle>
       </>
 
@@ -321,4 +319,4 @@ const NewToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
   );
 };
 
-export default NewToolbar;
+export default EditorToolbar;

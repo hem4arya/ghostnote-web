@@ -15,7 +15,7 @@ import TextStyle from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
 import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
-import Link from '@tiptap/extension-link';
+import { LinkExtension } from '../extensions/LinkExtension';
 import Mention from '@tiptap/extension-mention';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
@@ -46,7 +46,9 @@ import {
 // import { TextCaseExtension } from '../extensions/TextCaseExtension';
 
 import { EditorErrors } from './constants';
-import type { UseEditorOptions } from './types';const useEditor = (options: UseEditorOptions = {}) => {
+import type { UseEditorOptions } from './types';
+
+const useEditor = (options: UseEditorOptions = {}) => {
   const { 
     content = '', 
     placeholder = 'Start writing...', 
@@ -54,7 +56,7 @@ import type { UseEditorOptions } from './types';const useEditor = (options: UseE
     onUpdate, 
     onChange,
     onSave,
-    editable = true 
+    editable = true
   } = options;
 
   const debouncedSave = useRef(onSave ? debounce(onSave, 500) : undefined).current;
@@ -77,10 +79,15 @@ import type { UseEditorOptions } from './types';const useEditor = (options: UseE
   };
 
   const editor = useTiptapEditor({
-    immediatelyRender: false,
     extensions: [
       CharacterCount.configure({
         limit: 10000
+      }),
+      ...TableExtensions,
+      LinkExtension.configure({
+        HTMLAttributes: {
+          class: 'cursor-pointer text-blue-500 hover:text-blue-600 underline',
+        },
       }),
       StarterKit.configure({ 
         heading: { levels: [1, 2, 3, 4, 5, 6] }, 
@@ -101,7 +108,7 @@ import type { UseEditorOptions } from './types';const useEditor = (options: UseE
       FontFamily.configure({ types: ['textStyle'] }),
       Color.configure({ types: ['textStyle'] }),
       Highlight.configure({ multicolor: true }),
-      Link.configure({ openOnClick: false, HTMLAttributes: { class: 'editor-link' } }),
+      LinkExtension,
       Mention.configure({ 
         // You'll need to define suggestion options for Mention to be useful
         suggestion: {} 
@@ -133,7 +140,7 @@ import type { UseEditorOptions } from './types';const useEditor = (options: UseE
           onChange?.(html);
           debouncedSave?.(html);
           return false;
-        }
+        },
       },
       handlePaste: () => false,
       handleDrop: (view: EditorView, event: DragEvent) => {

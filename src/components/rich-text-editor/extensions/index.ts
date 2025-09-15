@@ -1,16 +1,6 @@
 // Rich Text Editor Extensions Exports
 
-// Basic extensions
-export * from './basic';
-
-// Media extensions  
-export * from './media';
-
-// Code extensions
-export * from './code';
-
-// Math extensions
-export * from './math';
-
-// Research extensions
-export * from './research';
+export * from './LinkExtension';
+export * from './ListExtensions';
+export * from './TableExtensions';
+export * from './TextAlignExtension';

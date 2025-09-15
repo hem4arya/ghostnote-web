@@ -13,12 +13,12 @@ export interface UseEditorOptions {
   placeholder?: string;
   autoFocus?: boolean;
   editable?: boolean;
+  immediatelyRender?: boolean;
   onUpdate?: (editor: Editor) => void;
   onChange?: (content: string) => void;
   onSave?: (content: string) => void;
   autosave?: boolean;
   autosaveInterval?: number;
-  immediatelyRender?: boolean;
   features?: {
     tables?: boolean;
     citations?: boolean;
